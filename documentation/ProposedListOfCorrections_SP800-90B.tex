@@ -1,0 +1,399 @@
+﻿\documentclass[a4paper,xelatex,english]{bxjsreport}
+\usepackage{tikz}%（これで、pgf と pgffor も読み込まれます。）
+\usetikzlibrary{arrows.meta,bending,calc,shapes,positioning,shapes.callouts}
+\usepackage{ascmac}
+\usepackage{fancybox}
+\usepackage{amsmath,amssymb}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{paralist}
+\usepackage{cases}
+\usepackage{url}
+\usepackage[open,openlevel=4]{bookmark}
+\newcommand\mib[1]{\boldsymbol{#1}}
+
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[explicit]{titlesec}
+\usepackage{xspace}
+
+\usepackage[many]{tcolorbox}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{mydarkblue}{RGB}{0,163,243}
+\definecolor{mylightblue}{RGB}{191,233,251}
+\definecolor{mediumtealblue}{rgb}{0.0, 0.33, 0.71}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\def\chpcolor{blue!45}
+\def\chpcolor{mydarkblue}
+%\def\chpcolortxt{blue!60}
+\def\chpcolortxt{mydarkblue}
+\def\sectionfont{\sffamily\LARGE}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%
+%%%%%% 4段目までセクション番号を出力
+%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setcounter{secnumdepth}{4}
+
+\setcounter{tocdepth}{4}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%
+%%%%%%
+%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+%Section:
+\def\@sectionstrut{\vrule\@width\z@\@height12.5\p@}
+\def\@makesectionhead#1{%
+  {\par\vspace{20pt}%
+   \parindent 0pt\raggedleft\sectionfont
+   \colorbox{\chpcolor}{%
+     \parbox[t]{90pt}{\color{white}\@sectionstrut\@depth4.5\p@\hfill
+       \ifnum\c@secnumdepth>\z@\thesection\fi}%
+   }%
+   \begin{minipage}[t]{\dimexpr\textwidth-90pt-2\fboxsep\relax}
+   \color{\chpcolortxt}\@sectionstrut\hspace{5pt}#1
+   \end{minipage}\par
+   \vspace{10pt}%
+  }
+}
+\def\section{\@afterindentfalse\secdef\@section\@ssection}
+\def\@section[#1]#2{%
+  \ifnum\c@secnumdepth>\m@ne
+    \refstepcounter{section}%
+    \addcontentsline{toc}{section}{\protect\numberline{\thesection}#1}%
+  \else
+    \phantomsection
+    \addcontentsline{toc}{section}{#1}%
+  \fi
+  \sectionmark{#1}%
+  \if@twocolumn
+    \@topnewpage[\@makesectionhead{#2}]%
+  \else
+    \@makesectionhead{#2}\@afterheading
+  \fi
+}
+\def\@ssection#1{%
+  \if@twocolumn
+    \@topnewpage[\@makesectionhead{#1}]%
+  \else
+    \@makesectionhead{#1}\@afterheading
+  \fi
+}
+\makeatother
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newsavebox\mybox
+\newlength\secnumwd
+
+%\definecolor{mydarkblue}{RGB}{0,163,243}
+%\definecolor{mylightblue}{RGB}{191,233,251}
+
+\titleformat{\section}
+  {\normalfont\Large\sffamily\color{mydarkblue}}
+  {}
+  {-5em}
+  {%
+    \savebox\mybox{\normalfont\Large\sffamily\color{mydarkblue}\bfseries\thesection}%
+    \settowidth\secnumwd{\usebox\mybox}%    
+    \parbox[t]{\secnumwd}{{\bfseries\thesection}}\hspace{1em}%
+    \parbox[t]{\dimexpr\textwidth+5em-\secnumwd-1em\relax}{#1}%
+  }
+  [\vskip-1.75ex\hskip-5em{\color{gray!60}\titlerule[2pt]}]
+\titleformat{name=\section,numberless}
+  {\normalfont\Large\sffamily\color{mydarkblue}}
+  {}
+  {-5em}
+  {#1}
+  [\vskip-1.75ex\hskip-5em{\color{gray!60}\titlerule[2pt]}]
+
+\newcommand\FrameBoxL[1]{%
+  \fcolorbox{mylightblue}{mydarkblue}{\makebox[3cm][l]{\textcolor{white}{\bfseries#1}}}%
+}
+\newcommand\FrameBoxR[1]{%
+  \fcolorbox{mylightblue}{mydarkblue}{\makebox[3cm][r]{\textcolor{white}{\bfseries#1}}}%
+}
+
+\pagestyle{fancy}
+\fancyheadoffset[EL]{\dimexpr1in+\evensidemargin+\hoffset\relax}
+\fancyheadoffset[OR]{\dimexpr\paperwidth-\oddsidemargin-1in-\textwidth-\hoffset\relax}
+\fancyhf{}
+\renewcommand\headrulewidth{0pt}
+\fancyhead[OR]{\FrameBoxL{\thepage}}
+\fancyhead[EL]{\FrameBoxR{\thepage}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%% argmax
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\argmax}{\mathop{\textrm{arg~max}}\limits}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%% vertical equal
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand\rotateequal[1]{%
+  \ifmmode
+    \underset{#1}{\rotatebox{90}{$=$}}%
+  \fi
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\algnewcommand{\algorithmicgoto}{\textbf{go to}}%
+\algnewcommand{\Goto}{\algorithmicgoto\xspace}%
+\algnewcommand{\Label}{\State\unskip}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{myblue}{RGB}{0,163,243}
+
+\newtcolorbox[auto counter,number within=section]{mytheorem}[1][]{
+  enhanced jigsaw,colback=white,colframe=myblue,coltitle=myblue,
+  fonttitle=\bfseries\sffamily,
+  sharp corners,
+  detach title,
+  leftrule=22mm,
+  underlay unbroken and first={\node[below,text=white,font=\sffamily\bfseries,align=center]
+    at ([xshift=-11mm,yshift=-1mm]interior.north west) {THEOREM\\\thetcbcounter};},
+  breakable,pad at break=1mm,
+  #1,
+  code={\ifdefempty{\tcbtitletext}{}{\tcbset{before upper={\tcbtitle\par\medskip}}}},
+}
+
+%%%\usepackage{titlesec}
+%%%%%%\usepackage{lipsum}
+%%%\usepackage{tikz}\usetikzlibrary{shapes.misc}
+%%%\newcommand\titlebar{%
+%%%\tikz[baseline,trim left=3.1cm,trim right=3cm] {
+%%%    \fill [cyan!25] (2.5cm,-1ex) rectangle (\textwidth+3.1cm,2.5ex);
+%%%    \node [
+%%%        fill=cyan!60!white,
+%%%        anchor= base east,
+%%%        %rounded rectangle,
+%%%        rectangle,
+%%%        minimum height=3.5ex] at (3cm,0) {
+%%%        \textbf{\thesection.}
+%%%    };
+%%%}%
+%%%}
+%%%\titleformat{\section}{\large}{\titlebar}{0.1cm}{}
+%%%\renewcommand*{\thesection}{\arabic{section}}
+
+%%%\usepackage{xcolor}
+%%%
+%%%\setcounter{section}{1} % just to emulate a chapter has started
+%%%
+%%%\renewcommand*{\othersectionlevelsformat}[1]{%
+%%%  \makebox[0pt][r]{%
+%%%    \fcolorbox{cyan!60!white}{cyan!60!white}{\color{white}\csname the#1\endcsname}%
+%%%    \enskip
+%%%  }
+%%%}
+
+
+\renewcommand{\figurename}{Figure }
+\renewcommand{\tablename}{Table }
+\renewcommand{\refname}{References}
+\renewcommand{\today}{\the\year/\the\month/\the\day}
+\renewcommand{\contentsname}{Contents}
+\renewcommand{\figurename}{Figure }
+\renewcommand{\tablename}{Table }
+\renewcommand{\refname}{References}
+\renewcommand{\appendixname}{Appendix }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\author{Gen'ya SAKURAI}
+\title{Proposed list of corrections for NIST SP 800-90B 6.3 Estimators}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+%\setcounter{chapter}{1} % just to emulate a chapter has started
+
+%\centerline{THIS UPDATE: Nov. 24, 2022}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%
+%%%%%
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Proposed list of corrections for NIST SP 800-90B 6.3 Estimators}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%
+%%%%%
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+This list of corrections for NIST SP 800-90B \cite{SP80090B} 6.3 Estimators has been drafted so that an entropy estimating tool for claiming conformance can be developed in a traceable manner.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%
+%%%%%
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Corrections to 6.3.4 The Compression Estimate}
+
+\begin{enumerate}
+	\item Correction to step 4-b-ii
+
+\begin{shadebox}
+\begin{algorithmic}
+%%%%%
+%%%%%
+%%%%%
+\State If $dict[s_{i}]$ is zero, add that value to the dictionary, i.e., $dict[s_{i}'] =i$. Let $D_{i-d} = i$.
+%%%%%
+%%%%%
+%%%%%
+\end{algorithmic}
+\end{shadebox}
+should be replaced by the following:
+%\\ 
+\begin{shadebox}
+\begin{algorithmic}
+%%%%%
+%%%%%
+%%%%%
+\State If $dict[s_{i} \textcolor{red}{'}]$ is zero, add that value to the dictionary, i.e., $dict[s_{i}'] =i$. Let $D_{i-d} = i$.
+%%%%%
+%%%%%
+%%%%%
+\end{algorithmic}
+\end{shadebox}
+
+	\item Correction to the expression of $G(z)$
+
+The Eq.(\ref{eq:Gin634}) should be replaced by Eq.\ref{eq:newGin634}.
+\begin{align}
+G(z) = \tfrac{1}{\nu} 
+\sum_{t = d + 1}^{L} 
+\sum_{u = 1}^{t} 
+\log_{2}(u) F(z, t, u)  \label{eq:Gin634}
+\end{align}
+\begin{align}
+G(z) = \tfrac{1}{\nu} 
+\sum_{t = d + 1}^{ \textcolor{red}{\lfloor L / b \rfloor}} 
+\sum_{u = 1}^{t} 
+\log_{2}(u) F(z, t, u)  \label{eq:newGin634}
+\end{align}
+
+This correction makes sense if the summation over $t$ starts from $d + 1$ then it should end at $\lfloor L / b \rfloor$.  Also the factor $\tfrac{1}{\nu}$ coincides with this argument as $\nu = \lfloor L / b \rfloor - d$.
+
+The Eq.(\ref{eq:newGin634}) can be further rewritten to as Eq.(\ref{eq:rewGin634}), as $\log_{2}(1) = 0$.
+\begin{align}
+G(z) = \tfrac{1}{\nu} 
+\sum_{t = d + 1}^{\lfloor L / b \rfloor} 
+\sum_{u = \textcolor{red}{2}}^{t} 
+\log_{2}(u) F(z, t, u)  \label{eq:rewGin634}
+\end{align}
+
+Note that the r.h.s. of Eq.(\ref{eq:rewGin634}) can be optimized further for algorithmic efficiency.
+\end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%
+%%%%%
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Corrections to 6.3.10 The LZ78Y Prediction Estimate}
+
+
+\begin{enumerate}
+\item Missing step
+
+The variable $C$ is used in step 4 without its definition.  So the following new step should be introduced just before step 4, and steps 4 to 6 should be renumbered accordingly.
+\\
+\begin{shadebox}
+\begin{algorithmic}
+%%%%%
+%%%%%
+%%%%%
+\State Let $C$ be the number of ones in $correct$.
+%%%%%
+%%%%%
+%%%%%
+\end{algorithmic}
+\end{shadebox}
+\vspace{5mm}
+
+\item Column header in Example
+
+Also the column header 
+%``\textbf{Max} ${\mib{D}}[{\mib{prev}}]$ {\bf entry}''
+\begin{shadebox}
+\begin{algorithmic}
+%%%%%
+%%%%%
+%%%%%
+\State \textbf{Max} ${\mib{D}}[{\mib{prev}}]$ \textbf{entry}
+%%%%%
+%%%%%
+%%%%%
+\end{algorithmic}
+\end{shadebox}
+ in the table for \textit{Example} should be replaced by 
+%``$\argmax_{y} {\mib{D}}[{\mib{prev}}][y]$''
+\begin{shadebox}
+\begin{algorithmic}
+%%%%%
+%%%%%
+%%%%%
+\State $\argmax_{y} {\mib{D}}[{\mib{prev}}][y]$
+%%%%%
+%%%%%
+%%%%%
+\end{algorithmic}
+\end{shadebox}
+.
+\end{enumerate}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%
+%%%%% 参考文献
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{thebibliography}{99}
+% 1
+\bibitem{SP80090B}
+Meltem S\"{o}nmez Turan,
+Elaine Barker,
+John Kelsey,
+Kerry A. McKay,
+Mary L. Baish,
+Mike Boyle
+\textit{Recommendation for the Entropy Sources Used for Random Bit Generation},
+NIST Special Publication 800-90B, Jan. 2018
+% 2
+\bibitem{MathHandbook}
+Franck W. J. Oliver,
+Daniel W. Lozier,
+Ronald F. Boisvert,
+Charles W. Clark,
+\textit{NIST Handbook of Mathematical Functions},
+National Institute of Standards and Technology, 2010
+
+\end{thebibliography}
+
+\end{document}

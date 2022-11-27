@@ -1,0 +1,55 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+//
+////////////////////////////////////////////////////////////////////////////////
+#if defined(_MSC_VER)
+#pragma once
+#endif
+
+#ifndef __ENTROPY_ESTIMATOR_LIB_CONSTANTS_H__
+#define __ENTROPY_ESTIMATOR_LIB_CONSTANTS_H__
+
+namespace entropy_estimator_lib
+{
+	namespace  constants
+	{
+		enum class EnmReturnStatus
+		{
+			Success = 0,
+			ErrorNotFound = -8,
+			ErrorNoTask = -16,
+			ErrorInvalidData = -120,
+			ErrorDomain = -121,
+			ErrorNullPointer = -127,
+			ErrorFileIO = -250,
+			ErrorPreconditions = -251,
+			ErrorUnexpected = -8192,
+		};
+
+		enum class EnmNonIIDTrack
+		{
+			EstimatorMostCommonValue = 1,
+			EstimatorCollision,
+			EstimatorMarkov,
+			EstimatorCompression,
+			EstimatorTTuple,
+			EstimatorLRS,
+			EstimatorMMCWPrediction,
+			EstimatorLagPrediction,
+			EstimatorMultiMMCPrediction,
+			EstimatorLZ78YPrediction,
+		};
+
+		enum class EnmSampleInterpretation
+		{
+			ELateralNonBinary		= 8,
+			EInterpretationBinary	= 1,
+			ELateralButBinary		= 9,
+		};
+	}
+}
+
+#endif
