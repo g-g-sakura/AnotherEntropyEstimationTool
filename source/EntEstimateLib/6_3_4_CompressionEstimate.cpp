@@ -889,29 +889,31 @@ namespace entropy_estimator_lib
 				double	lowerbound = pow(0.5, io_refData.t_6_3_4.b);
 				double	upperbound = 1.0;
 				boost::math::tools::eps_tolerance<double> tol(std::numeric_limits<double>::digits - 5);
-				boost::uintmax_t it = 32;
+				const boost::uintmax_t max_it = 128;
+				boost::uintmax_t it = max_it;
 				double	rhs_max = 0.0;
 				RhsDerivative	rhs_derivative(io_refData.t_6_3_4.b, io_refData.t_6_3_4.d, io_refData.p_bzInputS->length(blitz::firstDim), nu);
+				RhsMinusLhs	rhs(io_refData.t_6_3_4.b, io_refData.t_6_3_4.d, io_refData.p_bzInputS->length(blitz::firstDim), nu, 0.0);
 				try
 				{
 					std::pair<long double, long double>	r_dash = boost::math::tools::bisect(rhs_derivative, lowerbound, upperbound, tol, it);
-					rhs_max = rhs_derivative(r_dash.first);
+					rhs_max = rhs(r_dash.first);
 				}
 				catch (const std::domain_error& e)
 				{
-					rhs_max = rhs_derivative(lowerbound);
+					rhs_max = rhs(lowerbound);
 				}
 				catch (const std::overflow_error& e)
 				{
-					rhs_max = rhs_derivative(lowerbound);
+					rhs_max = rhs(lowerbound);
 				}
 				catch (const std::underflow_error& e)
 				{
-					rhs_max = rhs_derivative(lowerbound);
+					rhs_max = rhs(lowerbound);
 				}
 				catch (const boost::math::evaluation_error& e)
 				{
-					rhs_max = rhs_derivative(lowerbound);
+					rhs_max = rhs(lowerbound);
 				}
 				// -------------------------------------------------------------------------- //
 				// Step 7.
@@ -931,6 +933,7 @@ namespace entropy_estimator_lib
 					RhsMinusLhs	fnc(io_refData.t_6_3_4.b, io_refData.t_6_3_4.d, io_refData.p_bzInputS->length(blitz::firstDim), nu, x_bar_prime);
 					try
 					{
+						it = max_it;
 						std::pair<double, double>	r = boost::math::tools::toms748_solve(fnc, lowerbound, upperbound, tol, it);
 						// -------------------------------------------------------------------------- //
 						// Step 8.
@@ -941,8 +944,8 @@ namespace entropy_estimator_lib
 						io_refData.t_6_3_4.x_bar_prime = x_bar_prime;
 						if (tol(r.first, r.second) == true)
 						{
-							io_refData.t_6_3_4.p = r.first;
-							io_refData.t_6_3_4.t_common.min_entropy = -log2(r.first) / (double)io_refData.t_6_3_4.b;
+							io_refData.t_6_3_4.p = r.second;
+							io_refData.t_6_3_4.t_common.min_entropy = -log2(r.second) / (double)io_refData.t_6_3_4.b;
 							io_refData.t_6_3_4.bIsRootFound = true;
 						}
 						else
