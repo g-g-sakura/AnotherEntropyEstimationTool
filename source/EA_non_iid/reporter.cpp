@@ -1520,7 +1520,7 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     // 
     // -------------------------------------------------------------------------- //
     ssLaTeXSummary << L"\\pgfplotstableread{" << std::endl;
-    ssLaTeXSummary << L"x\ty\ty-min\ty-max" << std::endl;
+    ssLaTeXSummary << L"section\ty\ty-min\ty-max" << std::endl;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1656,7 +1656,7 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeXSummary << L"The intial entropy source estimate (/ " << io_refDataBinary.bits_per_sample << L"-bit)	& " << min_entropy_bitstring << L"}	\\\\" << std::endl;
+    ssLaTeXSummary << L"The intial entropy source estimate (/ " << io_refDataBinary.bits_per_sample << L"-bit)	& " << min_entropy_bitstring << L"	\\\\" << std::endl;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
