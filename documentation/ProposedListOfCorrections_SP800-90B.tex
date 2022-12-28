@@ -6,6 +6,7 @@
 \usepackage{amsmath,amssymb}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{algorithmicx}
 \usepackage{paralist}
 \usepackage{cases}
 \usepackage{url}
@@ -16,6 +17,8 @@
 \usepackage{fancyhdr}
 \usepackage[explicit]{titlesec}
 \usepackage{xspace}
+\usepackage{xpatch}
+\usepackage{setspace}
 
 \usepackage[many]{tcolorbox}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -46,12 +49,18 @@
 
 \setcounter{tocdepth}{4}
 
+\algdef{SE}[SUBALG]{Indent}{EndIndent}{}{\algorithmicend\ }%
+\algtext*{Indent}
+\algtext*{EndIndent}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%
 %%%%%%
 %%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \makeatletter
+
 %Section:
 \def\@sectionstrut{\vrule\@width\z@\@height12.5\p@}
 \def\@makesectionhead#1{%
@@ -91,6 +100,25 @@
   \fi
 }
 \makeatother
+
+
+
+\makeatletter
+% patch env "algorithmic" to use \the<lineno counter>
+%\xpatchcmd\ALG@step{\arabic{ALG@line}}{\fmtlinenumber{ALG@line}}{}{}
+\def\ALG@step%
+   {%
+   \addtocounter{ALG@line}{1}%
+   \addtocounter{ALG@rem}{1}%
+   \ifthenelse{\equal{\arabic{ALG@rem}}{\ALG@numberfreq}}%
+      {\setcounter{ALG@rem}{0}\alglinenumber{\roman{ALG@line}}}%<---
+      {}%
+   }%
+\makeatother
+
+\let\fmtlinenumber\arabic % by default, line numbers are arabic numbers
+\newcommand\mathalph[1]{$\alph{#1}$} % typeset counter in math italic
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%
 %%%
@@ -336,6 +364,54 @@ The variable $C$ is used in step 4 without its definition.  So the following new
 \end{algorithmic}
 \end{shadebox}
 \vspace{5mm}
+
+\item Corrections to step 3-a-ii
+\begin{shadebox}
+\begin{algorithmic}[1]
+%%%%%
+%%%%%
+%%%%%
+%{\let\fmtlinenumber\mathalph
+\setcounter{ALG@line}{1}%
+\State If $(s_{i-j-1}, \ldots, s_{i-2})$ is in $D$, 
+\Indent
+\Statex \hspace{\algorithmicindent} Let $D[s_{i-j-1}, \ldots, s_{i-2}][s_{i-1}] = D[s_{i-j-1}, \ldots, s_{i-2}][s_{i-1}] + 1$
+\EndIndent
+%}
+%%%%%
+%%%%%
+%%%%%
+\end{algorithmic}
+\end{shadebox}
+should be replaced by the following:
+%\\ 
+\begin{shadebox}
+%%%\setstretch{1.35}
+\setstretch{1.4}
+\begin{algorithmic}[1]
+%%%%%
+%%%%%
+%%%%%
+\setcounter{ALG@line}{1}%
+\If {$(s_{i-j-1}, \ldots, s_{i-2})$ is in $D$, }
+	\If {$[(s_{i-j-1}, \ldots, s_{i-2}), s_{i-1}]$ is in $D$,}
+		\State Let $D[s_{i-j-1}, \ldots, s_{i-2}][s_{i-1}] = D[s_{i-j-1}, \ldots, s_{i-2}][s_{i-1}] + 1$
+	\Else
+		\If {$dictionarySize < maxDictionarySize$}
+			\State Let $D[s_{i-j-1}, \ldots, s_{i-2}][s_{i-1}] = 0$
+			\Statex \Comment {With this step, the issue can be resolved that the value of $D[s_{i-j-1}, \ldots, s_{i-2}][s_{i-1}]$ is undefined, when $(s_{i-j-1}, \ldots, s_{i-2})$ is in $D$ but $[(s_{i-j-1}, \ldots, s_{i-2}), s_{i-1}]$ is not in $D$.}
+			\State $dictionarySize = dictionarySize + 1$
+			\Statex \Comment {The value $dictionarySize$ is equal to the size of dictionary $D$, or the number of ($\mib{x}, y$) pairs in $D[\mib{x}][y]$.}
+		\EndIf
+	\EndIf
+\EndIf
+%%%%%
+%%%%%
+%%%%%
+\end{algorithmic}
+\end{shadebox}
+\vspace{5mm}
+
 
 \item Column header in Example
 
