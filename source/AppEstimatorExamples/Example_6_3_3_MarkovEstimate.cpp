@@ -23,7 +23,7 @@ int demonstrateMarkovEstimate(void)
 	blitz::Array<double, 2>	bz_transition(dt.t_6_3_3.p_transition[0], blitz::shape(2, 2), blitz::duplicateData);
 	blitz::Array<double, 1> bz_negativeLogPoverLength(dt.t_6_3_3.negativeLogPoverLength, blitz::shape(14), blitz::duplicateData);
 
-	std::cout << "min-entropy:" << dt.t_6_3_3.min_entropy << std::endl;
+	std::cout << "min-entropy:" << dt.t_6_3_3.t_common.min_entropy << std::endl;
 	std::cout << "most likely sequence index:" << dt.t_6_3_3.mostLikelySequenceCategoryIndex << std::endl;
 
 

@@ -26,7 +26,7 @@ int demonstrateCompressionEstimate(void)
 	std::cout << "\t\\hat{sigma}\t:\t" << dt.t_6_3_4.sigma_hat << std::endl;
 	std::cout << "\t\\bar{X}'\t:\t" << dt.t_6_3_4.x_bar_prime << std::endl;
 	std::cout << "\tp\t\t:\t" << dt.t_6_3_4.p << std::endl;
-	std::cout << "\tmin-entropy\t:\t" << dt.t_6_3_4.min_entropy << std::endl;
+	std::cout << "\tmin-entropy\t:\t" << dt.t_6_3_4.t_common.min_entropy << std::endl;
 
 	return 0;
 }

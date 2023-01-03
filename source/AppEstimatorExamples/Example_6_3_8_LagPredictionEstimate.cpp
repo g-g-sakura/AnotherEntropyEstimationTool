@@ -25,7 +25,7 @@ int demonstrateLagPredictionEstimate(void)
 	std::cout << "p_prime_global:" << dt.t_6_3_8.p_prime_global << std::endl;
 	std::cout << "r:\t\t" << dt.t_6_3_8.r << std::endl;
 	std::cout << "p_local:" << dt.t_6_3_8.p_local << std::endl;
-	std::cout << "min-entropy:" << dt.t_6_3_8.min_entropy << std::endl;
+	std::cout << "min-entropy:" << dt.t_6_3_8.t_common.min_entropy << std::endl;
 
 	return 0;
 }

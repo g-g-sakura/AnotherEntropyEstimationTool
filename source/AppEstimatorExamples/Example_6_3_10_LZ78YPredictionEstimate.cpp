@@ -15,6 +15,7 @@ int demonstrateLZ78YPredictionEstimate(void)
 	dt.isModeDemonstration = true;
 	dt.L = bz_S.length(blitz::firstDim);
 	dt.k = bz_A.length(blitz::firstDim);
+	dt.bits_per_sample = 2;
 	dt.p_bzInputS = &bz_S;
 	dt.p_bzSampleSpaceA = &bz_A;
 
@@ -26,7 +27,7 @@ int demonstrateLZ78YPredictionEstimate(void)
 	std::cout << "p_prime_global:" << dt.t_6_3_10.p_prime_global << std::endl;
 	std::cout << "r:\t\t" << dt.t_6_3_10.r << std::endl;
 	std::cout << "p_local:" << dt.t_6_3_10.p_local << std::endl;
-	std::cout << "min-entropy:" << dt.t_6_3_10.min_entropy << std::endl;
+	std::cout << "min-entropy:" << dt.t_6_3_10.t_common.min_entropy << std::endl;
 
 	return 0;
 }

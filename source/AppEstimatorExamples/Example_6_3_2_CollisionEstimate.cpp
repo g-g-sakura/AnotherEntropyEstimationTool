@@ -20,7 +20,7 @@ int demonstrateCollisionEstimate(void)
 	sRet = entropy_estimator_lib::estimators::collision::estimate(dt);
 
 	std::cout << "p:" << dt.t_6_3_2.p << std::endl;
-	std::cout << "min-entropy:" << dt.t_6_3_2.min_entropy << std::endl;
+	std::cout << "min-entropy:" << dt.t_6_3_2.t_common.min_entropy << std::endl;
 
 	return 0;
 }

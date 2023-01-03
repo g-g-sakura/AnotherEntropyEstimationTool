@@ -20,7 +20,7 @@ int demonstrateMCVEstimate(void)
 	sRet = entropy_estimator_lib::estimators::mcv::estimate(dt);
 
 	std::cout << "p_u:" << dt.t_6_3_1.p_u << std::endl;
-	std::cout << "min-entropy:" << dt.t_6_3_1.min_entropy << std::endl;
+	std::cout << "min-entropy:" << dt.t_6_3_1.t_common.min_entropy << std::endl;
 
 	return 0;
 }

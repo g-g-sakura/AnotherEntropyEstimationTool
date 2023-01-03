@@ -23,7 +23,7 @@ int demonstrateTupleEstimate(void)
 	sRet = entropy_estimator_lib::estimators::t_tuple::estimate(dt);
 
 	std::cout << "t:" << dt.t_6_3_5.t << std::endl;
-	std::cout << "min-entropy:" << dt.t_6_3_5.min_entropy << std::endl;
+	std::cout << "min-entropy:" << dt.t_6_3_5.t_common.min_entropy << std::endl;
 
 	return 0;
 }

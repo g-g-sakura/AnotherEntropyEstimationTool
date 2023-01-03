@@ -28,7 +28,7 @@ int demonstrateLRSEstimate(void)
 	std::cout << "nu:\t" << dt.t_6_3_6.nu << std::endl;
 	std::cout << "\\hat{p}:\t" << dt.t_6_3_6.p_hat << std::endl;
 	std::cout << "p_u:" << dt.t_6_3_6.p_u << std::endl;
-	std::cout << "min-entropy:" << dt.t_6_3_6.min_entropy << std::endl;
+	std::cout << "min-entropy:" << dt.t_6_3_6.t_common.min_entropy << std::endl;
 
 	return 0;
 }
