@@ -20,7 +20,6 @@
 #include <boost/multi_index/identity.hpp>
 #include <boost/multi_index/member.hpp>
 #include <boost/multi_index/composite_key.hpp>
-#include <boost/multiprecision/cpp_int.hpp>
 #include <boost/dynamic_bitset.hpp>
 
 namespace entropy_estimator_lib

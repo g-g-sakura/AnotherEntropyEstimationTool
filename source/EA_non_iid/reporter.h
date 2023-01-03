@@ -41,6 +41,6 @@ ns_consts::EnmReturnStatus synthesizeReportPath(bs_fs::path& o_report_complete_p
 ns_consts::EnmReturnStatus synthesizeReportPathTex(bs_fs::path& o_report_complete_path,
 	bs_fs::path& i_path_entropy_input);
 
-ns_consts::EnmReturnStatus loadPreamble(std::stringstream&);
+ns_consts::EnmReturnStatus loadLaTeXPreamble(std::stringstream&);
 
 #endif

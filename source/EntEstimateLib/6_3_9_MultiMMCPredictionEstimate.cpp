@@ -29,7 +29,6 @@ namespace entropy_estimator_lib
 			namespace ns_math = entropy_estimator_lib::estimators::math;
 			namespace ns_spt = entropy_estimator_lib::support;
 			namespace ns_es = entropy_estimator_lib::estimators::support;
-			namespace bmp = boost::multiprecision;
 
 			// -------------------------------------------------------------------------- //
 			/// <summary>
@@ -128,8 +127,11 @@ namespace entropy_estimator_lib
 				// 
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\addplot+[teal,no marks,sharp plot,update limits=false] " << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"coordinates {(" << io_refData.t_6_3_9.r - 1 << L", 1.05) (" << io_refData.t_6_3_9.r - 1 << L", 1.05)}" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"node[above left] at (axis cs:" << io_refData.t_6_3_9.r - 1 << L", 1.0) {\\shortstack{$r - 1$ = ";
+				(*io_refData.p_ssLaTeXFragment) << L"coordinates {(" << io_refData.t_6_3_9.r - 1 << L", " << io_refData.t_6_3_9.occurences_at_longest_run << L") "; 
+				(*io_refData.p_ssLaTeXFragment) << L"(" << io_refData.t_6_3_9.r - 1 << L", " << std::dec << io_refData.t_6_3_9.occurences_at_longest_run << L") }" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"node[above left] at (axis cs:" << io_refData.t_6_3_9.r - 1 << L", ";
+				(*io_refData.p_ssLaTeXFragment) << io_refData.t_6_3_9.occurences_at_longest_run << L") ";
+				(*io_refData.p_ssLaTeXFragment) << L"{\\shortstack{$r - 1$ = ";
 				(*io_refData.p_ssLaTeXFragment) << io_refData.t_6_3_9.r - 1 << L" " << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\\\($\\rightarrow$ min-entropy = " << io_refData.t_6_3_9.t_common.min_entropy;
 				(*io_refData.p_ssLaTeXFragment) << L" [bit / " << io_refData.bits_per_sample << L"-bit])}};" << std::endl;
@@ -179,6 +181,7 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
+				(*io_refData.p_ssLaTeXFragment) << L"\\clearpage" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\subsubsection{Supplemental information for traceability}" << std::endl;
 				// -------------------------------------------------------------------------- //
 				//
@@ -385,8 +388,9 @@ namespace entropy_estimator_lib
 							// -------------------------------------------------------------------------- //
 							blitz::Range	rg(i - d - 2, i - 3);
 							blitz::Array<ns_dt::octet, 1>	bz_x = (*(i_refData.p_bzInputS))(rg);
-							bmp::cpp_int		xExp = 0;
-							ns_consts::EnmReturnStatus	stsCnv = ns_spt::convertSeqSamplesToCppInt(xExp, bz_x);
+
+							boost::dynamic_bitset<>		xExp(d * i_refData.bits_per_sample, 0);
+							ns_consts::EnmReturnStatus	stsCnv = ns_spt::convertSeqSamplesToBitSet(xExp, bz_x);
 							if (ns_consts::EnmReturnStatus::Success != stsCnv)
 							{
 								return sts = stsCnv;
@@ -398,18 +402,22 @@ namespace entropy_estimator_lib
 							//      increment M_{d}[(s_{i - d - 1}, \ldots, s_{i - 2}), s_{i - 1}] by 1.
 							// -------------------------------------------------------------------------- //
 							ns_consts::EnmReturnStatus	stsUpdate = ns_es::incrementXY(xExp, oct_y, *(o_refM.at(d - 1)));
-							if (ns_consts::EnmReturnStatus::ErrorNotFound == stsUpdate)
+							switch (stsUpdate)
 							{
+							case ns_consts::EnmReturnStatus::Success:
+								break;
+							case ns_consts::EnmReturnStatus::ErrorFirstIndexNotFound:
+							case ns_consts::EnmReturnStatus::ErrorFirstIndexFoundButSecondIndexNotFound:
 								// -------------------------------------------------------------------------- //
 								//   2. Else if entries_{d} < maxEntries, add a counter for [(s_{i - d - 1}, \ldots, s_{i - 2}), s_{i - 1}] to the set,
 								//      let M_{d}[(s_{i - d - 1}, \ldots, s_{i - 2}), s_{i - 1}] = 1
 								//      and increment entries_{d} by 1.
 								// -------------------------------------------------------------------------- //
 								o_refM.at(d - 1)->insert(ns_es::t_xy_bin(xExp, oct_y, 1));
-							}
-							else if (ns_consts::EnmReturnStatus::Success != stsUpdate)
-							{
+								break;
+							default:
 								return sts = stsUpdate;
+								break;
 							}
 						}
 					}
@@ -429,14 +437,17 @@ namespace entropy_estimator_lib
 							// -------------------------------------------------------------------------- //
 							blitz::Range	rg(i - d - 1, i - 2);
 							blitz::Array<ns_dt::octet, 1>	bz_x = (*(i_refData.p_bzInputS))(rg);
-							bmp::cpp_int		xExp = 0;
-							ns_consts::EnmReturnStatus	stsCnv = ns_spt::convertSeqSamplesToCppInt(xExp, bz_x);
+
+							boost::dynamic_bitset<>		xExp(d * i_refData.bits_per_sample, 0);
+							ns_consts::EnmReturnStatus	stsCnv = ns_spt::convertSeqSamplesToBitSet(xExp, bz_x);
 							if (ns_consts::EnmReturnStatus::Success != stsCnv)
 							{
 								return sts = stsCnv;
 							}
 
-							ns_es::t_xy_bin	t_highest_value = { 0, 0, 0 };
+							//ns_es::t_xy_bin	t_highest_value = { 0, 0, 0 };
+							boost::dynamic_bitset<>		bitset_iv(d * i_refData.bits_per_sample, 0);
+							ns_es::t_xy_bin	t_highest_value = { bitset_iv, 0, 0 };
 							ns_consts::EnmReturnStatus	stsFreq = ns_es::getFrequent(t_highest_value, xExp, *(o_refM.at(d - 1)));
 							if (ns_consts::EnmReturnStatus::Success == stsFreq)
 							{
@@ -610,6 +621,12 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refN">
 			/// </params>
+			/// <params="o_ref_occurences_at_logest_run">
+			/// </params>
+			/// <params="o_refSSFragmentForLaTeX">
+			/// </params>
+			/// <params="i_bIsGeneratingReportInLaTeXformatRequested">
+			/// </params>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -621,7 +638,9 @@ namespace entropy_estimator_lib
 				double& o_ref_p_local,
 				const blitz::Array<ns_dt::octet, 1>& i_ref_bz_correct,
 				int& i_refN,
-				std::wstringstream& o_refSSFragmentForLaTeX)
+				int& o_ref_occurences_at_logest_run,
+				std::wstringstream& o_refSSFragmentForLaTeX,
+				bool i_bIsGeneratingReportInLaTeXformatRequested)
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 				// -------------------------------------------------------------------------- //
@@ -700,13 +719,21 @@ namespace entropy_estimator_lib
 					mit->second = (count + 1);
 				}
 				// -------------------------------------------------------------------------- //
-				// 
+				// output LaTeX
 				// -------------------------------------------------------------------------- //
-				for (std::map<int, int>::const_iterator cit = mp_correct.cbegin(); cit != mp_correct.cend(); cit++)
+				if (i_bIsGeneratingReportInLaTeXformatRequested)
 				{
-					o_refSSFragmentForLaTeX << L"(";
-					o_refSSFragmentForLaTeX << std::setw(8) << cit->first << L"," << std::setw(8) << cit->second;
-					o_refSSFragmentForLaTeX << L")" << std::endl;
+					for (std::map<int, int>::const_iterator cit = mp_correct.cbegin(); cit != mp_correct.cend(); cit++)
+					{
+						o_refSSFragmentForLaTeX << L"(";
+						o_refSSFragmentForLaTeX << std::setw(8) << cit->first << L"," << std::setw(8) << cit->second;
+						o_refSSFragmentForLaTeX << L")" << std::endl;
+
+						if (cit->first == o_ref_r)
+						{
+							o_ref_occurences_at_logest_run = cit->second;
+						}
+					}
 				}
 				// -------------------------------------------------------------------------- //
 				//
@@ -893,7 +920,10 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				io_refData.t_6_3_9.p_local = 0.0;
 				io_refData.t_6_3_9.r = 0;
-				sts = step7(io_refData.t_6_3_9.r, io_refData.t_6_3_9.p_local, bz_correct, N, ssFragmentForLaTeX);
+				io_refData.t_6_3_9.occurences_at_longest_run = 0;
+				sts = step7(io_refData.t_6_3_9.r, io_refData.t_6_3_9.p_local, bz_correct, N,
+					io_refData.t_6_3_9.occurences_at_longest_run, 
+					ssFragmentForLaTeX, io_refData.isGeneratingReportInLaTeXformatRequested);
 				if (ns_consts::EnmReturnStatus::Success != sts)
 				{
 					return sts;

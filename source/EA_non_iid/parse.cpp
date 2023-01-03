@@ -81,7 +81,7 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
         // -------------------------------------------------------------------------- //
         if (po_vm.count("bits_per_sample")) {
             if ((bits_per_sample < 1) || (8 < bits_per_sample)) {
-                std::cout << "Invalid bits per symbol." << std::endl;
+                std::cout << "# [ERROR]: Invalid bits per symbol." << std::endl;
                 return  sts;
             }
         }
@@ -91,17 +91,17 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
         // -------------------------------------------------------------------------- //
         if (po_vm.count("file")) {
             const bs_fs::path file_path = po_vm["file"].as<std::wstring>(); // <<<
-            std::wcout << L"Opening file:\t";
+            std::wcout << L"# [INFO]: Opening file:\t";
             std::wcout << file_path << std::endl;
 
             boost::system::error_code error;
             const bool result = bs_fs::exists(file_path, error);
             if (!result || error) {
-                std::cout << "Specified file was not found." << std::endl;
+                std::cout << "# [ERROR]: Specified file was not found." << std::endl;
                 return  sts;
             }
             else {
-                std::cout << "Specified file was found." << std::endl;
+                std::cout << "# [INFO]: Specified file was found." << std::endl;
             }
             // -------------------------------------------------------------------------- //
             // full path
@@ -122,7 +122,7 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
             std::cout << "Its file size: " << size << "-byte" << std::endl;
             if (file_size_limit < size)
             {
-                std::cout << "# Huge file is specified, so the estimation is stopped." << std::endl;
+                std::cout << "# [ERROR]: Huge file is specified, so the estimation is stopped." << std::endl;
                 return  sts;
             }
 
@@ -159,7 +159,7 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
             // -------------------------------------------------------------------------- //
             if ((io_refData.L * bits_per_sample) < 6012)
             {
-                std::cout << "# The number of samples does not meet one of pre-conditions specified in NIST SP 800-90B, so the estimation is stopped." << std::endl;
+                std::cout << "# [ERROR]: The number of samples does not meet one of pre-conditions specified in NIST SP 800-90B, so the estimation is stopped." << std::endl;
                 return  sts = ns_consts::EnmReturnStatus::ErrorPreconditions;
             }
             // -------------------------------------------------------------------------- //
@@ -169,7 +169,7 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
             if ((io_refData.L) < 4097)
             {
                 std::cout << io_refData.L << std::endl;
-                std::cout << "# The number of samples does not meet one of pre-conditions specified in NIST SP 800-90B, so the estimation is stopped." << std::endl;
+                std::cout << "# [ERROR]: The number of samples does not meet one of pre-conditions specified in NIST SP 800-90B, so the estimation is stopped." << std::endl;
                 return  sts = ns_consts::EnmReturnStatus::ErrorPreconditions;
             }
             // -------------------------------------------------------------------------- //
@@ -195,9 +195,13 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
                 // 
                 // -------------------------------------------------------------------------- //
                 if (po_vm.count("all")) {
+                    if (po_vm.count("truncate")) {
+                        std::cout << "# [ERROR]: all and truncate cannot be used simultaneously." << std::endl;
+                        return  sts;
+                    }
                     io_refData.isTestingAllBitsRequested = true;
                     io_refDataBitString.isTestingAllBitsRequested = true;
-                    std::cout << "Requesting all bits in the bitstring to be tested" << std::endl;
+                    std::cout << "# [INFO]: Requesting all bits in the bitstring to be tested" << std::endl;
                 }
                 else if (po_vm.count("truncate"))
                 {
@@ -214,7 +218,7 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
                             number_of_bits_to_be_loaded = bits_per_sample * ((def_number_of_bits_when_truncation + bits_per_sample - 1) / bits_per_sample);
                         }
                     }
-                    std::cout << "Requesting first " << number_of_bits_to_be_loaded << " bits to be tested" << std::endl;
+                    std::cout << "# [INFO]: Requesting first " << number_of_bits_to_be_loaded << " bits to be tested" << std::endl;
                 }
                 // -------------------------------------------------------------------------- //
                 // 
@@ -224,16 +228,16 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
                 io_refDataBitString.bIsMSbFirstByteBitConversion = true;
                 if (po_vm.count("MSb")) {
                     if (po_vm.count("LSb")) {
-                        std::cout << "MSb and LSb cannot be used simultaneously." << std::endl;
+                        std::cout << "# [ERROR]: MSb and LSb cannot be used simultaneously." << std::endl;
                         return  sts;
                     }
-                    std::cout << "Byte to bitstring conversion is performed by assuming Most Significant bit (MSb) first." << std::endl;
+                    std::cout << "# [INFO]: Byte to bitstring conversion is performed by assuming Most Significant bit (MSb) first." << std::endl;
                 }
                 else
                 {
                     if (po_vm.count("LSb")) {
                         io_refDataBitString.bIsMSbFirstByteBitConversion = false;
-                        std::cout << "Byte to bitstring conversion is performed by assuming Least Significant bit (LSb) first." << std::endl;
+                        std::cout << "# [INFO]: Byte to bitstring conversion is performed by assuming Least Significant bit (LSb) first." << std::endl;
                     }
                 }
                 // -------------------------------------------------------------------------- //
@@ -248,12 +252,12 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
                 // -------------------------------------------------------------------------- //
                 // 
                 // -------------------------------------------------------------------------- //
-                std::cout << "Loaded " << io_refData.L << " samples of " << io_refData.k << " distinct " << bits_per_sample << "-bit-wide symbols" << std::endl;
+                std::cout << "# [INFO]: Loaded " << io_refData.L << " samples of " << io_refData.k << " distinct " << bits_per_sample << "-bit-wide symbols" << std::endl;
             }
         }
         else {
-            std::cout << "No file is specified to process.\n";
-            std::cout << "Terminates entropy estimation...\n";
+            std::cout << "# [INFO]: No file is specified to process.\n";
+            std::cout << "# [INFO]: Terminates entropy estimation...\n";
             return  sts = ns_consts::EnmReturnStatus::ErrorNoTask;
         }
 
@@ -262,8 +266,8 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
         // 
         // -------------------------------------------------------------------------- //
         if (po_vm.count("LaTeX")) {
-            std::cout << "Generating a report in LaTeX format is requested." << std::endl;
-            std::cout << "The report in LaTeX format will be output in the same folder as the input file." << std::endl;
+            std::cout << "# [INFO]: Generating a report in LaTeX format is requested." << std::endl;
+            std::cout << "# [INFO]: The report in LaTeX format will be output in the same folder as the input file." << std::endl;
             io_refData.isGeneratingReportInLaTeXformatRequested = true;
             if (1 < bits_per_sample)
             {
@@ -276,7 +280,7 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
         // -------------------------------------------------------------------------- //
         if (po_vm.count("verbose_level")) {
             if ((vl < 0) || (3 < vl)) {
-                std::cout << "Invalid verbose level." << std::endl;
+                std::cout << "# [ERROR]: Invalid verbose level." << std::endl;
                 return  sts;
             }
             io_refData.verbose_level = vl;
@@ -291,11 +295,11 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
         }
     }
     catch (std::exception& e) {
-        std::cerr << "error: " << e.what() << "\n";
+        std::cerr << "# [ERROR]: error: " << e.what() << "\n";
         return sts;
     }
     catch (...) {
-        std::cerr << "Exception of unknown type!\n";
+        std::cerr << "# [ERROR]: Exception of unknown type!\n";
         return	sts;
     }
     return  sts = ns_consts::EnmReturnStatus::Success;

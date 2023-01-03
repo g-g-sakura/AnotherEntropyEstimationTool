@@ -90,8 +90,13 @@ namespace entropy_estimator_lib
 						mit->second = (count + 1);
 					}
 				}
+				int max_D = 1;
 				for (std::map<int, int>::const_iterator cit = mp_t_nu_counts.cbegin(); cit != mp_t_nu_counts.cend(); cit++)
 				{
+					if (max_D < (cit->second))
+					{
+						max_D = (cit->second);
+					}
 					(*io_refData.p_ssLaTeXFragment) << L"(";
 					(*io_refData.p_ssLaTeXFragment) << std::setw(8) << (cit->first);
 					(*io_refData.p_ssLaTeXFragment) << L", " << std::setw(8) << (cit->second);
@@ -102,8 +107,8 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\addplot+[teal,no marks,sharp plot,update limits=false] " << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"coordinates {(" << io_refData.t_6_3_4.x_bar << L"," << mp_t_nu_counts.cbegin()->second << L") (" << io_refData.t_6_3_4.x_bar << L",1)}" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"node[above] at (axis cs:" << io_refData.t_6_3_4.x_bar << L"," << mp_t_nu_counts.cbegin()->second;
+				(*io_refData.p_ssLaTeXFragment) << L"coordinates {(" << io_refData.t_6_3_4.x_bar << L"," << max_D << L") (" << io_refData.t_6_3_4.x_bar << L",1)}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"node[above right] at (axis cs:" << io_refData.t_6_3_4.x_bar << L"," << max_D;
 				(*io_refData.p_ssLaTeXFragment) << L") {\\shortstack{$\\bar{X}$ = " << io_refData.t_6_3_4.x_bar << L", \\," << L"$\\hat{\\sigma}=$" << io_refData.t_6_3_4.sigma_hat;
 				(*io_refData.p_ssLaTeXFragment) << L"\\\\($\\rightarrow$ min-entropy = " << io_refData.t_6_3_4.t_common.min_entropy << L")}};" << std::endl;
 				// -------------------------------------------------------------------------- //
@@ -150,6 +155,7 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
+				(*io_refData.p_ssLaTeXFragment) << L"\\clearpage" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\subsubsection{Supplemental information for traceability}" << std::endl;
 				// -------------------------------------------------------------------------- //
 				//

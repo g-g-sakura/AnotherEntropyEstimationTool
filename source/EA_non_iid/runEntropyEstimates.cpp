@@ -56,7 +56,7 @@ ns_consts::EnmReturnStatus runEntropyEstimatesBinary(ns_dt::t_data_for_estimator
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ns_consts::EnmSampleInterpretation  enm_interp = ns_consts::EnmSampleInterpretation::ELateralButBinary;
+    ns_consts::EnmSampleInterpretation  enm_interp = ns_consts::EnmSampleInterpretation::ELiteralButBinary;
     double  min_entropy_bitstring = 1.0;
     // -------------------------------------------------------------------------- //
     // 
@@ -212,12 +212,12 @@ ns_consts::EnmReturnStatus runEntropyEstimatesNonBinary(ns_dt::t_data_for_estima
     // 
     // -------------------------------------------------------------------------- //
     ns_consts::EnmSampleInterpretation  enm_interp[2] =
-    { ns_consts::EnmSampleInterpretation::ELateralNonBinary,
+    { ns_consts::EnmSampleInterpretation::ELiteralNonBinary,
         ns_consts::EnmSampleInterpretation::EInterpretationBinary };
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    double  min_entropy_lateral = (double)io_refDataOriginal.bits_per_sample;
+    double  min_entropy_literal = (double)io_refDataOriginal.bits_per_sample;
     double  min_entropy_bitstring = 1.0;
     // -------------------------------------------------------------------------- //
     // 
@@ -233,7 +233,7 @@ ns_consts::EnmReturnStatus runEntropyEstimatesNonBinary(ns_dt::t_data_for_estima
             case 3:
                 if (0 == n)
                 {
-                    // skip lateral
+                    // skip literal
                     continue;
                 }
                 break;
@@ -366,9 +366,9 @@ ns_consts::EnmReturnStatus runEntropyEstimatesNonBinary(ns_dt::t_data_for_estima
                 switch (n)
                 {
                 case 0:
-                    if (*p_min_entropy < min_entropy_lateral)
+                    if (*p_min_entropy < min_entropy_literal)
                     {
-                        min_entropy_lateral = *p_min_entropy;
+                        min_entropy_literal = *p_min_entropy;
                     }
                     break;
                 case 1:
@@ -387,11 +387,11 @@ ns_consts::EnmReturnStatus runEntropyEstimatesNonBinary(ns_dt::t_data_for_estima
     // 
     // -------------------------------------------------------------------------- //
     std::cout << std::endl;
-    std::cout << "H_original\t\t\t:\t" << min_entropy_lateral << std::endl;
+    std::cout << "H_original\t\t\t:\t" << min_entropy_literal << std::endl;
     std::cout << "H_bitstring\t\t\t:\t" << min_entropy_bitstring << std::endl;
     std::cout << std::endl;
-    double  min_entropy_global = min_entropy_lateral;
-    if ((double)io_refDataOriginal.bits_per_sample * min_entropy_bitstring < min_entropy_lateral)
+    double  min_entropy_global = min_entropy_literal;
+    if ((double)io_refDataOriginal.bits_per_sample * min_entropy_bitstring < min_entropy_literal)
     {
         min_entropy_global = (double)io_refDataOriginal.bits_per_sample * min_entropy_bitstring;
     }

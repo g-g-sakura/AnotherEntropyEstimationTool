@@ -97,36 +97,17 @@ ns_consts::EnmReturnStatus getOSInfo(std::wstring& o_refOSInfo)
 {
     ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 
-    //DWORD   dwVersion[4];
-    //DWORD   ProductType;
-    //memset(dwVersion, 0, sizeof(dwVersion));
-
-    //BOOL    bRetProductType = ::GetProductInfo();
-
-    OSVERSIONINFO osvi;
-    BOOL bIsWindows10orLater = FALSE;
-    BOOL bIsWindows81orLater = FALSE;
-
-    ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
-    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-
-    GetVersionEx(&osvi);
-
-    bIsWindows10orLater = (osvi.dwMajorVersion >= 10);
-    bIsWindows81orLater = ((osvi.dwMajorVersion > 6) ||
-        ((osvi.dwMajorVersion == 6) && (osvi.dwMinorVersion >= 3)));;
-
     if (::IsWindowsServer())
     {
 
     }
     else
     {
-        if (bIsWindows10orLater)
+        if (IsWindows10OrGreater())
         {
             o_refOSInfo = std::wstring(L"Windows 10 or greater");
         }
-        else if (bIsWindows81orLater)
+        else if (IsWindows8Point1OrGreater())
         {
             o_refOSInfo = std::wstring(L"Windows 8.1 or greater");
         }

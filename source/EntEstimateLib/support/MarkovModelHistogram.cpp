@@ -8,6 +8,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include "../pch.h"
 #include "MarkovModelHistogram.h"
+#include <iomanip>
 
 namespace entropy_estimator_lib
 {
@@ -35,7 +36,7 @@ namespace entropy_estimator_lib
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
 			ns_consts::EnmReturnStatus incrementXY(
-				bmp::cpp_int& i_target_x,
+				boost::dynamic_bitset<>& i_target_x,
 				ns_dt::octet i_target_y,
 				MarkovModelHistogram& i_refHistogram)
 			{
@@ -47,6 +48,7 @@ namespace entropy_estimator_lib
 
 				if (rg_x.first != rg_x.second)
 				{
+					sts = ns_consts::EnmReturnStatus::ErrorFirstIndexFoundButSecondIndexNotFound;
 					for (ex_x_map::iterator it = rg_x.first; it != rg_x.second; it++)
 					{
 						if (it->ex_y == i_target_y)
@@ -60,7 +62,7 @@ namespace entropy_estimator_lib
 				}
 				else
 				{
-					sts = ns_consts::EnmReturnStatus::ErrorNotFound;
+					sts = ns_consts::EnmReturnStatus::ErrorFirstIndexNotFound;
 				}
 				return	sts;
 			}
@@ -85,7 +87,7 @@ namespace entropy_estimator_lib
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
 			ns_consts::EnmReturnStatus getFrequent(t_xy_bin& o_refFrequent,
-				bmp::cpp_int& i_target_x,
+				boost::dynamic_bitset<>& i_target_x,
 				MarkovModelHistogram& i_refHistogram)
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;

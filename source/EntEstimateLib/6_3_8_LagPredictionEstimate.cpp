@@ -124,8 +124,11 @@ namespace entropy_estimator_lib
 				// 
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\addplot+[teal,no marks,sharp plot,update limits=false] " << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"coordinates {(" << io_refData.t_6_3_8.r - 1 << L", 1.05) (" << io_refData.t_6_3_8.r - 1 << L", 1.05)}" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"node[above left] at (axis cs:" << io_refData.t_6_3_8.r - 1 << L", 1.0) {\\shortstack{$r - 1$ = ";
+				(*io_refData.p_ssLaTeXFragment) << L"coordinates {(" << io_refData.t_6_3_8.r - 1 << L", " << io_refData.t_6_3_8.occurences_at_longest_run << L") ";
+				(*io_refData.p_ssLaTeXFragment) << L"(" << io_refData.t_6_3_8.r - 1 << L", "<< io_refData.t_6_3_8.occurences_at_longest_run << L")}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"node[above left] at (axis cs:" << io_refData.t_6_3_8.r - 1 << L", ";
+				(*io_refData.p_ssLaTeXFragment) << io_refData.t_6_3_8.occurences_at_longest_run << L") ";
+				(*io_refData.p_ssLaTeXFragment) << L"{\\shortstack{$r - 1$ = ";
 				(*io_refData.p_ssLaTeXFragment) << io_refData.t_6_3_8.r - 1 << L" " << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\\\($\\rightarrow$ min-entropy = " << io_refData.t_6_3_8.t_common.min_entropy;
 				(*io_refData.p_ssLaTeXFragment) << L" [bit / " << io_refData.bits_per_sample << L"-bit])}};" << std::endl;
@@ -175,6 +178,7 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
+				(*io_refData.p_ssLaTeXFragment) << L"\\clearpage" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\subsubsection{Supplemental information for traceability}" << std::endl;
 				// -------------------------------------------------------------------------- //
 				//
@@ -476,6 +480,12 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refN">
 			/// </params>
+			/// <params="o_ref_occurences_at_logest_run">
+			/// </params>
+			/// <params="o_refSSFragmentForLaTeX">
+			/// </params>
+			/// <params="i_bIsGeneratingReportInLaTeXformatRequested">
+			/// </params>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -487,7 +497,9 @@ namespace entropy_estimator_lib
 				double& o_ref_p_local,
 				const blitz::Array<ns_dt::octet, 1>& i_ref_bz_correct,
 				int& i_refN,
-				std::wstringstream& o_refSSFragmentForLaTeX)
+				int& o_ref_occurences_at_logest_run,
+				std::wstringstream& o_refSSFragmentForLaTeX,
+				bool i_bIsGeneratingReportInLaTeXformatRequested)
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 				// -------------------------------------------------------------------------- //
@@ -566,13 +578,21 @@ namespace entropy_estimator_lib
 					mit->second = (count + 1);
 				}
 				// -------------------------------------------------------------------------- //
-				// 
+				// output LaTeX
 				// -------------------------------------------------------------------------- //
-				for (std::map<int, int>::const_iterator cit = mp_correct.cbegin(); cit != mp_correct.cend(); cit++)
+				if (i_bIsGeneratingReportInLaTeXformatRequested)
 				{
-					o_refSSFragmentForLaTeX << L"(";
-					o_refSSFragmentForLaTeX << std::setw(8) << cit->first << L"," << std::setw(8) << cit->second;
-					o_refSSFragmentForLaTeX << L")" << std::endl;
+					for (std::map<int, int>::const_iterator cit = mp_correct.cbegin(); cit != mp_correct.cend(); cit++)
+					{
+						o_refSSFragmentForLaTeX << L"(";
+						o_refSSFragmentForLaTeX << std::setw(8) << cit->first << L"," << std::setw(8) << cit->second;
+						o_refSSFragmentForLaTeX << L")" << std::endl;
+
+						if (cit->first == o_ref_r)
+						{
+							o_ref_occurences_at_logest_run = cit->second;
+						}
+					}
 				}
 				// -------------------------------------------------------------------------- //
 				++o_ref_r;
@@ -725,7 +745,10 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				io_refData.t_6_3_8.p_local = 0.0;
 				io_refData.t_6_3_8.r = 0;
-				sts = step6(io_refData.t_6_3_8.r, io_refData.t_6_3_8.p_local, bz_correct, N, ssFragmentForLaTeX);
+				io_refData.t_6_3_8.occurences_at_longest_run = 0;
+				sts = step6(io_refData.t_6_3_8.r, io_refData.t_6_3_8.p_local, bz_correct, N, 
+					io_refData.t_6_3_8.occurences_at_longest_run, 
+					ssFragmentForLaTeX, io_refData.isGeneratingReportInLaTeXformatRequested);
 				if (ns_consts::EnmReturnStatus::Success != sts)
 				{
 					return sts;

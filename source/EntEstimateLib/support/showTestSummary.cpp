@@ -94,9 +94,9 @@ namespace entropy_estimator_lib
 			o_refStream << "#\tThis estimate is performed on ";
 			switch (i_enmInterpretation)
 			{
-			case ns_consts::EnmSampleInterpretation::ELateralNonBinary:
-			case ns_consts::EnmSampleInterpretation::ELateralButBinary:
-				o_refStream << "original (lateral) samples.";
+			case ns_consts::EnmSampleInterpretation::ELiteralNonBinary:
+			case ns_consts::EnmSampleInterpretation::ELiteralButBinary:
+				o_refStream << "original samples.";
 				break;
 			case ns_consts::EnmSampleInterpretation::EInterpretationBinary:
 				o_refStream << "interpreting each sample as bitstrings.";
@@ -312,9 +312,9 @@ namespace entropy_estimator_lib
 			std::stringstream	ssSeparatorSimple = std::stringstream("# --------------------------------------------------------------------------\n");
 			switch (i_enmInterpretation)
 			{
-			case ns_consts::EnmSampleInterpretation::ELateralNonBinary:
-			case ns_consts::EnmSampleInterpretation::ELateralButBinary:
-				ssSampleInterp = std::stringstream("Lateral ");
+			case ns_consts::EnmSampleInterpretation::ELiteralNonBinary:
+			case ns_consts::EnmSampleInterpretation::ELiteralButBinary:
+				ssSampleInterp = std::stringstream("Literal ");
 				ssTrail = std::stringstream();
 				ssUnitInfo << " / " << io_refData.bits_per_sample << "-bit";
 				break;

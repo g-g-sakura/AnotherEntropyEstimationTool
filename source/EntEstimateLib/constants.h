@@ -20,6 +20,8 @@ namespace entropy_estimator_lib
 		{
 			Success = 0,
 			ErrorNotFound = -8,
+			ErrorFirstIndexNotFound = -9,
+			ErrorFirstIndexFoundButSecondIndexNotFound = -10,
 			ErrorNoTask = -16,
 			ErrorInvalidData = -120,
 			ErrorDomain = -121,
@@ -45,9 +47,9 @@ namespace entropy_estimator_lib
 
 		enum class EnmSampleInterpretation
 		{
-			ELateralNonBinary		= 8,
+			ELiteralNonBinary		= 8,
 			EInterpretationBinary	= 1,
-			ELateralButBinary		= 9,
+			ELiteralButBinary		= 9,
 		};
 	}
 }

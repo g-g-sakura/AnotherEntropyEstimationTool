@@ -275,6 +275,7 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
+				(*io_refData.p_ssLaTeXFragment) << L"\\clearpage" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\subsubsection{Supplemental information for traceability}" << std::endl;
 				// -------------------------------------------------------------------------- //
 				//
@@ -645,7 +646,7 @@ namespace entropy_estimator_lib
 					// -------------------------------------------------------------------------- //
 					//
 					// -------------------------------------------------------------------------- //
-					std::wstring	wstrCaptionPmax = L"Estimated average collition probability per string symbol in Step 3 of $\\S6.3.6$ of NIST SP 800-90B";
+					std::wstring	wstrCaptionPmax = L"Estimated average collision probability per string symbol in Step 3 of $\\S6.3.6$ of NIST SP 800-90B";
 					outputLaTeXFooterWithPhat(io_refData, wstrCaptionPmax, io_refData.t_6_3_6.argmax_p_hat);
 					// -------------------------------------------------------------------------- //
 					// supplemental information for traceability

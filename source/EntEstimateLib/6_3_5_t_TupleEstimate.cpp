@@ -92,9 +92,12 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"};" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\end{semilogyaxis}" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\end{tikzpicture}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\caption{Intermediate value $Q[i]$ \\, in $\\S$6.3.5 of NIST SP 800-90B}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\end{figure}" << std::endl;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
+				(*io_refData.p_ssLaTeXFragment) << L"\\begin{figure}[htbp]" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\begin{tikzpicture}" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\begin{axis}[" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"	width=20cm," << std::endl;
@@ -173,6 +176,7 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
+				(*io_refData.p_ssLaTeXFragment) << L"\\clearpage" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\subsubsection{Supplemental information for traceability}" << std::endl;
 				// -------------------------------------------------------------------------- //
 				//

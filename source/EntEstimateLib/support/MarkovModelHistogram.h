@@ -20,7 +20,9 @@
 #include <boost/multi_index/identity.hpp>
 #include <boost/multi_index/member.hpp>
 #include <boost/multi_index/composite_key.hpp>
-#include <boost/multiprecision/cpp_int.hpp>
+#include <boost/dynamic_bitset.hpp>
+#include <boost/range.hpp>
+
 
 namespace entropy_estimator_lib
 {
@@ -32,16 +34,15 @@ namespace entropy_estimator_lib
 			namespace ns_consts = entropy_estimator_lib::constants;
 			namespace ns_dt = entropy_estimator_lib::data_types;
 			namespace bmi = boost::multi_index;
-			namespace bmp = boost::multiprecision;
 			using boost::multi_index_container;
 
 			struct t_xy_bin
 			{
-				bmp::cpp_int	ex_x;		// x
+				boost::dynamic_bitset<>		ex_x;		// x
 				ns_dt::octet	ex_y;		// y
 				int				ex_cnt;		// count = number of occurence of index value within a certain window
 
-				t_xy_bin(bmp::cpp_int i_x, ns_dt::octet i_y, int i_count) : ex_x(i_x), ex_y(i_y), ex_cnt(i_count) {}
+				t_xy_bin(boost::dynamic_bitset<>& i_x, ns_dt::octet i_y, int i_count) : ex_x(i_x), ex_y(i_y), ex_cnt(i_count) {}
 
 				bool operator <(t_xy_bin const& i_refRight) const
 				{
@@ -75,7 +76,7 @@ namespace entropy_estimator_lib
 				t_xy_bin,
 				bmi::indexed_by<
 				bmi::ordered_unique<bmi::identity<t_xy_bin> >, //
-				bmi::ordered_non_unique<bmi::tag<ex_x>, bmi::member<t_xy_bin, bmp::cpp_int, &t_xy_bin::ex_x> >,
+				bmi::ordered_non_unique<bmi::tag<ex_x>, bmi::member<t_xy_bin, boost::dynamic_bitset<>, &t_xy_bin::ex_x> >,
 				bmi::ordered_non_unique<bmi::tag<ex_y>, bmi::member<t_xy_bin, ns_dt::octet, &t_xy_bin::ex_y> >,
 				bmi::ordered_non_unique<bmi::tag<ex_cnt>, bmi::member<t_xy_bin, int, &t_xy_bin::ex_cnt> >
 				>
@@ -104,7 +105,7 @@ namespace entropy_estimator_lib
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
 			ns_consts::EnmReturnStatus incrementXY(
-				bmp::cpp_int& i_target_x,
+				boost::dynamic_bitset<>& i_target_x,
 				ns_dt::octet i_target_y,
 				MarkovModelHistogram& i_refHistogram);
 
@@ -128,8 +129,9 @@ namespace entropy_estimator_lib
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
 			ns_consts::EnmReturnStatus getFrequent(t_xy_bin& o_refFrequent,
-				bmp::cpp_int& i_target_x,
+				boost::dynamic_bitset<>& i_target_x,
 				MarkovModelHistogram& i_refHistogram);
+
 
 
 		}

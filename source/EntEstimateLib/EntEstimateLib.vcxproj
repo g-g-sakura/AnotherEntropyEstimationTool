@@ -70,7 +70,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Intel|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>Intel C++ Compiler 2022</PlatformToolset>
+    <PlatformToolset>Intel C++ Compiler 2023</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -114,13 +114,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <ExternalIncludePath>Z:\shared\blitzpp;C:\usr\boost_1_80_0;$(ExternalIncludePath)</ExternalIncludePath>
-    <IncludePath>Z:\shared\blitzpp;C:\usr\boost_1_80_0;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>Z:\shared\blitzpp;C:\usr\boost_1_81_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <IncludePath>Z:\shared\blitzpp;C:\usr\boost_1_81_0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Intel|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_80_0;$(ExternalIncludePath)</ExternalIncludePath>
-    <IncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_80_0;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_81_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <IncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_81_0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

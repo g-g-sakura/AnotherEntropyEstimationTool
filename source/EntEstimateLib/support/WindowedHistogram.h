@@ -21,7 +21,6 @@
 #include <boost/multi_index/identity.hpp>
 #include <boost/multi_index/member.hpp>
 #include <boost/multi_index/composite_key.hpp>
-#include <boost/multiprecision/cpp_int.hpp>
 #include <vector>
 
 namespace entropy_estimator_lib

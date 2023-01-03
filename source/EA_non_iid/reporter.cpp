@@ -138,7 +138,7 @@ struct MinEntropy
     int     bits_per_sample;
     bool    bIsSolutionFound;
 
-    MinEntropy() : value(0.0), estimator_info(ns_consts::EnmNonIIDTrack::EstimatorMostCommonValue), sample_interpret(ns_consts::EnmSampleInterpretation::ELateralNonBinary), bits_per_sample(8), bIsSolutionFound(true){};
+    MinEntropy() : value(0.0), estimator_info(ns_consts::EnmNonIIDTrack::EstimatorMostCommonValue), sample_interpret(ns_consts::EnmSampleInterpretation::ELiteralNonBinary), bits_per_sample(8), bIsSolutionFound(true){};
 
     MinEntropy(double val, ns_consts::EnmNonIIDTrack i_est, ns_consts::EnmSampleInterpretation i_si, int i_bits, bool i_bIsSolutionFound)
         : value(val), estimator_info(i_est), sample_interpret(i_si), bits_per_sample(i_bits), bIsSolutionFound(i_bIsSolutionFound){};
@@ -227,9 +227,9 @@ std::wstring getSampleInterpretationMode(ns_consts::EnmSampleInterpretation i_si
     std::wstring str_ret;
     switch (i_si)
     {
-    case ns_consts::EnmSampleInterpretation::ELateralNonBinary:
-    case ns_consts::EnmSampleInterpretation::ELateralButBinary:
-        str_ret = std::wstring(L"lateral");
+    case ns_consts::EnmSampleInterpretation::ELiteralNonBinary:
+    case ns_consts::EnmSampleInterpretation::ELiteralButBinary:
+        str_ret = std::wstring(L"literal");
         break;
     case ns_consts::EnmSampleInterpretation::EInterpretationBinary:
         str_ret = std::wstring(L"binary");
@@ -282,7 +282,7 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(IDInfoForReport& i_refInfoReport,
     // 
     // -------------------------------------------------------------------------- //
     ns_consts::EnmSampleInterpretation  enm_interp[2] =
-    { ns_consts::EnmSampleInterpretation::ELateralNonBinary,
+    { ns_consts::EnmSampleInterpretation::ELiteralNonBinary,
         ns_consts::EnmSampleInterpretation::EInterpretationBinary };
     // -------------------------------------------------------------------------- //
     // 
@@ -301,7 +301,7 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(IDInfoForReport& i_refInfoReport,
     // 
     // -------------------------------------------------------------------------- //
     double  min_entropy_bitstring = 1.0;
-    double  min_entropy_lateral = (double)io_refDataOriginal.bits_per_sample;
+    double  min_entropy_literal = (double)io_refDataOriginal.bits_per_sample;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -325,7 +325,7 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(IDInfoForReport& i_refInfoReport,
             case 3:
                 if (0 == j)
                 {
-                    // skip lateral
+                    // skip literal
                     continue;
                 }
                 break;
@@ -395,9 +395,9 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(IDInfoForReport& i_refInfoReport,
                 switch (j)
                 {
                 case 0:
-                    if (*p_min_entropy < min_entropy_lateral)
+                    if (*p_min_entropy < min_entropy_literal)
                     {
-                        min_entropy_lateral = *p_min_entropy;
+                        min_entropy_literal = *p_min_entropy;
                     }
                     break;
                 case 1:
@@ -483,8 +483,8 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(IDInfoForReport& i_refInfoReport,
     // <summary>
     // -------------------------------------------------------------------------- //
     {
-        double  min_entropy_global = min_entropy_lateral;
-        if ((double)io_refDataOriginal.bits_per_sample * min_entropy_bitstring < min_entropy_lateral)
+        double  min_entropy_global = min_entropy_literal;
+        if ((double)io_refDataOriginal.bits_per_sample * min_entropy_bitstring < min_entropy_literal)
         {
             min_entropy_global = (double)io_refDataOriginal.bits_per_sample * min_entropy_bitstring;
         }
@@ -656,7 +656,7 @@ ns_consts::EnmReturnStatus reportXMLBinary(IDInfoForReport& i_refInfoReport,
                 break;
             }
 
-            vec_me.push_back(MinEntropy(*p_min_entropy, enm_estimate_ids_binary[i], ns_consts::EnmSampleInterpretation::ELateralButBinary, io_refDataBinary.bits_per_sample, bIsSolutionFound));
+            vec_me.push_back(MinEntropy(*p_min_entropy, enm_estimate_ids_binary[i], ns_consts::EnmSampleInterpretation::ELiteralButBinary, io_refDataBinary.bits_per_sample, bIsSolutionFound));
             // -------------------------------------------------------------------------- //
             // 
             // -------------------------------------------------------------------------- //
@@ -867,9 +867,7 @@ ns_consts::EnmReturnStatus synthesizeReportPathTex(bs_fs::path& o_report_complet
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="o_report_complete_path">
-/// </params>
-/// <params="i_path_entropy_input">
+/// <params="o_ssLaTeX">
 /// </params>
 /// <returns>
 /// </returns>
@@ -878,7 +876,7 @@ ns_consts::EnmReturnStatus synthesizeReportPathTex(bs_fs::path& o_report_complet
 /// <postcondition>
 /// </postcondition>
 // -------------------------------------------------------------------------- //
-ns_consts::EnmReturnStatus loadPreamble(std::wstringstream& o_ssLaTeX)
+ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
 {
     ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 
@@ -887,7 +885,7 @@ ns_consts::EnmReturnStatus loadPreamble(std::wstringstream& o_ssLaTeX)
     // -------------------------------------------------------------------------- //
     o_ssLaTeX << L"\\documentclass[a3paper,xelatex,english]{bxjsarticle}" << std::endl;
     o_ssLaTeX << L"\\usepackage{pgfplots,pgfplotstable}" << std::endl;
-    o_ssLaTeX << L"\\pgfplotsset{ compat = 1.17 }" << std::endl;
+    o_ssLaTeX << L"\\pgfplotsset{ compat = newest }" << std::endl;
     o_ssLaTeX << L"\\usepackage{tikz}" << std::endl;
     o_ssLaTeX << L"\\usetikzlibrary{arrows.meta,bending,calc,shapes,positioning}" << std::endl;
     o_ssLaTeX << L"\\usepackage{ascmac}" << std::endl;
@@ -917,6 +915,8 @@ ns_consts::EnmReturnStatus loadPreamble(std::wstringstream& o_ssLaTeX)
     o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
     o_ssLaTeX << L"\\setcounter{secnumdepth}{4}" << std::endl;
     o_ssLaTeX << L"\\setcounter{tocdepth}{4}" << std::endl;    
+    o_ssLaTeX << L"\\setlength{\\topmargin}{-1cm}" << std::endl;
+    o_ssLaTeX << L"\\setlength{\\textheight}{37cm}" << std::endl;
     o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
     o_ssLaTeX << L"%%%%%%" << std::endl;
     o_ssLaTeX << L"%%%%%%" << std::endl;
@@ -931,12 +931,13 @@ ns_consts::EnmReturnStatus loadPreamble(std::wstringstream& o_ssLaTeX)
     o_ssLaTeX << L"%%%%%%" << std::endl;
     o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
     o_ssLaTeX << L"\\definecolor{rowcolorlightblue}{RGB}{191,233,251}" << std::endl;
+    o_ssLaTeX << L"\\definecolor{bordercolordarkblue}{RGB}{0,163,243}" << std::endl;
     o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
     o_ssLaTeX << L"%%%%%%" << std::endl;
     o_ssLaTeX << L"%%%%%%" << std::endl;
     o_ssLaTeX << L"%%%%%%" << std::endl;
     o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    o_ssLaTeX << L"\\setlength{ \\topmargin }{-1cm}" << std::endl;
+    o_ssLaTeX << L"\\setlength{ \\topmargin }{-1.5cm}" << std::endl;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -969,9 +970,13 @@ ns_consts::EnmReturnStatus loadPreamble(std::wstringstream& o_ssLaTeX)
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="o_report_complete_path">
+/// <params="o_ssLaTeX">
 /// </params>
-/// <params="i_path_entropy_input">
+/// <params="isBinary">
+/// </params>
+/// <params="min_entropy">
+/// </params>
+/// <params="bits_per_sample">
 /// </params>
 /// <returns>
 /// </returns>
@@ -1030,6 +1035,49 @@ ns_consts::EnmReturnStatus loadPGFPlotSummary(std::wstringstream& o_ssLaTeX, boo
 /// </summary>
 /// <remarks>
 /// </remarks>
+/// <params="o_ssLaTeX">
+/// </params>
+/// <returns>
+/// </returns>
+/// <precondition>
+/// </precondition>
+/// <postcondition>
+/// </postcondition>
+// -------------------------------------------------------------------------- //
+ns_consts::EnmReturnStatus loadLaTeXBibliography(std::wstringstream& o_ssLaTeX)
+{
+    ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
+
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    o_ssLaTeX << L"\\begin{thebibliography}{99}" << std::endl;
+    o_ssLaTeX << L"% 1" << std::endl;
+    o_ssLaTeX << L"\\bibitem{SP80090B}" << std::endl;
+    o_ssLaTeX << L"Meltem S\\\"{o}nmez Turan," << std::endl;
+    o_ssLaTeX << L"Elaine Barker," << std::endl;
+    o_ssLaTeX << L"John Kelsey," << std::endl;
+    o_ssLaTeX << L"Kerry A. McKay," << std::endl;
+    o_ssLaTeX << L"Mary L. Baish," << std::endl;
+    o_ssLaTeX << L"Mike Boyle" << std::endl;
+    o_ssLaTeX << L"\\textit{Recommendation for the Entropy Sources Used for Random Bit Generation}," << std::endl;
+    o_ssLaTeX << L"NIST Special Publication 800-90B, Jan. 2018" << std::endl;
+    o_ssLaTeX << L"% 2" << std::endl;
+    o_ssLaTeX << L"\\bibitem{CorrectionsSP80090B}" << std::endl;
+    o_ssLaTeX << L"G. Sakurai, \\textit{Proposed list of corrections for NIST SP 800-90B 6.3 Estimators}, Dec. 2022" << std::endl;
+    o_ssLaTeX << L"\\url{https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ProposedListOfCorrections_SP800-90B.pdf}" << std::endl;
+    o_ssLaTeX << L"\\end{thebibliography}" << std::endl;
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    return  sts = ns_consts::EnmReturnStatus::Success;
+}
+
+// -------------------------------------------------------------------------- //
+/// <summary>
+/// </summary>
+/// <remarks>
+/// </remarks>
 /// <params="i_refInfoReport">
 /// </params>
 /// <params="io_refDataOriginal">
@@ -1057,9 +1105,14 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // 
     // -------------------------------------------------------------------------- //
     o_refLaTeXSupportingInfo << L"\\subsection{Identification of acquisition data from entropy source}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\begin{itemize}" << std::endl;
-    o_refLaTeXSupportingInfo << L"	\\item Path to the acquisition data :\\qquad \\verb|" << (*i_refInfoReport.info_source.p_path_to_entropy_input) << L"|" << std::endl;
-
+    o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.8}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\begin{table}[h]" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\caption{Identification information of acquisition data from entropy source}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\begin{center}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{rowcolorlightblue}}p{2cm}|p{20.5cm}|}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\hline " << std::endl;
+    o_refLaTeXSupportingInfo << L"Path to the acquisition data & \\verb|" << (*i_refInfoReport.info_source.p_path_to_entropy_input) << L"| \\\\" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
 
     struct tm newtime;
 
@@ -1069,53 +1122,72 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
         return  sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
     }
 
-    o_refLaTeXSupportingInfo << L"	\\item Last write time :\\qquad " << std::put_time(&newtime, L"%Y-%b-%d %H:%M:%S") << std::endl;
-    o_refLaTeXSupportingInfo << L"	\\item Bits per sample :\\qquad " << io_refDataOriginal.bits_per_sample << std::endl;
-    o_refLaTeXSupportingInfo << L"	\\item Number of samples :\\qquad " << io_refDataOriginal.L << std::endl;
-    o_refLaTeXSupportingInfo << L"\\end{itemize} " << std::endl;
+    o_refLaTeXSupportingInfo << L"Last write time & " << std::put_time(&newtime, L"%Y-%b-%d %H:%M:%S") << L" \\\\" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\end{tabular}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\end{center}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\end{table}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.4}" << std::endl;
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"\\begin{itemize}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\t	\\item Brief explanation of the acquisition data (or entropy source) : \\\\" << std::endl;
+    o_refLaTeXSupportingInfo << L"\t	    \\begin{Form}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\t	    \\noindent" << std::endl;
+    o_refLaTeXSupportingInfo << L"\t	    \\TextField[name=multilinetextbox, multiline=true, bordercolor=bordercolordarkblue,width=\\linewidth,height=1in]{}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\t	    \\end{Form}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\t\\end{itemize} " << std::endl;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
     o_refLaTeXSupportingInfo << L"\\subsection{Identification of analysis environment}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\begin{itemize}" << std::endl;
-    o_refLaTeXSupportingInfo << L"	\\item Analysis tool" << std::endl;
-    // -------------------------------------------------------------------------- //
-    // 
-    // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\t\\begin{itemize}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\t	\\item Name :\\qquad " << (*i_refInfoReport.info_analysis_tool.p_analyzer_name) << std::endl;
-    o_refLaTeXSupportingInfo << L"\t	\\item Versioning information :\\qquad " << (*i_refInfoReport.info_analysis_tool.p_analyzer_versioning) << std::endl;
-    o_refLaTeXSupportingInfo << L"\t\\end{itemize} " << std::endl;
-    // -------------------------------------------------------------------------- //
-    // 
-    // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"	\\item Analysis environment" << std::endl;
-    // -------------------------------------------------------------------------- //
-    // 
-    // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\t\\begin{itemize}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\t	\\item Hostname :\\qquad " << (*i_refInfoReport.info_env.p_hostname) << std::endl;
-    o_refLaTeXSupportingInfo << L"\t	\\item CPU information :\\qquad " << (*i_refInfoReport.info_env.p_cpuinfo) << std::endl;
-    o_refLaTeXSupportingInfo << L"\t	\\item Physical memory size :\\qquad " << (*i_refInfoReport.info_env.p_physicalmemory) << std::endl;
-    o_refLaTeXSupportingInfo << L"\t	\\item OS information :\\qquad " << (*i_refInfoReport.info_env.p_osinfo) << std::endl;
-    o_refLaTeXSupportingInfo << L"\t	\\item Username :\\qquad " << (*i_refInfoReport.info_env.p_username) << std::endl;
-    // -------------------------------------------------------------------------- //
-    // 
-    // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\t	\\item Brief explanation of the acquisition data (or entropy source) : \\\\" << std::endl;
-    o_refLaTeXSupportingInfo << L"\t	    \\begin{Form}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\t	    \\noindent" << std::endl;
-    o_refLaTeXSupportingInfo << L"\t	    \\TextField[name=multilinetextbox, multiline=true, width=\\linewidth,height=1in]{}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\t	    \\end{Form}" << std::endl;
-    // -------------------------------------------------------------------------- //
-    // 
-    // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\t\\end{itemize} " << std::endl;
-    // -------------------------------------------------------------------------- //
-    // 
-    // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\end{itemize} " << std::endl;
 
+    o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.8}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\begin{table}[h]" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\caption{Identification information of analysis environment}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\begin{center}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{rowcolorlightblue}}l|>{\\columncolor{rowcolorlightblue}}l|p{12cm}|}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\hline " << std::endl;
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"Analysis tool & Name & " << (*i_refInfoReport.info_analysis_tool.p_analyzer_name) << L" \\\\" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << std::endl;
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"\\, & Versioning information & " << (*i_refInfoReport.info_analysis_tool.p_analyzer_versioning) << L" \\\\" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"Analysis environment & Hostname & " << (*i_refInfoReport.info_env.p_hostname) << L" \\\\" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << std::endl;
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"\\, & CPU information & " << (*i_refInfoReport.info_env.p_cpuinfo) << L" \\\\" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << std::endl;
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"\\, &  Physical memory size & " << (*i_refInfoReport.info_env.p_physicalmemory) << L" \\\\" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << std::endl;
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"\\, &  OS information & "<< (*i_refInfoReport.info_env.p_osinfo) << L" \\\\" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << std::endl;
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"\\, &  Username & "<< (*i_refInfoReport.info_env.p_username) << L" \\\\" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\end{tabular}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\end{center}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\end{table}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.4}" << std::endl;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1123,17 +1195,42 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\t\\begin{itemize}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\t	\\item Byte to bit conversion :\\qquad ";
-    if (io_refDataOriginal.bIsMSbFirstByteBitConversion)
+    o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.8}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\begin{table}[h]" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\caption{Identification information of analysis conditions}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\begin{center}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{rowcolorlightblue}}l|p{8cm}|}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\hline " << std::endl;
+    o_refLaTeXSupportingInfo << L"Number of samples & " << io_refDataOriginal.L << L" \\\\" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
+    o_refLaTeXSupportingInfo << L"Bits per sample & " << io_refDataOriginal.bits_per_sample << L" \\\\" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
+    if (1 < io_refDataOriginal.bits_per_sample)
     {
-        o_refLaTeXSupportingInfo << L"Most Significant bit (MSb) first" << std::endl;
+        o_refLaTeXSupportingInfo << L"Byte to bit conversion & " << std::endl;
+        if (io_refDataOriginal.bIsMSbFirstByteBitConversion)
+        {
+            o_refLaTeXSupportingInfo << L"Most Significant bit (MSb) first" << std::endl;
+        }
+        else
+        {
+            o_refLaTeXSupportingInfo << L"Least Significant bit (LSb) first" << std::endl;
+        }
+        o_refLaTeXSupportingInfo << L" \\\\" << std::endl;
+        o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
     }
-    else
-    {
-        o_refLaTeXSupportingInfo << L"Least Significant bit (LSb) first" << std::endl;
-    }
-    o_refLaTeXSupportingInfo << L"\t\\end{itemize} " << std::endl;
+    o_refLaTeXSupportingInfo << L"\\end{tabular}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\end{center}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\end{table}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.4}" << std::endl;
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"\\subsection{Identification of analysis method}" << std::endl;
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"NIST SP 800-90B \\cite{SP80090B} 6.3 with corrections \\cite{CorrectionsSP80090B} is applied" << std::endl;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1180,7 +1277,7 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     // 
     // -------------------------------------------------------------------------- //
     double  min_entropy_bitstring = 1.0;
-    double  min_entropy_lateral = (double)io_refDataOriginal.bits_per_sample;
+    double  min_entropy_literal = (double)io_refDataOriginal.bits_per_sample;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1207,7 +1304,7 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
             case 3:
                 if (0 == j)
                 {
-                    // skip lateral
+                    // skip literal
                     continue;
                 }
                 break;
@@ -1299,9 +1396,9 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
                 switch (j)
                 {
                 case 0:
-                    if (*p_min_entropy < min_entropy_lateral)
+                    if (*p_min_entropy < min_entropy_literal)
                     {
-                        min_entropy_lateral = *p_min_entropy;
+                        min_entropy_literal = *p_min_entropy;
                     }
                     break;
                 case 1:
@@ -1388,8 +1485,8 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     // 
     // -------------------------------------------------------------------------- //
     {
-        double  min_entropy_global = min_entropy_lateral;
-        if ((double)io_refDataOriginal.bits_per_sample * min_entropy_bitstring < min_entropy_lateral)
+        double  min_entropy_global = min_entropy_literal;
+        if ((double)io_refDataOriginal.bits_per_sample * min_entropy_bitstring < min_entropy_literal)
         {
             min_entropy_global = (double)io_refDataOriginal.bits_per_sample * min_entropy_bitstring;
         }
@@ -1400,7 +1497,7 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     // -------------------------------------------------------------------------- //
     ssLaTeXSummary << L"$H_{I} = \\min (H_{\\textrm{original}}, " << io_refDataOriginal.bits_per_sample << L"\\times H_{\\textrm{bitstring}})$ &\\multicolumn{2}{ | c | } {\\, }	\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline \\hline " << std::endl;
-    ssLaTeXSummary << L"\\multicolumn{3}{|l|}{$^{\\,a}$\\quad Entropy estimate of the sequential dataset [source: NIST SP 800-90B 3.1.3]} \\\\" << std::endl;
+    ssLaTeXSummary << L"\\multicolumn{3}{|l|}{$^{\\,a}$\\quad Entropy estimate of the sequential dataset [source: NIST SP 800-90B \\cite{SP80090B} 3.1.3]} \\\\" << std::endl;
     ssLaTeXSummary << L"\\multicolumn{3}{|l|}{$^{\\,b}$\\quad An additional entropy estimation (per bit) for the non-binary sequential dataset [see NIST SP 800-90B 3.1.3]} \\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
     ssLaTeXSummary << L"\\end{tabular}" << std::endl;
@@ -1410,8 +1507,8 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     // 
     // -------------------------------------------------------------------------- //
     ssLaTeXSummary << L"\\clearpage" << std::endl;
-    ssLaTeXSummary << L"\\subsection{Visual comparison of min-entropy estimates from original (lateral) samples}" << std::endl;
-    loadPGFPlotSummary(ssLaTeXSummary, false, min_entropy_lateral, io_refDataOriginal.bits_per_sample);
+    ssLaTeXSummary << L"\\subsection{Visual comparison of min-entropy estimates from original samples}" << std::endl;
+    loadPGFPlotSummary(ssLaTeXSummary, false, min_entropy_literal, io_refDataOriginal.bits_per_sample);
     ssLaTeXSummary << L"\\clearpage" << std::endl;
     ssLaTeXSummary << L"\\subsection{Visual comparison of min-entropy estimates by interpreting each sample as bitstring}" << std::endl;
     loadPGFPlotSummary(ssLaTeXSummary, true, min_entropy_bitstring, io_refDataBinary.bits_per_sample);
@@ -1424,7 +1521,7 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     // 
     // -------------------------------------------------------------------------- //
     std::wstringstream ssLaTeX = std::wstringstream();
-    loadPreamble(ssLaTeX);
+    loadLaTeXPreamble(ssLaTeX);
     ssLaTeX << L"\\begin{document}" << std::endl;
     ssLaTeX << L"\\maketitle" << std::endl;
     // -------------------------------------------------------------------------- //
@@ -1441,7 +1538,7 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     // 
     // -------------------------------------------------------------------------- //
     ssLaTeX << L"\\clearpage" << std::endl;
-    ssLaTeX << L"\\section{Detailed results of analysis from original (lateral) samples}" << std::endl;
+    ssLaTeX << L"\\section{Detailed results of analysis from original samples}" << std::endl;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1454,6 +1551,12 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     // 
     // -------------------------------------------------------------------------- //
     ssLaTeX << io_refDataBinary.p_ssLaTeXFragment->rdbuf();
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    std::wstringstream ssLaTeXBiblio = std::wstringstream();
+    loadLaTeXBibliography(ssLaTeXBiblio);
+    ssLaTeX << ssLaTeXBiblio.rdbuf();
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1660,9 +1763,9 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeXSummary << L"$H_{I} = H_{\\textrm{bitstring}})$ \\, 	\\\\" << std::endl;
+    ssLaTeXSummary << L"$H_{I} = H_{\\textrm{bitstring}}$ & \\, 	\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline \\hline " << std::endl;
-    ssLaTeXSummary << L"\\multicolumn{2}{|l|}{$^{\\,a}$\\quad Entropy estimate of the sequential dataset [source: NIST SP 800-90B 3.1.3]} \\\\" << std::endl;
+    ssLaTeXSummary << L"\\multicolumn{2}{|l|}{$^{\\,a}$\\quad Entropy estimate of the sequential dataset [source: NIST SP 800-90B \\cite{SP80090B} 3.1.3]} \\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
     ssLaTeXSummary << L"\\end{tabular}" << std::endl;
     ssLaTeXSummary << L"\\end{center}" << std::endl;
@@ -1676,10 +1779,19 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
+    std::wstringstream ssLaTeXSupportingInfo = std::wstringstream();
+    reportLaTeXSupportingInfo(ssLaTeXSupportingInfo, i_refInfoReport, io_refDataBinary);
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
     std::wstringstream ssLaTeX = std::wstringstream();
-    loadPreamble(ssLaTeX);
+    loadLaTeXPreamble(ssLaTeX);
     ssLaTeX << L"\\begin{document}" << std::endl;
     ssLaTeX << L"\\maketitle" << std::endl;
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    ssLaTeX << ssLaTeXSupportingInfo.rdbuf();
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1690,11 +1802,17 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     // 
     // -------------------------------------------------------------------------- //
     ssLaTeX << L"\\clearpage" << std::endl;
-    ssLaTeX << L"\\section{Detailed results of analysis from original (lateral) samples}" << std::endl;
+    ssLaTeX << L"\\section{Detailed results of analysis from original samples}" << std::endl;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
     ssLaTeX << io_refDataBinary.p_ssLaTeXFragment->rdbuf();
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    std::wstringstream ssLaTeXBiblio = std::wstringstream();
+    loadLaTeXBibliography(ssLaTeXBiblio);
+    ssLaTeX << ssLaTeXBiblio.rdbuf();
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
