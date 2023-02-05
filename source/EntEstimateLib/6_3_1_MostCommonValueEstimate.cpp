@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "pch.h"
@@ -32,7 +32,7 @@ namespace entropy_estimator_lib
 			/// </remarks>
 			/// <params="io_refData">
 			/// </params>
-			/// <params="i_ref_bz_Q">
+			/// <params="i_ref_whg">
 			/// </params>
 			/// <returns>
 			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::ErrorNullPointer</c>:  when the following condition is met:
@@ -61,7 +61,6 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\clearpage" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\subsection{The Most Common Value Estimate (NIST SP 800-90B Section 6.3.1)}" << std::endl;
 				// -------------------------------------------------------------------------- //
 				//
@@ -104,10 +103,11 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\addplot+[teal,no marks,sharp plot,update limits=false] " << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\addplot+[Nigelle,no marks,sharp plot,update limits=false] " << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"coordinates {(0," << io_refData.t_6_3_1.p_hat << L") (" << xmax << L"," << io_refData.t_6_3_1.p_hat << L")}" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"node[above] at (axis cs:" << 0.5 * xmax << L"," << io_refData.t_6_3_1.p_hat << L") {\\shortstack{$\\hat{p}$ = " << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << io_refData.t_6_3_1.p_hat << L"\\\\($\\rightarrow$ min-entropy = " << io_refData.t_6_3_1.t_common.min_entropy << L"[bit])}};" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << io_refData.t_6_3_1.p_hat << L"\\\\($\\rightarrow$ min-entropy = " << io_refData.t_6_3_1.t_common.min_entropy;
+				(*io_refData.p_ssLaTeXFragment) << L" [bit / " << io_refData.bits_per_sample << L"-bit])}};" << std::endl;
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
@@ -152,7 +152,6 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\clearpage" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\subsubsection{Supplemental information for traceability}" << std::endl;
 				// -------------------------------------------------------------------------- //
 				//

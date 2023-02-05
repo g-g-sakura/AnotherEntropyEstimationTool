@@ -2,7 +2,7 @@
 //
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #if defined(_MSC_VER)
@@ -14,6 +14,7 @@
 
 #include "EntropyEstimateData.h"
 #include "constants.h"
+
 namespace entropy_estimator_lib
 {
 	namespace estimators

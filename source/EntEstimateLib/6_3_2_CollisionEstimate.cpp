@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "pch.h"
@@ -34,7 +34,7 @@ namespace entropy_estimator_lib
 			/// </remarks>
 			/// <params="io_refData">
 			/// </params>
-			/// <params="i_ref_bz_Q">
+			/// <params="i_ref_bz_t_nu">
 			/// </params>
 			/// <returns>
 			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::ErrorNullPointer</c>:  when the following condition is met:
@@ -95,19 +95,103 @@ namespace entropy_estimator_lib
 						mit->second = (count + 1);
 					}
 				}
+				int max_t_nu = 1;
 				for (std::map<int, int>::const_iterator cit = mp_t_nu_counts.cbegin(); cit != mp_t_nu_counts.cend(); cit++)
 				{
+					if (max_t_nu < (cit->second))
+					{
+						max_t_nu = (cit->second);
+					}
 					(*io_refData.p_ssLaTeXFragment) << L"(";
 					(*io_refData.p_ssLaTeXFragment) << std::setw(8) << (cit->first);
 					(*io_refData.p_ssLaTeXFragment) << L", " << std::setw(8) << (cit->second);
 					(*io_refData.p_ssLaTeXFragment) << L")" << std::endl;
 				}
+				(*io_refData.p_ssLaTeXFragment) << L"};" << std::endl;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"};" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\addplot+[Nigelle,no marks,sharp plot,update limits=false] " << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"coordinates {(" << io_refData.t_6_3_2.x_bar_prime << L"," << max_t_nu << L") (" << io_refData.t_6_3_2.x_bar_prime << L",1)}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"node[above right] at (axis cs:" << io_refData.t_6_3_2.x_bar_prime << L"," << max_t_nu;
+				(*io_refData.p_ssLaTeXFragment) << L") {$\\bar{X}'$ = " << io_refData.t_6_3_2.x_bar_prime << L"};" << std::endl;
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\end{axis}" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\end{tikzpicture}" << std::endl;
+				// -------------------------------------------------------------------------- //
+				//
+				// plot solution to the equation in step 7
+				//
+				// -------------------------------------------------------------------------- //
+				(*io_refData.p_ssLaTeXFragment) << L"\\begin{figure}[htbp]" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\centering" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << std::endl;
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
+				(*io_refData.p_ssLaTeXFragment) << L"\\begin{tikzpicture}[scale=12]" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\draw[very thin,color=gray,dotted] (0,2) grid[step=0.25] (1,3);" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\draw[->] (0, 2) -- (1.1,2) node[right] {$p$};" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\draw[->] (0, 1.95) -- (0,3.05) node[above] {\\shortstack{RHS of equation in step 7 \\\\$\\equiv g(p)$}};" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\draw[domain=0.5:1, smooth, variable=\\x, color=blue] plot (\\x,{2*(\\x*(1-\\x)+1)}) node[above right] {$g(p) = 2 \\left[ p (1 - p) + 1 \\right] $};" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\draw[gray,loosely dotted] (  0.5,2.5) -- ( 0.0,2.5);" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\draw[gray,loosely dotted] (  0.5,2.5) -- ( 0.5,2);" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"%\\draw (-0.2,  0) node {0} ;" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"%\\draw ( 0  , -0.2) node {0} ;" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\draw (-0.1,  3) node {3} ;" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\draw (-0.1,  2) node {2} ;" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"%\\draw (-0.2,  1) node {1} ;" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\draw (-0.1,  2.5) node {$\\frac{5}{2}$} ;" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"%\\draw ( 0.5, -0.2) node {$\\frac{1}{2}$} ;" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\draw ( 0  ,  1.9) node {0} ;" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\draw ( 0.5,  1.9) node {$\\frac{1}{2}$} ;" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"%\\draw ( 1.0, -0.2) node {1} ;" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\draw ( 1.0,  1.9) node {1} ;" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"%" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"%" << std::endl;
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
+				if (io_refData.t_6_3_2.bIsRootFound)
+				{
+					(*io_refData.p_ssLaTeXFragment) << L"\\draw[Nigelle,dashed] ( 0, " << io_refData.t_6_3_2.x_bar_prime << L") ";
+					(*io_refData.p_ssLaTeXFragment) << L"--(" << io_refData.t_6_3_2.p << L", " << io_refData.t_6_3_2.x_bar_prime << L"); " << std::endl;
+					(*io_refData.p_ssLaTeXFragment) << L"\\draw[Nigelle,dashed] ( " << io_refData.t_6_3_2.p << L", 2) ";
+					(*io_refData.p_ssLaTeXFragment) << L"--(" << io_refData.t_6_3_2.p << L", " << io_refData.t_6_3_2.x_bar_prime << L"); " << std::endl;
+					(*io_refData.p_ssLaTeXFragment) << L"\\draw (" << io_refData.t_6_3_2.p << L", 2) node[below]{ "; 
+					(*io_refData.p_ssLaTeXFragment) << L"\\textcolor{Nigelle}{ ";
+					(*io_refData.p_ssLaTeXFragment) << L"\\shortstack{ ";	// start of shortstack
+					(*io_refData.p_ssLaTeXFragment) << io_refData.t_6_3_2.p;
+					(*io_refData.p_ssLaTeXFragment) << L" \\\\ " << std::endl;	// newline for shorstack
+					(*io_refData.p_ssLaTeXFragment) << L"($\\rightarrow$ min-entropy = " << io_refData.t_6_3_2.t_common.min_entropy;
+					(*io_refData.p_ssLaTeXFragment) << L" [bit / " << io_refData.bits_per_sample << L"-bit]) " << std::endl;
+					(*io_refData.p_ssLaTeXFragment) << L"} "; // end of shortstack
+					(*io_refData.p_ssLaTeXFragment) << L"} }; " << std::endl;
+				}
+				else
+				{
+					(*io_refData.p_ssLaTeXFragment) << L"\\draw[Nigelle,dashed] ( 0, " << io_refData.t_6_3_2.x_bar_prime << L") ";
+					(*io_refData.p_ssLaTeXFragment) << L"--( 1, " << io_refData.t_6_3_2.x_bar_prime << L"); " << std::endl;
+				}
+				(*io_refData.p_ssLaTeXFragment) << L"\\draw (0.125, " << io_refData.t_6_3_2.x_bar_prime << L") ";
+				(*io_refData.p_ssLaTeXFragment) << L"node[below]{ ";
+				(*io_refData.p_ssLaTeXFragment) << L"\\textcolor{Nigelle}{ ";	// start of textcolor
+				(*io_refData.p_ssLaTeXFragment) << L"$\\bar{X}' = " << io_refData.t_6_3_2.x_bar_prime << L"$";
+				(*io_refData.p_ssLaTeXFragment) << L"}  " << std::endl;	// end of textcolor
+				(*io_refData.p_ssLaTeXFragment) << L"}; " << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"%" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"%" << std::endl;
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
+				(*io_refData.p_ssLaTeXFragment) << L"\\end{tikzpicture}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\caption{Solution to the equation in step 7}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\end{figure}" << std::endl;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
@@ -172,6 +256,8 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"$\\bar{X}$ 		& " << std::setw(8) << io_refData.t_6_3_2.x_bar;
 				(*io_refData.p_ssLaTeXFragment) << L"\\\\ \\hline" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"$\\bar{X}'$		& " << std::setw(8) << io_refData.t_6_3_2.x_bar_prime;
+				(*io_refData.p_ssLaTeXFragment) << L"\\\\ \\hline" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"$\\hat{\\sigma}$		& " << std::setw(8) << io_refData.t_6_3_2.sigma_hat;
 				(*io_refData.p_ssLaTeXFragment) << L"\\\\ \\hline" << std::endl;
 				// -------------------------------------------------------------------------- //
 				//

@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "pch.h"
@@ -33,9 +33,9 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="o_ref_bz_Q">
-			/// </params>
 			/// <params="io_refData">
+			/// </params>
+			/// <params="extentSecondDim">
 			/// </params>
 			/// <returns>
 			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::ErrorNullPointer</c>:  when the following condition is met:
@@ -89,12 +89,10 @@ namespace entropy_estimator_lib
 
 			// -------------------------------------------------------------------------- //
 			/// <summary>
-			///  Output LaTeX header for
+			///  Output LaTeX header for Pmax
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="o_ref_bz_Q">
-			/// </params>
 			/// <params="io_refData">
 			/// </params>
 			/// <returns>
@@ -139,13 +137,13 @@ namespace entropy_estimator_lib
 
 			// -------------------------------------------------------------------------- //
 			/// <summary>
-			///  Output LaTeX Footer for
+			///  Output LaTeX Footer for P_max
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="o_ref_bz_Q">
-			/// </params>
 			/// <params="io_refData">
+			/// </params>
+			/// <params="i_refCaption">
 			/// </params>
 			/// <returns>
 			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::ErrorNullPointer</c>:  when the following condition is met:
@@ -185,13 +183,15 @@ namespace entropy_estimator_lib
 
 			// -------------------------------------------------------------------------- //
 			/// <summary>
-			///  Output LaTeX Footer for
+			///  Output LaTeX Footer for \hat{P}
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="o_ref_bz_Q">
-			/// </params>
 			/// <params="io_refData">
+			/// </params>
+			/// <params="i_refCaption">
+			/// </params>
+			/// <params="argMax">
 			/// </params>
 			/// <returns>
 			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::ErrorNullPointer</c>:  when the following condition is met:
@@ -223,12 +223,12 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\addplot+[teal,no marks,sharp plot,update limits=false] " << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\addplot+[Nigelle,no marks,sharp plot,update limits=false] " << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"coordinates {(" << io_refData.t_6_3_6.u << L"," << io_refData.t_6_3_6.p_hat << L") (" << io_refData.t_6_3_6.nu << L"," << io_refData.t_6_3_6.p_hat << L")}" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"node[above] at (axis cs:" << argMax << L"," << io_refData.t_6_3_6.p_hat << L") {\\shortstack{$\\hat{p}$ = ";
 				(*io_refData.p_ssLaTeXFragment) << io_refData.t_6_3_6.p_hat;
-				(*io_refData.p_ssLaTeXFragment) << L" \\\\($\\rightarrow$ min-entropy = " <<io_refData.t_6_3_6.t_common.min_entropy << L")";
-				(*io_refData.p_ssLaTeXFragment) << L"}};" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L" \\\\($\\rightarrow$ min-entropy = " <<io_refData.t_6_3_6.t_common.min_entropy;
+				(*io_refData.p_ssLaTeXFragment) << L" [bit / " << io_refData.bits_per_sample << L"-bit])}};" << std::endl;
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //

@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "pch.h"
@@ -26,6 +26,26 @@ namespace entropy_estimator_lib
 				const blitz::Array<double, 2>& i_refPTransition,
 				const blitz::Array<double, 1>& i_refInitialP, int i_lengthOfSeq);
 
+			// -------------------------------------------------------------------------- //
+			/// <summary>
+			///  Output Figure in LaTeX
+			/// </summary>
+			/// <remarks>
+			/// </remarks>
+			/// <params="io_refData">
+			/// </params>
+			/// <returns>
+			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::ErrorNullPointer</c>:  when the following condition is met:
+			///    <ul>
+			///     <li><c>io_refData.p_ssLaTeXFragment</c> == nullptr</li>
+			///    </ul>
+			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::Success</c>:  otherwise.
+			/// </returns>
+			/// <precondition>
+			/// </precondition>
+			/// <postcondition>
+			/// </postcondition>
+			// -------------------------------------------------------------------------- //
 			ns_consts::EnmReturnStatus outputLaTeXFigure(ns_dt::t_data_for_estimator& io_refData)
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
@@ -73,6 +93,26 @@ namespace entropy_estimator_lib
 			}
 
 
+			// -------------------------------------------------------------------------- //
+			/// <summary>
+			///  Output Figures in LaTeX
+			/// </summary>
+			/// <remarks>
+			/// </remarks>
+			/// <params="io_refData">
+			/// </params>
+			/// <returns>
+			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::ErrorNullPointer</c>:  when the following condition is met:
+			///    <ul>
+			///     <li><c>io_refData.p_ssLaTeXFragment</c> == nullptr</li>
+			///    </ul>
+			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::Success</c>:  otherwise.
+			/// </returns>
+			/// <precondition>
+			/// </precondition>
+			/// <postcondition>
+			/// </postcondition>
+			// -------------------------------------------------------------------------- //
 			ns_consts::EnmReturnStatus outputLaTeXFigures(ns_dt::t_data_for_estimator& io_refData)
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;

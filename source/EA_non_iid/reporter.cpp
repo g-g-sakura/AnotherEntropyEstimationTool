@@ -932,6 +932,61 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
     o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
     o_ssLaTeX << L"\\definecolor{rowcolorlightblue}{RGB}{191,233,251}" << std::endl;
     o_ssLaTeX << L"\\definecolor{bordercolordarkblue}{RGB}{0,163,243}" << std::endl;
+    o_ssLaTeX << L"\\definecolor{BleuDur}{RGB}{27,61,176}" << std::endl;
+    o_ssLaTeX << L"\\definecolor{Nigelle}{RGB}{0,133,201}" << std::endl;
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+    o_ssLaTeX << L"%%%%%%" << std::endl;
+    o_ssLaTeX << L"%%%%%%" << std::endl;
+    o_ssLaTeX << L"%%%%%%" << std::endl;
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+    o_ssLaTeX << L"\\def\\chpcolor{BleuDur}" << std::endl;
+    o_ssLaTeX << L"\\def\\chpcolortxt{BleuDur}" << std::endl;
+    o_ssLaTeX << L"\\def\\sectionfont{\\sffamily\\LARGE}" << std::endl;
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+    o_ssLaTeX << L"%%%%%%" << std::endl;
+    o_ssLaTeX << L"%%%%%%" << std::endl;
+    o_ssLaTeX << L"%%%%%%" << std::endl;
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+    o_ssLaTeX << L"\\makeatletter" << std::endl;
+    o_ssLaTeX << L"%Section:" << std::endl;
+    o_ssLaTeX << L"\\def\\@sectionstrut{\\vrule\\@width\\z@\\@height12.5\\p@}" << std::endl;
+    o_ssLaTeX << L"\\def\\@makesectionhead#1{%" << std::endl;
+    o_ssLaTeX << L"  {\\par\\vspace{20pt}%" << std::endl;
+    o_ssLaTeX << L"   \\parindent 0pt\\raggedleft\\sectionfont" << std::endl;
+    o_ssLaTeX << L"   \\colorbox{\\chpcolor}{%" << std::endl;
+    o_ssLaTeX << L"     \\parbox[t]{90pt}{\\color{white}\\@sectionstrut\\@depth4.5\\p@\\hfill" << std::endl;
+    o_ssLaTeX << L"       \\ifnum\\c@secnumdepth>\\z@\\thesection\\fi}%" << std::endl;
+    o_ssLaTeX << L"   }%" << std::endl;
+    o_ssLaTeX << L"   \\begin{minipage}[t]{\\dimexpr\\textwidth-90pt-2\\fboxsep\\relax}" << std::endl;
+    o_ssLaTeX << L"   \\color{\\chpcolortxt}\\@sectionstrut\\hspace{5pt}#1" << std::endl;
+    o_ssLaTeX << L"   \\end{minipage}\\par" << std::endl;
+    o_ssLaTeX << L"   \\vspace{10pt}%" << std::endl;
+    o_ssLaTeX << L"  }" << std::endl;
+    o_ssLaTeX << L"}" << std::endl;
+    o_ssLaTeX << L"\\def\\section{\\@afterindentfalse\\secdef\\@section\\@ssection}" << std::endl;
+    o_ssLaTeX << L"\\def\\@section[#1]#2{%" << std::endl;
+    o_ssLaTeX << L"  \\ifnum\\c@secnumdepth>\\m@ne" << std::endl;
+    o_ssLaTeX << L"    \\refstepcounter{section}%" << std::endl;
+    o_ssLaTeX << L"    \\addcontentsline{toc}{section}{\\protect\\numberline{\\thesection}#1}%" << std::endl;
+    o_ssLaTeX << L"  \\else" << std::endl;
+    o_ssLaTeX << L"    \\phantomsection" << std::endl;
+    o_ssLaTeX << L"    \\addcontentsline{toc}{section}{#1}%" << std::endl;
+    o_ssLaTeX << L"  \\fi" << std::endl;
+    o_ssLaTeX << L"  \\sectionmark{#1}%" << std::endl;
+    o_ssLaTeX << L"  \\if@twocolumn" << std::endl;
+    o_ssLaTeX << L"    \\@topnewpage[\\@makesectionhead{#2}]%" << std::endl;
+    o_ssLaTeX << L"  \\else" << std::endl;
+    o_ssLaTeX << L"    \\@makesectionhead{#2}\\@afterheading" << std::endl;
+    o_ssLaTeX << L"  \\fi" << std::endl;
+    o_ssLaTeX << L"}" << std::endl;
+    o_ssLaTeX << L"\\def\\@ssection#1{%" << std::endl;
+    o_ssLaTeX << L"  \\if@twocolumn" << std::endl;
+    o_ssLaTeX << L"    \\@topnewpage[\\@makesectionhead{#1}]%" << std::endl;
+    o_ssLaTeX << L"  \\else" << std::endl;
+    o_ssLaTeX << L"    \\@makesectionhead{#1}\\@afterheading" << std::endl;
+    o_ssLaTeX << L"  \\fi" << std::endl;
+    o_ssLaTeX << L"}" << std::endl;
+    o_ssLaTeX << L"\\makeatother" << std::endl;
     o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
     o_ssLaTeX << L"%%%%%%" << std::endl;
     o_ssLaTeX << L"%%%%%%" << std::endl;
@@ -989,6 +1044,10 @@ ns_consts::EnmReturnStatus loadPGFPlotSummary(std::wstringstream& o_ssLaTeX, boo
 {
     ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 
+    if (bits_per_sample <= 0)
+    {
+        return sts;
+    }
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -996,7 +1055,7 @@ ns_consts::EnmReturnStatus loadPGFPlotSummary(std::wstringstream& o_ssLaTeX, boo
     o_ssLaTeX << L"\\begin{tikzpicture} " << std::endl;
     o_ssLaTeX << L"\\begin{axis}" << std::endl;
     o_ssLaTeX << L"\t[symbolic x coords={6.3.1,6.3.2,6.3.3,6.3.4,6.3.5,6.3.6,6.3.7,6.3.8,6.3.9,6.3.10}," << std::endl;
-    o_ssLaTeX << L"\twidth=20cm," << std::endl;
+    o_ssLaTeX << L"\twidth=18cm," << std::endl;
     o_ssLaTeX << L"\tymin=0," << std::endl;
     o_ssLaTeX << L"\tymax=" << bits_per_sample << "," << std::endl;
     o_ssLaTeX << L"	xlabel=Sub-sub-section of NIST SP 800-90B," << std::endl;
@@ -1013,9 +1072,25 @@ ns_consts::EnmReturnStatus loadPGFPlotSummary(std::wstringstream& o_ssLaTeX, boo
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_ssLaTeX << L"\\addplot+[teal,no marks,sharp plot,update limits=false] " << std::endl;
+    o_ssLaTeX << L"\\addplot+[Nigelle,no marks,sharp plot,update limits=false] " << std::endl;
     o_ssLaTeX << L"coordinates {(6.3.1," << min_entropy << L") (6.3.10," << min_entropy << L")}" << std::endl;
-    o_ssLaTeX << L"node[below] at (axis cs:6.3.5," << min_entropy << L") {Estimated min-entropy = " << std::endl;
+    o_ssLaTeX << L"node[";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    double relativeRange = min_entropy / ((double)bits_per_sample);
+    if (relativeRange < 0.25)
+    {
+        o_ssLaTeX << L"above";
+    }
+    else
+    {
+        o_ssLaTeX << L"below";
+    }
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    o_ssLaTeX << L"] at (axis cs:6.3.5," << min_entropy << L") {Estimated min-entropy = " << std::endl;
     o_ssLaTeX << min_entropy << L"};" << std::endl;
     // -------------------------------------------------------------------------- //
     // 
@@ -1457,8 +1532,10 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     ssLaTeXSummary << L"\\begin{center}" << std::endl;
     ssLaTeXSummary << L"\\begin{tabular}{|l|c|c|}" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
+    ssLaTeXSummary << L"\\rowcolor{rowcolorlightblue} %%" << std::endl;
     ssLaTeXSummary << L"Estimator										& $H_{\\textrm{original}}$$^{\\textrm{\\,a}}$			& $H_{\\textrm{bitstring}}$$^{\\textrm{\\,b}}$				\\\\ " << std::endl;
     ssLaTeXSummary << L"\\cline{2-3}" << std::endl;
+    ssLaTeXSummary << L"\\rowcolor{rowcolorlightblue} %%" << std::endl;
     ssLaTeXSummary << L"\\,												& [bit / "<< io_refDataOriginal.bits_per_sample << L" - bit] & [bit / 1 - bit]		\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
     ssLaTeXSummary << L"The Most Common Value Estimate					& " << io_refDataOriginal.t_6_3_1.t_common.min_entropy << L"& " << io_refDataBinary.t_6_3_1.t_common.min_entropy << L"\\\\" << std::endl;
@@ -1498,7 +1575,7 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     ssLaTeXSummary << L"$H_{I} = \\min (H_{\\textrm{original}}, " << io_refDataOriginal.bits_per_sample << L"\\times H_{\\textrm{bitstring}})$ &\\multicolumn{2}{ | c | } {\\, }	\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline \\hline " << std::endl;
     ssLaTeXSummary << L"\\multicolumn{3}{|l|}{$^{\\,a}$\\quad Entropy estimate of the sequential dataset [source: NIST SP 800-90B \\cite{SP80090B} 3.1.3]} \\\\" << std::endl;
-    ssLaTeXSummary << L"\\multicolumn{3}{|l|}{$^{\\,b}$\\quad An additional entropy estimation (per bit) for the non-binary sequential dataset [see NIST SP 800-90B 3.1.3]} \\\\" << std::endl;
+    ssLaTeXSummary << L"\\multicolumn{3}{|l|}{$^{\\,b}$\\quad An additional entropy estimation (per bit) for the non-binary sequential dataset [see NIST SP 800-90B \\cite{SP80090B} 3.1.3]} \\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
     ssLaTeXSummary << L"\\end{tabular}" << std::endl;
     ssLaTeXSummary << L"\\end{center}" << std::endl;
@@ -1509,7 +1586,7 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     ssLaTeXSummary << L"\\clearpage" << std::endl;
     ssLaTeXSummary << L"\\subsection{Visual comparison of min-entropy estimates from original samples}" << std::endl;
     loadPGFPlotSummary(ssLaTeXSummary, false, min_entropy_literal, io_refDataOriginal.bits_per_sample);
-    ssLaTeXSummary << L"\\clearpage" << std::endl;
+    //ssLaTeXSummary << L"\\clearpage" << std::endl;
     ssLaTeXSummary << L"\\subsection{Visual comparison of min-entropy estimates by interpreting each sample as bitstring}" << std::endl;
     loadPGFPlotSummary(ssLaTeXSummary, true, min_entropy_bitstring, io_refDataBinary.bits_per_sample);
     // -------------------------------------------------------------------------- //
@@ -1531,6 +1608,7 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
+    ssLaTeX << L"\\clearpage" << std::endl;
     ssLaTeX << L"\\section{Executive summary}" << std::endl;
     ssLaTeX << L"\\subsection{Numerical results of min-entropy estimates based on non-IID track}" << std::endl;
     ssLaTeX << ssLaTeXSummary.rdbuf();
@@ -1546,6 +1624,7 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
+    ssLaTeX << L"\\clearpage" << std::endl;
     ssLaTeX << L"\\section{Detailed results of analysis by interpreting each sample as bitstrings}" << std::endl;
     // -------------------------------------------------------------------------- //
     // 
@@ -1732,9 +1811,11 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     ssLaTeXSummary << L"\\begin{center}" << std::endl;
     ssLaTeXSummary << L"\\begin{tabular}{|l|c|}" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
+    ssLaTeXSummary << L"\\rowcolor{rowcolorlightblue} %%" << std::endl;
     ssLaTeXSummary << L"Estimator										& $H_{\\textrm{bitstring}}$$^{\\textrm{\\,a}}$				\\\\ " << std::endl;
-    ssLaTeXSummary << L"\\cline{1-2}" << std::endl;
-    ssLaTeXSummary << L"\\,												& (/ 1 - bit)		\\\\" << std::endl;
+    ssLaTeXSummary << L"\\cline{2-2}" << std::endl;
+    ssLaTeXSummary << L"\\rowcolor{rowcolorlightblue} %%" << std::endl;
+    ssLaTeXSummary << L"\\,												& [bit / 1 - bit]		\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
     ssLaTeXSummary << L"The Most Common Value Estimate					& " << io_refDataBinary.t_6_3_1.t_common.min_entropy << L"\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
@@ -1759,7 +1840,7 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeXSummary << L"The intial entropy source estimate (/ " << io_refDataBinary.bits_per_sample << L"-bit)	& " << min_entropy_bitstring << L"	\\\\" << std::endl;
+    ssLaTeXSummary << L"The intial entropy source estimate [bit / " << io_refDataBinary.bits_per_sample << L" -bit]	& " << min_entropy_bitstring << L"	\\\\" << std::endl;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1773,7 +1854,6 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeXSummary << L"\\clearpage" << std::endl;
     ssLaTeXSummary << L"\\subsection{Visual comparison of min-entropy estimates from binary samples}" << std::endl;
     loadPGFPlotSummary(ssLaTeXSummary, true, min_entropy_bitstring, 1.0);
     // -------------------------------------------------------------------------- //
@@ -1795,6 +1875,7 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
+    ssLaTeX << L"\\clearpage" << std::endl;
     ssLaTeX << L"\\section{Executive summary}" << std::endl;
     ssLaTeX << L"\\subsection{Numerical results of min-entropy estimates based on non-IID track}" << std::endl;
     ssLaTeX << ssLaTeXSummary.rdbuf();

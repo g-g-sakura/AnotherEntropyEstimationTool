@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "pch.h"
@@ -125,11 +125,12 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\addplot+[teal,no marks,sharp plot,update limits=false] " << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\addplot+[Nigelle,no marks,sharp plot,update limits=false] " << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"coordinates {(" << 1 << L"," << io_refData.t_6_3_5.p_hat_max << L") (" << io_refData.t_6_3_5.t << L"," << io_refData.t_6_3_5.p_hat_max << L")}" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"node[above left] at (axis cs:" << io_refData.t_6_3_5.t << L"," << io_refData.t_6_3_5.p_hat_max;
 				(*io_refData.p_ssLaTeXFragment) << L") {\\shortstack{$\\hat{p}_{\\textrm{max}}$ = " << io_refData.t_6_3_5.p_hat_max;
-				(*io_refData.p_ssLaTeXFragment) << L"\\\\($\\rightarrow$ min-entropy = " << io_refData.t_6_3_5.t_common.min_entropy << L")}};" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\\\($\\rightarrow$ min-entropy = " << io_refData.t_6_3_5.t_common.min_entropy;
+				(*io_refData.p_ssLaTeXFragment) << L" [bit / " << io_refData.bits_per_sample << L"-bit])}};" << std::endl;
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
