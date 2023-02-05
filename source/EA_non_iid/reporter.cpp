@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include <string>
