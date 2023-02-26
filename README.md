@@ -9,12 +9,14 @@ The proposed list of corrections to NIST SP 800-90B is drafted so that an entrop
 
 # Usage
 ```
-.\ea_non_iid.exe -f <file name> [-w] [-x]
+.\ea_non_iid.exe -f <file name> [-w] [-x] [--MSb|--LSb]
 ```
 
 - ```-f``` specifies the file name of the acquisition data from an entropy source.  The file path must be relative path to a binary file with at least 1 million samples.
 - ```-w``` specifies the number of bits per sample.  This shall be between 1-8, inclusive.  By default, this value is 8.
 - ```-x``` requests to generate a XeLaTeX source file of entropy estimation report, in the same folder as the specified acquisition data (see ```-f```).
+- ```--MSb``` specifies the conversion from sample to bitstring in Most Significant bit first (**default**). 
+- ```--LSb``` specifies the conversion from sample to bitstring in Least Significant bit first.
 
 # System equirements for runtime environment
 - OS : Windows 10 or newer with 64-bit
