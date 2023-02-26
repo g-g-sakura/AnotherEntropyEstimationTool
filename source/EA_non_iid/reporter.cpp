@@ -904,10 +904,22 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
     o_ssLaTeX << L"\\usepackage[explicit]{titlesec}" << std::endl;
     o_ssLaTeX << L"\\usepackage{xspace}" << std::endl;
     o_ssLaTeX << L"\\usepackage[many]{tcolorbox}" << std::endl;
+    o_ssLaTeX << L"\\usepackage{lastpage}" << std::endl;
     o_ssLaTeX << L"\\usepackage[unicode,pdftitle={Report of Entropy estimates based on NIST SP 800-90B non-IID track},setpagesize=false]{hyperref}" << std::endl;
     o_ssLaTeX << L"\\usepackage[open,openlevel=4]{bookmark}" << std::endl;
     o_ssLaTeX << L"\\newcommand\\mib[1]{\\boldsymbol{#1}}" << std::endl;
     o_ssLaTeX << L"\\usepgfplotslibrary{patchplots}" << std::endl;
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+    o_ssLaTeX << L"%%%%%%" << std::endl;
+    o_ssLaTeX << L"%%%%%% customize page numbering" << std::endl;
+    o_ssLaTeX << L"%%%%%%" << std::endl;
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+    o_ssLaTeX << L"\\fancypagestyle{mypagestylewithtotalpagenumbers}{" << std::endl; //
+    o_ssLaTeX << L"\\lhead{}" << std::endl; // 
+    o_ssLaTeX << L"\\rhead{}" << std::endl; //
+    o_ssLaTeX << L"\\cfoot{\\thepage/\\pageref{LastPage}}" << std::endl; // 
+    o_ssLaTeX << L"\\renewcommand{\\headrulewidth}{0.0pt}" << std::endl; // 
+    o_ssLaTeX << L"}" << std::endl;
     o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
     o_ssLaTeX << L"%%%%%%" << std::endl;
     o_ssLaTeX << L"%%%%%% output up to 4-th level" << std::endl;
@@ -934,6 +946,8 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
     o_ssLaTeX << L"\\definecolor{bordercolordarkblue}{RGB}{0,163,243}" << std::endl;
     o_ssLaTeX << L"\\definecolor{BleuDur}{RGB}{27,61,176}" << std::endl;
     o_ssLaTeX << L"\\definecolor{Nigelle}{RGB}{0,133,201}" << std::endl;
+    o_ssLaTeX << L"\\definecolor{BleuFaience}{RGB}{105,171,219}" << std::endl;
+    o_ssLaTeX << L"\\definecolor{anotherlightblue}{RGB}{61,143,244}" << std::endl;
     o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
     o_ssLaTeX << L"%%%%%%" << std::endl;
     o_ssLaTeX << L"%%%%%%" << std::endl;
@@ -1001,6 +1015,10 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
     o_ssLaTeX << L"%%%%%%" << std::endl;
     o_ssLaTeX << L"%%%%%%" << std::endl;
     o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+    o_ssLaTeX << L"\\pagestyle{mypagestylewithtotalpagenumbers}" << std::endl;
+    o_ssLaTeX << L"%%%%%%" << std::endl;
+    o_ssLaTeX << L"%%%%%%" << std::endl;
+    o_ssLaTeX << L"%%%%%%" << std::endl;
     o_ssLaTeX << L"\\title{Report of Entropy estimates based on NIST SP 800-90B non-IID track}" << std::endl;
     // -------------------------------------------------------------------------- //
     // 
@@ -1082,6 +1100,10 @@ ns_consts::EnmReturnStatus loadPGFPlotSummary(std::wstringstream& o_ssLaTeX, boo
     if (relativeRange < 0.25)
     {
         o_ssLaTeX << L"above";
+        if (relativeRange < 0.05)
+        {
+            o_ssLaTeX << L", yshift=5mm";
+        }
     }
     else
     {
@@ -1184,7 +1206,7 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     o_refLaTeXSupportingInfo << L"\\begin{table}[h]" << std::endl;
     o_refLaTeXSupportingInfo << L"\\caption{Identification information of acquisition data from entropy source}" << std::endl;
     o_refLaTeXSupportingInfo << L"\\begin{center}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{rowcolorlightblue}}p{2cm}|p{20.5cm}|}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{anotherlightblue}}p{2cm}|p{20.5cm}|}" << std::endl;
     o_refLaTeXSupportingInfo << L"\\hline " << std::endl;
     o_refLaTeXSupportingInfo << L"Path to the acquisition data & \\verb|" << (*i_refInfoReport.info_source.p_path_to_entropy_input) << L"| \\\\" << std::endl;
     o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
@@ -1202,15 +1224,20 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     o_refLaTeXSupportingInfo << L"\\end{tabular}" << std::endl;
     o_refLaTeXSupportingInfo << L"\\end{center}" << std::endl;
     o_refLaTeXSupportingInfo << L"\\end{table}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.4}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.8}" << std::endl;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
     o_refLaTeXSupportingInfo << L"\\begin{itemize}" << std::endl;
+    o_refLaTeXSupportingInfo << L"		\\item Name of the submitter of the acquisition data : " << std::endl;
+    o_refLaTeXSupportingInfo << L"		    \\begin{Form}" << std::endl;
+    o_refLaTeXSupportingInfo << L"		    \\noindent" << std::endl;
+    o_refLaTeXSupportingInfo << L"		    \\TextField[name=NameOfSubmitter, multiline=false, bordercolor=bordercolordarkblue,width=12cm]{}" << std::endl;
+    o_refLaTeXSupportingInfo << L"		    \\end{Form}" << std::endl;
     o_refLaTeXSupportingInfo << L"\t	\\item Brief explanation of the acquisition data (or entropy source) : \\\\" << std::endl;
     o_refLaTeXSupportingInfo << L"\t	    \\begin{Form}" << std::endl;
     o_refLaTeXSupportingInfo << L"\t	    \\noindent" << std::endl;
-    o_refLaTeXSupportingInfo << L"\t	    \\TextField[name=multilinetextbox, multiline=true, bordercolor=bordercolordarkblue,width=\\linewidth,height=1in]{}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\t	    \\TextField[name=ExplanationOfAcquisitionData, multiline=true, bordercolor=bordercolordarkblue,width=\\linewidth,height=1in]{}" << std::endl;
     o_refLaTeXSupportingInfo << L"\t	    \\end{Form}" << std::endl;
     o_refLaTeXSupportingInfo << L"\t\\end{itemize} " << std::endl;
     // -------------------------------------------------------------------------- //
@@ -1222,7 +1249,7 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     o_refLaTeXSupportingInfo << L"\\begin{table}[h]" << std::endl;
     o_refLaTeXSupportingInfo << L"\\caption{Identification information of analysis environment}" << std::endl;
     o_refLaTeXSupportingInfo << L"\\begin{center}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{rowcolorlightblue}}l|>{\\columncolor{rowcolorlightblue}}l|p{12cm}|}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{anotherlightblue}}l|>{\\columncolor{anotherlightblue}}l|p{12cm}|}" << std::endl;
     o_refLaTeXSupportingInfo << L"\\hline " << std::endl;
     // -------------------------------------------------------------------------- //
     // 
@@ -1274,7 +1301,7 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     o_refLaTeXSupportingInfo << L"\\begin{table}[h]" << std::endl;
     o_refLaTeXSupportingInfo << L"\\caption{Identification information of analysis conditions}" << std::endl;
     o_refLaTeXSupportingInfo << L"\\begin{center}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{rowcolorlightblue}}l|p{8cm}|}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{anotherlightblue}}l|p{8cm}|}" << std::endl;
     o_refLaTeXSupportingInfo << L"\\hline " << std::endl;
     o_refLaTeXSupportingInfo << L"Number of samples & " << io_refDataOriginal.L << L" \\\\" << std::endl;
     o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
@@ -1532,10 +1559,10 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     ssLaTeXSummary << L"\\begin{center}" << std::endl;
     ssLaTeXSummary << L"\\begin{tabular}{|l|c|c|}" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"\\rowcolor{rowcolorlightblue} %%" << std::endl;
+    ssLaTeXSummary << L"\\rowcolor{anotherlightblue} %%" << std::endl;
     ssLaTeXSummary << L"Estimator										& $H_{\\textrm{original}}$$^{\\textrm{\\,a}}$			& $H_{\\textrm{bitstring}}$$^{\\textrm{\\,b}}$				\\\\ " << std::endl;
     ssLaTeXSummary << L"\\cline{2-3}" << std::endl;
-    ssLaTeXSummary << L"\\rowcolor{rowcolorlightblue} %%" << std::endl;
+    ssLaTeXSummary << L"\\rowcolor{anotherlightblue} %%" << std::endl;
     ssLaTeXSummary << L"\\,												& [bit / "<< io_refDataOriginal.bits_per_sample << L" - bit] & [bit / 1 - bit]		\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
     ssLaTeXSummary << L"The Most Common Value Estimate					& " << io_refDataOriginal.t_6_3_1.t_common.min_entropy << L"& " << io_refDataBinary.t_6_3_1.t_common.min_entropy << L"\\\\" << std::endl;
@@ -1601,6 +1628,13 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     loadLaTeXPreamble(ssLaTeX);
     ssLaTeX << L"\\begin{document}" << std::endl;
     ssLaTeX << L"\\maketitle" << std::endl;
+    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+    ssLaTeX << L"%%%%%%" << std::endl;
+    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+    ssLaTeX << L"\\thispagestyle{mypagestylewithtotalpagenumbers}" << std::endl;
+    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+    ssLaTeX << L"%%%%%%" << std::endl;
+    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1811,10 +1845,10 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     ssLaTeXSummary << L"\\begin{center}" << std::endl;
     ssLaTeXSummary << L"\\begin{tabular}{|l|c|}" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"\\rowcolor{rowcolorlightblue} %%" << std::endl;
+    ssLaTeXSummary << L"\\rowcolor{anotherlightblue} %%" << std::endl;
     ssLaTeXSummary << L"Estimator										& $H_{\\textrm{bitstring}}$$^{\\textrm{\\,a}}$				\\\\ " << std::endl;
     ssLaTeXSummary << L"\\cline{2-2}" << std::endl;
-    ssLaTeXSummary << L"\\rowcolor{rowcolorlightblue} %%" << std::endl;
+    ssLaTeXSummary << L"\\rowcolor{anotherlightblue} %%" << std::endl;
     ssLaTeXSummary << L"\\,												& [bit / 1 - bit]		\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
     ssLaTeXSummary << L"The Most Common Value Estimate					& " << io_refDataBinary.t_6_3_1.t_common.min_entropy << L"\\\\" << std::endl;
@@ -1868,6 +1902,13 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     loadLaTeXPreamble(ssLaTeX);
     ssLaTeX << L"\\begin{document}" << std::endl;
     ssLaTeX << L"\\maketitle" << std::endl;
+    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+    ssLaTeX << L"%%%%%%" << std::endl;
+    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+    ssLaTeX << L"\\thispagestyle{mypagestylewithtotalpagenumbers}" << std::endl;
+    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+    ssLaTeX << L"%%%%%%" << std::endl;
+    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //

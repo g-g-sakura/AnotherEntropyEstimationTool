@@ -138,19 +138,14 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"\\draw[very thin,color=gray,dotted] (0,2) grid[step=0.25] (1,3);" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\draw[->] (0, 2) -- (1.1,2) node[right] {$p$};" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\draw[->] (0, 1.95) -- (0,3.05) node[above] {\\shortstack{RHS of equation in step 7 \\\\$\\equiv g(p)$}};" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\draw[domain=0.5:1, smooth, variable=\\x, color=blue] plot (\\x,{2*(\\x*(1-\\x)+1)}) node[above right] {$g(p) = 2 \\left[ p (1 - p) + 1 \\right] $};" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\draw[domain=0.5:1, smooth, variable=\\x, color=blue] plot (\\x,{2*(\\x*(1-\\x)+1)}) node[above right, xshift = 2mm, yshift = 2mm] {$g(p) = 2 \\left[ p (1 - p) + 1 \\right] $};" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\draw[gray,loosely dotted] (  0.5,2.5) -- ( 0.0,2.5);" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\draw[gray,loosely dotted] (  0.5,2.5) -- ( 0.5,2);" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"%\\draw (-0.2,  0) node {0} ;" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"%\\draw ( 0  , -0.2) node {0} ;" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\draw (-0.1,  3) node {3} ;" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\draw (-0.1,  2) node {2} ;" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"%\\draw (-0.2,  1) node {1} ;" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\draw (-0.1,  2.5) node {$\\frac{5}{2}$} ;" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"%\\draw ( 0.5, -0.2) node {$\\frac{1}{2}$} ;" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\draw ( 0  ,  1.9) node {0} ;" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\draw ( 0.5,  1.9) node {$\\frac{1}{2}$} ;" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"%\\draw ( 1.0, -0.2) node {1} ;" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\draw ( 1.0,  1.9) node {1} ;" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"%" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"%" << std::endl;
@@ -179,7 +174,14 @@ namespace entropy_estimator_lib
 					(*io_refData.p_ssLaTeXFragment) << L"--( 1, " << io_refData.t_6_3_2.x_bar_prime << L"); " << std::endl;
 				}
 				(*io_refData.p_ssLaTeXFragment) << L"\\draw (0.125, " << io_refData.t_6_3_2.x_bar_prime << L") ";
-				(*io_refData.p_ssLaTeXFragment) << L"node[below]{ ";
+				if (io_refData.t_6_3_2.x_bar_prime < 2.5)
+				{
+					(*io_refData.p_ssLaTeXFragment) << L"node[below]{ ";
+				}
+				else
+				{
+					(*io_refData.p_ssLaTeXFragment) << L"node[above]{ ";
+				}
 				(*io_refData.p_ssLaTeXFragment) << L"\\textcolor{Nigelle}{ ";	// start of textcolor
 				(*io_refData.p_ssLaTeXFragment) << L"$\\bar{X}' = " << io_refData.t_6_3_2.x_bar_prime << L"$";
 				(*io_refData.p_ssLaTeXFragment) << L"}  " << std::endl;	// end of textcolor
@@ -248,7 +250,7 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\hline " << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\rowcolor{rowcolorlightblue} %%" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\rowcolor{anotherlightblue} %%" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"Symbol				& Value ";
 				(*io_refData.p_ssLaTeXFragment) << L"\\\\ \\hline " << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"$p$				& " << std::setw(8) << io_refData.t_6_3_2.p;

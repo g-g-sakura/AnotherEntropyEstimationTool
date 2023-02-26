@@ -38,7 +38,7 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
         int     vl = 1;
         bs_po::options_description desc("Allowed options");
         desc.add_options()
-            ("help,h", "Usage is : ea_non_iid [-i|-c][-a|-t][-v][-l <index>, <samples>] <file_name>[-w]")
+            ("help,h", "Usage is : ea_non_iid [-i|-c][-a|-t][-v][-l <index>, <samples>] -f <file_name>[-w] [-x]")
             ("file,f", bs_po::wvalue<std::wstring>(), "Must be relative path to a binary file with at least 1 million entries (samples).")
             ("bits_per_sample,w", bs_po::value<int>(&bits_per_sample)->default_value(8), "Must be between 1-8, inclusive. By default this value is inferred from the data.")
             ("initial,i", "    Initial Entropy Estimate(Section 3.1.3)"

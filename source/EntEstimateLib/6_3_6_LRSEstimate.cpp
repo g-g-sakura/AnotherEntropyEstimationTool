@@ -126,7 +126,15 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"	width=20cm," << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"	xlabel=$W$," << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"	ylabel=$\\left( P_W \\right) ^{i/W}$," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"	/pgf/number format/.cd,fixed,precision=6" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"    ticklabel style={" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"        % change \"directory\" to the number format" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"        /pgf/number format/.cd," << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"            fixed," << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"        % change \"directory\" back to tikz" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"        /tikz/.cd," << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"    }," << std::endl;
+				//(*io_refData.p_ssLaTeXFragment) << L"	x tick label style = { /pgf/number format/.cd, fixed relative }," << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"	yticklabel style = { /pgf/number format/precision=6 }" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"]" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\addplot  coordinates {" << std::endl;
 				// -------------------------------------------------------------------------- //
@@ -219,13 +227,56 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
+				int xticks = 1 + io_refData.t_6_3_6.nu - io_refData.t_6_3_6.u;
+				int xshift = 0;	// in mm
+				if (xticks <= 3)
+				{
+					if (argMax == io_refData.t_6_3_6.u)
+					{
+						xshift = 10;
+					}
+					else if (io_refData.t_6_3_6.nu == argMax)
+					{
+						xshift = -10;
+					}
+				}
+				else if (xticks <= 5)
+				{
+					if (argMax <= (io_refData.t_6_3_6.u + 1))
+					{
+						xshift = 10;
+					}
+					else if ((io_refData.t_6_3_6.nu - 1) <= argMax)
+					{
+						xshift = -10;
+					}
+				}
+				else
+				{
+					if (argMax <= (io_refData.t_6_3_6.u + 2))
+					{
+						xshift = 10;
+					}
+					else if ((io_refData.t_6_3_6.nu - 2) <= argMax)
+					{
+						xshift = -10;
+					}
+				}
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"};" << std::endl;
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\addplot+[Nigelle,no marks,sharp plot,update limits=false] " << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"coordinates {(" << io_refData.t_6_3_6.u << L"," << io_refData.t_6_3_6.p_hat << L") (" << io_refData.t_6_3_6.nu << L"," << io_refData.t_6_3_6.p_hat << L")}" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"node[above] at (axis cs:" << argMax << L"," << io_refData.t_6_3_6.p_hat << L") {\\shortstack{$\\hat{p}$ = ";
+				(*io_refData.p_ssLaTeXFragment) << L"node[above";
+				if (0 != xshift)
+				{
+					(*io_refData.p_ssLaTeXFragment) << L", xshift=" << xshift << L"mm";
+				}
+				(*io_refData.p_ssLaTeXFragment) << L"] at (axis cs:" << argMax << L"," << io_refData.t_6_3_6.p_hat << L") {\\shortstack{$\\hat{p}$ = ";
 				(*io_refData.p_ssLaTeXFragment) << io_refData.t_6_3_6.p_hat;
 				(*io_refData.p_ssLaTeXFragment) << L" \\\\($\\rightarrow$ min-entropy = " <<io_refData.t_6_3_6.t_common.min_entropy;
 				(*io_refData.p_ssLaTeXFragment) << L" [bit / " << io_refData.bits_per_sample << L"-bit])}};" << std::endl;
@@ -292,7 +343,7 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\hline " << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\rowcolor{rowcolorlightblue} %%" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\rowcolor{anotherlightblue} %%" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"Symbol				& Value ";
 				(*io_refData.p_ssLaTeXFragment) << L"\\\\ \\hline " << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"$u$				& " << std::setw(8) << io_refData.t_6_3_6.u;
@@ -537,7 +588,7 @@ namespace entropy_estimator_lib
 								double	P_W = (double)numerator / boost::math::binomial_coefficient<double>(LminusWplusOne, 2);
 								ssFragmentForLaTeXPmax << L"(";
 								ssFragmentForLaTeXPmax << std::setw(4) << t;
-								ssFragmentForLaTeXPmax << L"," << std::setw(8) << std::pow(P_W, 1.0 / ((double)t));
+								ssFragmentForLaTeXPmax << L", " << std::setw(8) << std::pow(P_W, 1.0 / ((double)t));
 								ssFragmentForLaTeXPmax << L")" << std::endl;
 							}
 							// -------------------------------------------------------------------------- //

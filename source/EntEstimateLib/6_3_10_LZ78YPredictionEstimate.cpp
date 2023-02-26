@@ -194,7 +194,7 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\hline " << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\rowcolor{rowcolorlightblue} %%" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\rowcolor{anotherlightblue} %%" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"Symbol				& Value ";
 				(*io_refData.p_ssLaTeXFragment) << L"\\\\ \\hline " << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"$N$				& " << io_refData.t_6_3_10.N;
