@@ -1,0 +1,498 @@
+﻿\documentclass[a4paper,xelatex,english]{bxjsarticle}
+\usepackage{tikz}%
+\usetikzlibrary{arrows.meta,bending,calc,shapes,positioning,shapes.callouts}
+\usepackage{ascmac}
+\usepackage{fancybox}
+\usepackage{amsmath,amssymb}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{paralist}
+\usepackage{cases}
+\usepackage{url}
+\usepackage[unicode,pdftitle={Implementation Notes for entropy estimation based on NIST SP 800-90B non-IID track},setpagesize=false]{hyperref}
+\usepackage[open,openlevel=4]{bookmark}
+\newcommand\mib[1]{\boldsymbol{#1}}
+
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[explicit]{titlesec}
+\usepackage{xspace}
+
+\usepackage[many]{tcolorbox}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{mydarkblue}{RGB}{0,163,243}
+\definecolor{mylightblue}{RGB}{191,233,251}
+\definecolor{mediumtealblue}{rgb}{0.0, 0.33, 0.71}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\def\chpcolor{blue!45}
+\def\chpcolor{mydarkblue}
+%\def\chpcolortxt{blue!60}
+\def\chpcolortxt{mydarkblue}
+\def\sectionfont{\sffamily\LARGE}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%
+%%%%%% 4-th level
+%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setcounter{secnumdepth}{4}
+
+\setcounter{tocdepth}{4}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%
+%%%%%%
+%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+%Section:
+\def\@sectionstrut{\vrule\@width\z@\@height12.5\p@}
+\def\@makesectionhead#1{%
+  {\par\vspace{20pt}%
+   \parindent 0pt\raggedleft\sectionfont
+   \colorbox{\chpcolor}{%
+     \parbox[t]{90pt}{\color{white}\@sectionstrut\@depth4.5\p@\hfill
+       \ifnum\c@secnumdepth>\z@\thesection\fi}%
+   }%
+   \begin{minipage}[t]{\dimexpr\textwidth-90pt-2\fboxsep\relax}
+   \color{\chpcolortxt}\@sectionstrut\hspace{5pt}#1
+   \end{minipage}\par
+   \vspace{10pt}%
+  }
+}
+\def\section{\@afterindentfalse\secdef\@section\@ssection}
+\def\@section[#1]#2{%
+  \ifnum\c@secnumdepth>\m@ne
+    \refstepcounter{section}%
+    \addcontentsline{toc}{section}{\protect\numberline{\thesection}#1}%
+  \else
+    \phantomsection
+    \addcontentsline{toc}{section}{#1}%
+  \fi
+  \sectionmark{#1}%
+  \if@twocolumn
+    \@topnewpage[\@makesectionhead{#2}]%
+  \else
+    \@makesectionhead{#2}\@afterheading
+  \fi
+}
+\def\@ssection#1{%
+  \if@twocolumn
+    \@topnewpage[\@makesectionhead{#1}]%
+  \else
+    \@makesectionhead{#1}\@afterheading
+  \fi
+}
+\makeatother
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newsavebox\mybox
+\newlength\secnumwd
+
+%\definecolor{mydarkblue}{RGB}{0,163,243}
+%\definecolor{mylightblue}{RGB}{191,233,251}
+
+\titleformat{\section}
+  {\normalfont\Large\sffamily\color{mydarkblue}}
+  {}
+  {-5em}
+  {%
+    \savebox\mybox{\normalfont\Large\sffamily\color{mydarkblue}\bfseries\thesection}%
+    \settowidth\secnumwd{\usebox\mybox}%    
+    \parbox[t]{\secnumwd}{{\bfseries\thesection}}\hspace{1em}%
+    \parbox[t]{\dimexpr\textwidth+5em-\secnumwd-1em\relax}{#1}%
+  }
+  [\vskip-1.75ex\hskip-5em{\color{gray!60}\titlerule[2pt]}]
+\titleformat{name=\section,numberless}
+  {\normalfont\Large\sffamily\color{mydarkblue}}
+  {}
+  {-5em}
+  {#1}
+  [\vskip-1.75ex\hskip-5em{\color{gray!60}\titlerule[2pt]}]
+
+\newcommand\FrameBoxL[1]{%
+  \fcolorbox{mylightblue}{mydarkblue}{\makebox[3cm][l]{\textcolor{white}{\bfseries#1}}}%
+}
+\newcommand\FrameBoxR[1]{%
+  \fcolorbox{mylightblue}{mydarkblue}{\makebox[3cm][r]{\textcolor{white}{\bfseries#1}}}%
+}
+
+\pagestyle{fancy}
+\fancyheadoffset[EL]{\dimexpr1in+\evensidemargin+\hoffset\relax}
+\fancyheadoffset[OR]{\dimexpr\paperwidth-\oddsidemargin-1in-\textwidth-\hoffset\relax}
+\fancyhf{}
+\renewcommand\headrulewidth{0pt}
+\fancyhead[OR]{\FrameBoxL{\thepage}}
+\fancyhead[EL]{\FrameBoxR{\thepage}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%% argmax
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\argmax}{\mathop{\textrm{arg~max}}\limits}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%% vertical equal
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand\rotateequal[1]{%
+  \ifmmode
+    \underset{#1}{\rotatebox{90}{$=$}}%
+  \fi
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\algnewcommand{\algorithmicgoto}{\textbf{go to}}%
+\algnewcommand{\Goto}{\algorithmicgoto\xspace}%
+\algnewcommand{\Label}{\State\unskip}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{myblue}{RGB}{0,163,243}
+
+\newtcolorbox[auto counter,number within=section]{mytheorem}[1][]{
+  enhanced jigsaw,colback=white,colframe=myblue,coltitle=myblue,
+  fonttitle=\bfseries\sffamily,
+  sharp corners,
+  detach title,
+  leftrule=22mm,
+  underlay unbroken and first={\node[below,text=white,font=\sffamily\bfseries,align=center]
+    at ([xshift=-11mm,yshift=-1mm]interior.north west) {THEOREM\\\thetcbcounter};},
+  breakable,pad at break=1mm,
+  #1,
+  code={\ifdefempty{\tcbtitletext}{}{\tcbset{before upper={\tcbtitle\par\medskip}}}},
+}
+
+%%%\usepackage{titlesec}
+%%%%%%\usepackage{lipsum}
+%%%\usepackage{tikz}\usetikzlibrary{shapes.misc}
+%%%\newcommand\titlebar{%
+%%%\tikz[baseline,trim left=3.1cm,trim right=3cm] {
+%%%    \fill [cyan!25] (2.5cm,-1ex) rectangle (\textwidth+3.1cm,2.5ex);
+%%%    \node [
+%%%        fill=cyan!60!white,
+%%%        anchor= base east,
+%%%        %rounded rectangle,
+%%%        rectangle,
+%%%        minimum height=3.5ex] at (3cm,0) {
+%%%        \textbf{\thesection.}
+%%%    };
+%%%}%
+%%%}
+%%%\titleformat{\section}{\large}{\titlebar}{0.1cm}{}
+%%%\renewcommand*{\thesection}{\arabic{section}}
+
+%%%\usepackage{xcolor}
+%%%
+%%%\setcounter{section}{1} % just to emulate a chapter has started
+%%%
+%%%\renewcommand*{\othersectionlevelsformat}[1]{%
+%%%  \makebox[0pt][r]{%
+%%%    \fcolorbox{cyan!60!white}{cyan!60!white}{\color{white}\csname the#1\endcsname}%
+%%%    \enskip
+%%%  }
+%%%}
+
+
+\renewcommand{\figurename}{Figure }
+\renewcommand{\tablename}{Table }
+\renewcommand{\refname}{References}
+\renewcommand*{\thesection}{\arabic{section}}
+\title{Implementation Notes for entropy estimation based on NIST SP 800-90B non-IID track}
+\date{\today}
+\begin{document}
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%
+%%%%%
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Implementation notes for numerical computation of entropy estimates}
+\renewcommand{\arraystretch}{1.4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%
+%%%%%
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Notes for the Markov estimate}
+To be documented.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%
+%%%%%
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Notes for the collision estimate}
+In this section, we try to rewrite the following equation using elementary functions:
+\begin{align}
+F(1/z) = \Gamma(3,z)z^{-3}\exp(z) 
+\label{eq:Fin632}
+\end{align}
+In NIST SP 800-90B, it is documented to evaluate incomplete gamma function using continued fraction.
+However, we try to obtain simpler expression using known properties of incomplete gamma function without using continued fraction.
+
+First we try to use the following equations (see 8.4.8 and 8.4.11 in \cite{MathHandbook}).
+\begin{align}
+\Gamma(n + 1, z) &= n!\exp(-z) e_{n}(z), \\
+e_{n}(z) &= \sum_{k = 0}^{n}\frac{z^{k}}{k!}
+\end{align}
+With these two equations, $F(1/z)$ can be rewritten to as follows:
+\begin{align}
+F(1/z) &= \Gamma(3,z)z^{-3}\exp(z) \nonumber \\
+&= 2!\exp(-z) e_{2}(z) z^{-3} \exp(z) \nonumber \\
+&= 2 z^{-3} e_{2}(z) \nonumber \\
+&= 2 z^{-3} \sum_{k = 0}^{2}\frac{z^{k}}{k!} \nonumber \\
+&= 2 z^{-3} \left( 1 + z + \frac{z^{2}}{2} \right) \nonumber \\
+&= z^{-1} \left( 2z^{-2} + 2z^{-1} + 1 \right) 
+\label{eq:rewFin632}
+\end{align}
+By replacing the argument $1/z$ with $q$, the following expression can be obtained:
+\begin{align}
+F(q) &= q \left( 2q^{2} + 2q + 1 \right) \label{eq:rewFin632final}
+\end{align}
+From this expression, the range of $F(q)$ is $[0, \frac{5}{4}]$, with respect to the domain $q \in [0, 0.5]$.
+
+If we denote $g(p)$ as the right hand side (RHS) of equation to be solved, in step 7 of 6.3.2 of NIST SP 800-90B\cite{SP80090B}, $g(p)$ can be rewritten by using Eq.(\ref{eq:rewFin632final}).
+\begin{align}
+g(p) & \equiv  p q^{-2} \left[ 1 + \frac{1}{2}(p^{-1} - q^{-1}) \right]F(q) - p q^{-1} \frac{1}{2}(p^{-1} - q^{-1}) \nonumber \\
+&= p q^{-2} \left[ 1 + \frac{1}{2}(p^{-1} - q^{-1}) \right]q \left( 2q^{2} + 2q + 1 \right) - p q^{-1} \frac{1}{2}(p^{-1} - q^{-1}) \nonumber \\
+&= p q^{-1} \left[ 1 + \frac{1}{2}(p^{-1} - q^{-1}) \right]  \left( 2q^{2} + 2q + 1 \right) - p q^{-1} \frac{1}{2}(p^{-1} - q^{-1}) \nonumber \\
+&= p q^{-1} \left[ 1 + \frac{1}{2}(p^{-1} - q^{-1}) \right] - p q^{-1} \frac{1}{2}(p^{-1} - q^{-1}) \nonumber \\
+&+ p q^{-1} \left[ 1 + \frac{1}{2}(p^{-1} - q^{-1}) \right] \left( 2q^{2} + 2q \right) \nonumber \\
+&= p q^{-1} 
+ + 2 p \left[ 1 + \frac{1}{2}(p^{-1} - q^{-1}) \right] \left( q + 1 \right) \nonumber \\
+&= p q^{-1} 
+ + 2 p \left[ (q + 1) + \frac{1}{2}p^{-1}(q + 1) - \frac{1}{2}(1 + q^{-1}) \right] \nonumber \\
+&= p q^{-1} 
+ + p \left[ 2(q + 1) + p^{-1}(q + 1) - (1 + q^{-1}) \right] \nonumber \\
+&= p \left[ 2(q + 1) + p^{-1}(q + 1) - 1 \right] \nonumber \\
+&= p \left[ 2q + 1 + p^{-1}(q + 1) \right] \nonumber \\
+&= \left( 2pq + p + q + 1 \right) \nonumber \\
+&= \left( 2pq + 2 \right) \nonumber \\
+&= 2( pq + 1) \nonumber \\
+&= 2 \left[ p(1 - p) + 1 \right] \nonumber \\
+&= 2 \left[ -\left(p - \frac{1}{2}\right)^{2} + \frac{5}{4} \right] \label{eq:rhs632}
+\end{align}
+
+Figure \ref{fig:rhs632} shows Eq.(\ref{eq:rhs632}) graphically.
+\begin{figure}[htbp]
+\centering
+
+\begin{tikzpicture}[scale=3]
+\draw[very thin,color=gray,loosely dotted] (-0.1,-0.1) grid (1.1,3.1);
+\draw[->] (-0.2,0) -- (1.4,0) node[right] {$p$};
+\draw[->] (0,-0.2) -- (0,3.4) node[above] {\shortstack{RHS of equation in step 7 \\$\equiv g(p)$}};
+\draw[domain=0.5:1, smooth, variable=\x, color=blue] plot (\x,{2*(\x*(1-\x)+1)}) node[above right, xshift = 10pt, yshift = 10pt] {$g(p) = 2 \left[ p (1 - p) + 1 \right] $};
+\draw[gray,dotted] (  0.5,2.5) -- ( 0.0,2.5);
+\draw[gray,dotted] (  0.5,2.5) -- ( 0.5,0);
+\draw (-0.2, -0.2) node {0} ;
+\draw (-0.2,  3) node {3} ;
+\draw (-0.2,  2) node {2} ;
+\draw (-0.2,  1) node {1} ;
+\draw (-0.2,  2.5) node {$\frac{5}{2}$} ;
+\draw ( 0.5, -0.2) node {$\frac{1}{2}$} ;
+\draw ( 1.0, -0.2) node {1} ;
+\end{tikzpicture}
+
+\caption{The right hand side of the equation in step 7 of 6.3.2 of NIST SP 800-90B}\label{fig:rhs632}
+
+\end{figure}
+
+If $\bar{X}'$ is in range $[2, \tfrac{5}{2}]$, the solution $p$ of step 7 of 6.3.2 of NIST SP 800-90B\cite{SP80090B} can be expressed by the following equation:
+\begin{align}
+p = \frac{1}{2} + \sqrt{\frac{5}{4} - \frac{\bar{X}'}{2}}.
+\end{align}
+
+\clearpage
+\subsection{Notes for the compression estimate}\label{sect:notes_compression}
+
+As documented in \cite{CorrectionsSP80090B}, Eq.(\ref{eq:Gin634}) should be replaced by Eq.\ref{eq:rewGin634}.
+\begin{align}
+G(z) = \tfrac{1}{\nu} 
+\sum_{t = d + 1}^{L} 
+\sum_{u = 1}^{t} 
+\log_{2}(u) F(z, t, u)  \label{eq:Gin634}
+\end{align}
+\begin{align}
+G(z) = \tfrac{1}{\nu} 
+\sum_{t = d + 1}^{\textcolor{blue}{\lfloor L / b \rfloor}} 
+\sum_{u = \textcolor{blue}{2}}^{t} 
+\log_{2}(u) F(z, t, u)  \label{eq:rewGin634}
+\end{align}
+
+$F(z, t, u)$ in Eq.(\ref{eq:rewGin634}) can be expressed by the following equation:
+\begin{align}
+F(z, t, u) = 
+\left\{ 
+\begin{aligned} 
+& z^{2} (1-z)^{u-1} & \textrm{if} \qquad & u < t \\
+& z (1-z)^{t-1}     & \textrm{if} \qquad & u = t
+\end{aligned}
+\right.
+\end{align}
+
+We have to evaluate Eq.(\ref{eq:rewGin634}), but this expression requires relatively large computational complexity due to its nested summation.
+First Figure \ref{fig:param634} shows parameters $u, t$, where nested summation must be taken to compute $G(z)$.
+
+\begin{figure}[htbp]
+\centering
+
+\begin{tikzpicture}[note/.style={rectangle callout, fill=#1}]
+	\fill[blue!20] ( 1, 5) -- (4.9, 5) -- (4.9, 10) -- ( 1, 10);
+	\fill[green!20] ( 5, 10) -- (5, 5.1) -- (9.9, 10) -- ( 1, 10);
+	\draw[red!20] ( 5, 5) -- (10, 10);
+	\draw[->,gray] ( 0, 0) -- (10.5, 0);
+	\draw[->,gray] ( 0, 0) -- (0, 10.5);
+	\draw[gray,loosely dotted] ( 1, 0) -- (1, 5);
+	\draw[gray,loosely dotted] ( 10, 0) -- (10, 10);
+	\draw[gray,loosely dotted] (  5, 0) -- (5, 5);
+	\draw[gray,loosely dotted] (  0, 5) -- ( 1, 5);
+	\draw[gray,loosely dotted] (  0,10) -- ( 1,10);
+	\draw[gray,dotted] ( 0, 0) -- (5, 5);
+	\draw ( -0.3, -0.3) node {$0$} ;
+	\draw (10.8, 0) node {$u$} ;
+	\draw (0, 10.8) node {$t$} ;
+	\draw ( 1, -0.5) node {2} ;
+	\draw ( 5, -0.5) node {$d+1$} ;
+	\draw (10, -0.5) node {$\lfloor L/b \rfloor$} ;
+	\draw ( -0.5, 5) node {$d+1$} ;
+	\draw ( -0.5, 10) node {$\lfloor L/b \rfloor$} ;
+	\draw ( 3, 8) node {i)} ;
+	\draw ( 6, 8) node {iii)} ;
+	\node [note=red!50, callout absolute pointer={(8,8)}] at (8,6.5) {ii)};
+\end{tikzpicture}
+
+\caption{Parameters $u, t$, where nested summation must be taken}\label{fig:param634}
+
+\end{figure}
+
+$t$-dependency of $F(z, t, u)$ must be considered when $u = t$.
+From the above, the parameters domain where summation must be taken can be divided into the following three groups:
+
+\begin{enumerate}[i)]
+	%%%%%
+	%%%%% i)
+	%%%%%
+	\item 
+	\begin{align}
+	\begin{cases}
+		2 \leq u < d + 1 & \\
+		d + 1 \leq t \leq \lfloor L / b \rfloor & 
+	\end{cases}
+	\label{eq:zone1_634}
+	\end{align}
+	%%%%%
+	%%%%% ii)
+	%%%%%
+	\item 
+	\begin{align}
+	\begin{cases}
+		(u, t) = (\tau, \tau) & \\
+		d + 1 \leq \tau \leq \lfloor L / b \rfloor & 
+	\end{cases}
+	\label{eq:zone2_634}
+	\end{align}
+	%%%%%
+	%%%%% iii)
+	%%%%%
+	\item 
+	\begin{align}
+	\begin{cases}
+		d + 1 \leq u < t & \\
+		d + 1 < t \leq \lfloor L / b \rfloor & 
+	\end{cases}
+	\label{eq:zone3_634}
+	\end{align}
+\end{enumerate}
+
+For groups i) and iii), the summation with respect to $t$ can be taken first.
+By using the relation $\nu = \lfloor L / b \rfloor - d$, Eq.(\ref{eq:rewGin634}) can be rewritten to as follows:
+\begin{align}
+G(z) =
+& \sum_{u = 2}^{d} \log_{2}(u) z^{2} (1-z)^{u-1} \nonumber \\
+& + \frac{1}{\nu} \sum_{u = d + 1}^{\lfloor L / b \rfloor} \log_{2}(u) z (1-z)^{u-1} \nonumber \\
+& + \frac{1}{\nu} \sum_{u = d + 1}^{\lfloor L / b \rfloor - 1} (\lfloor L / b \rfloor - u) \log_{2}(u) z^{2} (1-z)^{u-1}
+\label{eq:rewGin634performance}
+\end{align}
+With this expression, the computational complexity can be decreased from $\mathcal{O}(\nu^2)$ to $\mathcal{O}(\nu)$.
+
+\subsection{Notes for t-Tuple estimate, LRS estimate, MultiMMC Prediction and LZ78Y prediction estimate}
+In the following groups of entropy estimate, we have to handle $t$-tuples (pairs, triples, etc.)
+\begin{enumerate}[a)]
+	%%%%%
+	%%%%% a)
+	%%%%%
+	\item t-Tuple estimate (NIST SP 800-90B 6.3.5)
+	%%%%%
+	%%%%% b)
+	%%%%%
+	\item Longest Repeated Substring (LRS) estimate (NIST SP 800-90B 6.3.6)
+	%%%%%
+	%%%%% c)
+	%%%%%
+	\item Multi Most Common in Window Prediction estimate (NIST SP 800-90B 6.3.7)
+	%%%%%
+	%%%%% d)
+	%%%%%
+	\item The MultiMMC Prediction estimate (NIST SP 800-90B 6.3.9)
+	%%%%%
+	%%%%% e)
+	%%%%%
+	\item The LZ78Y Prediction estimate (NIST SP 800-90B 6.3.10)
+\end{enumerate}
+In order to express $t$-tuples, bitset or multiprecision integer is used without using array.
+
+\subsection{Notes for Multi Most Common in Window prediction estimate}
+In step 3-a-i of 6.3.7 of NIST SP 800-90B, it is required to compute the mode in the previous window of $w_{j}$ before $s_{i}$. 
+As the order of $w_{j}$ is 1000, the computational complexity is estimated to be about $\mathcal{O}(1000n)$, and expected to be time-consuming. 
+We attempt to reduce time-complexity by preparing histograms of certain lengths in advance, and in step 3-a-i, we use the histograms that fit within the target window, and compute the unavailable parts on-demand basis.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%
+%%%%% Bibliography
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setcounter{section}{2}
+\begin{thebibliography}{99}
+\addcontentsline{toc}{section}{References}
+% 1
+\bibitem{SP80090B}
+Meltem S\"{o}nmez Turan,
+Elaine Barker,
+John Kelsey,
+Kerry A. McKay,
+Mary L. Baish,
+Mike Boyle
+\textit{Recommendation for the Entropy Sources Used for Random Bit Generation},
+NIST Special Publication 800-90B, Jan. 2018
+% 2
+\bibitem{MathHandbook}
+Franck W. J. Oliver,
+Daniel W. Lozier,
+Ronald F. Boisvert,
+Charles W. Clark,
+\textit{NIST Handbook of Mathematical Functions},
+National Institute of Standards and Technology, 2010
+% 6
+\bibitem{CorrectionsSP80090B}
+G. Sakurai, \textit{Proposed list of corrections for NIST SP 800-90B 6.3 Estimators}, Dec. 2022
+\url{https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ProposedListOfCorrections_SP800-90B.pdf}
+
+\end{thebibliography}
+
+\end{document}
