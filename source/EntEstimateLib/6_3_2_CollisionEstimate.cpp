@@ -67,6 +67,12 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
+				(*io_refData.p_ssLaTeXFragment) << L"\\begin{figure}[htbp]" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\centering" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << std::endl;
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\begin{tikzpicture}" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\begin{axis}[" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"	ybar," << std::endl;
@@ -118,11 +124,11 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				// -------------------------------------------------------------------------- //
-				//
-				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\end{axis}" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\end{tikzpicture}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\caption{Distribution of intermediate value $t_{\\nu}$}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\end{figure}" << std::endl;
 				// -------------------------------------------------------------------------- //
 				//
 				// plot solution to the equation in step 7
