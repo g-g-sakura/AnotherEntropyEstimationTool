@@ -40,7 +40,7 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
         desc.add_options()
             ("help,h", "Usage is : ea_non_iid [-i|-c][-a|-t][-v][-l <index>, <samples>] -f <file_name>[-w] [-x]")
             ("file,f", bs_po::wvalue<std::wstring>(), "Must be relative path to a binary file with at least 1 million entries (samples).")
-            ("bits_per_sample,w", bs_po::value<int>(&bits_per_sample)->default_value(8), "Must be between 1-8, inclusive. By default this value is inferred from the data.")
+            ("bits_per_sample,w", bs_po::value<int>(&bits_per_sample)->default_value(8), "Must be between 1-8, inclusive. By default this value is 8.")
             ("initial,i", "    Initial Entropy Estimate(Section 3.1.3)"
                 "Computes the initial entropy estimate H_I as described in Section 3.1.3"
                 "(not accounting for H_submitter) using the entropy estimators specified in"
@@ -49,10 +49,6 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
                 "two entropy estimates are computed: H_original and H_bitstring.\n"
                 "Returns min(H_original, bits_per_symbol X H_bitstring). The initial entropy"
                 "estimate H_I = min(H_submitter, H_original, bits_per_symbol X H_bitstring).")
-            ("conditional,c", "    Conditioned Sequential Dataset Entropy Estimate (Section 3.1.5.2)"
-                "Computes the entropy estimate per bit h' for the conditioned sequential dataset if the"
-                "conditioning function is non-vetted. The samples are converted to a bitstring.\n"
-                "Returns h' = min(H_bitstring).\n")
             ("all,a", "    tests all bits in bitstring")
             ("truncate,t", "    truncates bitstring to 1000000 bits.")
             ("partial,l", "    <index>,<samples>\tRead the <index> substring of length <samples>."

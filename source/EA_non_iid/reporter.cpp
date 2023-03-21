@@ -1070,6 +1070,8 @@ ns_consts::EnmReturnStatus loadPGFPlotSummary(std::wstringstream& o_ssLaTeX, boo
     // 
     // -------------------------------------------------------------------------- //
     o_ssLaTeX << L"\\begin{figure}[htbp]" << std::endl;
+    o_ssLaTeX << L"\\centering" << std::endl;
+    o_ssLaTeX << std::endl;
     o_ssLaTeX << L"\\begin{tikzpicture} " << std::endl;
     o_ssLaTeX << L"\\begin{axis}" << std::endl;
     o_ssLaTeX << L"\t[symbolic x coords={6.3.1,6.3.2,6.3.3,6.3.4,6.3.5,6.3.6,6.3.7,6.3.8,6.3.9,6.3.10}," << std::endl;
@@ -1119,6 +1121,7 @@ ns_consts::EnmReturnStatus loadPGFPlotSummary(std::wstringstream& o_ssLaTeX, boo
     // -------------------------------------------------------------------------- //
     o_ssLaTeX << L"\\end{axis} " << std::endl;
     o_ssLaTeX << L"\\end{tikzpicture}" << std::endl;
+    o_ssLaTeX << std::endl;
     o_ssLaTeX << L"\\caption{Estimated Min-Entropy using $\\S$6.3 of NIST SP 800-90B}" << std::endl;
     o_ssLaTeX << L"\\end{figure}" << std::endl;
     // -------------------------------------------------------------------------- //
@@ -1158,10 +1161,11 @@ ns_consts::EnmReturnStatus loadLaTeXBibliography(std::wstringstream& o_ssLaTeX)
     o_ssLaTeX << L"Mary L. Baish," << std::endl;
     o_ssLaTeX << L"Mike Boyle" << std::endl;
     o_ssLaTeX << L"\\textit{Recommendation for the Entropy Sources Used for Random Bit Generation}," << std::endl;
-    o_ssLaTeX << L"NIST Special Publication 800-90B, Jan. 2018" << std::endl;
+    o_ssLaTeX << L"NIST Special Publication 800-90B, Jan. 2018 " << std::endl;
+    o_ssLaTeX << L"\\url{https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-90B.pdf}" << std::endl;
     o_ssLaTeX << L"% 2" << std::endl;
     o_ssLaTeX << L"\\bibitem{CorrectionsSP80090B}" << std::endl;
-    o_ssLaTeX << L"G. Sakurai, \\textit{Proposed list of corrections for NIST SP 800-90B 6.3 Estimators}, Dec. 2022" << std::endl;
+    o_ssLaTeX << L"G. Sakurai, \\textit{Proposed list of corrections for NIST SP 800-90B 6.3 Estimators}, Dec. 2022 " << std::endl;
     o_ssLaTeX << L"\\url{https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ProposedListOfCorrections_SP800-90B.pdf}" << std::endl;
     o_ssLaTeX << L"\\end{thebibliography}" << std::endl;
     // -------------------------------------------------------------------------- //
@@ -1260,6 +1264,69 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // 
     // -------------------------------------------------------------------------- //
     o_refLaTeXSupportingInfo << L"\\, & Versioning information & " << (*i_refInfoReport.info_analysis_tool.p_analyzer_versioning) << L" \\\\" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"\\, & built as & ";
+    {
+#if defined(_WIN64)
+        o_refLaTeXSupportingInfo << L" 64-bit application";
+#elif defined(_WIN32)
+        o_refLaTeXSupportingInfo << L" 32-bit application";
+#else
+#endif
+    }
+    o_refLaTeXSupportingInfo << L" \\\\" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"\\, & built by & ";
+    {
+#if defined(_MSC_VER) && !defined(__INTEL_LLVM_COMPILER) && !defined(__INTEL_COMPILER)
+#if _MSC_VER >= 1932
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.2";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1931
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.1";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1930
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 RTW (17.0)";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1929
+        o_refLaTeXSupportingInfo << L" Visual Studio 2019 version ";
+#if _MSC_FULL_VER >= 192930100 
+        o_refLaTeXSupportingInfo << L"16.11";
+#else
+        o_refLaTeXSupportingInfo << L"16.10";
+#endif
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1928
+        o_refLaTeXSupportingInfo << L" Visual Studio 2019 version ";
+#if _MSC_FULL_VER >= 192829500 
+        o_refLaTeXSupportingInfo << L"16.9";
+#else
+        o_refLaTeXSupportingInfo << L"16.8";
+#endif
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1927
+        o_refLaTeXSupportingInfo << L" Visual Studio 2019 version 16.7";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#endif
+#elif defined(_MSC_VER) && defined(__INTEL_LLVM_COMPILER)
+        o_refLaTeXSupportingInfo << L" Intel C++ Compiler";
+        o_refLaTeXSupportingInfo << L" (";
+        o_refLaTeXSupportingInfo << L" \\verb|__INTEL_LLVM_COMPILER|: " << __INTEL_LLVM_COMPILER;
+        o_refLaTeXSupportingInfo << L" )";
+#elif defined(_MSC_VER) && defined(__INTEL_COMPILER)
+        o_refLaTeXSupportingInfo << L" Intel C++ Compiler Classic";
+        o_refLaTeXSupportingInfo << L" (";
+        o_refLaTeXSupportingInfo << L" \\verb|__INTEL_COMPILER|: " << __INTEL_COMPILER;
+        o_refLaTeXSupportingInfo << L" )";
+#endif
+    }
+    o_refLaTeXSupportingInfo << L" \\\\" << std::endl;
     o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
     // -------------------------------------------------------------------------- //
     // 

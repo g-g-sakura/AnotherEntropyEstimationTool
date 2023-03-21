@@ -62,7 +62,6 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"	xmin=-0.125,xmax=1.125," << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"	xtick={0, 1}," << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"	legend style={at={(1,0.75)},anchor=north west}," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"%	clickable coords={(xy): \\thisrow{label}},%" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"	/pgf/number format/.cd,fixed,precision=6," << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"	scatter/classes={%" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"		a={mark=square*,blue}," << std::endl;
@@ -137,7 +136,6 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"	width=18cm," << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"	xmin=0.5,xmax=14.5," << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"	legend style={at={(1,1)},anchor=north west}," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"%	clickable coords={(xy): \\thisrow{label}},%" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"	/pgf/number format/.cd,fixed,precision=6," << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"	scatter/classes={%" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"		a={mark=square*,blue}," << std::endl;
