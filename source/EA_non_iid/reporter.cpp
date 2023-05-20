@@ -22,6 +22,7 @@
 #include <ctime>
 #include <locale> 
 #include <codecvt> 
+#include <Windows.h>
 
 namespace po = boost::program_options;
 namespace bs_fs = boost::filesystem;
@@ -1752,6 +1753,29 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     file << ssLaTeX.rdbuf();
     file.close();
     // -------------------------------------------------------------------------- //
+    // Output supplementary information to compile XeLateX source file
+    // -------------------------------------------------------------------------- //
+    setlocale(LC_ALL, "");
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    std::wcout << std::endl;
+    std::wcout << L"# [INFO] In order to compile the generated XeLaTeX source file of entropy estimation report, " << std::endl;
+    std::wcout << L"# [INFO] you need to type the following command and press Enter key." << std::endl;
+    std::wcout << L"# [INFO] ";
+    SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
+    std::wcout << L" xelatex " << the_report_path_LaTeX.wstring() << std::endl;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+    std::wcout << std::endl;
+    std::wcout << L"# [INFO] In a case where you get an error message like ";
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
+    std::wcout << L"\"TeX capacity exceeded, sorry [main memory size=...]\"," << std::endl;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+    std::wcout << L"# [INFO] you need to update the \"texmf.cnf\" file so as to modify the memory size like as follows:" << std::endl;
+    std::wcout << L"# [INFO] ";
+    SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
+    std::wcout << L" main_memory = 12400000" << std::endl;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+    // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
     return  sts = ns_consts::EnmReturnStatus::Success;
@@ -2016,6 +2040,29 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     }
     file << ssLaTeX.rdbuf();
     file.close();
+    // -------------------------------------------------------------------------- //
+    // Output supplementary information to compile XeLateX source file
+    // -------------------------------------------------------------------------- //
+    setlocale(LC_ALL, "");
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    std::wcout << std::endl;
+    std::wcout << L"# [INFO] In order to compile the generated XeLaTeX source file of entropy estimation report, " << std::endl;
+    std::wcout << L"# [INFO] you need to type the following command and press Enter key." << std::endl;
+    std::wcout << L"# [INFO] ";
+    SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
+    std::wcout << L" xelatex " << the_report_path_LaTeX.wstring() << std::endl;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+    std::wcout << std::endl;
+    std::wcout << L"# [INFO] In a case where you get an error message like ";
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
+    std::wcout << L"\"TeX capacity exceeded, sorry [main memory size=...]\"," << std::endl;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+    std::wcout << L"# [INFO] you need to update the \"texmf.cnf\" file so as to modify the memory size like as follows:" << std::endl;
+    std::wcout << L"# [INFO] ";
+    SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
+    std::wcout << L" main_memory = 12400000" << std::endl;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
