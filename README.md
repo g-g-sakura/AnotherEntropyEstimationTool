@@ -31,3 +31,9 @@ Visual Studio 2019 or newer, or Intel oneAPI compiler
 ## Prerequisite libraries
 - [Boost C++ libraries](https://www.boost.org/)
 - [Blitz++ libbrary](https://github.com/blitzpp/blitz)
+
+# Why does this tool exist
+- As pointed out earlier, incorrect formulation will result in incorrect result. Therefore correct formulation is really important in developing this kind of tool.
+- Also cross checking with other tools is important. 
+During the development of this tool, checking with other existing tool was performed, and one identified inconsistency was reported to a developer of the other tool:
+https://github.com/usnistgov/SP800-90B_EntropyAssessment/issues/170
