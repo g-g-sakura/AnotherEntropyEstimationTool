@@ -23,6 +23,7 @@
 #include <locale> 
 #include <codecvt> 
 #include <Windows.h>
+#include <boost/version.hpp>
 
 namespace po = boost::program_options;
 namespace bs_fs = boost::filesystem;
@@ -1265,7 +1266,7 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // 
     // -------------------------------------------------------------------------- //
     o_refLaTeXSupportingInfo << L"\\, & Versioning information & " << (*i_refInfoReport.info_analysis_tool.p_analyzer_versioning) << L" \\\\" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << std::endl;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1279,9 +1280,9 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
 #endif
     }
     o_refLaTeXSupportingInfo << L" \\\\" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << std::endl;
     // -------------------------------------------------------------------------- //
-    // 
+    // compiler information
     // -------------------------------------------------------------------------- //
     o_refLaTeXSupportingInfo << L"\\, & built by & ";
     {
@@ -1328,6 +1329,16 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
 #endif
     }
     o_refLaTeXSupportingInfo << L" \\\\" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << std::endl;
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"\\, & linked libraries & ";
+    {
+        o_refLaTeXSupportingInfo << L" Boost C++ ";
+        o_refLaTeXSupportingInfo << BOOST_VERSION / 100000 << L"." << ((BOOST_VERSION / 100) % 1000) << L"." << BOOST_VERSION % 100;
+        o_refLaTeXSupportingInfo << L" \\\\" << std::endl;
+    }
     o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
     // -------------------------------------------------------------------------- //
     // 
