@@ -6,7 +6,7 @@ The proposed list of corrections to NIST SP 800-90B is drafted so that an entrop
 # Features
 - Clarity and Traceability
   - Developed based on the documented and corrected [formulation](https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ProposedListOfCorrections_SP800-90B.pdf), to support ISO/IEC 17025 conformance.
-  - Basically each function is commented so that it is traceable to [NIST SP 800-90B](https://doi.org/10.6028/NIST.SP.800-90B) or corrected [formulation](https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ProposedListOfCorrections_SP800-90B.pdf).
+  - Basically each function is commented in a traceable manner with [NIST SP 800-90B](https://doi.org/10.6028/NIST.SP.800-90B) or corrected [formulation](https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ProposedListOfCorrections_SP800-90B.pdf).
 - Supports report generation capability, in XeLaTeX source file (see ```-x``` option), where relevant intermediate results are also contained to gain confidence and support characterization.
 
 # Usage
