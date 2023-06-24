@@ -231,7 +231,160 @@
 %%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Notes for the Markov estimate}
-To be documented.
+In this section, we follow the convention using a column vector of probabilities $\mib{P}$ and a left stochastic matrix $\mib{T}$.
+\begin{align}
+\mib{P} 
+\equiv 
+& 
+\begin{bmatrix}
+p_{0} \\
+p_{1} \\
+\end{bmatrix} 
+\\
+%%%%%
+%%%%%
+%%%%%
+\mib{T} 
+\equiv 
+& 
+\begin{bmatrix}
+t_{0,0} & t_{0,1} \\
+t_{1,0} & t_{1,1}
+\end{bmatrix}
+\end{align}
+
+Considering a sequence of binary-valued samples of length $\lambda$, there are following four possible combinations of the first sample value and the last sample value:\begin{enumerate}[a)]
+	\item 0 $\to$ 0
+	\item 0 $\to$ 1
+	\item 1 $\to$ 0
+	\item 1 $\to$ 1
+\end{enumerate}
+
+For each combination, the probability of occurrence of the most likely sequence is expressed by the following equation, by using the parameters $\mu$ and $\nu$:
+\begin{enumerate}[a)]
+	%%%%%
+	%%%%% a)
+	%%%%%
+	\item 
+	\begin{align}
+		f_{a}(\mib{T}, \mu, \nu) & \equiv p_{0} t_{00}^{\nu} t_{11}^{\lambda - 1 - 2\mu - \nu} t_{01}^{\mu} t_{10}^{\mu} 
+	\end{align}
+	\begin{align}
+	\begin{cases}
+		0 \leq 2 \mu < \lambda - 1 & \\
+		0 \leq \nu \leq \lambda - 1 & \\
+		0 \leq \lambda - 1 - 2\mu - \nu \leq \lambda - 1
+	\end{cases}
+	\label{eq:fa}
+	\end{align}
+	%%%%%
+	%%%%% b)
+	%%%%%
+	\item 
+	\begin{align}
+		f_{b}(\mib{T}, \mu, \nu) & \equiv p_{0} t_{00}^{\nu} t_{11}^{\lambda - 2 - 2\mu - \nu} t_{01}^{\mu} t_{10}^{\mu + 1} 
+	\end{align}
+	\begin{align}
+	\begin{cases}
+		0 \leq 2 \mu < \lambda - 1 & \\
+		0 \leq \nu < \lambda - 1 & \\
+		0 \leq \lambda - 2 - 2\mu - \nu \leq \lambda - 2
+	\end{cases}
+	\label{eq:fb}
+	\end{align}
+	%%%%%
+	%%%%% c)
+	%%%%%
+	\item 
+	\begin{align}
+		f_{c}(\mib{T}, \mu, \nu) & \equiv p_{1} t_{00}^{\nu} t_{11}^{\lambda - 2 - 2\mu - \nu} t_{01}^{\mu + 1} t_{10}^{\mu} 
+	\end{align}
+	\begin{align}
+	\begin{cases}
+		0 \leq 2 \mu < \lambda - 1 & \\
+		0 \leq \nu < \lambda - 1 & \\
+		0 \leq \lambda - 2 - 2\mu - \nu \leq \lambda - 2
+	\end{cases}
+	\label{eq:fc}
+	\end{align}
+	%%%%%
+	%%%%% d)
+	%%%%%
+	\item 
+	\begin{align}
+		f_{d}(\mib{T}, \mu, \nu) & \equiv p_{1} t_{00}^{\nu} t_{11}^{\lambda - 1 - 2\mu - \nu} t_{01}^{\mu} t_{10}^{\mu} 
+	\end{align}
+	\begin{align}
+	\begin{cases}
+		0 \leq 2 \mu < \lambda - 1 & \\
+		0 \leq \nu \leq \lambda - 1 & \\
+		0 \leq \lambda - 1 - 2\mu - \nu \leq \lambda - 1
+	\end{cases}
+	\label{eq:fd}
+	\end{align}
+\end{enumerate}
+
+If we denote $\kappa$ as the exponent of $t_{11}$, then the possible values of $\mu, \nu$, and $\kappa$ are expressed as integer coordinates in the approximately triangular region shown in the following figure:
+\begin{tikzpicture}
+	\filldraw[fill=cyan!20, draw=cyan!50, opacity=0.5] (-0.9, -1) -- (4, 0) -- (0, 4) -- (-1, -0.9) -- (-0.9, -1);
+	\draw[->,gray] ( 0, 0) -- (5, 0);
+	\draw[->,gray] ( 0, 0) -- (0, 5);
+	\draw[->,gray] ( 0, 0) -- (-1.5, -1.5);
+	\draw (5.5, 0) node {$\nu$} ;
+	\draw (-1.8, -1.8) node {$\mu$} ;
+	\draw (0, 5.5) node {$\kappa$} ;
+	%%%%%
+	\draw ( 0.25, 0.25) node {$o$} ;
+	\draw ( 4, -0.5) node {$\lambda - 1$} ;
+	\draw ( 0.5,  4) node {$\lambda - 1$} ;
+	\draw (-0.5, -1) node {$\frac{\lambda - 2}{2}$} ;
+\end{tikzpicture}
+
+In order to calculate the extreme values of $f_{a}, f_{b}, f_{c}$, and $f_{d}$, we first consider the partial derivatives of $f_{a}(\mib{T}, \mu, \nu)$ with respect to $\mu$, and $\nu$.
+
+\begin{align}
+	\frac{\partial }{\partial \mu} f_{a}(\mib{T}, \mu, \nu) 
+	&= 
+	(-2 \ln t_{11} + \ln t_{01} + \ln t_{10}) f_{a}(\mib{T}, \mu, \nu) 
+	\nonumber \\
+	&= 
+	\ln \frac{t_{01} t_{10}}{t_{11}^{2}} 
+	f_{a}(\mib{T}, \mu, \nu) 
+	\label{eq:nondiagonalproduct}
+	\\
+	%%%%%
+	\frac{\partial }{\partial \nu} f_{a}(\mib{T}, \mu, \nu) 
+	&= 
+	(\ln t_{00} - \ln t_{11}) f_{a}(\mib{T}, \mu, \nu) 
+	\nonumber \\
+	&= 
+	\ln \frac{t_{00}}{t_{11}} 
+	f_{a}(\mib{T}, \mu, \nu) 
+	\label{eq:diagonal}
+\end{align}
+
+%The partial derivatives of $f_{b}, f_{c}$, and $f_{d}$ with respect to $\mu$ and $\nu$ are obtained by taking permutation of $a$ with respecto to $b$, $c$, and $d$ in eq. (\ref{eq:nondiagonalproduct}) and eq.(\ref{eq:diagonal}), respectively.
+
+Taking into accout eq. (\ref{eq:nondiagonalproduct}) and eq. (\ref{eq:diagonal}), and the property that the value $f_{a}(\mib{T}, \mu, \nu)$ is non-negative, 
+the following rough phase diagram would be obtained, by taking the horizontal axis as $\log \frac{t_{00}}{t_{11}}$, and the vertical axis $\tfrac{1}{2}\log \frac{t_{01} t_{10}}{t_{11}^{2}}$.
+
+\begin{tikzpicture}
+	\fill[green!20] (0, 0) -- (4,4) -- (4, -4) -- (0, -4);
+	\fill[red!20] (0, 0) -- (4, 4) -- (-4,4) -- (-4, 0);
+	\fill[blue!20] (0, 0) -- (0, -4) -- (-4,-4) -- (-4, 0);
+	\draw[->,gray] (-4.5, 0) -- (4.5, 0);
+	\draw[->,gray] ( 0,-4.5) -- (0, 4.5);
+	\draw (5, 0) node {$\log \frac{t_{00}}{t_{11}}$} ;
+	\draw (0, 4.8) node {$\tfrac{1}{2} \ln \frac{t_{01} t_{10}}{t_{11}^{2}}$} ;
+	\draw (0, 0) -- (4, 4);
+	\draw (4, 4.2) node {$\tfrac{1}{2} \ln \frac{t_{01} t_{10}}{t_{11}^{2}} = \log \frac{t_{00}}{t_{11}}$} ;
+	%%%%%
+	\draw ( 2, -2) node {$00 \cdots 00$ dominant} ;
+	\draw (-2,  2) node {$01 \cdots 01$ dominant} ;
+	\draw (-2, -2) node {$11 \cdots 11$ dominant} ;
+\end{tikzpicture}
+
+For example, if we consider the third quadrant, the conditional probability $t_{11}$ is greater than or equal to $t_{00}$ and $\sqrt{t_{01}t_{10}}$, then the sequence $11 \cdots 11$ will be dominant.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%
 %%%%%
