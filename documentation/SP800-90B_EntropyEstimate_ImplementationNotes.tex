@@ -366,7 +366,7 @@ In order to calculate the extreme values of $f_{a}, f_{b}, f_{c}$, and $f_{d}$, 
 %The partial derivatives of $f_{b}, f_{c}$, and $f_{d}$ with respect to $\mu$ and $\nu$ are obtained by taking permutation of $a$ with respecto to $b$, $c$, and $d$ in eq. (\ref{eq:nondiagonalproduct}) and eq.(\ref{eq:diagonal}), respectively.
 
 Taking into accout eq. (\ref{eq:nondiagonalproduct}) and eq. (\ref{eq:diagonal}), and the property that the value $f_{a}(\mib{T}, \mu, \nu)$ is non-negative, 
-the following rough phase diagram would be obtained, by taking the horizontal axis as $\log \frac{t_{00}}{t_{11}}$, and the vertical axis $\tfrac{1}{2}\log \frac{t_{01} t_{10}}{t_{11}^{2}}$.
+the following rough phase diagram would be obtained, by taking the horizontal axis as $\ln \frac{t_{00}}{t_{11}}$, and the vertical axis $\tfrac{1}{2}\ln \frac{t_{01} t_{10}}{t_{11}^{2}}$.
 
 \begin{tikzpicture}
 	\fill[green!20] (0, 0) -- (4,4) -- (4, -4) -- (0, -4);
@@ -374,17 +374,175 @@ the following rough phase diagram would be obtained, by taking the horizontal ax
 	\fill[blue!20] (0, 0) -- (0, -4) -- (-4,-4) -- (-4, 0);
 	\draw[->,gray] (-4.5, 0) -- (4.5, 0);
 	\draw[->,gray] ( 0,-4.5) -- (0, 4.5);
-	\draw (5, 0) node {$\log \frac{t_{00}}{t_{11}}$} ;
+	\draw (5, 0) node {$\ln \frac{t_{00}}{t_{11}}$} ;
 	\draw (0, 4.8) node {$\tfrac{1}{2} \ln \frac{t_{01} t_{10}}{t_{11}^{2}}$} ;
 	\draw (0, 0) -- (4, 4);
-	\draw (4, 4.2) node {$\tfrac{1}{2} \ln \frac{t_{01} t_{10}}{t_{11}^{2}} = \log \frac{t_{00}}{t_{11}}$} ;
+	\draw (4, 4.2) node {$\tfrac{1}{2} \ln \frac{t_{01} t_{10}}{t_{11}^{2}} = \ln \frac{t_{00}}{t_{11}}$} ;
 	%%%%%
 	\draw ( 2, -2) node {$00 \cdots 00$ dominant} ;
 	\draw (-2,  2) node {$01 \cdots 01$ dominant} ;
 	\draw (-2, -2) node {$11 \cdots 11$ dominant} ;
 \end{tikzpicture}
 
-For example, if we consider the third quadrant, the conditional probability $t_{11}$ is greater than or equal to $t_{00}$ and $\sqrt{t_{01}t_{10}}$, then the sequence $11 \cdots 11$ will be dominant.
+First, if we consider the third quadrant, for example, the conditional probability $t_{11}$ is greater than or equal to $t_{00}$ and $\sqrt{t_{01}t_{10}}$, then the sequence $11 \cdots 11$ will be dominant.
+
+Next, for the other quadrants, let us consider whether $00 \cdots 00$ or $01 \cdots 01$ is the dominant sequence. 
+In particular, for the first quadrant, since right hand sides of eqs. (\ref{eq:nondiagonalproduct}) and 式(\ref{eq:diagonal}) are positive, it is necessary to examine whether $00 \cdots 00$ or $0101 \cdots 0101$ is the dominant sequence. 
+Since at least $11 \cdots 11$ is not a dominant sequence, we can limit the discussion with $\kappa =$ 0, 1, the parameter region of possible values of $\mu$ and $\nu$ is restricted to the line segment. 
+The delta of $f_{a}$ is then expressed by the following equation:
+\begin{align}
+\Delta f_{a} 
+&= 
+\left( 
+\frac{\partial f_{a}}{\partial \mu} 
++ 
+\frac{\partial f_{a}}{\partial \nu} 
+\frac{{\mathrm d} \nu}{{\mathrm d} \mu}
+\right) 
+\Delta \mu 
+\nonumber 
+\\
+&= 
+\left(
+\ln \frac{t_{01}t_{10}}{t_{00}^{2}}
+\right)
+\Delta \mu
+\end{align}
+
+From this equation, if RHS of eq. (\ref{expression:separationline}) is positive, $f_{a}$ increases with respect to $\mu$ and $01 \cdots 01$ becomes the dominant sequence, and conversely, if RHS of eq. (\ref{expression:separationline}) is negative, $00 \cdots 00$ becomes the dominant sequence.
+
+\begin{align}
+	\ln \frac{t_{01}t_{10}}{t_{00}^{2}} 
+	&= 
+	\ln \frac{t_{01}t_{10}}{t_{11}^{2}} - 2 \ln \frac{t_{00}}{t_{11}}
+	\label{expression:separationline}
+\end{align}
+The phase diagram shows a straight line where the value of eq. (\ref{expression:separationline}) is zero.  
+In other words, in the region above this line, $01 \cdots 01$ is the dominant sequence, and $00 \cdots 00$ is the dominant sequence in the region below the line. 
+
+
+From the above, we have to consider the following three dominant sequences:
+\begin{enumerate}[i)]
+	\item $00 \cdots 00$ dominant 
+	\item $01 \cdots 01$ dominant 
+	\item $11 \cdots 11$ dominant 
+\end{enumerate}
+For each of $f_a, f_b, f_c$, and $f_d$, the following expressions give maximum value with respect to $\mu$ and $\nu$:
+
+\begin{enumerate}[{a)}-i)]
+	\item $00 \cdots 00$ dominant 
+	\begin{align}
+	\max_{\mu, \nu}(f_{a}(\mib{T}, \mu, \nu)) = p_{0} t_{00}^{\lambda - 1}
+	\end{align}
+	\item $01 \cdots 01$ dominant 
+	\begin{align}
+	\max_{\mu, \nu}(f_{a}(\mib{T}, \mu, \nu)) = & p_{0} t_{00} t_{01}^{(\lambda - 2) / 2} t_{10}^{(\lambda - 2) / 2}, {\textrm{or}} \\
+	\max_{\mu, \nu}(f_{a}(\mib{T}, \mu, \nu)) = & p_{0} t_{11} t_{01}^{(\lambda - 2) / 2} t_{10}^{(\lambda - 2) / 2}
+	\end{align}
+	\item $11 \cdots 11$ dominant 
+	\begin{align}
+	\max_{\mu, \nu}(f_{a}(\mib{T}, \mu, \nu)) = p_{0} t_{11}^{\lambda - 3} t_{01} t_{10} \label{expression:neg1}
+	\end{align}
+\end{enumerate}
+
+\begin{enumerate}[{b)}-i)]
+	\item $00 \cdots 00$ dominant 
+	\begin{align}
+	\max_{\mu, \nu}(f_{b}(\mib{T}, \mu, \nu)) = p_{0} t_{00}^{\lambda - 2} t_{10}
+	 \label{expression:nonneg1}
+	\end{align}
+	\item $01 \cdots 01$ dominant 
+	\begin{align}
+	\max_{\mu, \nu}(f_{b}(\mib{T}, \mu, \nu)) = p_{0} t_{01}^{(\lambda - 2) / 2} t_{10}^{\lambda / 2}
+	\end{align}
+	\item $11 \cdots 11$ dominant 
+	\begin{align}
+	\max_{\mu, \nu}(f_{b}(\mib{T}, \mu, \nu)) = p_{0} t_{11}^{\lambda - 2} t_{10} \label{expression:neg2}
+	\end{align}
+\end{enumerate}
+
+\begin{enumerate}[{c)}-i)]
+	\item $00 \cdots 00$ dominant 
+	\begin{align}
+	\max_{\mu, \nu}(f_{c}(\mib{T}, \mu, \nu)) = p_{1} t_{00}^{\lambda - 2} t_{01} \label{expression:neg3}
+	\end{align}
+	\item $01 \cdots 01$ dominant 
+	\begin{align}
+	\max_{\mu, \nu}(f_{c}(\mib{T}, \mu, \nu)) = p_{1} t_{01}^{\lambda / 2} t_{10}^{(\lambda - 2) / 2}
+	\end{align}
+	\item $11 \cdots 11$ dominant 
+	\begin{align}
+	\max_{\mu, \nu}(f_{c}(\mib{T}, \mu, \nu)) = p_{1} t_{11}^{\lambda - 2} t_{01}
+	\end{align}
+\end{enumerate}
+
+\begin{enumerate}[{d)}-i)]
+	\item $00 \cdots 00$ dominant 
+	\begin{align}
+	\max_{\mu, \nu}(f_{d}(\mib{T}, \mu, \nu)) = p_{1} t_{00}^{\lambda - 3} t_{01} t_{10} \label{expression:neg4}
+	\end{align}
+	\item $01 \cdots 01$ dominant 
+	\begin{align}
+	\max_{\mu, \nu}(f_{d}(\mib{T}, \mu, \nu)) = & p_{1} t_{00} t_{01}^{(\lambda - 2) / 2} t_{10}^{(\lambda - 2) / 2}, {\textrm{or}} \\
+	\max_{\mu, \nu}(f_{d}(\mib{T}, \mu, \nu)) = & p_{1} t_{11} t_{01}^{(\lambda - 2) / 2} t_{10}^{(\lambda - 2) / 2}
+	\end{align}
+	\item $11 \cdots 11$ dominant 
+	\begin{align}
+	\max_{\mu, \nu}(f_{d}(\mib{T}, \mu, \nu)) = p_{1} t_{11}^{\lambda - 1}
+	\end{align}
+\end{enumerate}
+
+For eqs. (\ref{expression:neg1}), (\ref{expression:neg2}), (\ref{expression:neg3}), and (\ref{expression:neg4}), you may think that the dominant sequence is inconsistent with the first sample value of the sequence. 
+These sequences still make sense considering the case where the original observed sequence of samples is pathologic. 
+For example, if we compute the transition probability matrix based on a sequence like $11 \cdots 1100$ the following transition probability matrix is obtained.
+\begin{align}
+\mib{T} 
+= 
+\begin{bmatrix}
+1 & 0 \\
+\epsilon & 1 - \epsilon 
+\end{bmatrix}
+\end{align}
+%この遷移確率行列に基づいて式(\ref{eq:fb})及び式(\ref{eq:fc})に限って計算を進めれば, $t_{00}$のべきを大きくした方が確率が大きいので, $00 \cdots 00$という系列が優位になり, 最大値を与える解は式(\ref{expression:nonneg1})と式(\ref{expression:neg3})に絞られる. 
+%さらに, $p_{0}$自体は$p_{1}$よりも小さいため, ($t_{10} = 1$という事情にも依存するが, )式(\ref{expression:nonneg1})よりも式(\ref{expression:neg3})の方が大きい.
+Based on the transition probability matrix, if we restrict our calculations to eqs. (\ref{eq:fb}) and (\ref{eq:fc}), the larger the exponent of $t_{00}$ is, the larger the probability becomes, and thus the sequence $00 \cdots 00$ becomes dominant.  
+The solutions that give the maximum value are limited to those in eq. (25) and (28). Furthermore, since $p_{0}$ itself is smaller than $p_{1}$, eq. (\ref{expression:neg3}) is larger than eq. (\ref{expression:nonneg1}) (although it depends on the circumstance that $t_{10} = 1$).
+
+From the above, we have to compare following 14 expressions.
+
+\begin{tabular}{|l|l|c|c|}
+\hline
+No. & Sequence & Probability & $-\ln ({\textrm{Probability}}) / \lambda$\\
+\hline 
+1 & $0000 \cdots 0000$ & $p_{0} \times t_{00}^{\lambda - 1}$ & $-\left[ \frac{\lambda - 1}{\lambda} \ln t_{00} + \frac{1}{\lambda} \ln p_{0} \right]$\\
+\hline
+2 & $0101 \cdots 0101001010 \cdots 1010$ & $p_{0} \times t_{00} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \ln \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \ln \left( p_{0} \times t_{00} \right) \right]$ \\
+\hline
+3 & $0101 \cdots 0101101010 \cdots 1010$ & $p_{0} \times t_{11} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \ln \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \ln \left( p_{0} \times t_{11} \right) \right]$ \\
+\hline 
+4 & $0111 \cdots 1110$ & $p_{0} \times t_{11}^{\lambda - 3} \times t_{01} \times t_{10}$ & $-\left[ \frac{\lambda - 3}{\lambda} \ln t_{11}+ \frac{1}{\lambda} \ln \left( p_{0} \times t_{01} \times t_{10} \right)\right]$ \\
+\hline 
+5 & $0000 \cdots 0001$ & $p_{0} \times t_{00}^{\lambda - 2} \times t_{10}$ & $-\left[ \frac{\lambda - 2}{\lambda} \ln t_{00}+ \frac{1}{\lambda} \ln \left( p_{0} \times t_{10} \right)\right]$ \\
+\hline 
+6 & $0101 \cdots 0101$ & $p_{0} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{\lambda / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \ln \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \ln \left( p_{0} \times t_{10} \right) \right]$ \\
+\hline 
+7 & $0111 \cdots 1111$ & $p_{0} \times t_{11}^{\lambda - 2} \times t_{10}$ & $-\left[ \frac{\lambda - 2}{\lambda} \ln t_{11}+ \frac{1}{\lambda} \ln \left( p_{0} \times t_{10} \right)\right]$ \\
+\hline 
+8 & $1000 \cdots 0000$ & $p_{1} \times t_{00}^{\lambda - 2} \times t_{01}$ & $-\left[ \frac{\lambda - 2}{\lambda} \ln t_{00}+ \frac{1}{\lambda} \ln \left( p_{1} \times t_{01} \right)\right]$ \\
+\hline 
+9 & $1010 \cdots 1010$ & $p_{1} \times t_{01}^{\lambda / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \ln \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \ln \left( p_{1} \times t_{01} \right) \right]$ \\
+\hline 
+10 & $1111 \cdots 1110$ & $p_{1} \times t_{11}^{\lambda - 2} \times t_{01}$ & $-\left[ \frac{\lambda - 2}{\lambda} \ln t_{11}+ \frac{1}{\lambda} \ln \left( p_{1} \times t_{01} \right)\right]$ \\
+\hline 
+11 & $1000 \cdots 0001$ & $p_{1} \times t_{00}^{\lambda - 3} \times t_{01} \times t_{10}$ & $-\left[ \frac{\lambda - 3}{\lambda} \ln t_{00} + \frac{1}{\lambda} \ln \left( p_{1} \times t_{01} \times t_{10} \right) \right]$ \\
+\hline
+12 & $1010 \cdots 1010100101 \cdots 0101$ & $p_{1} \times t_{00} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \ln \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \ln \left( p_{1} \times t_{00} \right) \right]$ \\
+\hline
+13 & $1010 \cdots 1010110101 \cdots 0101$ & $p_{1} \times t_{11} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \ln \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \ln \left( p_{1} \times t_{11} \right) \right]$ \\
+\hline 
+14 & $1111 \cdots 1111$ & $p_{1} \times t_{11}^{\lambda - 1}$ & $-\left[ \frac{\lambda - 1}{\lambda} \ln t_{11} + \frac{1}{\lambda} \ln p_{1} \right]$ \\
+\hline
+\end{tabular}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%
 %%%%%
