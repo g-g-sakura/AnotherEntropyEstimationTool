@@ -252,6 +252,8 @@ t_{0,0} & t_{0,1} \\
 t_{1,0} & t_{1,1}
 \end{bmatrix}
 \end{align}
+Note here that 6.3.3 of NIST SP 800-90B\cite{SP80090B} uses the convention of a row vector of probabilities and a right stochastic matrix.  So the transition matrix components $t_{i,j}$ in this section will be interpreted as $t_{j,i}$ in 6.3.3 of NIST SP 800-90B\cite{SP80090B}.
+
 
 Considering a sequence of binary-valued samples of length $\lambda$, there are following four possible combinations of the first sample value and the last sample value:\begin{enumerate}[a)]
 	\item 0 $\to$ 0
@@ -340,7 +342,7 @@ If we denote $\kappa$ as the exponent of $t_{11}$, then the possible values of $
 	\draw ( 0.25, 0.25) node {$o$} ;
 	\draw ( 4, -0.5) node {$\lambda - 1$} ;
 	\draw ( 0.5,  4) node {$\lambda - 1$} ;
-	\draw (-1, -1) node {$\frac{\lambda - 2}{2}$} ;
+	\draw (-1.5, -1) node {$\frac{\lambda - 2}{2}$} ;
 \end{tikzpicture}
 
 \caption{Parameter plane of the exponents $\kappa$, $\mu$, $\nu$}
@@ -384,10 +386,11 @@ a rough phase diagram will be obtained as shown in Figure \ref{fig:phasediagram}
 	\fill[blue!20] (0, 0) -- (0, -4) -- (-4,-4) -- (-4, 0);
 	\draw[->,gray] (-4.5, 0) -- (4.5, 0);
 	\draw[->,gray] ( 0,-4.5) -- (0, 4.5);
+	\draw (-0.25, 0.25) node {$o$} ;
 	\draw (5, 0) node {$\ln \frac{t_{00}}{t_{11}}$} ;
 	\draw (0, 4.8) node {$\tfrac{1}{2} \ln \frac{t_{01} t_{10}}{t_{11}^{2}}$} ;
 	\draw[blue,dashed] (0, 0) -- (4, 4);
-	\draw (4, 4.2) node {$\tfrac{1}{2} \ln \frac{t_{01} t_{10}}{t_{11}^{2}} = \ln \frac{t_{00}}{t_{11}}$} ;
+	\draw (4, 4.25) node {$\tfrac{1}{2} \ln \frac{t_{01} t_{10}}{t_{11}^{2}} = \ln \frac{t_{00}}{t_{11}}$} ;
 	%%%%%
 	\draw ( 2, -2) node {$00 \cdots 00$ dominant} ;
 	\draw (-2,  2) node {$01 \cdots 01$ dominant} ;
@@ -506,59 +509,55 @@ the following expressions give maximum value with respect to $\mu$ and $\nu$:
 	\max_{\mu, \nu}(f_{d}(\mib{T}, \mu, \nu)) = p_{1} t_{11}^{\lambda - 1}
 	\end{align}
 \end{enumerate}
-Note here that it is used that the property $\lambda$ being even.
+Note here that the property that $\lambda$ is even is applied in above calculation.
+Also note that all bounary conditions are considered in the above calculation, combination of first sample values and last sample values.
 
-For eqs. (\ref{expression:neg1}), (\ref{expression:neg2}), (\ref{expression:neg3}), and (\ref{expression:neg4}), readers may think that the dominant sequence is inconsistent with the first sample value of the sequence. 
-These sequences still make sense considering the case where the original observed sequence of samples is pathologic. 
-For example, if we compute the transition probability matrix based on a sequence like $11 \cdots 1100$ the following transition probability matrix is obtained.
-\begin{align}
-\mib{T} 
-= 
-\begin{bmatrix}
-1 & \epsilon \\
-0 & 1 - \epsilon 
-\end{bmatrix}
-\end{align}
-%この遷移確率行列に基づいて式(\ref{eq:fb})及び式(\ref{eq:fc})に限って計算を進めれば, $t_{00}$のべきを大きくした方が確率が大きいので, $00 \cdots 00$という系列が優位になり, 最大値を与える解は式(\ref{expression:nonneg1})と式(\ref{expression:neg3})に絞られる. 
-%さらに, $p_{0}$自体は$p_{1}$よりも小さいため, ($t_{10} = 1$という事情にも依存するが, )式(\ref{expression:nonneg1})よりも式(\ref{expression:neg3})の方が大きい.
-Based on the transition probability matrix, if we restrict our calculations to eqs. (\ref{eq:fb}) and (\ref{eq:fc}), the larger the exponent of $t_{00}$ is, the larger the probability becomes, and thus the sequence $00 \cdots 00$ becomes dominant.  
-The solutions that give the maximum value are limited to those in eqs. (\ref{expression:nonneg1}) and (\ref{expression:neg3}). Furthermore, since $p_{0}$ itself is smaller than $p_{1}$, eq. (\ref{expression:neg3}) is larger than eq. (\ref{expression:nonneg1}) (although it depends on the circumstance that $t_{10} = 1$).
 
-From the above, we have to compare following 14 expressions.
+From the above, we have to compare 14 expressions listed in Table \ref{tab:ListProbabilitiesMostLikelySequences}.
 
-\begin{tabular}{|l|l|c|c|}
+\begin{table}[htbp]
+\caption{Probabilities of the most or second most likely sequences of length $\lambda$}
+\label{tab:ListProbabilitiesMostLikelySequences}
+\begin{center}
+
+\begin{tabular}{|r|l|c|c|}
 \hline
-No. & Sequence & Probability & $-\ln ({\textrm{Probability}}) / \lambda$\\
+No. & Sequence & Probability & $-\log_{2} ({\textrm{Probability}}) / \lambda$\\
 \hline 
-1 & $0000 \cdots 0000$ & $p_{0} \times t_{00}^{\lambda - 1}$ & $-\left[ \frac{\lambda - 1}{\lambda} \ln t_{00} + \frac{1}{\lambda} \ln p_{0} \right]$\\
+1 & $0000 \cdots 0000$ & $p_{0} \times t_{00}^{\lambda - 1}$ & $-\left[ \frac{\lambda - 1}{\lambda} \log_{2} t_{00} + \frac{1}{\lambda} \log_{2} p_{0} \right]$\\
 \hline
-2 & $0101 \cdots 0101001010 \cdots 1010$ & $p_{0} \times t_{00} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \ln \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \ln \left( p_{0} \times t_{00} \right) \right]$ \\
+2 & $0101 \cdots 0101001010 \cdots 1010$ & $p_{0} \times t_{00} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \log_{2} \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \log_{2} \left( p_{0} \times t_{00} \right) \right]$ \\
 \hline
-3 & $0101 \cdots 0101101010 \cdots 1010$ & $p_{0} \times t_{11} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \ln \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \ln \left( p_{0} \times t_{11} \right) \right]$ \\
+3 & $0101 \cdots 0101101010 \cdots 1010$ & $p_{0} \times t_{11} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \log_{2} \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \log_{2} \left( p_{0} \times t_{11} \right) \right]$ \\
 \hline 
-4 & $0111 \cdots 1110$ & $p_{0} \times t_{11}^{\lambda - 3} \times t_{01} \times t_{10}$ & $-\left[ \frac{\lambda - 3}{\lambda} \ln t_{11}+ \frac{1}{\lambda} \ln \left( p_{0} \times t_{01} \times t_{10} \right)\right]$ \\
+4 & $0111 \cdots 1110$ & $p_{0} \times t_{11}^{\lambda - 3} \times t_{01} \times t_{10}$ & $-\left[ \frac{\lambda - 3}{\lambda} \log_{2} t_{11}+ \frac{1}{\lambda} \log_{2} \left( p_{0} \times t_{01} \times t_{10} \right)\right]$ \\
 \hline 
-5 & $0000 \cdots 0001$ & $p_{0} \times t_{00}^{\lambda - 2} \times t_{10}$ & $-\left[ \frac{\lambda - 2}{\lambda} \ln t_{00}+ \frac{1}{\lambda} \ln \left( p_{0} \times t_{10} \right)\right]$ \\
+5 & $0000 \cdots 0001$ & $p_{0} \times t_{00}^{\lambda - 2} \times t_{10}$ & $-\left[ \frac{\lambda - 2}{\lambda} \log_{2} t_{00}+ \frac{1}{\lambda} \log_{2} \left( p_{0} \times t_{10} \right)\right]$ \\
 \hline 
-6 & $0101 \cdots 0101$ & $p_{0} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{\lambda / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \ln \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \ln \left( p_{0} \times t_{10} \right) \right]$ \\
+6 & $0101 \cdots 0101$ & $p_{0} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{\lambda / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \log_{2} \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \log_{2} \left( p_{0} \times t_{10} \right) \right]$ \\
 \hline 
-7 & $0111 \cdots 1111$ & $p_{0} \times t_{11}^{\lambda - 2} \times t_{10}$ & $-\left[ \frac{\lambda - 2}{\lambda} \ln t_{11}+ \frac{1}{\lambda} \ln \left( p_{0} \times t_{10} \right)\right]$ \\
+7 & $0111 \cdots 1111$ & $p_{0} \times t_{11}^{\lambda - 2} \times t_{10}$ & $-\left[ \frac{\lambda - 2}{\lambda} \log_{2} t_{11}+ \frac{1}{\lambda} \log_{2} \left( p_{0} \times t_{10} \right)\right]$ \\
 \hline 
-8 & $1000 \cdots 0000$ & $p_{1} \times t_{00}^{\lambda - 2} \times t_{01}$ & $-\left[ \frac{\lambda - 2}{\lambda} \ln t_{00}+ \frac{1}{\lambda} \ln \left( p_{1} \times t_{01} \right)\right]$ \\
+8 & $1000 \cdots 0000$ & $p_{1} \times t_{00}^{\lambda - 2} \times t_{01}$ & $-\left[ \frac{\lambda - 2}{\lambda} \log_{2} t_{00}+ \frac{1}{\lambda} \log_{2} \left( p_{1} \times t_{01} \right)\right]$ \\
 \hline 
-9 & $1010 \cdots 1010$ & $p_{1} \times t_{01}^{\lambda / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \ln \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \ln \left( p_{1} \times t_{01} \right) \right]$ \\
+9 & $1010 \cdots 1010$ & $p_{1} \times t_{01}^{\lambda / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \log_{2} \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \log_{2} \left( p_{1} \times t_{01} \right) \right]$ \\
 \hline 
-10 & $1111 \cdots 1110$ & $p_{1} \times t_{11}^{\lambda - 2} \times t_{01}$ & $-\left[ \frac{\lambda - 2}{\lambda} \ln t_{11}+ \frac{1}{\lambda} \ln \left( p_{1} \times t_{01} \right)\right]$ \\
+10 & $1111 \cdots 1110$ & $p_{1} \times t_{11}^{\lambda - 2} \times t_{01}$ & $-\left[ \frac{\lambda - 2}{\lambda} \log_{2} t_{11}+ \frac{1}{\lambda} \log_{2} \left( p_{1} \times t_{01} \right)\right]$ \\
 \hline 
-11 & $1000 \cdots 0001$ & $p_{1} \times t_{00}^{\lambda - 3} \times t_{01} \times t_{10}$ & $-\left[ \frac{\lambda - 3}{\lambda} \ln t_{00} + \frac{1}{\lambda} \ln \left( p_{1} \times t_{01} \times t_{10} \right) \right]$ \\
+11 & $1000 \cdots 0001$ & $p_{1} \times t_{00}^{\lambda - 3} \times t_{01} \times t_{10}$ & $-\left[ \frac{\lambda - 3}{\lambda} \log_{2} t_{00} + \frac{1}{\lambda} \log_{2} \left( p_{1} \times t_{01} \times t_{10} \right) \right]$ \\
 \hline
-12 & $1010 \cdots 1010100101 \cdots 0101$ & $p_{1} \times t_{00} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \ln \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \ln \left( p_{1} \times t_{00} \right) \right]$ \\
+12 & $1010 \cdots 1010100101 \cdots 0101$ & $p_{1} \times t_{00} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \log_{2} \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \log_{2} \left( p_{1} \times t_{00} \right) \right]$ \\
 \hline
-13 & $1010 \cdots 1010110101 \cdots 0101$ & $p_{1} \times t_{11} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \ln \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \ln \left( p_{1} \times t_{11} \right) \right]$ \\
+13 & $1010 \cdots 1010110101 \cdots 0101$ & $p_{1} \times t_{11} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \log_{2} \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \log_{2} \left( p_{1} \times t_{11} \right) \right]$ \\
 \hline 
-14 & $1111 \cdots 1111$ & $p_{1} \times t_{11}^{\lambda - 1}$ & $-\left[ \frac{\lambda - 1}{\lambda} \ln t_{11} + \frac{1}{\lambda} \ln p_{1} \right]$ \\
+14 & $1111 \cdots 1111$ & $p_{1} \times t_{11}^{\lambda - 1}$ & $-\left[ \frac{\lambda - 1}{\lambda} \log_{2} t_{11} + \frac{1}{\lambda} \log_{2} p_{1} \right]$ \\
 \hline
 \end{tabular}
+
+\end{center}
+\end{table}
+
+\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%
 %%%%%
@@ -570,7 +569,7 @@ In this section, we try to rewrite the following equation using elementary funct
 F(1/z) = \Gamma(3,z)z^{-3}\exp(z) 
 \label{eq:Fin632}
 \end{align}
-In NIST SP 800-90B, it is documented to evaluate incomplete gamma function using continued fraction.
+In NIST SP 800-90B\cite{SP80090B}, it is documented to evaluate incomplete gamma function using continued fraction.
 However, we try to obtain simpler expression using known properties of incomplete gamma function without using continued fraction.
 
 First we try to use the following equations (see 8.4.8 and 8.4.11 in \cite{MathHandbook}).
