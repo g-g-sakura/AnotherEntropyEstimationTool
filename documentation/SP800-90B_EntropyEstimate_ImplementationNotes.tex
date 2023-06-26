@@ -520,38 +520,43 @@ From the above, we have to compare 14 expressions listed in Table \ref{tab:ListP
 \label{tab:ListProbabilitiesMostLikelySequences}
 \begin{center}
 
-\begin{tabular}{|r|l|c|c|}
+\begin{tabular}{|r|l|c|c|l|}
 \hline
-No. & Sequence & Probability & $-\log_{2} ({\textrm{Probability}}) / \lambda$\\
+No. & Sequence & Probability & $-\log_{2} ({\textrm{Probability}}) / \lambda$ & Notes\\
 \hline 
-1 & $0000 \cdots 0000$ & $p_{0} \times t_{00}^{\lambda - 1}$ & $-\left[ \frac{\lambda - 1}{\lambda} \log_{2} t_{00} + \frac{1}{\lambda} \log_{2} p_{0} \right]$\\
+1 & $0000 \cdots 0000$ & $p_{0} \times t_{00}^{\lambda - 1}$ & $-\left[ \frac{\lambda - 1}{\lambda} \log_{2} t_{00} + \frac{1}{\lambda} \log_{2} p_{0} \right]$ & $^{\textrm{\,a}}$, $^{\textrm{\,b}}$\\
 \hline
-2 & $0101 \cdots 0101001010 \cdots 1010$ & $p_{0} \times t_{00} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \log_{2} \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \log_{2} \left( p_{0} \times t_{00} \right) \right]$ \\
+2 & $0101 \cdots 0101001010 \cdots 1010$ & $p_{0} \times t_{00} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \log_{2} \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \log_{2} \left( p_{0} \times t_{00} \right) \right]$ & \quad $^{\textrm{\,b}}$ \\
 \hline
-3 & $0101 \cdots 0101101010 \cdots 1010$ & $p_{0} \times t_{11} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \log_{2} \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \log_{2} \left( p_{0} \times t_{11} \right) \right]$ \\
+3 & $0101 \cdots 0101101010 \cdots 1010$ & $p_{0} \times t_{11} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \log_{2} \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \log_{2} \left( p_{0} \times t_{11} \right) \right]$ &  \\
 \hline 
-4 & $0111 \cdots 1110$ & $p_{0} \times t_{11}^{\lambda - 3} \times t_{01} \times t_{10}$ & $-\left[ \frac{\lambda - 3}{\lambda} \log_{2} t_{11}+ \frac{1}{\lambda} \log_{2} \left( p_{0} \times t_{01} \times t_{10} \right)\right]$ \\
+4 & $0111 \cdots 1110$ & $p_{0} \times t_{11}^{\lambda - 3} \times t_{01} \times t_{10}$ & $-\left[ \frac{\lambda - 3}{\lambda} \log_{2} t_{11}+ \frac{1}{\lambda} \log_{2} \left( p_{0} \times t_{01} \times t_{10} \right)\right]$ &  \\
 \hline 
-5 & $0000 \cdots 0001$ & $p_{0} \times t_{00}^{\lambda - 2} \times t_{10}$ & $-\left[ \frac{\lambda - 2}{\lambda} \log_{2} t_{00}+ \frac{1}{\lambda} \log_{2} \left( p_{0} \times t_{10} \right)\right]$ \\
+5 & $0000 \cdots 0001$ & $p_{0} \times t_{00}^{\lambda - 2} \times t_{10}$ & $-\left[ \frac{\lambda - 2}{\lambda} \log_{2} t_{00}+ \frac{1}{\lambda} \log_{2} \left( p_{0} \times t_{10} \right)\right]$ &  \\
 \hline 
-6 & $0101 \cdots 0101$ & $p_{0} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{\lambda / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \log_{2} \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \log_{2} \left( p_{0} \times t_{10} \right) \right]$ \\
+6 & $0101 \cdots 0101$ & $p_{0} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{\lambda / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \log_{2} \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \log_{2} \left( p_{0} \times t_{10} \right) \right]$ & $^{\textrm{\,a}}$, $^{\textrm{\,b}}$ \\
 \hline 
-7 & $0111 \cdots 1111$ & $p_{0} \times t_{11}^{\lambda - 2} \times t_{10}$ & $-\left[ \frac{\lambda - 2}{\lambda} \log_{2} t_{11}+ \frac{1}{\lambda} \log_{2} \left( p_{0} \times t_{10} \right)\right]$ \\
+7 & $0111 \cdots 1111$ & $p_{0} \times t_{11}^{\lambda - 2} \times t_{10}$ & $-\left[ \frac{\lambda - 2}{\lambda} \log_{2} t_{11}+ \frac{1}{\lambda} \log_{2} \left( p_{0} \times t_{10} \right)\right]$ & $^{\textrm{\,a}}$, \quad $^{\textrm{\,c}}$\\
 \hline 
-8 & $1000 \cdots 0000$ & $p_{1} \times t_{00}^{\lambda - 2} \times t_{01}$ & $-\left[ \frac{\lambda - 2}{\lambda} \log_{2} t_{00}+ \frac{1}{\lambda} \log_{2} \left( p_{1} \times t_{01} \right)\right]$ \\
+8 & $1000 \cdots 0000$ & $p_{1} \times t_{00}^{\lambda - 2} \times t_{01}$ & $-\left[ \frac{\lambda - 2}{\lambda} \log_{2} t_{00}+ \frac{1}{\lambda} \log_{2} \left( p_{1} \times t_{01} \right)\right]$ & $^{\textrm{\,a}}$, $^{\textrm{\,b}}$ \\
 \hline 
-9 & $1010 \cdots 1010$ & $p_{1} \times t_{01}^{\lambda / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \log_{2} \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \log_{2} \left( p_{1} \times t_{01} \right) \right]$ \\
+9 & $1010 \cdots 1010$ & $p_{1} \times t_{01}^{\lambda / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \log_{2} \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \log_{2} \left( p_{1} \times t_{01} \right) \right]$ & $^{\textrm{\,a}}$, $^{\textrm{\,b}}$ \\
 \hline 
-10 & $1111 \cdots 1110$ & $p_{1} \times t_{11}^{\lambda - 2} \times t_{01}$ & $-\left[ \frac{\lambda - 2}{\lambda} \log_{2} t_{11}+ \frac{1}{\lambda} \log_{2} \left( p_{1} \times t_{01} \right)\right]$ \\
+10 & $1111 \cdots 1110$ & $p_{1} \times t_{11}^{\lambda - 2} \times t_{01}$ & $-\left[ \frac{\lambda - 2}{\lambda} \log_{2} t_{11}+ \frac{1}{\lambda} \log_{2} \left( p_{1} \times t_{01} \right)\right]$ &  \\
 \hline 
-11 & $1000 \cdots 0001$ & $p_{1} \times t_{00}^{\lambda - 3} \times t_{01} \times t_{10}$ & $-\left[ \frac{\lambda - 3}{\lambda} \log_{2} t_{00} + \frac{1}{\lambda} \log_{2} \left( p_{1} \times t_{01} \times t_{10} \right) \right]$ \\
+11 & $1000 \cdots 0001$ & $p_{1} \times t_{00}^{\lambda - 3} \times t_{01} \times t_{10}$ & $-\left[ \frac{\lambda - 3}{\lambda} \log_{2} t_{00} + \frac{1}{\lambda} \log_{2} \left( p_{1} \times t_{01} \times t_{10} \right) \right]$ &  \\
 \hline
-12 & $1010 \cdots 1010100101 \cdots 0101$ & $p_{1} \times t_{00} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \log_{2} \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \log_{2} \left( p_{1} \times t_{00} \right) \right]$ \\
+12 & $1010 \cdots 1010100101 \cdots 0101$ & $p_{1} \times t_{00} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \log_{2} \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \log_{2} \left( p_{1} \times t_{00} \right) \right]$ &  \\
 \hline
-13 & $1010 \cdots 1010110101 \cdots 0101$ & $p_{1} \times t_{11} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \log_{2} \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \log_{2} \left( p_{1} \times t_{11} \right) \right]$ \\
+13 & $1010 \cdots 1010110101 \cdots 0101$ & $p_{1} \times t_{11} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \log_{2} \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \log_{2} \left( p_{1} \times t_{11} \right) \right]$ & \qquad $^{\textrm{\,c}}$ \\
 \hline 
-14 & $1111 \cdots 1111$ & $p_{1} \times t_{11}^{\lambda - 1}$ & $-\left[ \frac{\lambda - 1}{\lambda} \log_{2} t_{11} + \frac{1}{\lambda} \log_{2} p_{1} \right]$ \\
-\hline
+14 & $1111 \cdots 1111$ & $p_{1} \times t_{11}^{\lambda - 1}$ & $-\left[ \frac{\lambda - 1}{\lambda} \log_{2} t_{11} + \frac{1}{\lambda} \log_{2} p_{1} \right]$ & $^{\textrm{\,a}}$, $^{\textrm{\,b}}$ \\
+\hline 
+\hline 
+\multicolumn{5}{|l|}{$^{\textrm{\,a}}$\quad Included in 6.3.3 of NIST SP 800-90B\cite{SP80090B}.} \\ 
+\multicolumn{5}{|l|}{$^{\textrm{\,b}}$\quad Included in paragraph 516 of AIS 20/31 Version 2.35 - DRAFT \cite{AIS31draft2022}, by using the relation that $m \equiv \lambda - 1$.} \\ 
+\multicolumn{5}{|l|}{$^{\textrm{\,c}}$\quad Included in paragraph 516 of AIS 20/31 Version 2.35 - DRAFT \cite{AIS31draft2022}, by using the relation that $m \equiv \lambda - 1$ and by relabeling the state space $\Omega$ = \{ 0, 1\}.} \\ 
+\hline 
 \end{tabular}
 
 \end{center}
@@ -818,7 +823,13 @@ National Institute of Standards and Technology, 2010
 \bibitem{CorrectionsSP80090B}
 G. Sakurai, \textit{Proposed list of corrections for NIST SP 800-90B 6.3 Estimators}, Dec. 2022
 \url{https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ProposedListOfCorrections_SP800-90B.pdf}
-
+% 7
+\bibitem{AIS31draft2022}
+M. Peter and W. Schindler,
+\textit{A Proposal for Functionality Classes for Random Number Generators}
+Version 2.35 - DRAFT,
+September 2, 2022.
+\url{https://www.bsi.bund.de/SharedDocs/Downloads/EN/BSI/Certification/Interpretations/AIS_31_Functionality_classes_for_random_number_generators_e.pdf?__blob=publicationFile&v=7}
 \end{thebibliography}
 
 \end{document}
