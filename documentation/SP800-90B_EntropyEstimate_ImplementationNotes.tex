@@ -13,6 +13,7 @@
 \usepackage[open,openlevel=4]{bookmark}
 \newcommand\mib[1]{\boldsymbol{#1}}
 
+\usepackage{colortbl}
 \usepackage{xcolor}
 \usepackage{fancyhdr}
 \usepackage[explicit]{titlesec}
@@ -214,7 +215,8 @@
 \renewcommand{\tablename}{Table }
 \renewcommand{\refname}{References}
 \renewcommand*{\thesection}{\arabic{section}}
-\title{Implementation Notes for entropy estimation based on NIST SP 800-90B non-IID track}
+\author{Gen'ya SAKURAI}
+\title{Implementation Notes for \\entropy estimation based on NIST SP 800-90B non-IID track}
 \date{\today}
 \begin{document}
 \maketitle
@@ -252,7 +254,7 @@ t_{0,0} & t_{0,1} \\
 t_{1,0} & t_{1,1}
 \end{bmatrix}
 \end{align}
-Note here that 6.3.3 of NIST SP 800-90B\cite{SP80090B} uses the convention of a row vector of probabilities and a right stochastic matrix.  So the transition matrix components $t_{i,j}$ in this section will be interpreted as $t_{j,i}$ in 6.3.3 of NIST SP 800-90B\cite{SP80090B}.
+Note here that 6.3.3 of NIST SP 800-90B\cite{SP80090B} uses the convention of a row vector of probabilities and a right stochastic matrix.  So the transition matrix components $t_{i,j}$ in this section will be interpreted as $P_{j,i}$ in 6.3.3 of NIST SP 800-90B\cite{SP80090B}.
 
 
 Considering a sequence of binary-valued samples of length $\lambda$, there are following four possible combinations of the first sample value and the last sample value:\begin{enumerate}[a)]
@@ -349,7 +351,7 @@ If we denote $\kappa$ as the exponent of $t_{11}$, then the possible values of $
 \label{fig:parameterplane}
 \end{figure}
 
-In order to calculate the extreme values of $f_{a}, f_{b}, f_{c}$, and $f_{d}$, assuming that $\mu$, and $\nu$ are continuous variables, we first consider the partial derivatives of $f_{a}(\mib{T}, \mu, \nu)$ with respect to $\mu$, and $\nu$.
+In order to calculate the extrema of $f_{a}, f_{b}, f_{c}$, and $f_{d}$, assuming that $\mu$, and $\nu$ are continuous variables, we first consider the partial derivatives of $f_{a}(\mib{T}, \mu, \nu)$ with respect to $\mu$, and $\nu$.
 
 \begin{align}
 	\frac{\partial }{\partial \mu} f_{a}(\mib{T}, \mu, \nu) 
@@ -375,7 +377,7 @@ In order to calculate the extreme values of $f_{a}, f_{b}, f_{c}$, and $f_{d}$, 
 %The partial derivatives of $f_{b}, f_{c}$, and $f_{d}$ with respect to $\mu$ and $\nu$ are obtained by taking permutation of $a$ with respecto to $b$, $c$, and $d$ in eq. (\ref{eq:nondiagonalproduct}) and eq.(\ref{eq:diagonal}), respectively.
 
 Taking into accout eqs. (\ref{eq:nondiagonalproduct}) and (\ref{eq:diagonal}), and the property that the value $f_{a}(\mib{T}, \mu, \nu)$ is non-negative, 
-a rough phase diagram will be obtained as shown in Figure \ref{fig:phasediagram}, by taking the horizontal axis as $\ln \frac{t_{00}}{t_{11}}$, and the vertical axis $\tfrac{1}{2}\ln \frac{t_{01} t_{10}}{t_{11}^{2}}$.
+a rough phase diagram will be obtained as shown in Figure \ref{fig:phasediagram}, by taking the horizontal axis as $\ln \frac{t_{00}}{t_{11}}$, and the vertical axis as $\tfrac{1}{2}\ln \frac{t_{01} t_{10}}{t_{11}^{2}}$.
 
 \begin{figure}[htbp]
 \centering
@@ -397,7 +399,7 @@ a rough phase diagram will be obtained as shown in Figure \ref{fig:phasediagram}
 	\draw (-2, -2) node {$11 \cdots 11$ dominant} ;
 \end{tikzpicture}
 
-\caption{Phase diagram of most likely sequence based on $f_{a}(\mib{T}, \mu, \nu)$ with respect to components of transition probability matrix $\mib{T}$}
+\caption{Phase diagram of most likely sequence based on $f_{a}(\mib{T}, \mu, \nu)$ with respect to components of stochastic matrix $\mib{T}$}
 \label{fig:phasediagram}
 \end{figure}
 
@@ -405,8 +407,8 @@ First, if we consider the third quadrant, for example, the conditional probabili
 
 Next, for the other quadrants, let us consider whether $00 \cdots 00$ or $01 \cdots 01$ is the dominant sequence. 
 In particular, for the first quadrant, since right hand sides of eqs. (\ref{eq:nondiagonalproduct}) and (\ref{eq:diagonal}) are positive, let us examine whether $00 \cdots 00$ or $0101 \cdots 0101$ is the dominant sequence. 
-Since at least $11 \cdots 11$ is not a dominant sequence, we can limit the discussion with $\kappa =$ 0, 1, the parameter region of possible values of $\mu$ and $\nu$ is restricted to the line segment in Figure \ref{fig:parameterplane}. 
-The delta of $f_{a}$ is then expressed by the following equation:
+Since at least $11 \cdots 11$ is not a dominant sequence, we can limit the discussion with $\kappa =$ 0, 1, the parameter region of possible values of $\mu$ and $\nu$ is restricted to a line segment in Figure \ref{fig:parameterplane}. 
+In this case, the total differentiation of $f_{a}$ is then expressed by the following equation:
 \begin{align}
 \Delta f_{a} 
 &= 
@@ -424,9 +426,11 @@ The delta of $f_{a}$ is then expressed by the following equation:
 \ln \frac{t_{01}t_{10}}{t_{00}^{2}}
 \right)
 \Delta \mu
+	\label{expression:totaldiff}
 \end{align}
 
-From this equation, if RHS of eq. (\ref{expression:separationline}) is positive, $f_{a}$ increases with respect to $\mu$ and $01 \cdots 01$ becomes the dominant sequence, and conversely, if RHS of eq. (\ref{expression:separationline}) is negative, $00 \cdots 00$ becomes the dominant sequence.
+From this equation, if RHS of eq. (\ref{expression:totaldiff}) is positive, $f_{a}$ increases with respect to $\mu$ and $01 \cdots 01$ becomes the dominant sequence, and conversely, if RHS of eq. (\ref{expression:totaldiff}) is negative, $00 \cdots 00$ becomes the dominant sequence.
+This will be determined by the following coefficient:
 
 \begin{align}
 	\ln \frac{t_{01}t_{10}}{t_{00}^{2}} 
@@ -434,7 +438,7 @@ From this equation, if RHS of eq. (\ref{expression:separationline}) is positive,
 	\ln \frac{t_{01}t_{10}}{t_{11}^{2}} - 2 \ln \frac{t_{00}}{t_{11}}
 	\label{expression:separationline}
 \end{align}
-A diagonal straight line is shown in Figure \ref{fig:phasediagram} where the RHS of eq. (\ref{expression:separationline}) is zero.  
+Figure \ref{fig:phasediagram} shows a dashed diagonal straight line in the first quadrant, on which the RHS of eq. (\ref{expression:separationline}) is zero.  
 In other words, in the region above this line, $01 \cdots 01$ is the dominant sequence, and $00 \cdots 00$ is the dominant sequence in the region below the line. 
 
 
@@ -444,8 +448,8 @@ From the above, we have to consider the following three dominant sequences:
 	\item $01 \cdots 01$ dominant 
 	\item $11 \cdots 11$ dominant 
 \end{enumerate}
-For each of $f_a, f_b, f_c$, and $f_d$, considering combination with above three dominant sequence, 
-the following expressions give maximum value with respect to $\mu$ and $\nu$:
+For each combination of $f_a, f_b, f_c$, $f_d$, and above three dominant sequences i), ii), and iii), 
+the following expressions are obtained giving the maximum probability with respect to $\mu$ and $\nu$:
 
 \begin{enumerate}[{a)}-i)]
 	\item $00 \cdots 00$ dominant 
@@ -509,7 +513,7 @@ the following expressions give maximum value with respect to $\mu$ and $\nu$:
 	\max_{\mu, \nu}(f_{d}(\mib{T}, \mu, \nu)) = p_{1} t_{11}^{\lambda - 1}
 	\end{align}
 \end{enumerate}
-Note here that the property that $\lambda$ is even is applied in above calculation.
+Note here that we considered the property that $\lambda$ is even in the above expressions.
 Also note that all bounary conditions are considered in the above calculation, combination of first sample values and last sample values.
 
 
@@ -518,15 +522,16 @@ From the above, we have to compare 14 expressions listed in Table \ref{tab:ListP
 \begin{table}[htbp]
 \caption{Probabilities of the most or second most likely sequences of length $\lambda$}
 \label{tab:ListProbabilitiesMostLikelySequences}
-\begin{center}
-
+%\begin{center}
+\makebox[\textwidth][c]{
 \begin{tabular}{|r|l|c|c|l|}
 \hline
+\rowcolor{mylightblue} %%
 No. & Sequence & Probability & $-\log_{2} ({\textrm{Probability}}) / \lambda$ & Notes\\
 \hline 
 1 & $0000 \cdots 0000$ & $p_{0} \times t_{00}^{\lambda - 1}$ & $-\left[ \frac{\lambda - 1}{\lambda} \log_{2} t_{00} + \frac{1}{\lambda} \log_{2} p_{0} \right]$ & $^{\textrm{\,a}}$, $^{\textrm{\,b}}$\\
 \hline
-2 & $0101 \cdots 0101001010 \cdots 1010$ & $p_{0} \times t_{00} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \log_{2} \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \log_{2} \left( p_{0} \times t_{00} \right) \right]$ & \quad $^{\textrm{\,b}}$ \\
+2 & $0101 \cdots 0101001010 \cdots 1010$ & $p_{0} \times t_{00} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \log_{2} \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \log_{2} \left( p_{0} \times t_{00} \right) \right]$ & \quad $^{\textrm{\,\,b}}$ \\
 \hline
 3 & $0101 \cdots 0101101010 \cdots 1010$ & $p_{0} \times t_{11} \times t_{01}^{(\lambda - 2) / 2} \times t_{10}^{(\lambda - 2) / 2}$ & $-\left[ \frac{\lambda - 2}{2\lambda} \log_{2} \left( t_{01} t_{10} \right) + \frac{1}{\lambda} \log_{2} \left( p_{0} \times t_{11} \right) \right]$ &  \\
 \hline 
@@ -554,12 +559,12 @@ No. & Sequence & Probability & $-\log_{2} ({\textrm{Probability}}) / \lambda$ & 
 \hline 
 \hline 
 \multicolumn{5}{|l|}{$^{\textrm{\,a}}$\quad Included in 6.3.3 of NIST SP 800-90B\cite{SP80090B}.} \\ 
-\multicolumn{5}{|l|}{$^{\textrm{\,b}}$\quad Included in paragraph 516 of AIS 20/31 Version 2.35 - DRAFT \cite{AIS31draft2022}, by using the relation that $m \equiv \lambda - 1$.} \\ 
-\multicolumn{5}{|p{17cm}|}{$^{\textrm{\,c}}$\quad Included in paragraph 516 of AIS 20/31 Version 2.35 - DRAFT \cite{AIS31draft2022}, by using the relation that $m \equiv \lambda - 1$ and by relabeling the state space $\Omega$ = \{ 0, 1\}.} \\ 
+\multicolumn{5}{|l|}{$^{\textrm{\,b}}$\quad Explicitly included in paragraph 516 of AIS 20/31 Version 2.35 - DRAFT \cite{AIS31draft2022}, by using the relation $m \equiv \lambda - 1$.} \\ 
+\multicolumn{5}{|p{17cm}|}{$^{\textrm{\,c}}$\quad Implicitly included in paragraph 516 of AIS 20/31 Version 2.35 - DRAFT \cite{AIS31draft2022}, by using the relation $m \equiv \lambda - 1$ and by relabeling the state space $\Omega$ = \{0, 1\}.} \\ 
 \hline 
 \end{tabular}
-
-\end{center}
+}
+%\end{center}
 \end{table}
 
 \clearpage
@@ -812,6 +817,13 @@ Mike Boyle
 \textit{Recommendation for the Entropy Sources Used for Random Bit Generation},
 NIST Special Publication 800-90B, Jan. 2018
 % 2
+\bibitem{AIS31draft2022}
+M. Peter and W. Schindler,
+\textit{A Proposal for Functionality Classes for Random Number Generators}
+Version 2.35 - DRAFT,
+September 2, 2022.
+\url{https://www.bsi.bund.de/SharedDocs/Downloads/EN/BSI/Certification/Interpretations/AIS_31_Functionality_classes_for_random_number_generators_e.pdf?__blob=publicationFile&v=7}
+% 3
 \bibitem{MathHandbook}
 Franck W. J. Oliver,
 Daniel W. Lozier,
@@ -823,13 +835,6 @@ National Institute of Standards and Technology, 2010
 \bibitem{CorrectionsSP80090B}
 G. Sakurai, \textit{Proposed list of corrections for NIST SP 800-90B 6.3 Estimators}, Dec. 2022
 \url{https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ProposedListOfCorrections_SP800-90B.pdf}
-% 7
-\bibitem{AIS31draft2022}
-M. Peter and W. Schindler,
-\textit{A Proposal for Functionality Classes for Random Number Generators}
-Version 2.35 - DRAFT,
-September 2, 2022.
-\url{https://www.bsi.bund.de/SharedDocs/Downloads/EN/BSI/Certification/Interpretations/AIS_31_Functionality_classes_for_random_number_generators_e.pdf?__blob=publicationFile&v=7}
 \end{thebibliography}
 
 \end{document}
