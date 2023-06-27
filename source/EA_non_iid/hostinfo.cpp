@@ -85,7 +85,7 @@ ns_consts::EnmReturnStatus getMemoryStatus(std::wstring& o_refMemoryStatus)
     if (0 != bMem)
     {
         std::wstringstream ss = std::wstringstream();
-        ss << (statex.ullTotalPhys / 1024) / 1024 << " MB";
+        ss << (statex.ullTotalPhys / 1024) / 1024 << " MiB";
         o_refMemoryStatus = ss.str();
         sts = ns_consts::EnmReturnStatus::Success;
     }
