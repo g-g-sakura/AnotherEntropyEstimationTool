@@ -20,6 +20,8 @@
 \usepackage{xspace}
 \usepackage[many]{tcolorbox}
 \usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{multirow}
 \usepackage[unicode,pdftitle={Report of Entropy estimates based on NIST SP 800-90B non-IID track},setpagesize=false]{hyperref}
 \usepackage[open,openlevel=4]{bookmark}
 \newcommand\mib[1]{\boldsymbol{#1}}
@@ -132,7 +134,7 @@
 %%%%%%
 %%%%%%
 \title{Report of Entropy estimates based on NIST SP 800-90B non-IID track}
-\date{2023-Feb-26 10:42:50.069336}
+\date{2023-Jul-29 17:59:31.847210}
 \begin{document}
 \maketitle
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -150,7 +152,15 @@
 \begin{center}
 \begin{tabular}{|>{\columncolor{anotherlightblue}}p{2cm}|p{20.5cm}|}
 \hline 
-URL of the acquisition data & \url{https://github.com/usnistgov/SP800-90B_EntropyAssessment/blob/master/bin/normal.bin} \\
+Path to the acquisition data & \verb|"C:\usr\01_git_repos\NIST_SP800-90B_EntropyAssessment\SP800-90B_EntropyAssessment\bin\normal.bin"| \\
+\hline
+SHA-256 hash value of the acquisition data [hex] & 
+\begin{verbatim}
+a70ce92a 71b9b0c6 dee80335 ef570dea 618631ee 64cc735b 033e9f40 2f14bc7d
+\end{verbatim} 
+\\
+\hline
+Last write time & 2023-Jun-30 21:13:46 \\
 \hline
 \end{tabular}
 \end{center}
@@ -177,15 +187,21 @@ URL of the acquisition data & \url{https://github.com/usnistgov/SP800-90B_Entrop
 \hline 
 Analysis tool & Name & Another entropy estimation tool with extensions \\
 \cline{2-3}
-\, & Versioning information & 1.0.43 \\
+\, & Versioning information & 1.0.49 \\
+\cline{2-3}
+\, & built as &  64-bit application \\
+\cline{2-3}
+\, & built by &  Intel C++ Compiler ( \verb|__INTEL_LLVM_COMPILER|: 20230200 ) \\
+\cline{2-3}
+\, & linked libraries &  Boost C++ 1.82.0 \\
 \hline
 Analysis environment & Hostname & TIGER140A \\
 \cline{2-3}
 \, & CPU information & AMD Ryzen 5 PRO 5650U with Radeon Graphics      \\
 \cline{2-3}
-\, &  Physical memory size & 47950 MB \\
+\, &  Physical memory size & 47950 MiB \\
 \cline{2-3}
-\, &  OS information & Windows 10 or greater \\
+\, &  OS information & Windows 10 or greater 64-bit \\
 \cline{2-3}
 \, &  Username & genya \\
 \hline
@@ -283,6 +299,8 @@ $H_{I} = \min (H_{\textrm{original}}, 8\times H_{\textrm{bitstring}})$ &\multico
 \clearpage
 \subsection{Visual comparison of min-entropy estimates from original samples}
 \begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture} 
 \begin{axis}
 	[symbolic x coords={6.3.1,6.3.2,6.3.3,6.3.4,6.3.5,6.3.6,6.3.7,6.3.8,6.3.9,6.3.10},
@@ -301,10 +319,13 @@ node[below] at (axis cs:6.3.5,5.52912) {Estimated min-entropy =
 5.52912};
 \end{axis} 
 \end{tikzpicture}
+
 \caption{Estimated Min-Entropy using $\S$6.3 of NIST SP 800-90B}
 \end{figure}
 \subsection{Visual comparison of min-entropy estimates by interpreting each sample as bitstring}
 \begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture} 
 \begin{axis}
 	[symbolic x coords={6.3.1,6.3.2,6.3.3,6.3.4,6.3.5,6.3.6,6.3.7,6.3.8,6.3.9,6.3.10},
@@ -323,11 +344,15 @@ node[below] at (axis cs:6.3.5,0.512512) {Estimated min-entropy =
 0.512512};
 \end{axis} 
 \end{tikzpicture}
+
 \caption{Estimated Min-Entropy using $\S$6.3 of NIST SP 800-90B}
 \end{figure}
 \clearpage
 \section{Detailed results of analysis from original samples}
 \subsection{The Most Common Value Estimate (NIST SP 800-90B Section 6.3.1)}
+\begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture}
 \begin{axis}[
 	ybar,
@@ -525,6 +550,9 @@ node[above] at (axis cs:108.5,0.019943) {\shortstack{$\hat{p}$ =
 0.019943\\($\rightarrow$ min-entropy = 5.62216 [bit / 8-bit])}};
 \end{axis}
 \end{tikzpicture}
+
+\caption{Distribution of $x_i$}
+\end{figure}
 \subsubsection{Supplemental information for traceability}
 \renewcommand{\arraystretch}{1.8}
 \begin{table}[h]
@@ -544,6 +572,8 @@ $p_u$				& 0.0203031\\ \hline
 \clearpage
 \subsection{The t-tuple Estimate (NIST SP 800-90B Section 6.3.5)}
 \begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture}
 \begin{semilogyaxis}[
 	width=20cm,
@@ -556,9 +586,12 @@ $p_u$				& 0.0203031\\ \hline
 };
 \end{semilogyaxis}
 \end{tikzpicture}
+
 \caption{Intermediate value $Q[i]$ \, in $\S$6.3.5 of NIST SP 800-90B}
 \end{figure}
 \begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture}
 \begin{axis}[
 	width=20cm,
@@ -575,6 +608,7 @@ coordinates {(1,0.0212838) (2,0.0212838)}
 node[above left] at (axis cs:2,0.0212838) {\shortstack{$\hat{p}_{\textrm{max}}$ = 0.0212838\\($\rightarrow$ min-entropy = 5.52912 [bit / 8-bit])}};
 \end{axis}
 \end{tikzpicture}
+
 \caption{$P[i]^{1/i}$ \, in $\S$6.3.5 of NIST SP 800-90B}
 \end{figure}
 \clearpage
@@ -597,6 +631,8 @@ $p_u$				& 0.0216556\\ \hline
 \clearpage
 \subsection{The LRS Estimate (NIST SP 800-90B Section 6.3.6)}
 \begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture}
 \begin{axis}[
 	view/h=160,
@@ -619,9 +655,12 @@ $p_u$				& 0.0216556\\ \hline
 };
 \end{axis}
 \end{tikzpicture}
+
 \caption{Estimated $W$-tuple collision probability in Step 3 of $\S6.3.6$ of NIST SP 800-90B}
 \end{figure}
 \begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture}
 \begin{axis}[
 	width=20cm,
@@ -647,6 +686,7 @@ coordinates {(3,0.0142228) (6,0.0142228)}
 node[above, xshift=-10mm] at (axis cs:5,0.0142228) {\shortstack{$\hat{p}$ = 0.0142228 \\($\rightarrow$ min-entropy = 6.10504 [bit / 8-bit])}};
 \end{axis}
 \end{tikzpicture}
+
 \caption{Estimated average collision probability per string symbol in Step 3 of $\S6.3.6$ of NIST SP 800-90B}
 \end{figure}
 \clearpage
@@ -670,6 +710,8 @@ $p_u$				& 0.0145278\\ \hline
 \clearpage
 \subsection{Multi Most Common in Window Prediction Estimate (NIST SP 800-90B Section 6.3.7)}
 \begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture}
 \begin{axis}[
 	ybar,
@@ -714,6 +756,8 @@ $P_{\textrm{local}}$ 			& 0.010038\\ \hline
 \clearpage
 \subsection{Lag Prediction Estimate (NIST SP 800-90B Section 6.3.8)}
 \begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture}
 \begin{axis}[
 	ybar,
@@ -758,6 +802,8 @@ $P_{\textrm{local}}$ 			& 0.0100379\\ \hline
 \clearpage
 \subsection{The MultiMMC Prediction Estimate (NIST SP 800-90B Section 6.3.9)}
 \begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture}
 \begin{axis}[
 	ybar,
@@ -802,6 +848,8 @@ $P_{\textrm{local}}$ 			& 0.0100379\\ \hline
 \clearpage
 \subsection{The LZ78Y Prediction Estimate (NIST SP 800-90B Section 6.3.10)}
 \begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture}
 \begin{axis}[
 	ybar,
@@ -846,6 +894,9 @@ $P_{\textrm{local}}$ 			& 0.0100379\\ \hline
 \clearpage
 \section{Detailed results of analysis by interpreting each sample as bitstrings}
 \subsection{The Most Common Value Estimate (NIST SP 800-90B Section 6.3.1)}
+\begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture}
 \begin{axis}[
 	ybar,
@@ -866,6 +917,9 @@ node[above] at (axis cs:0.5,0.500823) {\shortstack{$\hat{p}$ =
 0.500823\\($\rightarrow$ min-entropy = 0.996315 [bit / 1-bit])}};
 \end{axis}
 \end{tikzpicture}
+
+\caption{Distribution of $x_i$}
+\end{figure}
 \subsubsection{Supplemental information for traceability}
 \renewcommand{\arraystretch}{1.8}
 \begin{table}[h]
@@ -884,6 +938,9 @@ $p_u$				& 0.501279\\ \hline
 \renewcommand{\arraystretch}{1.4}
 \clearpage
 \subsection{The Collision Estimate (NIST SP 800-90B Section 6.3.2)}
+\begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture}
 \begin{axis}[
 	ybar,
@@ -903,6 +960,9 @@ coordinates {(2.52247,1658827) (2.52247,1)}
 node[above right] at (axis cs:2.52247,1658827) {$\bar{X}'$ = 2.52247};
 \end{axis}
 \end{tikzpicture}
+
+\caption{Distribution of intermediate value $t_{\nu}$}
+\end{figure}
 \begin{figure}[htbp]
 \centering
 
@@ -958,7 +1018,6 @@ $\hat{\sigma}$		& 0.499462\\ \hline
 	xmin=-0.125,xmax=1.125,
 	xtick={0, 1},
 	legend style={at={(1,0.75)},anchor=north west},
-%	clickable coords={(xy): \thisrow{label}},%
 	/pgf/number format/.cd,fixed,precision=6,
 	scatter/classes={%
 		a={mark=square*,blue},
@@ -987,7 +1046,6 @@ x	y	label
 	width=18cm,
 	xmin=0.5,xmax=14.5,
 	legend style={at={(1,1)},anchor=north west},
-%	clickable coords={(xy): \thisrow{label}},%
 	/pgf/number format/.cd,fixed,precision=6,
 	scatter/classes={%
 		a={mark=square*,blue},
@@ -1095,6 +1153,9 @@ x	y	label
 \end{figure}
 \clearpage
 \subsection{The Compression Estimate (NIST SP 800-90B Section 6.3.4)}
+\begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture}
 \begin{semilogxaxis}[
 	width=20cm,
@@ -2359,6 +2420,9 @@ coordinates {(5.03069,50778) (5.03069,1)}
 node[above right] at (axis cs:5.03069,50778) {\shortstack{$\bar{X}$ = 5.03069, \,$\hat{\sigma}=$1.04886\\($\rightarrow$ min-entropy = 0.512512 [bit / 1-bit])}};
 \end{semilogxaxis}
 \end{tikzpicture}
+
+\caption{Distribution of intermediate value $D_{i}$}
+\end{figure}
 \subsubsection{Supplemental information for traceability}
 \renewcommand{\arraystretch}{1.8}
 \begin{table}[h]
@@ -2379,6 +2443,8 @@ $\bar{X}'$ 		&  5.02835\\ \hline
 \clearpage
 \subsection{The t-tuple Estimate (NIST SP 800-90B Section 6.3.5)}
 \begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture}
 \begin{semilogyaxis}[
 	width=20cm,
@@ -2412,9 +2478,12 @@ $\bar{X}'$ 		&  5.02835\\ \hline
 };
 \end{semilogyaxis}
 \end{tikzpicture}
+
 \caption{Intermediate value $Q[i]$ \, in $\S$6.3.5 of NIST SP 800-90B}
 \end{figure}
 \begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture}
 \begin{axis}[
 	width=20cm,
@@ -2452,6 +2521,7 @@ coordinates {(1,0.584789) (23,0.584789)}
 node[above left] at (axis cs:23,0.584789) {\shortstack{$\hat{p}_{\textrm{max}}$ = 0.584789\\($\rightarrow$ min-entropy = 0.772906 [bit / 1-bit])}};
 \end{axis}
 \end{tikzpicture}
+
 \caption{$P[i]^{1/i}$ \, in $\S$6.3.5 of NIST SP 800-90B}
 \end{figure}
 \clearpage
@@ -2474,6 +2544,8 @@ $p_u$				& 0.585238\\ \hline
 \clearpage
 \subsection{The LRS Estimate (NIST SP 800-90B Section 6.3.6)}
 \begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture}
 \begin{axis}[
 	view/h=160,
@@ -2546,9 +2618,12 @@ $p_u$				& 0.585238\\ \hline
 };
 \end{axis}
 \end{tikzpicture}
+
 \caption{Estimated $W$-tuple collision probability in Step 3 of $\S6.3.6$ of NIST SP 800-90B}
 \end{figure}
 \begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture}
 \begin{axis}[
 	width=20cm,
@@ -2599,6 +2674,7 @@ coordinates {(24,0.562702) (52,0.562702)}
 node[above] at (axis cs:48,0.562702) {\shortstack{$\hat{p}$ = 0.562702 \\($\rightarrow$ min-entropy = 0.828399 [bit / 1-bit])}};
 \end{axis}
 \end{tikzpicture}
+
 \caption{Estimated average collision probability per string symbol in Step 3 of $\S6.3.6$ of NIST SP 800-90B}
 \end{figure}
 \clearpage
@@ -2622,6 +2698,8 @@ $p_u$				& 0.563154\\ \hline
 \clearpage
 \subsection{Multi Most Common in Window Prediction Estimate (NIST SP 800-90B Section 6.3.7)}
 \begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture}
 \begin{axis}[
 	ybar,
@@ -2668,6 +2746,8 @@ $P_{\textrm{local}}$ 			& 0.130614\\ \hline
 \clearpage
 \subsection{Lag Prediction Estimate (NIST SP 800-90B Section 6.3.8)}
 \begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture}
 \begin{axis}[
 	ybar,
@@ -2723,6 +2803,8 @@ $P_{\textrm{local}}$ 			& 0.479558\\ \hline
 \clearpage
 \subsection{The MultiMMC Prediction Estimate (NIST SP 800-90B Section 6.3.9)}
 \begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture}
 \begin{axis}[
 	ybar,
@@ -2777,6 +2859,8 @@ $P_{\textrm{local}}$ 			& 0.621134\\ \hline
 \clearpage
 \subsection{The LZ78Y Prediction Estimate (NIST SP 800-90B Section 6.3.10)}
 \begin{figure}[htbp]
+\centering
+
 \begin{tikzpicture}
 \begin{axis}[
 	ybar,
@@ -2837,10 +2921,11 @@ Kerry A. McKay,
 Mary L. Baish,
 Mike Boyle
 \textit{Recommendation for the Entropy Sources Used for Random Bit Generation},
-NIST Special Publication 800-90B, Jan. 2018
+NIST Special Publication 800-90B, Jan. 2018 
+\url{https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-90B.pdf}
 % 2
 \bibitem{CorrectionsSP80090B}
-G. Sakurai, \textit{Proposed list of corrections for NIST SP 800-90B 6.3 Estimators}, Dec. 2022
+G. Sakurai, \textit{Proposed list of corrections for NIST SP 800-90B 6.3 Estimators}, Dec. 2022 
 \url{https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ProposedListOfCorrections_SP800-90B.pdf}
 \end{thebibliography}
 \end{document}
