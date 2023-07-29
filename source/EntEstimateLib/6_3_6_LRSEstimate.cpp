@@ -68,6 +68,8 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\begin{figure}[htbp]" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\centering" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\begin{tikzpicture}" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\begin{axis}[" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"	view/h=160," << std::endl;
@@ -79,7 +81,6 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"	zlabel=multiplicity," << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"]" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\addplot3[surf, ";
-				//(*io_refData.p_ssLaTeXFragment) << L"mesh/cols=" << extentSecondDim << L", ";
 				(*io_refData.p_ssLaTeXFragment) << L"mesh/ordering=y varies, shader=faceted interp] coordinates {" << std::endl;
 				// -------------------------------------------------------------------------- //
 				//
@@ -121,6 +122,8 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\begin{figure}[htbp]" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\centering" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\begin{tikzpicture}" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\begin{axis}[" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"	width=20cm," << std::endl;
@@ -133,7 +136,6 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"        % change \"directory\" back to tikz" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"        /tikz/.cd," << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"    }," << std::endl;
-				//(*io_refData.p_ssLaTeXFragment) << L"	x tick label style = { /pgf/number format/.cd, fixed relative }," << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"	yticklabel style = { /pgf/number format/precision=6 }" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"]" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\addplot  coordinates {" << std::endl;
@@ -181,6 +183,7 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"};" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\end{axis}" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\end{tikzpicture}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\caption{" << i_refCaption << "}" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\end{figure}" << std::endl;
 				// -------------------------------------------------------------------------- //
@@ -285,6 +288,7 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\end{axis}" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\end{tikzpicture}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\caption{" << i_refCaption << "}" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\end{figure}" << std::endl;
 				// -------------------------------------------------------------------------- //

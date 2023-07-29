@@ -85,7 +85,7 @@ ns_consts::EnmReturnStatus getMemoryStatus(std::wstring& o_refMemoryStatus)
     if (0 != bMem)
     {
         std::wstringstream ss = std::wstringstream();
-        ss << (statex.ullTotalPhys / 1024) / 1024 << " MB";
+        ss << (statex.ullTotalPhys / 1024) / 1024 << " MiB";
         o_refMemoryStatus = ss.str();
         sts = ns_consts::EnmReturnStatus::Success;
     }
@@ -93,9 +93,36 @@ ns_consts::EnmReturnStatus getMemoryStatus(std::wstring& o_refMemoryStatus)
     return sts;
 }
 
+bool    Is64bitOS()
+{
+    {
+#if defined(_WIN64)
+        return true;  // 64-bit
+#elif defined(_WIN32)
+        // Two possibilities: 32-bit process on 32-bit OS, or 32-bit process on 64-bit OS
+        BOOL bIsWoW = FALSE;
+        if (0 == IsWow64Process(GetCurrentProcess(), &bIsWoW))
+        {
+            if (FALSE == bIsWoW)
+            {
+                return  false;  // 32-bit process on 32-bit OS
+            }
+            else
+            {
+                return  true;   // 32-bit process on 64-bit OS
+            }
+        }
+#else
+        return false; //
+#endif
+    }
+}
+
 ns_consts::EnmReturnStatus getOSInfo(std::wstring& o_refOSInfo)
 {
     ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
+
+    std::wstringstream  wssOSInfo = std::wstringstream();
 
     if (::IsWindowsServer())
     {
@@ -105,16 +132,23 @@ ns_consts::EnmReturnStatus getOSInfo(std::wstring& o_refOSInfo)
     {
         if (IsWindows10OrGreater())
         {
-            o_refOSInfo = std::wstring(L"Windows 10 or greater");
-        }
-        else if (IsWindows8Point1OrGreater())
-        {
-            o_refOSInfo = std::wstring(L"Windows 8.1 or greater");
+            wssOSInfo << std::wstring(L"Windows 10 or greater");
         }
         else
         {
-            o_refOSInfo = std::wstring(L"EOL OS");
+            wssOSInfo << std::wstring(L"EOL OS");
         }
+
+        if (true == Is64bitOS())
+        {
+            wssOSInfo << std::wstring(L" 64-bit");
+        }
+        else
+        {
+            wssOSInfo << std::wstring(L" 32-bit");
+        }
+
+        o_refOSInfo = wssOSInfo.str();
         sts = ns_consts::EnmReturnStatus::Success;
     }
 
