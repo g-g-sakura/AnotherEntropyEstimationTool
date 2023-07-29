@@ -16,7 +16,7 @@ pdfs := $(subst .tex,.pdf, $(sources))
 logs := $(subst .tex,.log, $(sources))
 auxs := $(subst .tex,.aux, $(sources))
 
-TEX=C:\usr\texlive\2022\bin\win32\xelatex
+TEX=C:\usr\texlive\2023\bin\windows\xelatex
 MAKEINDEX=mendex
 .PHONY:	all single double triple clean
 
