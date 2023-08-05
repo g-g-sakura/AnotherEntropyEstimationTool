@@ -22,6 +22,7 @@
 \usepackage{lastpage}
 \usepackage{verbatim}
 \usepackage{multirow}
+\usepackage{censor}
 \usepackage[unicode,pdftitle={Report of Entropy estimates based on NIST SP 800-90B non-IID track},setpagesize=false]{hyperref}
 \usepackage[open,openlevel=4]{bookmark}
 \newcommand\mib[1]{\boldsymbol{#1}}
@@ -134,8 +135,9 @@
 %%%%%%
 %%%%%%
 \title{Report of Entropy estimates based on NIST SP 800-90B non-IID track}
-\date{2023-Jul-29 17:59:31.847210}
+\date{2023-Aug-05 22:02:22.616131}
 \begin{document}
+%\StopCensoring
 \maketitle
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%
@@ -185,7 +187,7 @@ a70ce92a 71b9b0c6 dee80335 ef570dea 618631ee 64cc735b 033e9f40 2f14bc7d
 \hline 
 Analysis tool & Name & Another entropy estimation tool with extensions \\
 \cline{2-3}
-\, & Versioning information & 1.0.49 \\
+\, & Versioning information & 1.0.50 \\
 \cline{2-3}
 \, & built as &  64-bit application \\
 \cline{2-3}
@@ -193,15 +195,15 @@ Analysis tool & Name & Another entropy estimation tool with extensions \\
 \cline{2-3}
 \, & linked libraries &  Boost C++ 1.82.0 \\
 \hline
-Analysis environment & Hostname & TIGER140A \\
+Analysis environment & Hostname & \censor{TIGER140A} \\
 \cline{2-3}
-\, & CPU information & AMD Ryzen 5 PRO 5650U with Radeon Graphics      \\
+\, & CPU information & AMD Ryzen \censor{5 PRO 5650U with Radeon Graphics}      \\
 \cline{2-3}
-\, &  Physical memory size & 47950 MiB \\
+\, &  Physical memory size & \censor{47950} MiB \\
 \cline{2-3}
 \, &  OS information & Windows 10 or greater 64-bit \\
 \cline{2-3}
-\, &  Username & genya \\
+\, &  Username & \censor{genya} \\
 \hline
 \end{tabular}
 \end{center}
@@ -257,39 +259,39 @@ section	y	y-min	y-max
 \begin{table}[h]
 \caption{Numerical results}
 \begin{center}
-\begin{tabular}{|l|c|c|}
+\begin{tabular}{|l|c|c|c|c|}
 \hline 
 \rowcolor{anotherlightblue} %%
-Estimator										& $H_{\textrm{original}}$$^{\textrm{\,a}}$			& $H_{\textrm{bitstring}}$$^{\textrm{\,b}}$				\\ 
-\cline{2-3}
+Estimator										& $H_{\textrm{original}}$$^{\textrm{\,a}}$			& Notes to $H_{\textrm{original}}$  & $H_{\textrm{bitstring}}$$^{\textrm{\,b}}$	& Notes to $H_{\textrm{bitstring}}$			\\ 
+\cline{2-5}
 \rowcolor{anotherlightblue} %%
-\,												& [bit / 8 - bit] & [bit / 1 - bit]		\\
+\,												& [bit / 8 - bit] & \, & [bit / 1 - bit] &	\,	\\
 \hline 
-The Most Common Value Estimate					& 5.62216& 0.996315\\
+The Most Common Value Estimate					& 5.62216& see \ref{sec:NonBinary631} & 0.996315& see \ref{sec:Binary631} \\
 \hline 
-The Collision Estimate							& ---				& 1\\
+The Collision Estimate							& ---		  & --- & 1& see \ref{sec:Binary632} \\
 \hline 
-The Markov Estimate								& ---				& 0.993793\\
+The Markov Estimate								& ---		  & --- & 0.993793& see \ref{sec:Binary633} \\
 \hline 
-The Compression Estimate						& ---				& 0.512512\\
+The Compression Estimate						& ---		  & --- & 0.512512& see \ref{sec:Binary634} \\
 \hline 
-The t-Tuple Estimate							& 5.52912& 0.772906\\
+The t-Tuple Estimate							& 5.52912& see \ref{sec:NonBinary635} & 0.772906& see \ref{sec:Binary635} \\
 \hline 
-The Longest Repeated Substring (LRS) Estimate	& 6.10504& 0.828399\\
+The Longest Repeated Substring (LRS) Estimate	& 6.10504& see \ref{sec:NonBinary636} & 0.828399& see \ref{sec:Binary636} \\
 \hline 
-Multi Most Common in Window Prediction Estimate	& 5.66817& 1\\
+Multi Most Common in Window Prediction Estimate	& 5.66817& see \ref{sec:NonBinary637} & 1& see \ref{sec:Binary637} \\
 \hline 
-The Lag Prediction Estimate						& 6.10622& 0.997707\\
+The Lag Prediction Estimate						& 6.10622& see \ref{sec:NonBinary638} & 0.997707& see \ref{sec:Binary638} \\
 \hline 
-The MultiMMC Prediction Estimate				& 5.67576& 0.676758\\
+The MultiMMC Prediction Estimate				& 5.67576& see \ref{sec:NonBinary639} & 0.676758& see \ref{sec:Binary639} \\
 \hline 
-The LZ78Y Prediction Estimate					& 5.677& 0.992461\\
+The LZ78Y Prediction Estimate					& 5.677& see \ref{sec:NonBinary6310} &0.992461& see \ref{sec:Binary6310} \\
 \hline \hline 
-The intial entropy source estimate [bit / 8 - bit]	& \multicolumn{2}{|c|}{4.1001}	\\
-$H_{I} = \min (H_{\textrm{original}}, 8\times H_{\textrm{bitstring}})$ &\multicolumn{2}{ | c | } {\, }	\\
+The intial entropy source estimate [bit / 8 - bit]	& \multicolumn{4}{|c|}{4.1001}	\\
+$H_{I} = \min (H_{\textrm{original}}, 8\times H_{\textrm{bitstring}})$ &\multicolumn{4}{ | c | } {\, }	\\
 \hline \hline 
-\multicolumn{3}{|l|}{$^{\,a}$\quad Entropy estimate of the sequential dataset [source: NIST SP 800-90B \cite{SP80090B} 3.1.3]} \\
-\multicolumn{3}{|l|}{$^{\,b}$\quad An additional entropy estimation (per bit) for the non-binary sequential dataset [see NIST SP 800-90B \cite{SP80090B} 3.1.3]} \\
+\multicolumn{5}{|l|}{$^{\,a}$\quad Entropy estimate of the sequential dataset [source: NIST SP 800-90B \cite{SP80090B} 3.1.3]} \\
+\multicolumn{5}{|l|}{$^{\,b}$\quad An additional entropy estimation (per bit) for the non-binary sequential dataset [see NIST SP 800-90B \cite{SP80090B} 3.1.3]} \\
 \hline 
 \end{tabular}
 \end{center}
@@ -347,7 +349,8 @@ node[below] at (axis cs:6.3.5,0.512512) {Estimated min-entropy =
 \end{figure}
 \clearpage
 \section{Detailed results of analysis from original samples}
-\subsection{The Most Common Value Estimate (NIST SP 800-90B Section 6.3.1)}
+\subsection{The Most Common Value Estimate (NIST SP 800-90B Section 6.3.1)}\label{sec:NonBinary631}
+
 \begin{figure}[htbp]
 \centering
 
@@ -568,7 +571,8 @@ $p_u$				& 0.0203031\\ \hline
 \end{table}
 \renewcommand{\arraystretch}{1.4}
 \clearpage
-\subsection{The t-tuple Estimate (NIST SP 800-90B Section 6.3.5)}
+\subsection{The t-tuple Estimate (NIST SP 800-90B Section 6.3.5)}\label{sec:NonBinary635}
+
 \begin{figure}[htbp]
 \centering
 
@@ -627,7 +631,8 @@ $p_u$				& 0.0216556\\ \hline
 \end{table}
 \renewcommand{\arraystretch}{1.4}
 \clearpage
-\subsection{The LRS Estimate (NIST SP 800-90B Section 6.3.6)}
+\subsection{The LRS Estimate (NIST SP 800-90B Section 6.3.6)}\label{sec:NonBinary636}
+
 \begin{figure}[htbp]
 \centering
 
@@ -706,7 +711,8 @@ $p_u$				& 0.0145278\\ \hline
 \end{table}
 \renewcommand{\arraystretch}{1.4}
 \clearpage
-\subsection{Multi Most Common in Window Prediction Estimate (NIST SP 800-90B Section 6.3.7)}
+\subsection{Multi Most Common in Window Prediction Estimate (NIST SP 800-90B Section 6.3.7)}\label{sec:NonBinary637}
+
 \begin{figure}[htbp]
 \centering
 
@@ -752,7 +758,8 @@ $P_{\textrm{local}}$ 			& 0.010038\\ \hline
 \end{table}
 \renewcommand{\arraystretch}{1.4}
 \clearpage
-\subsection{Lag Prediction Estimate (NIST SP 800-90B Section 6.3.8)}
+\subsection{Lag Prediction Estimate (NIST SP 800-90B Section 6.3.8)}\label{sec:NonBinary638}
+
 \begin{figure}[htbp]
 \centering
 
@@ -798,7 +805,8 @@ $P_{\textrm{local}}$ 			& 0.0100379\\ \hline
 \end{table}
 \renewcommand{\arraystretch}{1.4}
 \clearpage
-\subsection{The MultiMMC Prediction Estimate (NIST SP 800-90B Section 6.3.9)}
+\subsection{The MultiMMC Prediction Estimate (NIST SP 800-90B Section 6.3.9)}\label{sec:NonBinary639}
+
 \begin{figure}[htbp]
 \centering
 
@@ -844,7 +852,8 @@ $P_{\textrm{local}}$ 			& 0.0100379\\ \hline
 \end{table}
 \renewcommand{\arraystretch}{1.4}
 \clearpage
-\subsection{The LZ78Y Prediction Estimate (NIST SP 800-90B Section 6.3.10)}
+\subsection{The LZ78Y Prediction Estimate (NIST SP 800-90B Section 6.3.10)}\label{sec:NonBinary6310}
+
 \begin{figure}[htbp]
 \centering
 
@@ -891,7 +900,8 @@ $P_{\textrm{local}}$ 			& 0.0100379\\ \hline
 \renewcommand{\arraystretch}{1.4}
 \clearpage
 \section{Detailed results of analysis by interpreting each sample as bitstrings}
-\subsection{The Most Common Value Estimate (NIST SP 800-90B Section 6.3.1)}
+\subsection{The Most Common Value Estimate (NIST SP 800-90B Section 6.3.1)}\label{sec:Binary631}
+
 \begin{figure}[htbp]
 \centering
 
@@ -935,7 +945,8 @@ $p_u$				& 0.501279\\ \hline
 \end{table}
 \renewcommand{\arraystretch}{1.4}
 \clearpage
-\subsection{The Collision Estimate (NIST SP 800-90B Section 6.3.2)}
+\subsection{The Collision Estimate (NIST SP 800-90B Section 6.3.2)}\label{sec:Binary632}
+
 \begin{figure}[htbp]
 \centering
 
@@ -1006,7 +1017,8 @@ $\hat{\sigma}$		& 0.499462\\ \hline
 \end{table}
 \renewcommand{\arraystretch}{1.4}
 \clearpage
-\subsection{The Markov Estimate (NIST SP 800-90B Section 6.3.3)}
+\subsection{The Markov Estimate (NIST SP 800-90B Section 6.3.3)}\label{sec:Binary633}
+
 \begin{figure}[htbp]
 \begin{tikzpicture} 
 \begin{axis}[
@@ -1150,7 +1162,8 @@ x	y	label
 \caption{Estimated Min-Entropy using $\S$6.3.3 of NIST SP 800-90B}
 \end{figure}
 \clearpage
-\subsection{The Compression Estimate (NIST SP 800-90B Section 6.3.4)}
+\subsection{The Compression Estimate (NIST SP 800-90B Section 6.3.4)}\label{sec:Binary634}
+
 \begin{figure}[htbp]
 \centering
 
@@ -2439,7 +2452,8 @@ $\bar{X}'$ 		&  5.02835\\ \hline
 \end{table}
 \renewcommand{\arraystretch}{1.4}
 \clearpage
-\subsection{The t-tuple Estimate (NIST SP 800-90B Section 6.3.5)}
+\subsection{The t-tuple Estimate (NIST SP 800-90B Section 6.3.5)}\label{sec:Binary635}
+
 \begin{figure}[htbp]
 \centering
 
@@ -2540,7 +2554,8 @@ $p_u$				& 0.585238\\ \hline
 \end{table}
 \renewcommand{\arraystretch}{1.4}
 \clearpage
-\subsection{The LRS Estimate (NIST SP 800-90B Section 6.3.6)}
+\subsection{The LRS Estimate (NIST SP 800-90B Section 6.3.6)}\label{sec:Binary636}
+
 \begin{figure}[htbp]
 \centering
 
@@ -2694,7 +2709,8 @@ $p_u$				& 0.563154\\ \hline
 \end{table}
 \renewcommand{\arraystretch}{1.4}
 \clearpage
-\subsection{Multi Most Common in Window Prediction Estimate (NIST SP 800-90B Section 6.3.7)}
+\subsection{Multi Most Common in Window Prediction Estimate (NIST SP 800-90B Section 6.3.7)}\label{sec:Binary637}
+
 \begin{figure}[htbp]
 \centering
 
@@ -2742,7 +2758,8 @@ $P_{\textrm{local}}$ 			& 0.130614\\ \hline
 \end{table}
 \renewcommand{\arraystretch}{1.4}
 \clearpage
-\subsection{Lag Prediction Estimate (NIST SP 800-90B Section 6.3.8)}
+\subsection{Lag Prediction Estimate (NIST SP 800-90B Section 6.3.8)}\label{sec:Binary638}
+
 \begin{figure}[htbp]
 \centering
 
@@ -2799,7 +2816,8 @@ $P_{\textrm{local}}$ 			& 0.479558\\ \hline
 \end{table}
 \renewcommand{\arraystretch}{1.4}
 \clearpage
-\subsection{The MultiMMC Prediction Estimate (NIST SP 800-90B Section 6.3.9)}
+\subsection{The MultiMMC Prediction Estimate (NIST SP 800-90B Section 6.3.9)}\label{sec:Binary639}
+
 \begin{figure}[htbp]
 \centering
 
@@ -2855,7 +2873,8 @@ $P_{\textrm{local}}$ 			& 0.621134\\ \hline
 \end{table}
 \renewcommand{\arraystretch}{1.4}
 \clearpage
-\subsection{The LZ78Y Prediction Estimate (NIST SP 800-90B Section 6.3.10)}
+\subsection{The LZ78Y Prediction Estimate (NIST SP 800-90B Section 6.3.10)}\label{sec:Binary6310}
+
 \begin{figure}[htbp]
 \centering
 
