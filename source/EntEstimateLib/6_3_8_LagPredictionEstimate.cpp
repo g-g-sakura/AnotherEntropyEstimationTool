@@ -61,7 +61,20 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\clearpage" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\subsection{Lag Prediction Estimate (NIST SP 800-90B Section 6.3.8)}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\subsection{Lag Prediction Estimate (NIST SP 800-90B Section 6.3.8)}";
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
+				switch (io_refData.bits_per_sample)
+				{
+				case 1:
+					(*io_refData.p_ssLaTeXFragment) << L"\\label{sec:Binary638}" << std::endl;
+					break;
+				default:
+					(*io_refData.p_ssLaTeXFragment) << L"\\label{sec:NonBinary638}" << std::endl;
+					break;
+				}
+				(*io_refData.p_ssLaTeXFragment) << std::endl;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //

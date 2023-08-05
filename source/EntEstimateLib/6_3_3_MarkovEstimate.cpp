@@ -120,7 +120,12 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\clearpage" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\subsection{The Markov Estimate (NIST SP 800-90B Section 6.3.3)}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\subsection{The Markov Estimate (NIST SP 800-90B Section 6.3.3)}";
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
+				(*io_refData.p_ssLaTeXFragment) << L"\\label{sec:Binary633}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << std::endl;
 				// -------------------------------------------------------------------------- //
 				// output transition probability P_{i,j}
 				// -------------------------------------------------------------------------- //

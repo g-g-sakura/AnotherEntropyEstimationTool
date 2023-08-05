@@ -20,10 +20,11 @@
 #include <vector>
 #include <sstream>
 #include <ctime>
-#include <locale> 
-#include <codecvt> 
+//#include <locale> 
+//#include <codecvt> 
 #include <Windows.h>
 #include <boost/version.hpp>
+#include "calcMessageDigest.h"
 
 namespace po = boost::program_options;
 namespace bs_fs = boost::filesystem;
@@ -907,6 +908,9 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
     o_ssLaTeX << L"\\usepackage{xspace}" << std::endl;
     o_ssLaTeX << L"\\usepackage[many]{tcolorbox}" << std::endl;
     o_ssLaTeX << L"\\usepackage{lastpage}" << std::endl;
+    o_ssLaTeX << L"\\usepackage{verbatim}" << std::endl;
+    o_ssLaTeX << L"\\usepackage{multirow}" << std::endl;
+    o_ssLaTeX << L"\\usepackage{censor}" << std::endl;
     o_ssLaTeX << L"\\usepackage[unicode,pdftitle={Report of Entropy estimates based on NIST SP 800-90B non-IID track},setpagesize=false]{hyperref}" << std::endl;
     o_ssLaTeX << L"\\usepackage[open,openlevel=4]{bookmark}" << std::endl;
     o_ssLaTeX << L"\\newcommand\\mib[1]{\\boldsymbol{#1}}" << std::endl;
@@ -1031,8 +1035,10 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
 
     std::string strTimeInfo(boost::posix_time::to_simple_string(pt));
 
-    std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> cv;
-    std::wstring wstrTimeInfo = cv.from_bytes(strTimeInfo);
+    int size_needed = MultiByteToWideChar(CP_UTF8, 0, &strTimeInfo[0], (int)strTimeInfo.size(), nullptr, 0);
+    std::wstring    wstrTimeInfo(size_needed, 0);
+    MultiByteToWideChar(CP_UTF8, 0, &strTimeInfo[0], (int)strTimeInfo.size(), &wstrTimeInfo[0], size_needed);
+
     o_ssLaTeX << L"\\date{" << wstrTimeInfo << L"}" <<std::endl;
     // -------------------------------------------------------------------------- //
     // 
@@ -1181,11 +1187,11 @@ ns_consts::EnmReturnStatus loadLaTeXBibliography(std::wstringstream& o_ssLaTeX)
 /// </summary>
 /// <remarks>
 /// </remarks>
+/// <params="o_refLaTeXSupportingInfo">
+/// </params>
 /// <params="i_refInfoReport">
 /// </params>
 /// <params="io_refDataOriginal">
-/// </params>
-/// <params="io_refDataBinary">
 /// </params>
 /// <returns>
 /// </returns>
@@ -1199,6 +1205,21 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     ns_dt::t_data_for_estimator& io_refDataOriginal)
 {
     ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
+
+    // -------------------------------------------------------------------------- //
+    // calculate hash value of the acquisition data in advance
+    // -------------------------------------------------------------------------- //
+    std::string strHashOfAcquisitionData = std::string();
+
+    entropy_estimator_app::constants::EnmHashAlgorithm  enmDefaultHashId = entropy_estimator_app::constants::EnmHashAlgorithm::ESHA_256;
+    ns_consts::EnmReturnStatus  stsCalcHash = entropy_estimator_app::calcMessageDigest(strHashOfAcquisitionData,
+        io_refDataOriginal.p_bzInputS->data(), io_refDataOriginal.p_bzInputS->length(blitz::firstDim),
+        enmDefaultHashId);
+
+    if (ns_consts::EnmReturnStatus::Success != stsCalcHash)
+    {
+        return  sts = stsCalcHash;
+    }
 
     // -------------------------------------------------------------------------- //
     // 
@@ -1215,6 +1236,32 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{anotherlightblue}}p{2cm}|p{20.5cm}|}" << std::endl;
     o_refLaTeXSupportingInfo << L"\\hline " << std::endl;
     o_refLaTeXSupportingInfo << L"Path to the acquisition data & \\verb|" << (*i_refInfoReport.info_source.p_path_to_entropy_input) << L"| \\\\" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
+
+    switch (enmDefaultHashId)
+    {
+    case entropy_estimator_app::constants::EnmHashAlgorithm::ESHA_256:
+        o_refLaTeXSupportingInfo << L"SHA-256";
+        break;
+    case entropy_estimator_app::constants::EnmHashAlgorithm::ESHA_384:
+        o_refLaTeXSupportingInfo << L"SHA-384";
+        break;
+    case entropy_estimator_app::constants::EnmHashAlgorithm::ESHA_512:
+        o_refLaTeXSupportingInfo << L"SHA-512";
+        break;
+    default:
+        return  sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
+    }
+    o_refLaTeXSupportingInfo << L" hash value of the acquisition data [hex] & " << std::endl;
+    o_refLaTeXSupportingInfo << L"\\begin{verbatim}" << std::endl;
+
+    int size_needed = MultiByteToWideChar(CP_UTF8, 0, &strHashOfAcquisitionData[0], (int)strHashOfAcquisitionData.size(), nullptr, 0);
+    std::wstring    wstrHashOfAcquisitionData(size_needed, 0);
+    MultiByteToWideChar(CP_UTF8, 0, &strHashOfAcquisitionData[0], (int)strHashOfAcquisitionData.size(), &wstrHashOfAcquisitionData[0], size_needed);
+
+    o_refLaTeXSupportingInfo << wstrHashOfAcquisitionData << std::endl;
+    o_refLaTeXSupportingInfo << L"\\end{verbatim} " << std::endl;
+    o_refLaTeXSupportingInfo << L"\\\\" << std::endl;
     o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
 
     struct tm newtime;
@@ -1343,7 +1390,11 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"Analysis environment & Hostname & " << (*i_refInfoReport.info_env.p_hostname) << L" \\\\" << std::endl;
+    o_refLaTeXSupportingInfo << L"Analysis environment & Hostname & ";
+    o_refLaTeXSupportingInfo << L"\\censor{";   // censor/redact
+    o_refLaTeXSupportingInfo << (*i_refInfoReport.info_env.p_hostname);
+    o_refLaTeXSupportingInfo << L"}";           // censor/redact
+    o_refLaTeXSupportingInfo << L" \\\\" << std::endl;
     o_refLaTeXSupportingInfo << L"\\cline{2-3}" << std::endl;
     // -------------------------------------------------------------------------- //
     // 
@@ -1363,7 +1414,11 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\, &  Username & "<< (*i_refInfoReport.info_env.p_username) << L" \\\\" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\, &  Username & ";
+    o_refLaTeXSupportingInfo << L"\\censor{";   // censor/redact
+    o_refLaTeXSupportingInfo << (*i_refInfoReport.info_env.p_username);
+    o_refLaTeXSupportingInfo << L"}";           // censor/redact
+    o_refLaTeXSupportingInfo << L" \\\\" << std::endl;
     o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
     o_refLaTeXSupportingInfo << L"\\end{tabular}" << std::endl;
     o_refLaTeXSupportingInfo << L"\\end{center}" << std::endl;
@@ -1636,33 +1691,33 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     ssLaTeXSummary << L"\\begin{table}[h]" << std::endl;
     ssLaTeXSummary << L"\\caption{Numerical results}" << std::endl;
     ssLaTeXSummary << L"\\begin{center}" << std::endl;
-    ssLaTeXSummary << L"\\begin{tabular}{|l|c|c|}" << std::endl;
+    ssLaTeXSummary << L"\\begin{tabular}{|l|c|c|c|c|}" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
     ssLaTeXSummary << L"\\rowcolor{anotherlightblue} %%" << std::endl;
-    ssLaTeXSummary << L"Estimator										& $H_{\\textrm{original}}$$^{\\textrm{\\,a}}$			& $H_{\\textrm{bitstring}}$$^{\\textrm{\\,b}}$				\\\\ " << std::endl;
-    ssLaTeXSummary << L"\\cline{2-3}" << std::endl;
+    ssLaTeXSummary << L"Estimator										& $H_{\\textrm{original}}$$^{\\textrm{\\,a}}$			& Notes to $H_{\\textrm{original}}$  & $H_{\\textrm{bitstring}}$$^{\\textrm{\\,b}}$	& Notes to $H_{\\textrm{bitstring}}$			\\\\ " << std::endl;
+    ssLaTeXSummary << L"\\cline{2-5}" << std::endl;
     ssLaTeXSummary << L"\\rowcolor{anotherlightblue} %%" << std::endl;
-    ssLaTeXSummary << L"\\,												& [bit / "<< io_refDataOriginal.bits_per_sample << L" - bit] & [bit / 1 - bit]		\\\\" << std::endl;
+    ssLaTeXSummary << L"\\,												& [bit / "<< io_refDataOriginal.bits_per_sample << L" - bit] & \\, & [bit / 1 - bit] &	\\,	\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Most Common Value Estimate					& " << io_refDataOriginal.t_6_3_1.t_common.min_entropy << L"& " << io_refDataBinary.t_6_3_1.t_common.min_entropy << L"\\\\" << std::endl;
+    ssLaTeXSummary << L"The Most Common Value Estimate					& " << io_refDataOriginal.t_6_3_1.t_common.min_entropy << L"& see \\ref{sec:NonBinary631} & " << io_refDataBinary.t_6_3_1.t_common.min_entropy << L"& see \\ref{sec:Binary631} " << L"\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Collision Estimate							& ---				& " << io_refDataBinary.t_6_3_2.t_common.min_entropy << L"\\\\" << std::endl;
+    ssLaTeXSummary << L"The Collision Estimate							& ---		  & --- & " << io_refDataBinary.t_6_3_2.t_common.min_entropy << L"& see \\ref{sec:Binary632} " << L"\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Markov Estimate								& ---				& " << io_refDataBinary.t_6_3_3.t_common.min_entropy << L"\\\\" << std::endl;
+    ssLaTeXSummary << L"The Markov Estimate								& ---		  & --- & " << io_refDataBinary.t_6_3_3.t_common.min_entropy << L"& see \\ref{sec:Binary633} " << L"\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Compression Estimate						& ---				& " << io_refDataBinary.t_6_3_4.t_common.min_entropy << L"\\\\" << std::endl;
+    ssLaTeXSummary << L"The Compression Estimate						& ---		  & --- & " << io_refDataBinary.t_6_3_4.t_common.min_entropy << L"& see \\ref{sec:Binary634} " << L"\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The t-Tuple Estimate							& " << io_refDataOriginal.t_6_3_5.t_common.min_entropy << L"& " << io_refDataBinary.t_6_3_5.t_common.min_entropy << L"\\\\" << std::endl;
+    ssLaTeXSummary << L"The t-Tuple Estimate							& " << io_refDataOriginal.t_6_3_5.t_common.min_entropy << L"& see \\ref{sec:NonBinary635} & " << io_refDataBinary.t_6_3_5.t_common.min_entropy << L"& see \\ref{sec:Binary635} " << L"\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Longest Repeated Substring (LRS) Estimate	& " << io_refDataOriginal.t_6_3_6.t_common.min_entropy << L"& " << io_refDataBinary.t_6_3_6.t_common.min_entropy << L"\\\\" << std::endl;
+    ssLaTeXSummary << L"The Longest Repeated Substring (LRS) Estimate	& " << io_refDataOriginal.t_6_3_6.t_common.min_entropy << L"& see \\ref{sec:NonBinary636} & " << io_refDataBinary.t_6_3_6.t_common.min_entropy << L"& see \\ref{sec:Binary636} " << L"\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"Multi Most Common in Window Prediction Estimate	& " << io_refDataOriginal.t_6_3_7.t_common.min_entropy << L"& " << io_refDataBinary.t_6_3_7.t_common.min_entropy << L"\\\\" << std::endl;
+    ssLaTeXSummary << L"Multi Most Common in Window Prediction Estimate	& " << io_refDataOriginal.t_6_3_7.t_common.min_entropy << L"& see \\ref{sec:NonBinary637} & " << io_refDataBinary.t_6_3_7.t_common.min_entropy << L"& see \\ref{sec:Binary637} " << L"\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Lag Prediction Estimate						& " << io_refDataOriginal.t_6_3_8.t_common.min_entropy << L"& " << io_refDataBinary.t_6_3_8.t_common.min_entropy << L"\\\\" << std::endl;
+    ssLaTeXSummary << L"The Lag Prediction Estimate						& " << io_refDataOriginal.t_6_3_8.t_common.min_entropy << L"& see \\ref{sec:NonBinary638} & " << io_refDataBinary.t_6_3_8.t_common.min_entropy << L"& see \\ref{sec:Binary638} " << L"\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The MultiMMC Prediction Estimate				& " << io_refDataOriginal.t_6_3_9.t_common.min_entropy << L"& " << io_refDataBinary.t_6_3_9.t_common.min_entropy << L"\\\\" << std::endl;
+    ssLaTeXSummary << L"The MultiMMC Prediction Estimate				& " << io_refDataOriginal.t_6_3_9.t_common.min_entropy << L"& see \\ref{sec:NonBinary639} & " << io_refDataBinary.t_6_3_9.t_common.min_entropy << L"& see \\ref{sec:Binary639} " << L"\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The LZ78Y Prediction Estimate					& " << io_refDataOriginal.t_6_3_10.t_common.min_entropy << L"& " << io_refDataBinary.t_6_3_10.t_common.min_entropy << L"\\\\" << std::endl;
+    ssLaTeXSummary << L"The LZ78Y Prediction Estimate					& " << io_refDataOriginal.t_6_3_10.t_common.min_entropy << L"& see \\ref{sec:NonBinary6310} &" << io_refDataBinary.t_6_3_10.t_common.min_entropy << L"& see \\ref{sec:Binary6310} " << L"\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline \\hline " << std::endl;
     // -------------------------------------------------------------------------- //
     // 
@@ -1673,15 +1728,15 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
         {
             min_entropy_global = (double)io_refDataOriginal.bits_per_sample * min_entropy_bitstring;
         }
-        ssLaTeXSummary << L"The intial entropy source estimate [bit / " << io_refDataOriginal.bits_per_sample << L" - bit]	& \\multicolumn{2}{|c|}{" << min_entropy_global << L"}	\\\\" << std::endl;
+        ssLaTeXSummary << L"The intial entropy source estimate [bit / " << io_refDataOriginal.bits_per_sample << L" - bit]	& \\multicolumn{4}{|c|}{" << min_entropy_global << L"}	\\\\" << std::endl;
     }
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeXSummary << L"$H_{I} = \\min (H_{\\textrm{original}}, " << io_refDataOriginal.bits_per_sample << L"\\times H_{\\textrm{bitstring}})$ &\\multicolumn{2}{ | c | } {\\, }	\\\\" << std::endl;
+    ssLaTeXSummary << L"$H_{I} = \\min (H_{\\textrm{original}}, " << io_refDataOriginal.bits_per_sample << L"\\times H_{\\textrm{bitstring}})$ &\\multicolumn{4}{ | c | } {\\, }	\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline \\hline " << std::endl;
-    ssLaTeXSummary << L"\\multicolumn{3}{|l|}{$^{\\,a}$\\quad Entropy estimate of the sequential dataset [source: NIST SP 800-90B \\cite{SP80090B} 3.1.3]} \\\\" << std::endl;
-    ssLaTeXSummary << L"\\multicolumn{3}{|l|}{$^{\\,b}$\\quad An additional entropy estimation (per bit) for the non-binary sequential dataset [see NIST SP 800-90B \\cite{SP80090B} 3.1.3]} \\\\" << std::endl;
+    ssLaTeXSummary << L"\\multicolumn{5}{|l|}{$^{\\,a}$\\quad Entropy estimate of the sequential dataset [source: NIST SP 800-90B \\cite{SP80090B} 3.1.3]} \\\\" << std::endl;
+    ssLaTeXSummary << L"\\multicolumn{5}{|l|}{$^{\\,b}$\\quad An additional entropy estimation (per bit) for the non-binary sequential dataset [see NIST SP 800-90B \\cite{SP80090B} 3.1.3]} \\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
     ssLaTeXSummary << L"\\end{tabular}" << std::endl;
     ssLaTeXSummary << L"\\end{center}" << std::endl;
@@ -1706,6 +1761,7 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     std::wstringstream ssLaTeX = std::wstringstream();
     loadLaTeXPreamble(ssLaTeX);
     ssLaTeX << L"\\begin{document}" << std::endl;
+    ssLaTeX << L"\\StopCensoring" << std::endl;
     ssLaTeX << L"\\maketitle" << std::endl;
     ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
     ssLaTeX << L"%%%%%%" << std::endl;
@@ -1773,19 +1829,25 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     std::wcout << L"# [INFO] In order to compile the generated XeLaTeX source file of entropy estimation report, " << std::endl;
     std::wcout << L"# [INFO] you need to type the following command and press Enter key." << std::endl;
     std::wcout << L"# [INFO] ";
-    SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
+    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
     std::wcout << L" xelatex " << the_report_path_LaTeX.wstring() << std::endl;
-    SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     std::wcout << std::endl;
     std::wcout << L"# [INFO] In a case where you get an error message like ";
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
     std::wcout << L"\"TeX capacity exceeded, sorry [main memory size=...]\"," << std::endl;
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L"# [INFO] you need to update the \"texmf.cnf\" file so as to modify the memory size like as follows:" << std::endl;
+    std::wcout << L"# [INFO] first you need to update the \"texmf.cnf\" file so as to modify the memory size like as follows:" << std::endl;
     std::wcout << L"# [INFO] ";
-    SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
+    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
     std::wcout << L" main_memory = 12400000" << std::endl;
-    SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+    std::wcout << L"# [INFO] Next you need to run command prompt with Administrator privilege and type as follows:" << std::endl;
+    std::wcout << L"# [INFO] ";
+    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
+    std::wcout << L" fmtutil-sys --all" << std::endl;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+    std::wcout << L"# [INFO] and press \"Enter\" key";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1945,44 +2007,44 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     ssLaTeXSummary << L"\\begin{table}[h]" << std::endl;
     ssLaTeXSummary << L"\\caption{Numerical results}" << std::endl;
     ssLaTeXSummary << L"\\begin{center}" << std::endl;
-    ssLaTeXSummary << L"\\begin{tabular}{|l|c|}" << std::endl;
+    ssLaTeXSummary << L"\\begin{tabular}{|l|c|c|}" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
     ssLaTeXSummary << L"\\rowcolor{anotherlightblue} %%" << std::endl;
-    ssLaTeXSummary << L"Estimator										& $H_{\\textrm{bitstring}}$$^{\\textrm{\\,a}}$				\\\\ " << std::endl;
-    ssLaTeXSummary << L"\\cline{2-2}" << std::endl;
+    ssLaTeXSummary << L"Estimator										& $H_{\\textrm{bitstring}}$$^{\\textrm{\\,a}}$ & Notes to $H_{\\textrm{bitstring}}$	\\\\ " << std::endl;
+    ssLaTeXSummary << L"\\cline{2-3}" << std::endl;
     ssLaTeXSummary << L"\\rowcolor{anotherlightblue} %%" << std::endl;
-    ssLaTeXSummary << L"\\,												& [bit / 1 - bit]		\\\\" << std::endl;
+    ssLaTeXSummary << L"\\,												& [bit / 1 - bit] & \\,		\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Most Common Value Estimate					& " << io_refDataBinary.t_6_3_1.t_common.min_entropy << L"\\\\" << std::endl;
+    ssLaTeXSummary << L"The Most Common Value Estimate					& " << io_refDataBinary.t_6_3_1.t_common.min_entropy << L"& see \\ref{sec:Binary631} " << L"\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Collision Estimate							& " << io_refDataBinary.t_6_3_2.t_common.min_entropy << L"\\\\" << std::endl;
+    ssLaTeXSummary << L"The Collision Estimate							& " << io_refDataBinary.t_6_3_2.t_common.min_entropy << L"& see \\ref{sec:Binary632} " << L"\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Markov Estimate								& " << io_refDataBinary.t_6_3_3.t_common.min_entropy << L"\\\\" << std::endl;
+    ssLaTeXSummary << L"The Markov Estimate								& " << io_refDataBinary.t_6_3_3.t_common.min_entropy << L"& see \\ref{sec:Binary633} " << L"\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Compression Estimate						& " << io_refDataBinary.t_6_3_4.t_common.min_entropy << L"\\\\" << std::endl;
+    ssLaTeXSummary << L"The Compression Estimate						& " << io_refDataBinary.t_6_3_4.t_common.min_entropy << L"& see \\ref{sec:Binary634} " << L"\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The t-Tuple Estimate							& " << io_refDataBinary.t_6_3_5.t_common.min_entropy << L"\\\\" << std::endl;
+    ssLaTeXSummary << L"The t-Tuple Estimate							& " << io_refDataBinary.t_6_3_5.t_common.min_entropy << L"& see \\ref{sec:Binary635} " << L"\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Longest Repeated Substring (LRS) Estimate	& " << io_refDataBinary.t_6_3_6.t_common.min_entropy << L"\\\\" << std::endl;
+    ssLaTeXSummary << L"The Longest Repeated Substring (LRS) Estimate	& " << io_refDataBinary.t_6_3_6.t_common.min_entropy << L"& see \\ref{sec:Binary636} " << L"\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"Multi Most Common in Window Prediction Estimate	& " << io_refDataBinary.t_6_3_7.t_common.min_entropy << L"\\\\" << std::endl;
+    ssLaTeXSummary << L"Multi Most Common in Window Prediction Estimate	& " << io_refDataBinary.t_6_3_7.t_common.min_entropy << L"& see \\ref{sec:Binary637} " << L"\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Lag Prediction Estimate						& " << io_refDataBinary.t_6_3_8.t_common.min_entropy << L"\\\\" << std::endl;
+    ssLaTeXSummary << L"The Lag Prediction Estimate						& " << io_refDataBinary.t_6_3_8.t_common.min_entropy << L"& see \\ref{sec:Binary638} " << L"\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The MultiMMC Prediction Estimate				& " << io_refDataBinary.t_6_3_9.t_common.min_entropy << L"\\\\" << std::endl;
+    ssLaTeXSummary << L"The MultiMMC Prediction Estimate				& " << io_refDataBinary.t_6_3_9.t_common.min_entropy << L"& see \\ref{sec:Binary639} " << L"\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The LZ78Y Prediction Estimate					& " << io_refDataBinary.t_6_3_10.t_common.min_entropy << L"\\\\" << std::endl;
+    ssLaTeXSummary << L"The LZ78Y Prediction Estimate					& " << io_refDataBinary.t_6_3_10.t_common.min_entropy << L"& see \\ref{sec:Binary6310} " << L"\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline \\hline " << std::endl;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeXSummary << L"The intial entropy source estimate [bit / " << io_refDataBinary.bits_per_sample << L" -bit]	& " << min_entropy_bitstring << L"	\\\\" << std::endl;
+    ssLaTeXSummary << L"The intial entropy source estimate [bit / " << io_refDataBinary.bits_per_sample << L" -bit]	& \\multicolumn{2}{|c|}{" << min_entropy_bitstring << L"}	\\\\" << std::endl;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeXSummary << L"$H_{I} = H_{\\textrm{bitstring}}$ & \\, 	\\\\" << std::endl;
+    ssLaTeXSummary << L"$H_{I} = H_{\\textrm{bitstring}}$ & \\multicolumn{2}{|c|}{ \\, } 	\\\\" << std::endl;
     ssLaTeXSummary << L"\\hline \\hline " << std::endl;
-    ssLaTeXSummary << L"\\multicolumn{2}{|l|}{$^{\\,a}$\\quad Entropy estimate of the sequential dataset [source: NIST SP 800-90B \\cite{SP80090B} 3.1.3]} \\\\" << std::endl;
+    ssLaTeXSummary << L"\\multicolumn{3}{|l|}{$^{\\,a}$\\quad Entropy estimate of the sequential dataset [source: NIST SP 800-90B \\cite{SP80090B} 3.1.3]} \\\\" << std::endl;
     ssLaTeXSummary << L"\\hline " << std::endl;
     ssLaTeXSummary << L"\\end{tabular}" << std::endl;
     ssLaTeXSummary << L"\\end{center}" << std::endl;
@@ -2003,6 +2065,7 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     std::wstringstream ssLaTeX = std::wstringstream();
     loadLaTeXPreamble(ssLaTeX);
     ssLaTeX << L"\\begin{document}" << std::endl;
+    ssLaTeX << L"\\StopCensoring" << std::endl;
     ssLaTeX << L"\\maketitle" << std::endl;
     ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
     ssLaTeX << L"%%%%%%" << std::endl;
@@ -2061,7 +2124,7 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     std::wcout << L"# [INFO] In order to compile the generated XeLaTeX source file of entropy estimation report, " << std::endl;
     std::wcout << L"# [INFO] you need to type the following command and press Enter key." << std::endl;
     std::wcout << L"# [INFO] ";
-    SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
+    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
     std::wcout << L" xelatex " << the_report_path_LaTeX.wstring() << std::endl;
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     std::wcout << std::endl;
@@ -2069,11 +2132,17 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
     std::wcout << L"\"TeX capacity exceeded, sorry [main memory size=...]\"," << std::endl;
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L"# [INFO] you need to update the \"texmf.cnf\" file so as to modify the memory size like as follows:" << std::endl;
+    std::wcout << L"# [INFO] first you need to update the \"texmf.cnf\" file so as to modify the memory size like as follows:" << std::endl;
     std::wcout << L"# [INFO] ";
-    SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
+    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
     std::wcout << L" main_memory = 12400000" << std::endl;
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+    std::wcout << L"# [INFO] Next you need to run command prompt with Administrator privilege and type as follows:" << std::endl;
+    std::wcout << L"# [INFO] ";
+    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
+    std::wcout << L" fmtutil-sys --all" << std::endl;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+    std::wcout << L"# [INFO] and press \"Enter\" key";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
