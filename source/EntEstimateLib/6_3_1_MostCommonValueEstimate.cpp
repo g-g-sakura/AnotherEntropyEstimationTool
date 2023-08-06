@@ -61,7 +61,20 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\subsection{The Most Common Value Estimate (NIST SP 800-90B Section 6.3.1)}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\subsection{The Most Common Value Estimate (NIST SP 800-90B Section 6.3.1)}";
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
+				switch (io_refData.bits_per_sample)
+				{
+				case 1:
+					(*io_refData.p_ssLaTeXFragment) << L"\\label{sec:Binary631}" << std::endl;
+					break;
+				default:
+					(*io_refData.p_ssLaTeXFragment) << L"\\label{sec:NonBinary631}" << std::endl;
+					break;
+				}
+				(*io_refData.p_ssLaTeXFragment) << std::endl;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //

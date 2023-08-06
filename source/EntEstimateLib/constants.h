@@ -25,6 +25,7 @@ namespace entropy_estimator_lib
 			ErrorNoTask = -16,
 			ErrorInvalidData = -120,
 			ErrorDomain = -121,
+			ErrorMemoryAllocation = -126,
 			ErrorNullPointer = -127,
 			ErrorFileIO = -250,
 			ErrorPreconditions = -251,
