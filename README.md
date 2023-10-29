@@ -37,8 +37,10 @@ Visual Studio 2019 or newer, or Intel oneAPI compiler
 
 ## Prerequisite libraries
 - [Boost C++ libraries](https://www.boost.org/)
-  - Boost.Dynamic bitset for storing variable length bitstrings
-  - Boost.Math for root finding and for evaluating special functions
+  - Boost.Dynamic bitset for storing variable length bitstrings.
+  - Boost.Filesystem for manipulation of file path.
+  - Boost.Math for root finding and for evaluating special functions.
   - Boost.Multi-Index for t-tuples.
+  - Boost.Program Options for parsing command line options.
 - [Blitz++ library](https://github.com/blitzpp/blitz)
   - for array indexing, referencing subarray, and for perform array reductions (e.g. mean, sum) briefly
