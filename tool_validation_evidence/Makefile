@@ -1,17 +1,17 @@
 #================================================================
 # Specify your tex source files here.
 
-sources := entropy_report_biased-random-bits.tex \
-entropy_report_biased-random-bytes.tex \
-entropy_report_data.pi.tex \
-entropy_report_rand1_short.tex \
-entropy_report_rand4_short.tex \
-entropy_report_rand8_short.tex \
-entropy_report_ringOsc-nist.tex \
-entropy_report_truerand_1bit.tex \
-entropy_report_truerand_4bit.tex \
-entropy_report_truerand_8bit.tex \
-entropy_report_normal.tex
+sources := entropy_report_biased-random-bits_x64_AMD.tex \
+entropy_report_biased-random-bytes_x64_AMD.tex \
+entropy_report_data.pi_x64_AMD.tex \
+entropy_report_rand1_short_x64_AMD.tex \
+entropy_report_rand4_short_x64_AMD.tex \
+entropy_report_rand8_short_x64_AMD.tex \
+entropy_report_ringOsc-nist_x64_AMD.tex \
+entropy_report_truerand_1bit_x64_AMD.tex \
+entropy_report_truerand_4bit_x64_AMD.tex \
+entropy_report_truerand_8bit_x64_AMD.tex \
+entropy_report_normal_x64_AMD.tex
 pdfs := $(subst .tex,.pdf, $(sources))
 logs := $(subst .tex,.log, $(sources))
 auxs := $(subst .tex,.aux, $(sources))
