@@ -100,8 +100,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <ExternalIncludePath>C:\usr\boost_1_79_0;$(ExternalIncludePath)</ExternalIncludePath>
-    <LibraryPath>C:\usr\boost_1_79_0\stage\lib;$(LibraryPath)</LibraryPath>
+    <ExternalIncludePath>C:\usr\boost_1_83_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <LibraryPath>C:\usr\boost_1_83_0\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -111,20 +111,20 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_82_0;$(ExternalIncludePath)</ExternalIncludePath>
-    <LibraryPath>C:\usr\boost_1_82_0\stage\lib;$(LibraryPath)</LibraryPath>
+    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_83_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <LibraryPath>C:\usr\boost_1_83_0\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(IncludePath)</IncludePath>
-    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_82_0;$(ExternalIncludePath)</ExternalIncludePath>
-    <LibraryPath>C:\usr\boost_1_82_0\stage\lib;$(LibraryPath)</LibraryPath>
+    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_83_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <LibraryPath>C:\usr\boost_1_83_0\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Intel|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(IncludePath)</IncludePath>
-    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_82_0;$(ExternalIncludePath)</ExternalIncludePath>
-    <LibraryPath>C:\usr\boost_1_82_0\stage\lib;$(LibraryPath)</LibraryPath>
+    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_83_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <LibraryPath>C:\usr\boost_1_83_0\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -184,7 +184,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>EntEstimateLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>EntEstimateLib.lib;Bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -204,7 +204,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>EntEstimateLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>EntEstimateLib.lib;Bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
       <OutputManifestFile>$(IntDir)$(TargetName)$(TargetExt).embed.manifest</OutputManifestFile>
@@ -232,7 +232,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>EntEstimateLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>EntEstimateLib.lib;Bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ManifestResourceCompile>
       <ResourceOutputFileName>$(IntDir)$(TargetName)$(TargetExt).embed.manifest.res</ResourceOutputFileName>
@@ -242,6 +242,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="calcMessageDigest.cpp" />
     <ClCompile Include="EA_non_iid.cpp" />
     <ClCompile Include="hostinfo.cpp" />
     <ClCompile Include="parse.cpp" />
@@ -250,6 +251,7 @@
     <ClCompile Include="toolinfo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="calcMessageDigest.h" />
     <ClInclude Include="hostinfo.h" />
     <ClInclude Include="parse.h" />
     <ClInclude Include="reporter.h" />

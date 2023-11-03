@@ -68,7 +68,20 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\clearpage" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\subsection{Multi Most Common in Window Prediction Estimate (NIST SP 800-90B Section 6.3.7)}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\subsection{Multi Most Common in Window Prediction Estimate (NIST SP 800-90B Section 6.3.7)}";
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
+				switch (io_refData.bits_per_sample)
+				{
+				case 1:
+					(*io_refData.p_ssLaTeXFragment) << L"\\label{sec:Binary637}" << std::endl;
+					break;
+				default:
+					(*io_refData.p_ssLaTeXFragment) << L"\\label{sec:NonBinary637}" << std::endl;
+					break;
+				}
+				(*io_refData.p_ssLaTeXFragment) << std::endl;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //

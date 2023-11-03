@@ -59,7 +59,12 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\clearpage" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\subsection{The Compression Estimate (NIST SP 800-90B Section 6.3.4)}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\subsection{The Compression Estimate (NIST SP 800-90B Section 6.3.4)}";
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
+				(*io_refData.p_ssLaTeXFragment) << L"\\label{sec:Binary634}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << std::endl;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
