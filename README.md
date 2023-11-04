@@ -27,6 +27,77 @@ https://github.com/usnistgov/SP800-90B_EntropyAssessment/issues/170
 - ```--MSb``` specifies the conversion from sample to bitstring in Most Significant bit first (**default**). 
 - ```--LSb``` specifies the conversion from sample to bitstring in Least Significant bit first.
 
+# Examples of entropy estimation results
+
+
+<table>
+  <thead>
+    <tr>
+      <td>Input data file uploaded in <a href="https://github.com/usnistgov/SP800-90B_EntropyAssessment/tree/master/bin">usnistgov / SP800-90B_EntropyAssessment</a></td>
+      <td>Analysis environment 1<br/>x64 INTEL</td>
+      <td>Analysis environment 2<br/>x64 AMD</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>truerand_8bit.bin</td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_truerand_8bit_x64_INTEL.pdf">entropy_report_truerand_8bit_x64_INTEL.pdf</a></td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_truerand_8bit_x64_AMD.pdf">entropy_report_truerand_8bit_x64_AMD.pdf</a></td>
+    </tr>
+    <tr>
+      <td>truerand_4bit.bin</td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_truerand_4bit_x64_INTEL.pdf">entropy_report_truerand_4bit_x64_INTEL.pdf</a></td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_truerand_4bit_x64_AMD.pdf">entropy_report_truerand_4bit_x64_AMD.pdf</a></td>
+    </tr>
+    <tr>
+      <td>truerand_1bit.bin</td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_truerand_1bit_x64_INTEL.pdf">entropy_report_truerand_1bit_x64_INTEL.pdf</a></td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_truerand_1bit_x64_AMD.pdf">entropy_report_truerand_1bit_x64_AMD.pdf</a></td>
+    </tr>
+    <tr>
+      <td>ringOsc-nist.bin</td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_ringOsc-nist_x64_INTEL.pdf">entropy_report_ringOsc-nist_x64_INTEL.pdf</a></td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_ringOsc-nist_x64_AMD.pdf">entropy_report_ringOsc-nist_x64_AMD.pdf</a></td>
+    </tr>
+    <tr>
+      <td>rand8_short.bin</td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_rand8_short_x64_INTEL.pdf">entropy_report_rand8_short_x64_INTEL.pdf</a></td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_rand8_short_x64_AMD.pdf">entropy_report_rand8_short_x64_AMD.pdf</a></td>
+    </tr>
+    <tr>
+      <td>rand4_short.bin</td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_rand4_short_x64_INTEL.pdf">entropy_report_rand4_short_x64_INTEL.pdf</a></td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_rand4_short_x64_AMD.pdf">entropy_report_rand4_short_x64_AMD.pdf</a></td>
+    </tr>
+    <tr>
+      <td>rand1_short.bin</td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_rand1_short_x64_INTEL.pdf">entropy_report_rand1_short_x64_INTEL.pdf</a></td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_rand1_short_x64_AMD.pdf">entropy_report_rand1_short_x64_AMD.pdf</a></td>
+    </tr>
+    <tr>
+      <td>normal.bin</td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_normal_x64_INTEL.pdf">entropy_report_normal_x64_INTEL.pdf</a></td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_normal_x64_AMD.pdf">entropy_report_normal_x64_AMD.pdf</a></td>
+    </tr>
+    <tr>
+      <td>data.pi.bin</td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_data.pi_x64_INTEL.pdf">entropy_report_data.pi_x64_INTEL.pdf</a></td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_data.pi_x64_AMD.pdf">entropy_report_data.pi_x64_AMD.pdf</a></td>
+    </tr>
+    <tr>
+      <td>biased-random-bytes.bin</td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_biased-random-bytes_x64_INTEL.pdf">entropy_report_biased-random-bytes_x64_INTEL.pdf</a></td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_biased-random-bytes_x64_AMD.pdf">entropy_report_biased-random-bytes_x64_AMD.pdf</a></td>
+    </tr>
+    <tr>
+      <td>biased-random-bits.bin</td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_biased-random-bits_x64_INTEL.pdf">entropy_report_biased-random-bits_x64_INTEL.pdf</a></td>
+      <td><a href="https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/tool_validation_evidence/entropy_report_biased-random-bits_x64_AMD.pdf">entropy_report_biased-random-bits_x64_AMD.pdf</a></td>
+    </tr>
+  </tbody>
+</table>
+
+
 # System equirements for runtime environment
 - OS : Windows 10 or newer with 64-bit
 - RAM : 16GB or more main memory
