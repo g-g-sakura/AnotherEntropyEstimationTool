@@ -11,7 +11,18 @@ entropy_report_ringOsc-nist_x64_AMD.tex \
 entropy_report_truerand_1bit_x64_AMD.tex \
 entropy_report_truerand_4bit_x64_AMD.tex \
 entropy_report_truerand_8bit_x64_AMD.tex \
-entropy_report_normal_x64_AMD.tex
+entropy_report_normal_x64_AMD.tex \
+entropy_report_biased-random-bits_x64_INTEL.tex \
+entropy_report_biased-random-bytes_x64_INTEL.tex \
+entropy_report_data.pi_x64_INTEL.tex \
+entropy_report_rand1_short_x64_INTEL.tex \
+entropy_report_rand4_short_x64_INTEL.tex \
+entropy_report_rand8_short_x64_INTEL.tex \
+entropy_report_ringOsc-nist_x64_INTEL.tex \
+entropy_report_truerand_1bit_x64_INTEL.tex \
+entropy_report_truerand_4bit_x64_INTEL.tex \
+entropy_report_truerand_8bit_x64_INTEL.tex \
+entropy_report_normal_x64_INTEL.tex
 pdfs := $(subst .tex,.pdf, $(sources))
 logs := $(subst .tex,.log, $(sources))
 auxs := $(subst .tex,.aux, $(sources))
