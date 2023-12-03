@@ -56,10 +56,7 @@ namespace entropy_estimator_app
         DWORD   cbHash = 0; 
         DWORD   cbHashObject = 0;
 
-        NTSTATUS    stsGetPropOutputLength;
-        NTSTATUS    stsCreateHash;
-        NTSTATUS    stsHashData;
-        NTSTATUS    stsFinishHash;
+        NTSTATUS    stsGetPropOutputLength, stsCreateHash, stsHashData, stsFinishHash;
         std::stringstream   ss = std::stringstream();
         // -------------------------------------------------------------------------- //
         // 
@@ -85,7 +82,7 @@ namespace entropy_estimator_app
         // -------------------------------------------------------------------------- //
         // 
         // -------------------------------------------------------------------------- //
-        NTSTATUS    sts = BCryptOpenAlgorithmProvider(&hash_alg_handle,
+        const NTSTATUS    sts = BCryptOpenAlgorithmProvider(&hash_alg_handle,
             pwstrHashID,
             MS_PRIMITIVE_PROVIDER,
             BCRYPT_HASH_REUSABLE_FLAG);
@@ -97,7 +94,7 @@ namespace entropy_estimator_app
         // -------------------------------------------------------------------------- //
         // 
         // -------------------------------------------------------------------------- //
-        NTSTATUS    stsGetPropObjLength = BCryptGetProperty(hash_alg_handle,
+        const NTSTATUS    stsGetPropObjLength = BCryptGetProperty(hash_alg_handle,
             BCRYPT_OBJECT_LENGTH,
             (PBYTE)&cbHashObject,
             sizeof(DWORD),
@@ -111,7 +108,7 @@ namespace entropy_estimator_app
         // -------------------------------------------------------------------------- //
         // allocate a heap memory area for a working memory for hashing
         // -------------------------------------------------------------------------- //
-        pbHashObject = (PBYTE)HeapAlloc(GetProcessHeap(), 0, cbHashObject);
+        pbHashObject = static_cast<PBYTE>(HeapAlloc(GetProcessHeap(), 0, cbHashObject));
         if (nullptr == pbHashObject)
         {
             rtnSts = ns_consts::EnmReturnStatus::ErrorMemoryAllocation;
@@ -134,7 +131,7 @@ namespace entropy_estimator_app
         // -------------------------------------------------------------------------- //
         // allocate a heap memory area for message digest
         // -------------------------------------------------------------------------- //
-        pbHash = (PBYTE)HeapAlloc(GetProcessHeap(), 0, cbHash);
+        pbHash = static_cast<PBYTE>(HeapAlloc(GetProcessHeap(), 0, cbHash));
         if (nullptr == pbHash)
         {
             rtnSts = ns_consts::EnmReturnStatus::ErrorMemoryAllocation;
@@ -143,7 +140,7 @@ namespace entropy_estimator_app
         // -------------------------------------------------------------------------- //
         // 
         // -------------------------------------------------------------------------- //
-        stsCreateHash = BCryptCreateHash(hash_alg_handle, &hash_handle, pbHashObject, cbHashObject, NULL, 0, BCRYPT_HASH_REUSABLE_FLAG);
+        stsCreateHash = BCryptCreateHash(hash_alg_handle, &hash_handle, pbHashObject, cbHashObject, nullptr, 0, BCRYPT_HASH_REUSABLE_FLAG);
         if (STATUS_SUCCESS != stsCreateHash)
         {
             rtnSts = ns_consts::EnmReturnStatus::ErrorInvalidData;
@@ -167,7 +164,7 @@ namespace entropy_estimator_app
         stsFinishHash = BCryptFinishHash(hash_handle, pbHash, cbHash, 0);
         if (STATUS_SUCCESS == stsFinishHash)
         {
-            for (int i = 0; i < cbHash; ++i)
+            for (unsigned long i = 0; i < cbHash; ++i)
             {
                 if (0 != i)
                 {
@@ -176,7 +173,7 @@ namespace entropy_estimator_app
                         ss << " ";
                     }
                 }
-                ss << std::setfill('0') << std::right << std::setw(2) << std::hex << (int)(*(pbHash + i));
+                ss << std::setfill('0') << std::right << std::setw(2) << std::hex << static_cast<int>(*(pbHash + i));
             }
             o_refMessageDigestInHex = ss.str();
 

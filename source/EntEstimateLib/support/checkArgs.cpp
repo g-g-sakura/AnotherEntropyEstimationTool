@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "../pch.h"
@@ -47,7 +47,7 @@ namespace entropy_estimator_lib
 		// -------------------------------------------------------------------------- //
 		ns_consts::EnmReturnStatus perform_common_args_for_estimate(const ns_dt::t_data_for_estimator& i_refData)
 		{
-			ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
+			ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 			if (nullptr == i_refData.p_bzInputS)
 			{
 				sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
@@ -60,47 +60,38 @@ namespace entropy_estimator_lib
 			}
 			if (i_refData.p_bzInputS->length(blitz::firstDim) <= 0)
 			{
-				sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 				return sts;
 			}
 			if (INT_MAX < i_refData.L)
 			{
-				sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 				return sts;
 			}
-			if (i_refData.p_bzInputS->length(blitz::firstDim) != (int)i_refData.L)
+			if (i_refData.p_bzInputS->length(blitz::firstDim) != static_cast<int>(i_refData.L))
 			{
-				sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 				return sts;
 			}
 			if (i_refData.k < 2)
 			{
-				sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 				return sts;
 			}
 			if (INT_MAX < i_refData.k)
 			{
-				sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 				return sts;
 			}
 			if (256 < i_refData.k)
 			{
-				sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 				return sts;
 			}
-			if (i_refData.p_bzSampleSpaceA->length(blitz::firstDim) != (int)i_refData.k)
+			if (i_refData.p_bzSampleSpaceA->length(blitz::firstDim) != static_cast<int>(i_refData.k))
 			{
-				sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 				return sts;
 			}
 			if (i_refData.bits_per_sample < 1)
 			{
-				sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 				return sts;
 			}
 			if (8 < i_refData.bits_per_sample)
 			{
-				sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 				return sts;
 			}
 

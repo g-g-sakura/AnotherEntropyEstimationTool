@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -11,9 +11,6 @@
 #include <string>
 #include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>
-#include "EntEstimateLib/support/enumerateAlphabet.h"
-#include "EntEstimateLib/support/setUp.h"
-#include "EntEstimateLib/support/showTestSummary.h"
 #include "parse.h"
 #include "runEntropyEstimates.h"
 #include "hostinfo.h"
@@ -90,7 +87,7 @@ int wmain(int ac, wchar_t* av[], wchar_t* envp[])
         the_info_report, ac, av, envp);
     if (ns_consts::EnmReturnStatus::Success != sts)
     {
-        return  (int)sts;
+        return  static_cast<int>(sts);
     }
     // -------------------------------------------------------------------------- //
     // show some samples from the head of file, for confirmation
@@ -118,7 +115,7 @@ int wmain(int ac, wchar_t* av[], wchar_t* envp[])
         sts = runEntropyEstimatesBinary(data);
         if (ns_consts::EnmReturnStatus::Success != sts)
         {
-            return  (int)sts;
+            return  static_cast<int>(sts);
         }
         // -------------------------------------------------------------------------- //
         // 
@@ -131,7 +128,7 @@ int wmain(int ac, wchar_t* av[], wchar_t* envp[])
             sts = reportXMLBinary(the_info_report, data);
             if (ns_consts::EnmReturnStatus::Success != sts)
             {
-                return  (int)sts;
+                return  static_cast<int>(sts);
             }
             // -------------------------------------------------------------------------- //
             // 
@@ -139,7 +136,7 @@ int wmain(int ac, wchar_t* av[], wchar_t* envp[])
             sts = reportLaTeXBinary(the_info_report, data);
             if (ns_consts::EnmReturnStatus::Success != sts)
             {
-                return  (int)sts;
+                return  static_cast<int>(sts);
             }
         }
     }
@@ -151,7 +148,7 @@ int wmain(int ac, wchar_t* av[], wchar_t* envp[])
         sts = runEntropyEstimatesNonBinary(data, data_for_bitstring);
         if (ns_consts::EnmReturnStatus::Success != sts)
         {
-            return  (int)sts;
+            return  static_cast<int>(sts);
         }
         // -------------------------------------------------------------------------- //
         // 
@@ -164,7 +161,7 @@ int wmain(int ac, wchar_t* av[], wchar_t* envp[])
             sts = reportXMLNonBinary(the_info_report, data, data_for_bitstring);
             if (ns_consts::EnmReturnStatus::Success != sts)
             {
-                return  (int)sts;
+                return  static_cast<int>(sts);
             }
             // -------------------------------------------------------------------------- //
             // 
@@ -172,7 +169,7 @@ int wmain(int ac, wchar_t* av[], wchar_t* envp[])
             sts = reportLaTeXNonBinary(the_info_report, data, data_for_bitstring);
             if (ns_consts::EnmReturnStatus::Success != sts)
             {
-                return  (int)sts;
+                return  static_cast<int>(sts);
             }
         }
     }

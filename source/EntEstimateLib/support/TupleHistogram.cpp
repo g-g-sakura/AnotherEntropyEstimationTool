@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "../pch.h"
@@ -36,18 +36,18 @@ namespace entropy_estimator_lib
 			// -------------------------------------------------------------------------- //
 			ns_consts::EnmReturnStatus incrementCount(
 				int& o_refUpdatedCount,
-				boost::dynamic_bitset<>& i_target_x,
+				const boost::dynamic_bitset<>& i_target_x,
 				BitSetHistogram& i_refHistogram)
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorNotFound;
 
 				tpl_bsx_map& x_map_hg = i_refHistogram.get<bsx_idx>();
 
-				tpl_bsx_map::iterator it = x_map_hg.find(i_target_x);
+				const tpl_bsx_map::iterator it = x_map_hg.find(i_target_x);
 
 				if (it != x_map_hg.cend())
 				{
-					int new_count = 1 + (it->ex_cnt);
+					const int new_count = 1 + (it->ex_cnt);
 					x_map_hg.replace(it, t_bsx_bin(i_target_x, new_count));
 					o_refUpdatedCount = new_count;
 					sts = ns_consts::EnmReturnStatus::Success;
@@ -83,7 +83,7 @@ namespace entropy_estimator_lib
 
 				tpl_bscnt_map& cnt_map_hg = i_refHistogram.get<bsx_cnt>();
 
-				tpl_bscnt_map::reverse_iterator	rit = cnt_map_hg.rbegin();
+				const tpl_bscnt_map::reverse_iterator	rit = cnt_map_hg.rbegin();
 				if (rit != cnt_map_hg.rend())
 				{
 					o_refFrequent = *rit;

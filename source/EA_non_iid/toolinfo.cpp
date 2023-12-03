@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include "toolinfo.h"
 
-ns_consts::EnmReturnStatus getToolInfo(InfoAnalysisTool& i_refAnalysisTool)
+ns_consts::EnmReturnStatus getToolInfo(const InfoAnalysisTool& i_refAnalysisTool)
 {
     // -------------------------------------------------------------------------- //
     //
@@ -28,7 +28,7 @@ ns_consts::EnmReturnStatus getToolInfo(InfoAnalysisTool& i_refAnalysisTool)
     // -------------------------------------------------------------------------- //
     //
     // -------------------------------------------------------------------------- //
-    *i_refAnalysisTool.p_analyzer_versioning = std::wstring(L"1.0.50");
+    *i_refAnalysisTool.p_analyzer_versioning = std::wstring(L"1.0.51");
     // -------------------------------------------------------------------------- //
     //
     // -------------------------------------------------------------------------- //

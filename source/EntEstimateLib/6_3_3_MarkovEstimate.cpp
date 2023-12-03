@@ -8,7 +8,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include "pch.h"
 #include "6_3_3_MarkovEstimate.h"
-#include "./math/SpecialFunctions.h"
 #include "./support/checkArgs.h"
 #include <boost/math/special_functions.hpp>
 
@@ -242,7 +241,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the colum vector from left.
+			///   Note here that this matrix is defined so as to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -273,8 +272,8 @@ namespace entropy_estimator_lib
 				{
 					return	sts;
 				}
-				o_refMinEntropyEstimate = -(((double)(i_lengthOfSeq - 1) / (double)i_lengthOfSeq) * log2(i_refPTransition(0, 0))
-					+ log2(i_refInitialP(0)) / (double)i_lengthOfSeq);
+				o_refMinEntropyEstimate = -((static_cast<double>(i_lengthOfSeq - 1) / static_cast<double>(i_lengthOfSeq)) * log2(i_refPTransition(0, 0))
+					+ log2(i_refInitialP(0)) / static_cast<double>(i_lengthOfSeq));
 				return	sts = ns_consts::EnmReturnStatus::Success;
 			}
 
@@ -290,7 +289,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the colum vector from left.
+			///   Note here that this matrix is defined so as to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -329,8 +328,8 @@ namespace entropy_estimator_lib
 				{
 					return	sts;
 				}
-				o_refMinEntropyEstimate = - (0.5 * ((double)(i_lengthOfSeq - 2) / (double)i_lengthOfSeq) * log2(i_refPTransition(0, 1) * i_refPTransition(1, 0))
-					+ log2(i_refInitialP(0) * i_refPTransition(0, 0)) / (double)i_lengthOfSeq);
+				o_refMinEntropyEstimate = - (0.5 * (static_cast<double>(i_lengthOfSeq - 2) / static_cast<double>(i_lengthOfSeq)) * log2(i_refPTransition(0, 1) * i_refPTransition(1, 0))
+					+ log2(i_refInitialP(0) * i_refPTransition(0, 0)) / static_cast<double>(i_lengthOfSeq));
 				return	sts = ns_consts::EnmReturnStatus::Success;
 			}
 
@@ -346,7 +345,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the colum vector from left.
+			///   Note here that this matrix is defined so as to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -385,8 +384,8 @@ namespace entropy_estimator_lib
 				{
 					return	sts;
 				}
-				o_refMinEntropyEstimate = - (0.5 * ((double)(i_lengthOfSeq - 2) / (double)i_lengthOfSeq) * log2(i_refPTransition(0, 1) * i_refPTransition(1, 0))
-					+ log2(i_refInitialP(0) * i_refPTransition(1, 1)) / (double)i_lengthOfSeq);
+				o_refMinEntropyEstimate = - (0.5 * (static_cast<double>(i_lengthOfSeq - 2) / static_cast<double>(i_lengthOfSeq)) * log2(i_refPTransition(0, 1) * i_refPTransition(1, 0))
+					+ log2(i_refInitialP(0) * i_refPTransition(1, 1)) / static_cast<double>(i_lengthOfSeq));
 				return	sts = ns_consts::EnmReturnStatus::Success;
 			}
 
@@ -402,7 +401,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the colum vector from left.
+			///   Note here that this matrix is defined so as to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -441,8 +440,8 @@ namespace entropy_estimator_lib
 				{
 					return	sts;
 				}
-				o_refMinEntropyEstimate = -(((double)(i_lengthOfSeq - 3) / (double)i_lengthOfSeq) * log2(i_refPTransition(1, 1))
-					+ log2(i_refInitialP(0) * i_refPTransition(1, 0) * i_refPTransition(0, 1)) / (double)i_lengthOfSeq);
+				o_refMinEntropyEstimate = -((static_cast<double>(i_lengthOfSeq - 3) / static_cast<double>(i_lengthOfSeq)) * log2(i_refPTransition(1, 1))
+					+ log2(i_refInitialP(0) * i_refPTransition(1, 0) * i_refPTransition(0, 1)) / static_cast<double>(i_lengthOfSeq));
 				return	sts = ns_consts::EnmReturnStatus::Success;
 			}
 
@@ -458,7 +457,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the colum vector from left.
+			///   Note here that this matrix is defined so as to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -493,8 +492,8 @@ namespace entropy_estimator_lib
 				{
 					return	sts;
 				}
-				o_refMinEntropyEstimate = -(((double)(i_lengthOfSeq - 2) / (double)i_lengthOfSeq) * log2(i_refPTransition(0, 0))
-					+ log2(i_refInitialP(0) * i_refPTransition(1, 0)) / (double)i_lengthOfSeq);
+				o_refMinEntropyEstimate = -((static_cast<double>(i_lengthOfSeq - 2) / static_cast<double>(i_lengthOfSeq)) * log2(i_refPTransition(0, 0))
+					+ log2(i_refInitialP(0) * i_refPTransition(1, 0)) / static_cast<double>(i_lengthOfSeq));
 				return	sts = ns_consts::EnmReturnStatus::Success;
 			}
 
@@ -510,7 +509,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the colum vector from left.
+			///   Note here that this matrix is defined so as to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -545,8 +544,8 @@ namespace entropy_estimator_lib
 				{
 					return	sts;
 				}
-				o_refMinEntropyEstimate = - (0.5 * ((double)(i_lengthOfSeq - 2) / (double)i_lengthOfSeq) * log2(i_refPTransition(0, 1) * i_refPTransition(1, 0))
-					+ log2(i_refInitialP(0) * i_refPTransition(1, 0)) / (double)i_lengthOfSeq);
+				o_refMinEntropyEstimate = - (0.5 * (static_cast<double>(i_lengthOfSeq - 2) / static_cast<double>(i_lengthOfSeq)) * log2(i_refPTransition(0, 1) * i_refPTransition(1, 0))
+					+ log2(i_refInitialP(0) * i_refPTransition(1, 0)) / static_cast<double>(i_lengthOfSeq));
 				return	sts = ns_consts::EnmReturnStatus::Success;
 			}
 
@@ -562,7 +561,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the colum vector from left.
+			///   Note here that this matrix is defined so as to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -597,8 +596,8 @@ namespace entropy_estimator_lib
 				{
 					return	sts;
 				}
-				o_refMinEntropyEstimate = - (((double)(i_lengthOfSeq - 2) / (double)i_lengthOfSeq) * log2(i_refPTransition(1, 1))
-					+ log2(i_refInitialP(0) * i_refPTransition(1, 0)) / (double)i_lengthOfSeq);
+				o_refMinEntropyEstimate = - ((static_cast<double>(i_lengthOfSeq - 2) / static_cast<double>(i_lengthOfSeq)) * log2(i_refPTransition(1, 1))
+					+ log2(i_refInitialP(0) * i_refPTransition(1, 0)) / static_cast<double>(i_lengthOfSeq));
 				return	sts = ns_consts::EnmReturnStatus::Success;
 			}
 
@@ -614,7 +613,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the colum vector from left.
+			///   Note here that this matrix is defined so as to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -649,8 +648,8 @@ namespace entropy_estimator_lib
 				{
 					return	sts;
 				}
-				o_refMinEntropyEstimate = - (((double)(i_lengthOfSeq - 2) / (double)i_lengthOfSeq) * log2(i_refPTransition(0, 0))
-					+ log2(i_refInitialP(1) * i_refPTransition(0, 1)) / (double)i_lengthOfSeq);
+				o_refMinEntropyEstimate = - ((static_cast<double>(i_lengthOfSeq - 2) / static_cast<double>(i_lengthOfSeq)) * log2(i_refPTransition(0, 0))
+					+ log2(i_refInitialP(1) * i_refPTransition(0, 1)) / static_cast<double>(i_lengthOfSeq));
 				return	sts = ns_consts::EnmReturnStatus::Success;
 			}
 
@@ -666,7 +665,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the colum vector from left.
+			///   Note here that this matrix is defined so as to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -701,8 +700,8 @@ namespace entropy_estimator_lib
 				{
 					return	sts;
 				}
-				o_refMinEntropyEstimate = - (0.5 * ((double)(i_lengthOfSeq - 2) / (double)i_lengthOfSeq) * log2(i_refPTransition(0, 1) * i_refPTransition(1, 0))
-					+ log2(i_refInitialP(1) * i_refPTransition(0, 1)) / (double)i_lengthOfSeq);
+				o_refMinEntropyEstimate = - (0.5 * (static_cast<double>(i_lengthOfSeq - 2) / static_cast<double>(i_lengthOfSeq)) * log2(i_refPTransition(0, 1) * i_refPTransition(1, 0))
+					+ log2(i_refInitialP(1) * i_refPTransition(0, 1)) / static_cast<double>(i_lengthOfSeq));
 				return	sts = ns_consts::EnmReturnStatus::Success;
 			}
 
@@ -718,7 +717,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the colum vector from left.
+			///   Note here that this matrix is defined so as to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -753,8 +752,8 @@ namespace entropy_estimator_lib
 				{
 					return	sts;
 				}
-				o_refMinEntropyEstimate = - (((double)(i_lengthOfSeq - 2) / (double)i_lengthOfSeq) * log2(i_refPTransition(1, 1))
-					+ log2(i_refInitialP(1) * i_refPTransition(0, 1)) / (double)i_lengthOfSeq);
+				o_refMinEntropyEstimate = - ((static_cast<double>(i_lengthOfSeq - 2) / static_cast<double>(i_lengthOfSeq)) * log2(i_refPTransition(1, 1))
+					+ log2(i_refInitialP(1) * i_refPTransition(0, 1)) / static_cast<double>(i_lengthOfSeq));
 				return	sts = ns_consts::EnmReturnStatus::Success;
 			}
 
@@ -770,7 +769,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the colum vector from left.
+			///   Note here that this matrix is defined so as to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -809,8 +808,8 @@ namespace entropy_estimator_lib
 				{
 					return	sts;
 				}
-				o_refMinEntropyEstimate = - (((double)(i_lengthOfSeq - 3) / (double)i_lengthOfSeq) * log2(i_refPTransition(0, 0))
-					+ log2(i_refInitialP(1) * i_refPTransition(0, 1) * i_refPTransition(1, 0)) / (double)i_lengthOfSeq);
+				o_refMinEntropyEstimate = - ((static_cast<double>(i_lengthOfSeq - 3) / static_cast<double>(i_lengthOfSeq)) * log2(i_refPTransition(0, 0))
+					+ log2(i_refInitialP(1) * i_refPTransition(0, 1) * i_refPTransition(1, 0)) / static_cast<double>(i_lengthOfSeq));
 				return	sts = ns_consts::EnmReturnStatus::Success;
 			}
 
@@ -826,7 +825,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the colum vector from left.
+			///   Note here that this matrix is defined so as to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -865,8 +864,8 @@ namespace entropy_estimator_lib
 				{
 					return	sts;
 				}
-				o_refMinEntropyEstimate = - (0.5 * ((double)(i_lengthOfSeq - 2) / (double)i_lengthOfSeq) * log2(i_refPTransition(0, 1) * i_refPTransition(1, 0))
-					+ log2(i_refInitialP(1) * i_refPTransition(0, 0)) / (double)i_lengthOfSeq);
+				o_refMinEntropyEstimate = - (0.5 * (static_cast<double>(i_lengthOfSeq - 2) / static_cast<double>(i_lengthOfSeq)) * log2(i_refPTransition(0, 1) * i_refPTransition(1, 0))
+					+ log2(i_refInitialP(1) * i_refPTransition(0, 0)) / static_cast<double>(i_lengthOfSeq));
 				return	sts = ns_consts::EnmReturnStatus::Success;
 			}
 
@@ -882,7 +881,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the colum vector from left.
+			///   Note here that this matrix is defined so as to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -921,8 +920,8 @@ namespace entropy_estimator_lib
 				{
 					return	sts;
 				}
-				o_refMinEntropyEstimate = - (0.5 * ((double)(i_lengthOfSeq - 2) / (double)i_lengthOfSeq) * log2(i_refPTransition(0, 1) * i_refPTransition(1, 0))
-					+ log2(i_refInitialP(1) * i_refPTransition(1, 1)) / (double)i_lengthOfSeq);
+				o_refMinEntropyEstimate = - (0.5 * (static_cast<double>(i_lengthOfSeq - 2) / static_cast<double>(i_lengthOfSeq)) * log2(i_refPTransition(0, 1) * i_refPTransition(1, 0))
+					+ log2(i_refInitialP(1) * i_refPTransition(1, 1)) / static_cast<double>(i_lengthOfSeq));
 				return	sts = ns_consts::EnmReturnStatus::Success;
 			}
 
@@ -938,7 +937,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the colum vector from left.
+			///   Note here that this matrix is defined so as to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -969,8 +968,8 @@ namespace entropy_estimator_lib
 				{
 					return	sts;
 				}
-				o_refMinEntropyEstimate = - (((double)(i_lengthOfSeq - 1) / (double)i_lengthOfSeq) * log2(i_refPTransition(1, 1))
-					+ log2(i_refInitialP(1)) / (double)i_lengthOfSeq);
+				o_refMinEntropyEstimate = - ((static_cast<double>(i_lengthOfSeq - 1) / static_cast<double>(i_lengthOfSeq)) * log2(i_refPTransition(1, 1))
+					+ log2(i_refInitialP(1)) / static_cast<double>(i_lengthOfSeq));
 				return	sts = ns_consts::EnmReturnStatus::Success;
 			}
 
@@ -984,7 +983,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the colum vector from left.
+			///   Note here that this matrix is defined so as to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -1005,7 +1004,7 @@ namespace entropy_estimator_lib
 				const blitz::Array<double, 2>& i_refPTransition, 
 				const blitz::Array<double, 1>& i_refInitialP, int i_lengthOfSequence)
 			{
-				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
+				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 
 				PF_MARKOV_EE	funcs[14] = {
 					calcNegativeLogarithmProbabilityC01,
@@ -1025,15 +1024,15 @@ namespace entropy_estimator_lib
 				};
 				if (i_refPTransition.length(blitz::firstDim) != 2)
 				{
-					return sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
+					return sts;
 				}
 				if (i_refPTransition.length(blitz::secondDim) != 2)
 				{
-					return sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
+					return sts;
 				}
 				if (i_refInitialP.length(blitz::firstDim) != 2)
 				{
-					return sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
+					return sts;
 				}
 
 				//blitz::Array<double, 1>	bz_log_p_over_L(14);
@@ -1043,7 +1042,7 @@ namespace entropy_estimator_lib
 				io_refData.t_common.min_entropy = 1.0;
 				for (int i = 0; i < 14; ++i)
 				{
-					ns_consts::EnmReturnStatus	stsForCase
+					const ns_consts::EnmReturnStatus	stsForCase
 						= funcs[i](minEntropyForCases[i],
 							i_refPTransition, i_refInitialP, i_lengthOfSequence);
 					if (ns_consts::EnmReturnStatus::Success == stsForCase)
@@ -1081,28 +1080,25 @@ namespace entropy_estimator_lib
 			// -------------------------------------------------------------------------- //
 			ns_consts::EnmReturnStatus check_args_for_estimate(const ns_dt::t_data_for_estimator& i_refData)
 			{
-				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
+				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 
-				ns_consts::EnmReturnStatus	stsCommon = ns_spt::perform_common_args_for_estimate(i_refData);
+				const ns_consts::EnmReturnStatus	stsCommon = ns_spt::perform_common_args_for_estimate(i_refData);
 				if (ns_consts::EnmReturnStatus::Success != stsCommon)
 				{
 					return sts = stsCommon;
 				}
 				if (i_refData.k != 2)
 				{
-					sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 					return sts;
 				}
 				if (i_refData.L < 3)
 				{
-					sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 					return sts;
 				}
 				if (0 == (*i_refData.p_bzSampleSpaceA)(0))
 				{
 					if (1 != (*i_refData.p_bzSampleSpaceA)(1))
 					{
-						sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 						return sts;
 					}
 				}
@@ -1110,13 +1106,11 @@ namespace entropy_estimator_lib
 				{
 					if (0 != (*i_refData.p_bzSampleSpaceA)(1))
 					{
-						sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 						return sts;
 					}
 				}
 				else
 				{
-					sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 					return sts;
 				}
 
@@ -1157,12 +1151,12 @@ namespace entropy_estimator_lib
 				blitz::Array<double, 1>	bz_initial_p(2);
 				if (0 == (*io_refData.p_bzSampleSpaceA)(0))
 				{
-					bz_initial_p(0) = bz_count(0) / (double)(io_refData.p_bzInputS->length(blitz::firstDim));
+					bz_initial_p(0) = bz_count(0) / static_cast<double>(io_refData.p_bzInputS->length(blitz::firstDim));
 					bz_initial_p(1) = 1.0 - bz_initial_p(0);
 				}
 				else
 				{
-					bz_initial_p(1) = bz_count(0) / (double)(io_refData.p_bzInputS->length(blitz::firstDim));
+					bz_initial_p(1) = bz_count(0) / static_cast<double>(io_refData.p_bzInputS->length(blitz::firstDim));
 					bz_initial_p(0) = 1.0 - bz_initial_p(1);
 				}
 
@@ -1213,10 +1207,10 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				blitz::Array<double, 2>		bz_p_transition(2, 2);
 				bz_p_transition = 0.0;
-				bz_p_transition(0, 0) = (double)tuple_count[0][0] / ((double)tuple_count[0][0] + (double)tuple_count[1][0]);
-				bz_p_transition(0, 1) = (double)tuple_count[0][1] / ((double)tuple_count[0][1] + (double)tuple_count[1][1]);
-				bz_p_transition(1, 0) = (double)tuple_count[1][0] / ((double)tuple_count[0][0] + (double)tuple_count[1][0]);
-				bz_p_transition(1, 1) = (double)tuple_count[1][1] / ((double)tuple_count[0][1] + (double)tuple_count[1][1]);
+				bz_p_transition(0, 0) = static_cast<double>(tuple_count[0][0]) / static_cast<double>(tuple_count[0][0] + tuple_count[1][0]);
+				bz_p_transition(0, 1) = static_cast<double>(tuple_count[0][1]) / static_cast<double>(tuple_count[0][1] + tuple_count[1][1]);
+				bz_p_transition(1, 0) = static_cast<double>(tuple_count[1][0]) / static_cast<double>(tuple_count[0][0] + tuple_count[1][0]);
+				bz_p_transition(1, 1) = static_cast<double>(tuple_count[1][1]) / static_cast<double>(tuple_count[0][1] + tuple_count[1][1]);
 
 				for (int j = 0; j < 2; ++j)
 				{
@@ -1237,7 +1231,7 @@ namespace entropy_estimator_lib
 				// The min-entropy estimate is the negative logarithm of the probability of the most likely sequence of outputs, \hat{p}_{max}:
 				//   min - entropy = min(-log2(\hat{p}_max) / 128, 1)
 				// -------------------------------------------------------------------------- //
-				const int lengthOfSequence = 128;
+				constexpr  int lengthOfSequence = 128;
 				sts = calcNegativeLogarithmProbability(io_refData.t_6_3_3,
 					bz_p_transition, bz_initial_p, lengthOfSequence);
 				// -------------------------------------------------------------------------- //
@@ -1250,26 +1244,26 @@ namespace entropy_estimator_lib
 				{
 					if (1 <= tuple_count[0][0])
 					{
-						bz_p_transition_virtual(0, 0) = ((double)tuple_count[0][0] - 1.0) / ((double)tuple_count[0][0] + (double)tuple_count[1][0]);
-						bz_p_transition_virtual(1, 0) = ((double)tuple_count[1][0] + 1.0) / ((double)tuple_count[0][0] + (double)tuple_count[1][0]);
+						bz_p_transition_virtual(0, 0) = (static_cast<double>(tuple_count[0][0]) - 1.0) / static_cast<double>(tuple_count[0][0] + tuple_count[1][0]);
+						bz_p_transition_virtual(1, 0) = (static_cast<double>(tuple_count[1][0]) + 1.0) / static_cast<double>(tuple_count[0][0] + tuple_count[1][0]);
 					}
 					else
 					{
-						bz_p_transition_virtual(0, 0) = (double)tuple_count[0][0] / ((double)tuple_count[0][0] + (double)tuple_count[1][0]);
-						bz_p_transition_virtual(1, 0) = (double)tuple_count[1][0] / ((double)tuple_count[0][0] + (double)tuple_count[1][0]);
+						bz_p_transition_virtual(0, 0) = static_cast<double>(tuple_count[0][0]) / static_cast<double>(tuple_count[0][0] + tuple_count[1][0]);
+						bz_p_transition_virtual(1, 0) = static_cast<double>(tuple_count[1][0]) / static_cast<double>(tuple_count[0][0] + tuple_count[1][0]);
 					}
 				}
 				else
 				{
 					if (1 <= tuple_count[1][0])
 					{
-						bz_p_transition_virtual(0, 0) = ((double)tuple_count[0][0] + 1.0) / ((double)tuple_count[0][0] + (double)tuple_count[1][0]);
-						bz_p_transition_virtual(1, 0) = ((double)tuple_count[1][0] - 1.0) / ((double)tuple_count[0][0] + (double)tuple_count[1][0]);
+						bz_p_transition_virtual(0, 0) = (static_cast<double>(tuple_count[0][0]) + 1.0) / static_cast<double>(tuple_count[0][0] + tuple_count[1][0]);
+						bz_p_transition_virtual(1, 0) = (static_cast<double>(tuple_count[1][0]) - 1.0) / static_cast<double>(tuple_count[0][0] + tuple_count[1][0]);
 					}
 					else
 					{
-						bz_p_transition_virtual(0, 0) = (double)tuple_count[0][0] / ((double)tuple_count[0][0] + (double)tuple_count[1][0]);
-						bz_p_transition_virtual(1, 0) = (double)tuple_count[1][0] / ((double)tuple_count[0][0] + (double)tuple_count[1][0]);
+						bz_p_transition_virtual(0, 0) = static_cast<double>(tuple_count[0][0]) / static_cast<double>(tuple_count[0][0] + tuple_count[1][0]);
+						bz_p_transition_virtual(1, 0) = static_cast<double>(tuple_count[1][0]) / static_cast<double>(tuple_count[0][0] + tuple_count[1][0]);
 					}
 				}
 
@@ -1277,26 +1271,26 @@ namespace entropy_estimator_lib
 				{
 					if (1 <= tuple_count[1][1])
 					{
-						bz_p_transition_virtual(0, 1) = ((double)tuple_count[0][1] + 1.0) / ((double)tuple_count[0][1] + (double)tuple_count[1][1]);
-						bz_p_transition_virtual(1, 1) = ((double)tuple_count[1][1] - 1.0) / ((double)tuple_count[0][1] + (double)tuple_count[1][1]);
+						bz_p_transition_virtual(0, 1) = (static_cast<double>(tuple_count[0][1]) + 1.0) / static_cast<double>(tuple_count[0][1] + tuple_count[1][1]);
+						bz_p_transition_virtual(1, 1) = (static_cast<double>(tuple_count[1][1]) - 1.0) / static_cast<double>(tuple_count[0][1] + tuple_count[1][1]);
 					}
 					else
 					{
-						bz_p_transition_virtual(0, 1) = (double)tuple_count[0][1] / ((double)tuple_count[0][1] + (double)tuple_count[1][1]);
-						bz_p_transition_virtual(1, 1) = (double)tuple_count[1][1] / ((double)tuple_count[0][1] + (double)tuple_count[1][1]);
+						bz_p_transition_virtual(0, 1) = static_cast<double>(tuple_count[0][1]) / static_cast<double>(tuple_count[0][1] + tuple_count[1][1]);
+						bz_p_transition_virtual(1, 1) = static_cast<double>(tuple_count[1][1]) / static_cast<double>(tuple_count[0][1] + tuple_count[1][1]);
 					}
 				}
 				else
 				{
 					if (1 <= tuple_count[0][1])
 					{
-						bz_p_transition_virtual(0, 1) = ((double)tuple_count[0][1] - 1.0) / ((double)tuple_count[0][1] + (double)tuple_count[1][1]);
-						bz_p_transition_virtual(1, 1) = ((double)tuple_count[1][1] + 1.0) / ((double)tuple_count[0][1] + (double)tuple_count[1][1]);
+						bz_p_transition_virtual(0, 1) = (static_cast<double>(tuple_count[0][1]) - 1.0) / static_cast<double>(tuple_count[0][1] + tuple_count[1][1]);
+						bz_p_transition_virtual(1, 1) = (static_cast<double>(tuple_count[1][1]) + 1.0) / static_cast<double>(tuple_count[0][1] + tuple_count[1][1]);
 					}
 					else
 					{
-						bz_p_transition_virtual(0, 1) = (double)tuple_count[0][1] / ((double)tuple_count[0][1] + (double)tuple_count[1][1]);
-						bz_p_transition_virtual(1, 1) = (double)tuple_count[1][1] / ((double)tuple_count[0][1] + (double)tuple_count[1][1]);
+						bz_p_transition_virtual(0, 1) = static_cast<double>(tuple_count[0][1]) / static_cast<double>(tuple_count[0][1] + tuple_count[1][1]);
+						bz_p_transition_virtual(1, 1) = static_cast<double>(tuple_count[1][1]) / static_cast<double>(tuple_count[0][1] + tuple_count[1][1]);
 					}
 				}
 				// -------------------------------------------------------------------------- //
@@ -1327,11 +1321,11 @@ namespace entropy_estimator_lib
 				if ((0 <= io_refData.t_6_3_3.mostLikelySequenceCategoryIndex) && (io_refData.t_6_3_3.mostLikelySequenceCategoryIndex < 14))
 				{
 					double	min_entropy_lower_bound = 0.0;
-					double	number_of_significant_digits = 1.0;
 
-					ns_consts::EnmReturnStatus	stsNumSignificantDigits = funcs[io_refData.t_6_3_3.mostLikelySequenceCategoryIndex](min_entropy_lower_bound, bz_p_transition_virtual, bz_initial_p, lengthOfSequence);
+					const ns_consts::EnmReturnStatus	stsNumSignificantDigits = funcs[io_refData.t_6_3_3.mostLikelySequenceCategoryIndex](min_entropy_lower_bound, bz_p_transition_virtual, bz_initial_p, lengthOfSequence);
 					if (ns_consts::EnmReturnStatus::Success == stsNumSignificantDigits)
 					{
+						double	number_of_significant_digits = 1.0;
 
 						number_of_significant_digits = -log10(fabs((min_entropy_lower_bound - io_refData.t_6_3_3.t_common.min_entropy) / io_refData.t_6_3_3.t_common.min_entropy));
 

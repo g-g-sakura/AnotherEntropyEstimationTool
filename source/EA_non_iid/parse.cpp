@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include <string>
@@ -33,7 +33,7 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
     // -------------------------------------------------------------------------- //
     //
     // -------------------------------------------------------------------------- //
-    const boost::uintmax_t file_size_limit = 32 * 1024 * 1024;
+    constexpr  boost::uintmax_t file_size_limit = 32 * 1024 * 1024;
 
     setlocale(LC_ALL, "");
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -112,7 +112,7 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
             // -------------------------------------------------------------------------- //
             // full path
             // -------------------------------------------------------------------------- //
-            bs_fs::path full_path = bs_fs::system_complete(file_path);
+            const bs_fs::path full_path = bs_fs::system_complete(file_path);
             // -------------------------------------------------------------------------- //
             // get path for future use
             // -------------------------------------------------------------------------- //
@@ -135,10 +135,10 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
             }
 
             memset(&io_refData, 0, sizeof(io_refData));
-            ns_consts::EnmReturnStatus	sts = entropy_estimator_lib::support::setUp(io_refData);
-            if (ns_consts::EnmReturnStatus::Success != sts)
+            const ns_consts::EnmReturnStatus	stsSetUp = entropy_estimator_lib::support::setUp(io_refData);
+            if (ns_consts::EnmReturnStatus::Success != stsSetUp)
             {
-                return  sts;
+                return  sts = stsSetUp;
             }
             sts = entropy_estimator_lib::support::loadSamples(io_refData, full_path);
             if (ns_consts::EnmReturnStatus::Success != sts)
@@ -195,15 +195,15 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
                 //
                 // -------------------------------------------------------------------------- //
                 memset(&io_refDataBitString, 0, sizeof(io_refDataBitString));
-                ns_consts::EnmReturnStatus	sts = entropy_estimator_lib::support::setUp(io_refDataBitString);
-                if (ns_consts::EnmReturnStatus::Success != sts)
+                const ns_consts::EnmReturnStatus	stsSetUpNonBinary = entropy_estimator_lib::support::setUp(io_refDataBitString);
+                if (ns_consts::EnmReturnStatus::Success != stsSetUpNonBinary)
                 {
-                    return  sts;
+                    return  sts = stsSetUpNonBinary;
                 }
                 // -------------------------------------------------------------------------- //
                 //
                 // -------------------------------------------------------------------------- //
-                const uintmax_t def_number_of_bits_when_truncation = 1000000;
+                constexpr uintmax_t def_number_of_bits_when_truncation = 1000000;
                 uintmax_t   number_of_bits_to_be_loaded = size * bits_per_sample;
                 // -------------------------------------------------------------------------- //
                 // 

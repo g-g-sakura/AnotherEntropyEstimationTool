@@ -2,7 +2,7 @@
 // MarkovModelHistogram.h
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #if defined(_MSC_VER)
@@ -19,9 +19,7 @@
 #include <boost/multi_index/ordered_index.hpp>
 #include <boost/multi_index/identity.hpp>
 #include <boost/multi_index/member.hpp>
-#include <boost/multi_index/composite_key.hpp>
 #include <boost/dynamic_bitset.hpp>
-#include <boost/range.hpp>
 
 
 namespace entropy_estimator_lib
@@ -40,9 +38,9 @@ namespace entropy_estimator_lib
 			{
 				boost::dynamic_bitset<>		ex_x;		// x
 				ns_dt::octet	ex_y;		// y
-				int				ex_cnt;		// count = number of occurence of index value within a certain window
+				int				ex_cnt;		// count = number of occurrence of index value within a certain window
 
-				t_xy_bin(boost::dynamic_bitset<>& i_x, ns_dt::octet i_y, int i_count) : ex_x(i_x), ex_y(i_y), ex_cnt(i_count) {}
+				t_xy_bin(const boost::dynamic_bitset<>& i_x, ns_dt::octet i_y, int i_count) : ex_x(i_x), ex_y(i_y), ex_cnt(i_count) {}
 
 				bool operator <(t_xy_bin const& i_refRight) const
 				{
@@ -105,7 +103,7 @@ namespace entropy_estimator_lib
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
 			ns_consts::EnmReturnStatus incrementXY(
-				boost::dynamic_bitset<>& i_target_x,
+				const boost::dynamic_bitset<>& i_target_x,
 				ns_dt::octet i_target_y,
 				MarkovModelHistogram& i_refHistogram);
 
@@ -129,7 +127,7 @@ namespace entropy_estimator_lib
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
 			ns_consts::EnmReturnStatus getFrequent(t_xy_bin& o_refFrequent,
-				boost::dynamic_bitset<>& i_target_x,
+				const boost::dynamic_bitset<>& i_target_x,
 				MarkovModelHistogram& i_refHistogram);
 
 

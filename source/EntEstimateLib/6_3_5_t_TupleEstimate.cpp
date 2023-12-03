@@ -12,7 +12,6 @@
 #include "./support/conversion.h"
 #include "./math/SpecialFunctions.h"
 #include <boost/math/special_functions.hpp>
-#include <boost/math/tools/roots.hpp>
 #include "./support/TupleHistogram.h"
 
 namespace entropy_estimator_lib
@@ -25,7 +24,6 @@ namespace entropy_estimator_lib
 			namespace ns_dt = entropy_estimator_lib::data_types;
 			namespace ns_spt = entropy_estimator_lib::support;
 			namespace ns_es = entropy_estimator_lib::estimators::support;
-			namespace mp = boost::multiprecision;
 
 			// -------------------------------------------------------------------------- //
 			/// <summary>
@@ -129,8 +127,8 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				for (int i = 0; i < i_ref_bz_Q.length(blitz::firstDim); ++i)
 				{
-					double	P_i = (double)i_ref_bz_Q(i) / (double)(io_refData.L - i);
-					double	P_i_power = pow(P_i, 1.0 / (double)(i + 1));
+					const double	P_i = static_cast<double>(i_ref_bz_Q(i)) / static_cast<double>(io_refData.L - i);
+					const double	P_i_power = pow(P_i, 1.0 / static_cast<double>(i + 1));
 					(*io_refData.p_ssLaTeXFragment) << L"(";
 					(*io_refData.p_ssLaTeXFragment) << std::setw(4) << (i + 1) << L", ";
 					(*io_refData.p_ssLaTeXFragment) << std::setw(8) << (P_i_power);
@@ -298,7 +296,7 @@ namespace entropy_estimator_lib
 						//
 						// -------------------------------------------------------------------------- //
 						int	countForThisTupleExp = 1;
-						ns_consts::EnmReturnStatus	stsUpdate = ns_es::incrementCount(countForThisTupleExp, tupleExp, hg);
+						const ns_consts::EnmReturnStatus	stsUpdate = ns_es::incrementCount(countForThisTupleExp, tupleExp, hg);
 						if (ns_consts::EnmReturnStatus::ErrorNotFound == stsUpdate)
 						{
 							hg.insert(ns_es::t_bsx_bin(tupleExp, 1));
@@ -379,7 +377,7 @@ namespace entropy_estimator_lib
 				bz_P = 0.0;
 				for (int i = 0; i < i_ref_bz_Q.length(blitz::firstDim); ++i)
 				{
-					bz_P(i) = i_ref_bz_Q(i) / (double)(io_refData.L - i);
+					bz_P(i) = i_ref_bz_Q(i) / static_cast<double>(io_refData.L - i);
 				}
 				// -------------------------------------------------------------------------- //
 				//
@@ -388,7 +386,7 @@ namespace entropy_estimator_lib
 				bz_P_max = 0.0;
 				for (int i = 0; i < bz_P.length(blitz::firstDim); ++i)
 				{
-					bz_P_max(i) = pow(bz_P(i), (double)(1.0 / (double)(i + 1)));
+					bz_P_max(i) = pow(bz_P(i), (double)(1.0 / static_cast<double>(i + 1)));
 				}
 				// -------------------------------------------------------------------------- //
 				//
@@ -397,7 +395,7 @@ namespace entropy_estimator_lib
 
 				const double	p_hat_max = blitz::max(bz_P_max);
 
-				double	p_u = p_hat_max + z_alpha * sqrt((p_hat_max * (1.0 - p_hat_max)) / (io_refData.L - 1));
+				double	p_u = p_hat_max + z_alpha * sqrt((p_hat_max * (1.0 - p_hat_max)) / static_cast<double>(io_refData.L - 1));
 
 				if (1.0 < p_u)
 				{
@@ -446,16 +444,15 @@ namespace entropy_estimator_lib
 			// -------------------------------------------------------------------------- //
 			ns_consts::EnmReturnStatus check_args_for_estimate(const ns_dt::t_data_for_estimator& i_refData)
 			{
-				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
+				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 
-				ns_consts::EnmReturnStatus	stsCommon = ns_spt::perform_common_args_for_estimate(i_refData);
+				const ns_consts::EnmReturnStatus	stsCommon = ns_spt::perform_common_args_for_estimate(i_refData);
 				if (ns_consts::EnmReturnStatus::Success != stsCommon)
 				{
 					return sts = stsCommon;
 				}
 				if (i_refData.L < 2)
 				{
-					sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 					return sts;
 				}
 				int	def_cutoff = 35;
@@ -468,7 +465,6 @@ namespace entropy_estimator_lib
 				}
 				if (i_refData.t_6_3_5.cutoff != def_cutoff)
 				{
-					sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 					return sts;
 				}
 

@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "../pch.h"
@@ -21,7 +21,6 @@ namespace entropy_estimator_lib
 		{
 
 			namespace ns_consts = entropy_estimator_lib::constants;
-			namespace ns_dt = entropy_estimator_lib::data_types;
 			namespace ns_math = entropy_estimator_lib::estimators::math;
 
 
@@ -68,12 +67,12 @@ namespace entropy_estimator_lib
 				{
 					p = 0.5 + sqrt(1.25 - 0.5 * i_ref_X_bar_prime);
 				}
-				double	min_entropy = -log2(p);
+				const double	min_entropy = -log2(p);
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
-				double	x_bar_plus_eps = i_ref_X_bar_prime + 3.0 / ((double)i_ref_nu);
-				double	x_bar_minus_eps = i_ref_X_bar_prime - 3.0 / ((double)i_ref_nu);
+				double	x_bar_plus_eps = i_ref_X_bar_prime + 3.0 / (static_cast<double>(i_ref_nu));
+				double	x_bar_minus_eps = i_ref_X_bar_prime - 3.0 / (static_cast<double>(i_ref_nu));
 				if ((x_bar_plus_eps < 2.0) || (2.5 < x_bar_plus_eps))
 				{
 					x_bar_plus_eps = 2.5;
@@ -82,8 +81,8 @@ namespace entropy_estimator_lib
 				{
 					x_bar_minus_eps = 2.5;
 				}
-				double	p_global_plus_eps = 0.5 + sqrt(1.25 - 0.5 * x_bar_plus_eps);
-				double	p_global_minus_eps = 0.5 + sqrt(1.25 - 0.5 * x_bar_minus_eps);
+				const double	p_global_plus_eps = 0.5 + sqrt(1.25 - 0.5 * x_bar_plus_eps);
+				const double	p_global_minus_eps = 0.5 + sqrt(1.25 - 0.5 * x_bar_minus_eps);
 				o_ref_min_entropy_lower_bound = -log2(p_global_minus_eps);
 				o_ref_min_entropy_upper_bound = -log2(p_global_plus_eps);
 				// -------------------------------------------------------------------------- //
@@ -132,29 +131,29 @@ namespace entropy_estimator_lib
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 
-				double z_alpha = calc_Z_alpha(0.995);
-				double	p_global = ((double)i_ref_C) / ((double)i_ref_N);
-				double	p_global_plus_eps = ((double)i_ref_C + 1.0) / ((double)i_ref_N);
-				double	p_global_minus_eps = ((double)i_ref_C - 1.0) / ((double)i_ref_N);
-				double	p_global_prime			= p_global + z_alpha * sqrt(p_global * (1.0 - p_global) / (double)(i_ref_N - 1));
+				const double z_alpha = calc_Z_alpha(0.995);
+				const double	p_global = (static_cast<double>(i_ref_C)) / (static_cast<double>(i_ref_N));
+				const double	p_global_plus_eps = (static_cast<double>(i_ref_C) + 1.0) / static_cast<double>(i_ref_N);
+				const double	p_global_minus_eps = (static_cast<double>(i_ref_C) - 1.0) / static_cast<double>(i_ref_N);
+				const double	p_global_prime			= p_global + z_alpha * sqrt(p_global * (1.0 - p_global) / static_cast<double>(i_ref_N - 1));
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
-				double	p_global_prime_plus_eps = p_global_plus_eps + z_alpha * sqrt(p_global_plus_eps * (1.0 - p_global_plus_eps) / (double)(i_ref_N - 1));
+				double	p_global_prime_plus_eps = p_global_plus_eps + z_alpha * sqrt(p_global_plus_eps * (1.0 - p_global_plus_eps) / static_cast<double>(i_ref_N - 1));
 				if (1.0 < p_global_prime_plus_eps)
 				{
 					p_global_prime_plus_eps = 1.0;
 				}
-				double	min_entropy_plus_eps = -log2(p_global_prime_plus_eps);
+				const double	min_entropy_plus_eps = -log2(p_global_prime_plus_eps);
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
-				double	p_global_prime_minus_eps= p_global_minus_eps + z_alpha * sqrt(p_global_minus_eps * (1.0 - p_global_minus_eps) / (double)(i_ref_N - 1));
+				double	p_global_prime_minus_eps= p_global_minus_eps + z_alpha * sqrt(p_global_minus_eps * (1.0 - p_global_minus_eps) / static_cast<double>(i_ref_N - 1));
 				if (1.0 < p_global_prime_minus_eps)
 				{
 					p_global_prime_minus_eps = 1.0;
 				}
-				double	min_entropy_minus_eps = -log2(p_global_prime_minus_eps);
+				const double	min_entropy_minus_eps = -log2(p_global_prime_minus_eps);
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
@@ -171,8 +170,8 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
-				double	number_of_significant_digits_plus = -log10(fabs((log2(p_global_prime_plus_eps) - log2(p_global_prime)) / log2(p_global_prime)));
-				double	number_of_significant_digits_minus = -log10(fabs((log2(p_global_prime_minus_eps) - log2(p_global_prime)) / log2(p_global_prime)));
+				const double	number_of_significant_digits_plus = -log10(fabs((log2(p_global_prime_plus_eps) - log2(p_global_prime)) / log2(p_global_prime)));
+				const double	number_of_significant_digits_minus = -log10(fabs((log2(p_global_prime_minus_eps) - log2(p_global_prime)) / log2(p_global_prime)));
 				if (number_of_significant_digits_minus < number_of_significant_digits_plus)
 				{
 					o_ref_number_of_significant_digits = number_of_significant_digits_minus;
@@ -228,13 +227,13 @@ namespace entropy_estimator_lib
 				{
 					for (int j = 0; j < 2; ++j)
 					{
-						int r = i_ref_r + j;
+						const int r = i_ref_r + j;
 						ns_math::RhsMinusLhs	fnc(r, i_ref_N, 0.99);
 						double	lowerbound = pow(0.5, 20.0);
 						double	upperbound = 1.0 - pow(0.5, 20.0);
-						boost::math::tools::eps_tolerance<double> tol(std::numeric_limits<double>::digits - 4);
+						const boost::math::tools::eps_tolerance<double> tol(std::numeric_limits<double>::digits - 4);
 						boost::uintmax_t it = 64;
-						std::pair<double, double>	rg = boost::math::tools::toms748_solve(fnc, lowerbound, upperbound, tol, it);
+						const std::pair<double, double>	rg = boost::math::tools::toms748_solve(fnc, lowerbound, upperbound, tol, it);
 						// -------------------------------------------------------------------------- //
 						//
 						// -------------------------------------------------------------------------- //
@@ -242,9 +241,9 @@ namespace entropy_estimator_lib
 						// -------------------------------------------------------------------------- //
 						//
 						// -------------------------------------------------------------------------- //
-						if (array_p_local[j + 1] < (1.0 / (double)i_ref_k))
+						if (array_p_local[j + 1] < (1.0 / static_cast<double>(i_ref_k)))
 						{
-							array_p_local[j + 1] = (1.0 / (double)i_ref_k);
+							array_p_local[j + 1] = (1.0 / static_cast<double>(i_ref_k));
 						}
 						min_entropy_possibilities[j + 1] = -log2(array_p_local[j + 1]);
 					}
@@ -264,7 +263,7 @@ namespace entropy_estimator_lib
 					// -------------------------------------------------------------------------- //
 					//
 					// -------------------------------------------------------------------------- //
-					double	number_of_significant_digits_plus = -log10(fabs((log2(array_p_local[2]) - log2(array_p_local[1])) / log2(array_p_local[1])));
+					const double	number_of_significant_digits_plus = -log10(fabs((log2(array_p_local[2]) - log2(array_p_local[1])) / log2(array_p_local[1])));
 					// -------------------------------------------------------------------------- //
 					//
 					// -------------------------------------------------------------------------- //
@@ -273,13 +272,13 @@ namespace entropy_estimator_lib
 				else {
 					for (int j = 0; j < 3; ++j)
 					{
-						int r = i_ref_r - 1 + j;
+						const int r = i_ref_r - 1 + j;
 						ns_math::RhsMinusLhs	fnc(r, i_ref_N, 0.99);
 						double	lowerbound = pow(0.5, 20.0);
 						double	upperbound = 1.0 - pow(0.5, 20.0);
-						boost::math::tools::eps_tolerance<double> tol(std::numeric_limits<double>::digits - 4);
+						const boost::math::tools::eps_tolerance<double> tol(std::numeric_limits<double>::digits - 4);
 						boost::uintmax_t it = 64;
-						std::pair<double, double>	rg = boost::math::tools::toms748_solve(fnc, lowerbound, upperbound, tol, it);
+						const std::pair<double, double>	rg = boost::math::tools::toms748_solve(fnc, lowerbound, upperbound, tol, it);
 						// -------------------------------------------------------------------------- //
 						//
 						// -------------------------------------------------------------------------- //
@@ -287,9 +286,9 @@ namespace entropy_estimator_lib
 						// -------------------------------------------------------------------------- //
 						//
 						// -------------------------------------------------------------------------- //
-						if (array_p_local[j] < (1.0 / (double)i_ref_k))
+						if (array_p_local[j] < (1.0 / static_cast<double>(i_ref_k)))
 						{
-							array_p_local[j] = (1.0 / (double)i_ref_k);
+							array_p_local[j] = (1.0 / static_cast<double>(i_ref_k));
 						}
 						// -------------------------------------------------------------------------- //
 						//
@@ -351,8 +350,8 @@ namespace entropy_estimator_lib
 					// -------------------------------------------------------------------------- //
 					//
 					// -------------------------------------------------------------------------- //
-					double	number_of_significant_digits_plus = -log10(fabs((log2(array_p_local[2]) - log2(array_p_local[1])) / log2(array_p_local[1])));
-					double	number_of_significant_digits_minus = -log10(fabs((log2(array_p_local[0]) - log2(array_p_local[1])) / log2(array_p_local[1])));
+					const double	number_of_significant_digits_plus = -log10(fabs((log2(array_p_local[2]) - log2(array_p_local[1])) / log2(array_p_local[1])));
+					const double	number_of_significant_digits_minus = -log10(fabs((log2(array_p_local[0]) - log2(array_p_local[1])) / log2(array_p_local[1])));
 					if (number_of_significant_digits_minus < number_of_significant_digits_plus)
 					{
 						o_ref_number_of_significant_digits = number_of_significant_digits_minus;

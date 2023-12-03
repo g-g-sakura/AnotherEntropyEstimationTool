@@ -42,7 +42,7 @@ namespace entropy_estimator_lib
 		class IHistogram
 		{
 		public:
-			virtual ~IHistogram(void) {};
+			virtual ~IHistogram() = default;
 
 			virtual ns_consts::EnmReturnStatus getFrequent(T& o_refFrequent, int start_pos, int end_pos, const ns_dt::t_data_for_estimator& i_refData) const = 0;
 		};

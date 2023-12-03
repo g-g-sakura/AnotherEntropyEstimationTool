@@ -86,7 +86,7 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"	ymin=0," << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"	width=20cm," << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"	xlabel=$t_{\\nu}$," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"	ylabel=occurences of $t_{\\nu}$" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"	ylabel=occurrences of $t_{\\nu}$" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"]" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\addplot+[ybar] coordinates {" << std::endl;
 				// -------------------------------------------------------------------------- //
@@ -95,27 +95,27 @@ namespace entropy_estimator_lib
 				std::map<int, int>	mp_t_nu_counts;
 				for (int i = 0; i < i_ref_bz_t_nu.length(blitz::firstDim); ++i)
 				{
-					std::map<int, int>::iterator	mit = mp_t_nu_counts.find(i_ref_bz_t_nu(i));
+					auto	mit = mp_t_nu_counts.find(i_ref_bz_t_nu(i));
 					if (mit == mp_t_nu_counts.end())
 					{
 						mp_t_nu_counts.insert(std::make_pair(i_ref_bz_t_nu(i), 1));
 					}
 					else
 					{
-						int count = mit->second;
+						const int count = mit->second;
 						mit->second = (count + 1);
 					}
 				}
 				int max_t_nu = 1;
-				for (std::map<int, int>::const_iterator cit = mp_t_nu_counts.cbegin(); cit != mp_t_nu_counts.cend(); cit++)
+				for (const auto& e : mp_t_nu_counts)
 				{
-					if (max_t_nu < (cit->second))
+					if (max_t_nu < (e.second))
 					{
-						max_t_nu = (cit->second);
+						max_t_nu = (e.second);
 					}
 					(*io_refData.p_ssLaTeXFragment) << L"(";
-					(*io_refData.p_ssLaTeXFragment) << std::setw(8) << (cit->first);
-					(*io_refData.p_ssLaTeXFragment) << L", " << std::setw(8) << (cit->second);
+					(*io_refData.p_ssLaTeXFragment) << std::setw(8) << (e.first);
+					(*io_refData.p_ssLaTeXFragment) << L", " << std::setw(8) << (e.second);
 					(*io_refData.p_ssLaTeXFragment) << L")" << std::endl;
 				}
 				(*io_refData.p_ssLaTeXFragment) << L"};" << std::endl;
@@ -173,7 +173,7 @@ namespace entropy_estimator_lib
 					(*io_refData.p_ssLaTeXFragment) << L"\\textcolor{Nigelle}{ ";
 					(*io_refData.p_ssLaTeXFragment) << L"\\shortstack{ ";	// start of shortstack
 					(*io_refData.p_ssLaTeXFragment) << io_refData.t_6_3_2.p;
-					(*io_refData.p_ssLaTeXFragment) << L" \\\\ " << std::endl;	// newline for shorstack
+					(*io_refData.p_ssLaTeXFragment) << L" \\\\ " << std::endl;	// newline for shortstack
 					(*io_refData.p_ssLaTeXFragment) << L"($\\rightarrow$ min-entropy = " << io_refData.t_6_3_2.t_common.min_entropy;
 					(*io_refData.p_ssLaTeXFragment) << L" [bit / " << io_refData.bits_per_sample << L"-bit]) " << std::endl;
 					(*io_refData.p_ssLaTeXFragment) << L"} "; // end of shortstack
@@ -320,21 +320,19 @@ namespace entropy_estimator_lib
 			// -------------------------------------------------------------------------- //
 			ns_consts::EnmReturnStatus check_args_for_estimate(const ns_dt::t_data_for_estimator& i_refData)
 			{
-				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
+				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 
-				ns_consts::EnmReturnStatus	stsCommon = ns_spt::perform_common_args_for_estimate(i_refData);
+				const ns_consts::EnmReturnStatus	stsCommon = ns_spt::perform_common_args_for_estimate(i_refData);
 				if (ns_consts::EnmReturnStatus::Success != stsCommon)
 				{
 					return sts = stsCommon;
 				}
 				if (i_refData.k != 2)
 				{
-					sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 					return sts;
 				}
 				if (i_refData.L < 2)
 				{
-					sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 					return sts;
 				}
 
@@ -383,8 +381,8 @@ namespace entropy_estimator_lib
 				}
 
 				// Calc $Z_{\alpha}$ value (=2.5758293035489008)
-				double z_alpha = calc_Z_alpha(0.995);
-				int nu_max = io_refData.L / 2;
+				const long double z_alpha = calc_Z_alpha(0.995);
+				uintmax_t nu_max = io_refData.L / 2;
 				if (1 == io_refData.L % 2)
 				{
 					nu_max = (io_refData.L + 1) / 2;
@@ -447,17 +445,17 @@ namespace entropy_estimator_lib
 				//  Calculate the sample mean \bar{X}, and the sample standard deviation \hat{\sigma}, of t_i as
 				//  
 				// -------------------------------------------------------------------------- //
-				long double	x_bar = blitz::mean(bz_t_nu);
+				const long double	x_bar = blitz::mean(bz_t_nu);
 				blitz::Array<long double, 1>		bz_t_nu_square(bz_t_nu.extent());
 				bz_t_nu_square = bz_t_nu;	// type promotion
 				bz_t_nu_square -= x_bar;	// subtract mean
-				long double	sigma_hat = sqrt(blitz::sum(blitz::pow2(bz_t_nu_square)) / (double)(nu - 1));
+				const long double	sigma_hat = sqrt(blitz::sum(blitz::pow2(bz_t_nu_square)) / static_cast<double>(nu - 1));
 				// -------------------------------------------------------------------------- //
 				// Step 6.
 				//  Compute the lower-bound of the confidence interval for the mean,
 				//  based on a normal distribution with a confidence level of 99 %,
 				// -------------------------------------------------------------------------- //
-				double	x_bar_dash = x_bar - z_alpha * sigma_hat / sqrt((double)nu);
+				const long double	x_bar_dash = x_bar - z_alpha * sigma_hat / sqrt(static_cast<long double>(nu));
 				io_refData.t_6_3_2.x_bar = x_bar;
 				io_refData.t_6_3_2.x_bar_prime = x_bar_dash;
 				io_refData.t_6_3_2.sigma_hat = sigma_hat;
@@ -510,7 +508,7 @@ namespace entropy_estimator_lib
 					// -------------------------------------------------------------------------- //
 					// evaluate number of significant digits based on p_prime_global
 					// -------------------------------------------------------------------------- //
-					ns_consts::EnmReturnStatus	stsNumSignificantDigits = ns_es::evaluateSignificantDigitsSP800_90B_6_3_2(
+					const ns_consts::EnmReturnStatus	stsNumSignificantDigits = ns_es::evaluateSignificantDigitsSP800_90B_6_3_2(
 						min_entropy_lower_bound, min_entropy_upper_bound,
 						number_of_significant_digits, x_bar_dash, nu);
 					if (ns_consts::EnmReturnStatus::Success == stsNumSignificantDigits)

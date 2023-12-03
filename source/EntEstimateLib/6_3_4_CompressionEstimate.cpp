@@ -88,27 +88,27 @@ namespace entropy_estimator_lib
 				std::map<int, int>	mp_t_nu_counts;
 				for (int i = 0; i < i_refD.length(blitz::firstDim); ++i)
 				{
-					std::map<int, int>::iterator	mit = mp_t_nu_counts.find((int)i_refD(i));
+					auto	mit = mp_t_nu_counts.find(static_cast<int>(i_refD(i)));
 					if (mit == mp_t_nu_counts.end())
 					{
-						mp_t_nu_counts.insert(std::make_pair((int)i_refD(i), 1));
+						mp_t_nu_counts.insert(std::make_pair(static_cast<int>(i_refD(i)), 1));
 					}
 					else
 					{
-						int count = mit->second;
+						const int count = mit->second;
 						mit->second = (count + 1);
 					}
 				}
 				int max_D = 1;
-				for (std::map<int, int>::const_iterator cit = mp_t_nu_counts.cbegin(); cit != mp_t_nu_counts.cend(); cit++)
+				for (const auto& e:mp_t_nu_counts)
 				{
-					if (max_D < (cit->second))
+					if (max_D < (e.second))
 					{
-						max_D = (cit->second);
+						max_D = (e.second);
 					}
 					(*io_refData.p_ssLaTeXFragment) << L"(";
-					(*io_refData.p_ssLaTeXFragment) << std::setw(8) << (cit->first);
-					(*io_refData.p_ssLaTeXFragment) << L", " << std::setw(8) << (cit->second);
+					(*io_refData.p_ssLaTeXFragment) << std::setw(8) << (e.first);
+					(*io_refData.p_ssLaTeXFragment) << L", " << std::setw(8) << (e.second);
 					(*io_refData.p_ssLaTeXFragment) << L")" << std::endl;
 				}
 				(*io_refData.p_ssLaTeXFragment) << L"};" << std::endl;
@@ -231,7 +231,7 @@ namespace entropy_estimator_lib
 			ns_consts::EnmReturnStatus prepareSprime(blitz::Array<ns_dt::octet, 1>& o_refSprime,
 				const ns_dt::t_data_for_estimator& i_refData)
 			{
-				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
+				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 
 				int	def_d = 1000;
 				// -------------------------------------------------------------------------- //
@@ -244,7 +244,6 @@ namespace entropy_estimator_lib
 				}
 				if (i_refData.t_6_3_4.d != def_d)
 				{
-					sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 					return sts;
 				}
 				// -------------------------------------------------------------------------- //
@@ -298,7 +297,7 @@ namespace entropy_estimator_lib
 				const int i_b, const int i_d,
 				bool bIsModeDemo)
 			{
-				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
+				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
@@ -310,7 +309,6 @@ namespace entropy_estimator_lib
 				}
 				if (i_d < def_d)
 				{
-					sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 					return sts;
 				}
 				// -------------------------------------------------------------------------- //
@@ -323,7 +321,7 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				for (int i = 0; i < i_d; ++i)
 				{
-					int index = (int)i_refSprime(i);
+					const int index = (int)i_refSprime(i);
 					o_refDict(index) = i + 1;
 				}
 				// -------------------------------------------------------------------------- //
@@ -363,7 +361,7 @@ namespace entropy_estimator_lib
 				const int i_b, const int i_d, int i_L,
 				bool bIsModeDemo)
 			{
-				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
+				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
@@ -375,13 +373,12 @@ namespace entropy_estimator_lib
 				}
 				if (i_d < def_d)
 				{
-					sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 					return sts;
 				}
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
-				int nu = i_L / i_b - i_d;
+				const int nu = i_L / i_b - i_d;
 				int Loverb = i_L / i_b;
 				// -------------------------------------------------------------------------- //
 				// 
@@ -394,7 +391,7 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				for (int i = i_d; i < Loverb; ++i)
 				{
-					int	s_prime_i = (int)i_refSprime(i);
+					const int	s_prime_i = (int)i_refSprime(i);
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
@@ -404,7 +401,7 @@ namespace entropy_estimator_lib
 						// i. If dict[s_{i}'] is non-zero, then D_{i-d} = i - dict[s_{i}'].
 						//    Update the dictionary with the index of the most recent observation, dict[s_{i}'] = i.
 						// -------------------------------------------------------------------------- //
-						o_refD(i - i_d) = (double)(i + 1) - (double)io_refDict(s_prime_i);
+						o_refD(i - i_d) = static_cast<double>(i + 1) - static_cast<double>(io_refDict(s_prime_i));
 						io_refDict(s_prime_i) = i + 1;
 					}
 					else
@@ -414,7 +411,7 @@ namespace entropy_estimator_lib
 						//     Let D_{i-d} = i.
 						// -------------------------------------------------------------------------- //
 						io_refDict(s_prime_i) = i + 1;
-						o_refD(i - i_d) = (double)(i + 1); // note that 0-offset is considered and + 1 for consistency.
+						o_refD(i - i_d) = static_cast<double>(i + 1); // note that 0-offset is considered and + 1 for consistency.
 					}
 				}
 				// -------------------------------------------------------------------------- //
@@ -446,7 +443,7 @@ namespace entropy_estimator_lib
 			// -------------------------------------------------------------------------- //
 			template<typename T>
 			ns_consts::EnmReturnStatus step5(double &o_refXbar, double & o_refSigmaHat,
-				blitz::Array<double, 1> o_refD,
+				const blitz::Array<double, 1> &o_refD,
 				const int i_nu)
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
@@ -487,16 +484,16 @@ namespace entropy_estimator_lib
 				double	lhs;
 			public:
 				RhsMinusLhsNaive(int i_b, int i_d, int i_L, int i_nu, double i_lhs)
-					: b(i_b), d(i_d), L(i_L), nu(i_nu), lhs(i_lhs) {};
+					: b(i_b), d(i_d), L(i_L), nu(i_nu), lhs(i_lhs) {}
 
 				static double F(double i_z, int i_t, int i_u);
 				static double G(double z, int i_d, int i_Loverb, int i_nu);
 
-				double operator()(double i_p)
+				double operator()(double i_p) const
 				{
-					double	denom = (pow(2.0, (double)b) - 1.0);
-					double	q = (1.0 - i_p) / denom;
-					double	rhs = G(i_p, d, L / b, nu) + denom * G(q, d, L / b, nu);
+					double	denom = (pow(2.0, static_cast<double>(b)) - 1.0);
+					const double	q = (1.0 - i_p) / denom;
+					const double	rhs = G(i_p, d, L / b, nu) + denom * G(q, d, L / b, nu);
 					return	rhs - lhs;
 				}
 			};
@@ -525,11 +522,11 @@ namespace entropy_estimator_lib
 				double	rv = 0.0;
 				if (i_u < i_t)
 				{
-					rv = pow(i_z, 2.0) * pow(1.0 - i_z, (double)(i_u - 1));
+					rv = pow(i_z, 2.0) * pow(1.0 - i_z, static_cast<double>(i_u - 1));
 				}
 				else if (i_u == i_t)
 				{
-					rv = i_z * pow(1.0 - i_z, (double)(i_t - 1));
+					rv = i_z * pow(1.0 - i_z, static_cast<double>(i_t - 1));
 				}
 				return rv;
 			}
@@ -569,10 +566,10 @@ namespace entropy_estimator_lib
 					for (int u = 2; u <= t; ++u)
 					{
 						// note here that u == 1 does not contribute because log2(1) = 0.
-						rv += log2((double)u) * F(z, t, u);
+						rv += log2(static_cast<double>(u)) * F(z, t, u);
 					}
 				}
-				rv /= (double)i_nu;
+				rv /= static_cast<double>(i_nu);
 				return rv;
 			}
 
@@ -584,18 +581,18 @@ namespace entropy_estimator_lib
 				int d;
 				int L;
 				int nu;
-				double	lhs;
+				long double	lhs;
 			public:
-				RhsMinusLhs(int i_b, int i_d, int i_L, int i_nu, double i_lhs)
-					: b(i_b), d(i_d), L(i_L), nu(i_nu), lhs(i_lhs) {};
+				RhsMinusLhs(int i_b, int i_d, int i_L, int i_nu, long double i_lhs)
+					: b(i_b), d(i_d), L(i_L), nu(i_nu), lhs(i_lhs) {}
 
-				static double G(double z, int i_d, int i_Loverb, int i_nu);
+				static long double G(long double z, int i_d, int i_Loverb, int i_nu);
 
-				double operator()(double i_p)
+				long double operator()(long double i_p) const
 				{
-					double	denom = (pow(2.0, (double)b) - 1.0);
-					double	q = (1.0 - i_p) / denom;
-					double	rhs = G(i_p, d, L / b, nu) + denom * G(q, d, L / b, nu);
+					long double	denom = (pow(2.0, static_cast<long double>(b)) - 1.0);
+					const long double	q = (1.0 - i_p) / denom;
+					const long double	rhs = G(i_p, d, L / b, nu) + denom * G(q, d, L / b, nu);
 					return	rhs - lhs;
 				}
 			};
@@ -623,9 +620,9 @@ namespace entropy_estimator_lib
 			/// <postcondition>
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
-			double RhsMinusLhs::G(double z, int i_d, int i_Loverb, int i_nu)
+			long double RhsMinusLhs::G(long double z, int i_d, int i_Loverb, int i_nu)
 			{
-				double	rv = 0.0;
+				long double	rv = 0.0;
 				// -------------------------------------------------------------------------- //
 				// for (int t = (i_d + 1); t <= floor(L / b); ++t)
 				//     Note here that NIST SP 800-90B is mistakenly drafted
@@ -633,34 +630,34 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				// sum group 1
 				// -------------------------------------------------------------------------- //
-				double sum_grp1 = 0.0;
+				long double sum_grp1 = 0.0;
 				for (int u = 2; u <= i_d; ++u)
 				{
 					// note here that u == 1 does not contribute because log2(1) = 0.
 					// so the sum over u starts from 2
-					sum_grp1 += log2((double)u) * pow(1.0 - z, u - 1);
+					sum_grp1 += log2(static_cast<long double>(u)) * pow(1.0 - z, u - 1);
 				}
 				sum_grp1 *= pow(z, 2.0);
 				rv += sum_grp1;
 				// -------------------------------------------------------------------------- //
 				// sum group 2
 				// -------------------------------------------------------------------------- //
-				double sum_grp2 = 0.0;
+				long double sum_grp2 = 0.0;
 				for (int u = (i_d + 1); u <= i_Loverb; ++u)
 				{
-					sum_grp2 += log2((double)u) * pow(1.0 - z, u - 1);
+					sum_grp2 += log2(static_cast<long double>(u)) * pow(1.0 - z, u - 1);
 				}
-				sum_grp2 *= z / (double)i_nu;
+				sum_grp2 *= z / static_cast<long double>(i_nu);
 				rv += sum_grp2;
 				// -------------------------------------------------------------------------- //
 				// sum group 3
 				// -------------------------------------------------------------------------- //
-				double sum_grp3 = 0.0;
+				long double sum_grp3 = 0.0;
 				for (int u = (i_d + 1); u < i_Loverb; ++u)
 				{
-					sum_grp3 += ((double)(i_Loverb - u)) * log2((double)u) * pow(1.0 - z, u - 1);
+					sum_grp3 += (static_cast<long double>(i_Loverb - u)) * log2(static_cast<long double>(u)) * pow(1.0 - z, u - 1);
 				}
-				sum_grp3 *= pow(z, 2.0) / (double)i_nu;
+				sum_grp3 *= pow(z, 2.0) / static_cast<long double>(i_nu);
 				rv += sum_grp3;
 				// -------------------------------------------------------------------------- //
 				// 
@@ -677,15 +674,15 @@ namespace entropy_estimator_lib
 				int nu;
 			public:
 				RhsDerivative(int i_b, int i_d, int i_L, int i_nu)
-					: b(i_b), d(i_d), L(i_L), nu(i_nu) {};
+					: b(i_b), d(i_d), L(i_L), nu(i_nu) {}
 
-				static long double GDash(double z, int i_d, int i_Loverb, int i_nu);
+				static long double GDash(long double z, int i_d, int i_Loverb, int i_nu);
 
-				long double operator()(double i_p)
+				long double operator()(double i_p) const
 				{
-					long double	denom = (pow(2.0, (double)b) - 1.0);
-					long double	q = (1.0 - i_p) / denom;
-					long double	rhs = GDash(i_p, d, L / b, nu) - GDash(q, d, L / b, nu);
+					long double	denom = (pow(2.0, static_cast<double>(b)) - 1.0);
+					const long double	q = (1.0 - i_p) / denom;
+					const long double	rhs = GDash(i_p, d, L / b, nu) - GDash(q, d, L / b, nu);
 					return	rhs;
 				}
 			};
@@ -712,7 +709,7 @@ namespace entropy_estimator_lib
 			/// <postcondition>
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
-			long double RhsDerivative::GDash(double z, int i_d, int i_Loverb, int i_nu)
+			long double RhsDerivative::GDash(long double z, int i_d, int i_Loverb, int i_nu)
 			{
 				long double	rv = 0.0;
 				// -------------------------------------------------------------------------- //
@@ -727,7 +724,7 @@ namespace entropy_estimator_lib
 				{
 					// note here that u == 1 does not contribute because log2(1) = 0.
 					// so the sum over u starts from 2
-					sum_grp1 += log2((double)u) * pow(1.0 - z, u - 2) * (2.0 - ((double)(u + 1)) * z);
+					sum_grp1 += log2(static_cast<long double>(u)) * pow(1.0 - z, u - 2) * (2.0 - (static_cast<long double>(u + 1)) * z);
 				}
 				sum_grp1 *= z;
 				rv += sum_grp1;
@@ -737,9 +734,9 @@ namespace entropy_estimator_lib
 				long double sum_grp2 = 0.0;
 				for (int u = (i_d + 1); u <= i_Loverb; ++u)
 				{
-					sum_grp2 += log2((double)u) * pow(1.0 - z, u - 2) * (1.0 - ((double)u) * z);
+					sum_grp2 += log2(static_cast<long double>(u)) * pow(1.0 - z, u - 2) * (1.0 - (static_cast<long double>(u)) * z);
 				}
-				sum_grp2 /= (double)i_nu;
+				sum_grp2 /= static_cast<long double>(i_nu);
 				rv += sum_grp2;
 				// -------------------------------------------------------------------------- //
 				// sum group 3
@@ -747,9 +744,9 @@ namespace entropy_estimator_lib
 				long double sum_grp3 = 0.0;
 				for (int u = (i_d + 1); u < i_Loverb; ++u)
 				{
-					sum_grp3 += ((double)(i_Loverb - u)) * log2((double)u) * pow(1.0 - z, u - 2) * (2.0 - ((double)(u + 1)) * z);
+					sum_grp3 += (static_cast<long double>(i_Loverb - u)) * log2(static_cast<long double>(u)) * pow(1.0 - z, u - 2) * (2.0 - (static_cast<long double>(u + 1)) * z);
 				}
-				sum_grp3 *= z / (double)i_nu;
+				sum_grp3 *= z / static_cast<long double>(i_nu);
 				rv += sum_grp3;
 				// -------------------------------------------------------------------------- //
 				// 
@@ -775,7 +772,7 @@ namespace entropy_estimator_lib
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 
-				ns_consts::EnmReturnStatus	stsCommon = ns_spt::perform_common_args_for_estimate(i_refData);
+				const ns_consts::EnmReturnStatus	stsCommon = ns_spt::perform_common_args_for_estimate(i_refData);
 				if (ns_consts::EnmReturnStatus::Success != stsCommon)
 				{
 					return sts = stsCommon;
@@ -899,17 +896,17 @@ namespace entropy_estimator_lib
 				// Step 6.
 				// Compute the lower-bound of the confidence interval for the mean, based on a normal distribution using
 				// -------------------------------------------------------------------------- //
-				double	x_bar_prime = x_bar - z_alpha * sigma_hat / sqrt((double)nu);
+				double	x_bar_prime = x_bar - z_alpha * sigma_hat / sqrt(static_cast<double>(nu));
 				// -------------------------------------------------------------------------- //
 				// before performing a binary search, evaluate the derivative of r.h.s. of step 7 to find its maximum value.
 				// There exist cases where X'(=l.h.s.) is greater than the maximum value of r.h.s., and such cases do not yield a solution.
 				// -------------------------------------------------------------------------- //
-				double	lowerbound = pow(0.5, io_refData.t_6_3_4.b);
-				double	upperbound = 1.0;
-				boost::math::tools::eps_tolerance<double> tol(std::numeric_limits<double>::digits - 5);
-				const boost::uintmax_t max_it = 128;
+				long double	lowerbound = pow(0.5, io_refData.t_6_3_4.b);
+				long double	upperbound = 1.0;
+				boost::math::tools::eps_tolerance<long double> tol(std::numeric_limits<double>::digits - 5);
+				constexpr  boost::uintmax_t max_it = 128;
 				boost::uintmax_t it = max_it;
-				double	rhs_max = 0.0;
+				long double	rhs_max = 0.0;
 				RhsDerivative	rhs_derivative(io_refData.t_6_3_4.b, io_refData.t_6_3_4.d, io_refData.p_bzInputS->length(blitz::firstDim), nu);
 				RhsMinusLhs	rhs(io_refData.t_6_3_4.b, io_refData.t_6_3_4.d, io_refData.p_bzInputS->length(blitz::firstDim), nu, 0.0);
 				try
@@ -952,7 +949,7 @@ namespace entropy_estimator_lib
 					try
 					{
 						it = max_it;
-						std::pair<double, double>	r = boost::math::tools::toms748_solve(fnc, lowerbound, upperbound, tol, it);
+						std::pair<long double, long double>	r = boost::math::tools::toms748_solve(fnc, lowerbound, upperbound, tol, it);
 						// -------------------------------------------------------------------------- //
 						// Step 8.
 						// If the binary search yields a solution, then the min-entropy is the negative logarithm of the parameter, p:
@@ -963,7 +960,7 @@ namespace entropy_estimator_lib
 						if (tol(r.first, r.second) == true)
 						{
 							io_refData.t_6_3_4.p = r.second;
-							io_refData.t_6_3_4.t_common.min_entropy = -log2(r.second) / (double)io_refData.t_6_3_4.b;
+							io_refData.t_6_3_4.t_common.min_entropy = -log2(r.second) / static_cast<double>(io_refData.t_6_3_4.b);
 							io_refData.t_6_3_4.bIsRootFound = true;
 						}
 						else
