@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "../pch.h"
@@ -22,10 +22,10 @@ namespace entropy_estimator_lib
 		/// <remarks>
 		/// </remarks>
 		/// <params="o_refInt">
-		///  Specifies the reference to the converted boost::multiplrecision::cpp_int type integer.
+		///  Specifies the reference to the converted boost::multiprecision::cpp_int type integer.
 		/// </params>
 		/// <params="i_refSeqSamples">
-		///  Specifies the reference to the sequence of samples to be be converted to boost::multiplrecision::cpp_int type integer, using base (=256).
+		///  Specifies the reference to the sequence of samples to be be converted to boost::multiprecision::cpp_int type integer, using base (=256).
 		/// </params>
 		/// <params="i_bit_width">
 		///  Specifies the number of bits per sample.
@@ -37,7 +37,7 @@ namespace entropy_estimator_lib
 		/// <postcondition>
 		/// </postcondition>
 		// -------------------------------------------------------------------------- //
-		ns_consts::EnmReturnStatus convertSeqSamplesToCppInt(bmp::cpp_int& o_refInt, blitz::Array<ns_dt::octet, 1>& i_refSeqSamples, const int i_bit_width)
+		ns_consts::EnmReturnStatus convertSeqSamplesToCppInt(bmp::cpp_int& o_refInt, blitz::Array<ns_dt::octet, 1>& i_refSeqSamples, const unsigned int i_bit_width)
 		{
 			ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 
@@ -45,7 +45,7 @@ namespace entropy_estimator_lib
 			{
 				return sts;
 			}
-			int shift_width = 8;
+			unsigned int shift_width = 8;
 			
 			if ((1 <= i_bit_width) && (i_bit_width <= 7))
 			{
@@ -87,7 +87,7 @@ namespace entropy_estimator_lib
 		/// <postcondition>
 		/// </postcondition>
 		// -------------------------------------------------------------------------- //
-		ns_consts::EnmReturnStatus convertSeqSamplesToBitSet(boost::dynamic_bitset<>& o_refBitSet, blitz::Array<ns_dt::octet, 1>& i_refSeqSamples, const int i_bit_width)
+		ns_consts::EnmReturnStatus convertSeqSamplesToBitSet(boost::dynamic_bitset<>& o_refBitSet, blitz::Array<ns_dt::octet, 1>& i_refSeqSamples, const unsigned int i_bit_width)
 		{
 			ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 
@@ -96,15 +96,15 @@ namespace entropy_estimator_lib
 				return sts;
 			}
 
-			size_t bs_length = (size_t)i_refSeqSamples.length(blitz::firstDim) * i_bit_width;
+			const size_t bs_length = static_cast<size_t>(i_refSeqSamples.length(blitz::firstDim)) * i_bit_width;
 			o_refBitSet.resize(bs_length);
 			o_refBitSet.reset();
 			for (int i = 0; i < i_refSeqSamples.length(blitz::firstDim); ++i)
 			{
-				for (int j = 0; j < i_bit_width; ++j)
+				for (unsigned int j = 0; j < i_bit_width; ++j)
 				{
-					int shift_width = ((int)i_bit_width - 1) - (int)j;
-					size_t	index = (size_t)i * i_bit_width + j;
+					const int shift_width = (static_cast<int>(i_bit_width) - 1) - static_cast<int>(j);
+					const size_t	index = static_cast<size_t>(i) * i_bit_width + j;
 					o_refBitSet[ index ] = (i_refSeqSamples(i) >> shift_width) & 0x01;
 				}
 			}

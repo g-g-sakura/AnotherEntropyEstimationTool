@@ -3,19 +3,18 @@
 //
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "hostinfo.h"
 #include <Windows.h>
 #include <VersionHelpers.h>
 #include <intrin.h>
-#include <stdlib.h>
 #include <sstream>
 
 namespace ns_consts = entropy_estimator_lib::constants;
 
-#define INFO_BUFFER_SIZE 4096
+enum { INFO_BUFFER_SIZE = 4096 };
 
 ns_consts::EnmReturnStatus getHostInfo(std::wstring& o_refHostInfo)
 {
@@ -63,7 +62,7 @@ ns_consts::EnmReturnStatus getCPUInfo(std::wstring& o_refCPUInfo)
     }
 
     size_t  sz = INFO_BUFFER_SIZE;
-    errno_t er = mbstowcs_s(&sz, infoBuf, CPUBrandString, sizeof(CPUBrandString));
+    const errno_t er = mbstowcs_s(&sz, infoBuf, CPUBrandString, sizeof(CPUBrandString));
     if (0 == er)
     {
         o_refCPUInfo = std::wstring(infoBuf, std::wcslen(infoBuf));
@@ -80,7 +79,7 @@ ns_consts::EnmReturnStatus getMemoryStatus(std::wstring& o_refMemoryStatus)
 
     MEMORYSTATUSEX statex;
     statex.dwLength = sizeof(statex);
-    BOOL    bMem = GlobalMemoryStatusEx(&statex);
+    const BOOL    bMem = GlobalMemoryStatusEx(&statex);
 
     if (0 != bMem)
     {
@@ -174,7 +173,7 @@ ns_consts::EnmReturnStatus getUserInfo(std::wstring& o_refUserInfo)
 	return sts = ns_consts::EnmReturnStatus::Success;
 }
 
-ns_consts::EnmReturnStatus getEnvInfo(InfoEnv& i_refEnv)
+ns_consts::EnmReturnStatus getEnvInfo(const InfoEnv& i_refEnv)
 {
     // -------------------------------------------------------------------------- //
     //

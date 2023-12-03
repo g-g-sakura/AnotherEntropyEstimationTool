@@ -2,7 +2,7 @@
 // WindowedHistogram.h
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #if defined(_MSC_VER)
@@ -20,7 +20,6 @@
 #include <boost/multi_index/ordered_index.hpp>
 #include <boost/multi_index/identity.hpp>
 #include <boost/multi_index/member.hpp>
-#include <boost/multi_index/composite_key.hpp>
 #include <vector>
 
 namespace entropy_estimator_lib
@@ -38,7 +37,7 @@ namespace entropy_estimator_lib
 			struct t_bin
 			{
 				int				idx;		// index
-				int				cnt;		// count = number of occurence of index value within a certain window
+				int				cnt;		// count = number of occurrence of index value within a certain window
 				int				last_pos;	// last position
 
 				t_bin(int i_index, int i_count, int i_last_pos) : idx(i_index), cnt(i_count), last_pos(i_last_pos) {}
@@ -88,14 +87,13 @@ namespace entropy_estimator_lib
 				Histogram	m_hg;
 
 				WindowedHistogram(int window_width, int start_pos, int end_pos, const ns_dt::t_data_for_estimator& i_refData);
-				~WindowedHistogram(void) {};
+				~WindowedHistogram() {}
 
 				WindowedHistogram& operator+=(const WindowedHistogram & i_refRight);
 
 				ns_consts::EnmReturnStatus getFrequent(t_bin& o_refFrequent);
 
 				friend std::ostream & operator<< (std::ostream& os, WindowedHistogram & i_refRight);
-			private:
 			};
 
 			class HistogramArray : public ns_spt::IHistogram<t_bin>
@@ -105,9 +103,9 @@ namespace entropy_estimator_lib
 				std::vector<WindowedHistogram*>	m_hg_array;
 
 				HistogramArray(int window_width, const ns_dt::t_data_for_estimator& i_refData);
-				~HistogramArray(void);
+				~HistogramArray() override;
 
-				ns_consts::EnmReturnStatus getFrequent(t_bin& o_refFrequent, int start_pos, int end_pos, const ns_dt::t_data_for_estimator& i_refData) const;
+				ns_consts::EnmReturnStatus getFrequent(t_bin& o_refFrequent, int start_pos, int end_pos, const ns_dt::t_data_for_estimator& i_refData) const override;
 
 				friend std::ostream& operator<< (std::ostream& os, HistogramArray& i_refRight);
 			};
@@ -120,9 +118,9 @@ namespace entropy_estimator_lib
 				std::vector<WindowedHistogram*>	m_hg_array_l2;
 
 				HistogramArrayL2(int i_window_width_1, int i_window_width_2, const ns_dt::t_data_for_estimator& i_refData);
-				~HistogramArrayL2(void);
+				~HistogramArrayL2() override;
 
-				ns_consts::EnmReturnStatus getFrequent(t_bin& o_refFrequent, int start_pos, int end_pos, const ns_dt::t_data_for_estimator& i_refData) const;
+				ns_consts::EnmReturnStatus getFrequent(t_bin& o_refFrequent, int start_pos, int end_pos, const ns_dt::t_data_for_estimator& i_refData) const override;
 
 				friend std::ostream& operator<< (std::ostream& os, HistogramArrayL2& i_refRight);
 			};

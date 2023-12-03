@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "../pch.h"
@@ -36,17 +36,17 @@ namespace entropy_estimator_lib
 		// -------------------------------------------------------------------------- //
 		ns_consts::EnmReturnStatus enumerateAlphabet(ns_dt::t_data_for_estimator& io_refData)
 		{
-			ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
+			ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
 			// -------------------------------------------------------------------------- //
 			//
 			// -------------------------------------------------------------------------- //
 			if (io_refData.p_bzInputS == nullptr)
 			{
-				return	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
+				return	sts;
 			}
 			if (io_refData.p_bzSampleSpaceA == nullptr)
 			{
-				return	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
+				return	sts;
 			}
 			// -------------------------------------------------------------------------- //
 			//
@@ -66,15 +66,15 @@ namespace entropy_estimator_lib
 			io_refData.p_bzSampleSpaceA->resizeAndPreserve(mp_sampleA.size());
 			(*io_refData.p_bzSampleSpaceA) = 0;
 			int	index = 0;
-			for (std::map<ns_dt::octet, int>::iterator it = mp_sampleA.begin(); it != mp_sampleA.end(); it++)
+			for (const auto& e : mp_sampleA)
 			{
-				(*io_refData.p_bzSampleSpaceA)(index) = it->first;
+				(*io_refData.p_bzSampleSpaceA)(index) = e.first;
 				++index;
 			}
 			// -------------------------------------------------------------------------- //
 			//
 			// -------------------------------------------------------------------------- //
-			io_refData.k = (unsigned int)index;
+			io_refData.k = static_cast<unsigned int>(index);
 			// -------------------------------------------------------------------------- //
 			//
 			// -------------------------------------------------------------------------- //

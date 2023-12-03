@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "../pch.h"
@@ -58,7 +58,7 @@ namespace entropy_estimator_lib
 					// -------------------------------------------------------------------------- //
 					idx_map::iterator it = this->m_hg.get<idx>().find(x);
 					if (it != this->m_hg.get<idx>().end()) {
-						int new_count = it->cnt + 1;
+						const int new_count = it->cnt + 1;
 						this->m_hg.get<idx>().replace(it, t_bin(x, new_count, i));
 					}
 					else
@@ -99,12 +99,11 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
-				idx_map::reverse_iterator rit = idx_map_right.rbegin();
-				for (rit = idx_map_right.rbegin(); rit != idx_map_right.rend(); rit++)
+				for (idx_map::reverse_iterator rit = idx_map_right.rbegin(); rit != idx_map_right.rend(); ++rit)
 				{
 					idx_map::iterator it_out = idx_map_out.find(rit->idx);
 					if (it_out != idx_map_out.end()) {
-						int new_count = it_out->cnt + rit->cnt;
+						const int new_count = it_out->cnt + rit->cnt;
 						int new_last_pos = rit->last_pos;
 						if (rit->last_pos < it_out->last_pos)
 						{
@@ -156,7 +155,7 @@ namespace entropy_estimator_lib
 				if (rit != cnt_map_hg.rend())
 				{
 					t_bin	bin_frequent_candidate = *rit;
-					for (rit = cnt_map_hg.rbegin(); rit != cnt_map_hg.rend(); rit++)
+					for (rit = cnt_map_hg.rbegin(); rit != cnt_map_hg.rend(); ++rit)
 					{
 						if (bin_frequent_candidate.cnt < rit->cnt)
 						{
@@ -203,8 +202,7 @@ namespace entropy_estimator_lib
 			{
 				cnt_map& cnt_map_hg = i_refRight.m_hg.get<cnt>();
 
-				cnt_map::reverse_iterator rit = cnt_map_hg.rbegin();
-				for (rit = cnt_map_hg.rbegin(); rit != cnt_map_hg.rend(); rit++)
+				for (cnt_map::reverse_iterator rit = cnt_map_hg.rbegin(); rit != cnt_map_hg.rend(); ++rit)
 				{
 					os << "#\t\t";
 					os << "(idx, cnt, last_pos) = ";
@@ -244,7 +242,7 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
-				int num_of_windows = (i_refData.p_bzInputS->length(blitz::firstDim) + i_window_width - 1) / i_window_width;
+				const int num_of_windows = (i_refData.p_bzInputS->length(blitz::firstDim) + i_window_width - 1) / i_window_width;
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
@@ -255,7 +253,7 @@ namespace entropy_estimator_lib
 					{
 						current_window_size = i_refData.p_bzInputS->length(blitz::firstDim) - j * i_window_width;
 					}
-					int start_position = j * i_window_width;
+					const int start_position = j * i_window_width;
 					int end_position = (j + 1) * i_window_width - 1;
 					if ((num_of_windows - 1) == j)
 					{
@@ -279,9 +277,9 @@ namespace entropy_estimator_lib
 			/// <postcondition>
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
-			HistogramArray::~HistogramArray(void)
+			HistogramArray::~HistogramArray()
 			{
-				for (int j = 0; j < this->m_hg_array.size(); ++j)
+				for (size_t j = 0; j < this->m_hg_array.size(); ++j)
 				{
 					WindowedHistogram* p_whg = this->m_hg_array[j];
 					delete p_whg;
@@ -399,9 +397,9 @@ namespace entropy_estimator_lib
 			/// <postcondition>
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
-			std::ostream& operator<< (std::ostream& os, HistogramArray& i_refRight)
+			std::ostream& operator<< (std::ostream& os, const HistogramArray& i_refRight)
 			{
-				for (int j = 0; j < i_refRight.m_hg_array.size(); ++j)
+				for (size_t j = 0; j < i_refRight.m_hg_array.size(); ++j)
 				{
 					std::cout << "#" << j << "-th histogram:\t";
 					std::cout << *(i_refRight.m_hg_array[j]);
@@ -461,7 +459,7 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				for (int i = 0; i < 2; ++i)
 				{
-					int* p_width = nullptr;
+					const int* p_width = nullptr;
 					std::vector<WindowedHistogram*>* p_whg = nullptr;
 					switch (i)
 					{
@@ -476,12 +474,11 @@ namespace entropy_estimator_lib
 					default:
 						// should not reach here
 						throw;
-						break;
 					}
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
-					int num_of_windows = (i_refData.p_bzInputS->length(blitz::firstDim) + (*p_width) - 1) / (*p_width);
+					const int num_of_windows = (i_refData.p_bzInputS->length(blitz::firstDim) + (*p_width) - 1) / (*p_width);
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
@@ -492,7 +489,7 @@ namespace entropy_estimator_lib
 						{
 							current_window_size = i_refData.p_bzInputS->length(blitz::firstDim) - j * (*p_width);
 						}
-						int start_position = j * (*p_width);
+						const int start_position = j * (*p_width);
 						int end_position = (j + 1) * (*p_width) - 1;
 						if ((num_of_windows - 1) == j)
 						{
@@ -517,14 +514,14 @@ namespace entropy_estimator_lib
 			/// <postcondition>
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
-			HistogramArrayL2::~HistogramArrayL2(void)
+			HistogramArrayL2::~HistogramArrayL2()
 			{
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
 				for (int i = 0; i < 2; ++i)
 				{
-					int* p_width = nullptr;
+					const int* p_width = nullptr;
 					std::vector<WindowedHistogram*>* p_vwhg = nullptr;
 					switch (i)
 					{
@@ -543,7 +540,7 @@ namespace entropy_estimator_lib
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
-					for (int j = 0; j < p_vwhg->size(); ++j)
+					for (size_t j = 0; j < p_vwhg->size(); ++j)
 					{
 						WindowedHistogram* p_whg = (*p_vwhg)[j];
 						delete p_whg;
@@ -600,15 +597,15 @@ namespace entropy_estimator_lib
 				// window indexes to look up this WindowedHistogram
 				// layer 2
 				// -------------------------------------------------------------------------- //
-				int index_start_window_l2 = (start_pos + this->m_window_widths[1] - 1) / this->m_window_widths[1];
-				int index_end_window_l2 = (end_pos + 1) / this->m_window_widths[1] - 1;
+				const int index_start_window_l2 = (start_pos + this->m_window_widths[1] - 1) / this->m_window_widths[1];
+				const int index_end_window_l2 = (end_pos + 1) / this->m_window_widths[1] - 1;
 				// -------------------------------------------------------------------------- //
 				// layer 1
 				// -------------------------------------------------------------------------- //
-				int index_start_window_l1 = (start_pos + this->m_window_widths[0] - 1) / this->m_window_widths[0];
+				const int index_start_window_l1 = (start_pos + this->m_window_widths[0] - 1) / this->m_window_widths[0];
 				int index_non_overwrapping_end_window_l1 = multiplier * index_start_window_l2 - 1;
 				int index_non_overwrapping_start_window_l1 = multiplier * (index_end_window_l2 + 1);
-				int index_end_window_l1 = (end_pos + 1) / this->m_window_widths[0] - 1;
+				const int index_end_window_l1 = (end_pos + 1) / this->m_window_widths[0] - 1;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
@@ -621,8 +618,8 @@ namespace entropy_estimator_lib
 					// -------------------------------------------------------------------------- //
 					// sizes before and after window(s)
 					// -------------------------------------------------------------------------- //
-					int size_pre_window_l1 = this->m_window_widths[0] * index_start_window_l1 - start_pos;
-					int size_post_window_l1 = end_pos - (this->m_window_widths[0] * (index_end_window_l1 + 1) - 1);
+					const int size_pre_window_l1 = this->m_window_widths[0] * index_start_window_l1 - start_pos;
+					const int size_post_window_l1 = end_pos - (this->m_window_widths[0] * (index_end_window_l1 + 1) - 1);
 					// -------------------------------------------------------------------------- //
 					// if there is at least one sample before the window(s).
 					// -------------------------------------------------------------------------- //
@@ -746,7 +743,7 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				for (int i = 0; i < 2; ++i)
 				{
-					int* p_width = nullptr;
+					const int* p_width = nullptr;
 					std::vector<WindowedHistogram*>* p_vwhg = nullptr;
 					switch (i)
 					{
@@ -761,7 +758,6 @@ namespace entropy_estimator_lib
 					default:
 						// should not reach here
 						throw;
-						break;
 					}
 					// -------------------------------------------------------------------------- //
 					// 
@@ -773,7 +769,7 @@ namespace entropy_estimator_lib
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
-					for (int j = 0; j < p_vwhg->size(); ++j)
+					for (size_t j = 0; j < p_vwhg->size(); ++j)
 					{
 						std::cout << "# " << j << "-th histogram:\t" << std::endl;
 						std::cout << *((*p_vwhg)[j]);

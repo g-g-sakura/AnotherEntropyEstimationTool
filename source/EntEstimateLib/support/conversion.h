@@ -2,7 +2,7 @@
 // conversion.h
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #if defined(_MSC_VER)
@@ -32,7 +32,7 @@ namespace entropy_estimator_lib
 		/// </remarks>
 		/// <params="o_refInt">
 		/// </params>
-		/// <params="i_refDTuple">
+		/// <params="i_refSeqSamples">
 		/// </params>
 		/// <params="i_bit_width">
 		/// </params>
@@ -43,7 +43,7 @@ namespace entropy_estimator_lib
 		/// <postcondition>
 		/// </postcondition>
 		// -------------------------------------------------------------------------- //
-		ns_consts::EnmReturnStatus convertSeqSamplesToCppInt(bmp::cpp_int& o_refInt, blitz::Array<ns_dt::octet, 1>& i_refDTuple, const int i_bit_width = 8);
+		ns_consts::EnmReturnStatus convertSeqSamplesToCppInt(bmp::cpp_int& o_refInt, blitz::Array<ns_dt::octet, 1>& i_refSeqSamples, const unsigned int i_bit_width = 8);
 
 		// -------------------------------------------------------------------------- //
 		/// <summary>
@@ -63,7 +63,7 @@ namespace entropy_estimator_lib
 		/// <postcondition>
 		/// </postcondition>
 		// -------------------------------------------------------------------------- //
-		ns_consts::EnmReturnStatus convertSeqSamplesToBitSet(boost::dynamic_bitset<>& o_refBitSet, blitz::Array<ns_dt::octet, 1>& i_refDTuple, const int i_bit_width = 8);
+		ns_consts::EnmReturnStatus convertSeqSamplesToBitSet(boost::dynamic_bitset<>& o_refBitSet, blitz::Array<ns_dt::octet, 1>& i_refSeqSamples, const unsigned int i_bit_width = 8);
 
 	}
 }

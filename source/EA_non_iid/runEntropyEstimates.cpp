@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "runEntropyEstimates.h"
@@ -36,7 +36,7 @@ ns_consts::EnmReturnStatus runEntropyEstimatesBinary(ns_dt::t_data_for_estimator
                         entropy_estimator_lib::estimators::lag_prediction::estimate,
                         entropy_estimator_lib::estimators::multimmc_prediction::estimate,
                         entropy_estimator_lib::estimators::lz78y_prediction::estimate,
-                        0
+                        nullptr
     };
 
     ns_consts::EnmNonIIDTrack   enm_estimate_ids_binary[] = {
@@ -118,7 +118,7 @@ ns_consts::EnmReturnStatus runEntropyEstimatesBinary(ns_dt::t_data_for_estimator
         // -------------------------------------------------------------------------- //
         // update min-entropy from the current entropy estimate performed
         // -------------------------------------------------------------------------- //
-        double* p_min_entropy = nullptr;
+        const double* p_min_entropy = nullptr;
         switch (j)
         {
         case 0:
@@ -187,7 +187,7 @@ ns_consts::EnmReturnStatus runEntropyEstimatesNonBinary(ns_dt::t_data_for_estima
                         entropy_estimator_lib::estimators::lag_prediction::estimate,
                         entropy_estimator_lib::estimators::multimmc_prediction::estimate,
                         entropy_estimator_lib::estimators::lz78y_prediction::estimate,
-                        0
+                        nullptr
     };
 
     ns_consts::EnmNonIIDTrack   enm_estimate_ids_non_binary[] = {
@@ -217,7 +217,7 @@ ns_consts::EnmReturnStatus runEntropyEstimatesNonBinary(ns_dt::t_data_for_estima
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    double  min_entropy_literal = (double)io_refDataOriginal.bits_per_sample;
+    auto  min_entropy_literal = static_cast<double>(io_refDataOriginal.bits_per_sample);
     double  min_entropy_bitstring = 1.0;
     // -------------------------------------------------------------------------- //
     // 
@@ -325,7 +325,7 @@ ns_consts::EnmReturnStatus runEntropyEstimatesNonBinary(ns_dt::t_data_for_estima
             // -------------------------------------------------------------------------- //
             // update min-entropy from the current entropy estimate performed
             // -------------------------------------------------------------------------- //
-            double* p_min_entropy = nullptr;
+            const double* p_min_entropy = nullptr;
             switch (j)
             {
             case 0:
@@ -391,9 +391,9 @@ ns_consts::EnmReturnStatus runEntropyEstimatesNonBinary(ns_dt::t_data_for_estima
     std::cout << "H_bitstring\t\t\t:\t" << min_entropy_bitstring << std::endl;
     std::cout << std::endl;
     double  min_entropy_global = min_entropy_literal;
-    if ((double)io_refDataOriginal.bits_per_sample * min_entropy_bitstring < min_entropy_literal)
+    if (static_cast<double>(io_refDataOriginal.bits_per_sample) * min_entropy_bitstring < min_entropy_literal)
     {
-        min_entropy_global = (double)io_refDataOriginal.bits_per_sample * min_entropy_bitstring;
+        min_entropy_global = static_cast<double>(io_refDataOriginal.bits_per_sample) * min_entropy_bitstring;
     }
     std::cout << "min(H_original, 8 X H_bitstring):\t" << min_entropy_global << std::endl;
     // -------------------------------------------------------------------------- //

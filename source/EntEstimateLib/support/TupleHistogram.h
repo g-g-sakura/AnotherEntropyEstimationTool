@@ -2,7 +2,7 @@
 // TupleHistogram.h
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #if defined(_MSC_VER)
@@ -12,14 +12,12 @@
 #ifndef __ENTROPY_ESTIMATOR_LIB_TUPLE_HISTOGRAM_H__
 #define __ENTROPY_ESTIMATOR_LIB_TUPLE_HISTOGRAM_H__
 
-#include "../EntropyEstimateData.h"
 #include "../constants.h"
 #include <boost/multi_index_container.hpp>
 #include <boost/multi_index/sequenced_index.hpp>
 #include <boost/multi_index/ordered_index.hpp>
 #include <boost/multi_index/identity.hpp>
 #include <boost/multi_index/member.hpp>
-#include <boost/multi_index/composite_key.hpp>
 #include <boost/dynamic_bitset.hpp>
 
 namespace entropy_estimator_lib
@@ -36,9 +34,9 @@ namespace entropy_estimator_lib
 			struct t_bsx_bin
 			{
 				boost::dynamic_bitset<>		bs_x;		// x
-				int				ex_cnt;		// count = number of occurence of index value within a certain window
+				int				ex_cnt;		// count = number of occurrence of index value within a certain window
 
-				t_bsx_bin(boost::dynamic_bitset<> &i_x, int i_count) : bs_x(i_x), ex_cnt(i_count) {}
+				t_bsx_bin(const boost::dynamic_bitset<> &i_x, int i_count) : bs_x(i_x), ex_cnt(i_count) {}
 
 				bool operator <(t_bsx_bin const& i_refRight) const
 				{
@@ -91,7 +89,7 @@ namespace entropy_estimator_lib
 			// -------------------------------------------------------------------------- //
 			ns_consts::EnmReturnStatus incrementCount(
 				int& o_refUpdatedCount,
-				boost::dynamic_bitset<>& i_target_x,
+				const boost::dynamic_bitset<>& i_target_x,
 				BitSetHistogram& i_refHistogram);
 
 

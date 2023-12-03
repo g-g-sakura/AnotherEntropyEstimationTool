@@ -15,18 +15,14 @@
 #include <boost/foreach.hpp>
 #include "boost/date_time/posix_time/posix_time.hpp"
 #include "EntEstimateLib/support/enumerateAlphabet.h"
-#include "EntEstimateLib/support/setUp.h"
 #include <boost/filesystem/fstream.hpp>
 #include <vector>
 #include <sstream>
 #include <ctime>
-//#include <locale> 
-//#include <codecvt> 
 #include <Windows.h>
 #include <boost/version.hpp>
 #include "calcMessageDigest.h"
 
-namespace po = boost::program_options;
 namespace bs_fs = boost::filesystem;
 
 namespace ns_consts = entropy_estimator_lib::constants;
@@ -51,7 +47,7 @@ void showHeadSamples(const ns_dt::t_data_for_estimator& i_refData)
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    int total_length = i_refData.p_bzInputS->length(blitz::firstDim);
+    const int total_length = i_refData.p_bzInputS->length(blitz::firstDim);
     int num_bytes = 64;
     if (total_length < 64)
     {
@@ -66,10 +62,10 @@ void showHeadSamples(const ns_dt::t_data_for_estimator& i_refData)
     // 
     // -------------------------------------------------------------------------- //
     std::cout.setf(std::ios::hex, std::ios::basefield);
-    char chFillSaved = std::cout.fill('0');
+    const char chFillSaved = std::cout.fill('0');
     for (int j = 0; j < num_bytes; ++j)
     {
-        std::cout << std::setw(2) << (int)(*i_refData.p_bzInputS)(j) << ", ";
+        std::cout << std::setw(2) << static_cast<int>((*i_refData.p_bzInputS)(j)) << ", ";
         if ((j != 0) && (15 == j % 16))
         {
             std::cout << std::endl;
@@ -97,7 +93,7 @@ void showTailSamples(const ns_dt::t_data_for_estimator& i_refData)
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    int total_length = i_refData.p_bzInputS->length(blitz::firstDim);
+    const int total_length = i_refData.p_bzInputS->length(blitz::firstDim);
     int offset = total_length;
     int num_bytes = 64;
     if (64 <= total_length)
@@ -118,10 +114,10 @@ void showTailSamples(const ns_dt::t_data_for_estimator& i_refData)
     // 
     // -------------------------------------------------------------------------- //
     std::cout.setf(std::ios::hex, std::ios::basefield);
-    char chFillSaved = std::cout.fill('0');
+    const char chFillSaved = std::cout.fill('0');
     for (int j = 0; j < num_bytes; ++j)
     {
-        std::cout << std::setw(2) << (int)(*i_refData.p_bzInputS)(offset + j) << ", ";
+        std::cout << std::setw(2) << static_cast<int>((*i_refData.p_bzInputS)(offset + j)) << ", ";
         if ((j != 0) && (15 == j % 16))
         {
             std::cout << std::endl;
@@ -138,15 +134,15 @@ struct MinEntropy
 
     ns_consts::EnmNonIIDTrack   estimator_info;
     ns_consts::EnmSampleInterpretation  sample_interpret;
-    int     bits_per_sample;
+    unsigned int     bits_per_sample;
     bool    bIsSolutionFound;
 
-    MinEntropy() : value(0.0), estimator_info(ns_consts::EnmNonIIDTrack::EstimatorMostCommonValue), sample_interpret(ns_consts::EnmSampleInterpretation::ELiteralNonBinary), bits_per_sample(8), bIsSolutionFound(true){};
+    MinEntropy() : value(0.0), estimator_info(ns_consts::EnmNonIIDTrack::EstimatorMostCommonValue), sample_interpret(ns_consts::EnmSampleInterpretation::ELiteralNonBinary), bits_per_sample(8), bIsSolutionFound(true){}
 
-    MinEntropy(double val, ns_consts::EnmNonIIDTrack i_est, ns_consts::EnmSampleInterpretation i_si, int i_bits, bool i_bIsSolutionFound)
-        : value(val), estimator_info(i_est), sample_interpret(i_si), bits_per_sample(i_bits), bIsSolutionFound(i_bIsSolutionFound){};
+    MinEntropy(double val, ns_consts::EnmNonIIDTrack i_est, ns_consts::EnmSampleInterpretation i_si, unsigned int i_bits, bool i_bIsSolutionFound)
+        : value(val), estimator_info(i_est), sample_interpret(i_si), bits_per_sample(i_bits), bIsSolutionFound(i_bIsSolutionFound){}
 
-    std::wstring getUnit(void) const
+    std::wstring getUnit() const
     {
         std::wstring str_ret(L"/ ");
         str_ret += std::to_wstring(this->bits_per_sample);
@@ -250,9 +246,9 @@ std::wstring getSampleInterpretationMode(ns_consts::EnmSampleInterpretation i_si
 /// </remarks>
 /// <params="i_refInfoReport">
 /// </params>
-/// <params="io_refDataOriginal">
+/// <params="i_refDataOriginal">
 /// </params>
-/// <params="io_refDataBinary">
+/// <params="i_refDataBinary">
 /// </params>
 /// <returns>
 /// </returns>
@@ -261,15 +257,15 @@ std::wstring getSampleInterpretationMode(ns_consts::EnmSampleInterpretation i_si
 /// <postcondition>
 /// </postcondition>
 // -------------------------------------------------------------------------- //
-ns_consts::EnmReturnStatus reportXMLNonBinary(IDInfoForReport& i_refInfoReport,
-    ns_dt::t_data_for_estimator& io_refDataOriginal, ns_dt::t_data_for_estimator& io_refDataBinary)
+ns_consts::EnmReturnStatus reportXMLNonBinary(const IDInfoForReport& i_refInfoReport,
+    const ns_dt::t_data_for_estimator& i_refDataOriginal, const ns_dt::t_data_for_estimator& i_refDataBinary)
 {
     ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ns_consts::EnmNonIIDTrack   enm_estimate_ids_non_binary[] = {
+    constexpr  ns_consts::EnmNonIIDTrack   enm_estimate_ids_non_binary[] = {
             ns_consts::EnmNonIIDTrack::EstimatorMostCommonValue,
             ns_consts::EnmNonIIDTrack::EstimatorCollision,
             ns_consts::EnmNonIIDTrack::EstimatorMarkov,
@@ -304,7 +300,7 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(IDInfoForReport& i_refInfoReport,
     // 
     // -------------------------------------------------------------------------- //
     double  min_entropy_bitstring = 1.0;
-    double  min_entropy_literal = (double)io_refDataOriginal.bits_per_sample;
+    auto  min_entropy_literal = static_cast<double>(i_refDataOriginal.bits_per_sample);
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -338,14 +334,14 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(IDInfoForReport& i_refInfoReport,
             // -------------------------------------------------------------------------- //
             // 
             // -------------------------------------------------------------------------- //
-            ns_dt::t_data_for_estimator* pData = nullptr;
+            const ns_dt::t_data_for_estimator* pData = nullptr;
             switch (j)
             {
             case 0:
-                pData = &io_refDataOriginal;
+                pData = &i_refDataOriginal;
                 break;
             case 1:
-                pData = &io_refDataBinary;
+                pData = &i_refDataBinary;
                 break;
             default:
                 break;
@@ -353,7 +349,7 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(IDInfoForReport& i_refInfoReport,
             // -------------------------------------------------------------------------- //
             // 
             // -------------------------------------------------------------------------- //
-            double* p_min_entropy = nullptr;
+            const double* p_min_entropy = nullptr;
             switch (i)
             {
             case 0:
@@ -388,7 +384,6 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(IDInfoForReport& i_refInfoReport,
                 break;
             default:
                 return  sts;
-                break;
             }
             // -------------------------------------------------------------------------- //
             // 
@@ -429,15 +424,13 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(IDInfoForReport& i_refInfoReport,
                 break;
             }
 
-            vec_me.push_back(MinEntropy(*p_min_entropy, enm_estimate_ids_non_binary[i], enm_interp[j], pData->bits_per_sample, bIsSolutionFound));
+            vec_me.emplace_back(MinEntropy(*p_min_entropy, enm_estimate_ids_non_binary[i], enm_interp[j], pData->bits_per_sample, bIsSolutionFound));
         }
     }
     // -------------------------------------------------------------------------- //
     // <identification><source>
     // -------------------------------------------------------------------------- //
     {
-        wchar_t buffer[128];
-        memset(buffer, 0, sizeof(buffer));
         the_tree.add(L"entropy_report.identification.source.path", i_refInfoReport.info_source.p_path_to_entropy_input->wstring());
 
         struct tm newtime;
@@ -449,7 +442,7 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(IDInfoForReport& i_refInfoReport,
         }
 
         the_tree.add(L"entropy_report.identification.source.last_write_time", std::put_time(&newtime, L"%Y-%b-%d %H:%M:%S"));
-        the_tree.add(L"entropy_report.identification.source.bits_per_sample", std::to_wstring(io_refDataOriginal.bits_per_sample));
+        the_tree.add(L"entropy_report.identification.source.bits_per_sample", std::to_wstring(i_refDataOriginal.bits_per_sample));
         the_tree.add(L"entropy_report.identification.source.description", std::wstring(L" "));
     }
     // -------------------------------------------------------------------------- //
@@ -487,12 +480,12 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(IDInfoForReport& i_refInfoReport,
     // -------------------------------------------------------------------------- //
     {
         double  min_entropy_global = min_entropy_literal;
-        if ((double)io_refDataOriginal.bits_per_sample * min_entropy_bitstring < min_entropy_literal)
+        if (static_cast<double>(i_refDataOriginal.bits_per_sample) * min_entropy_bitstring < min_entropy_literal)
         {
-            min_entropy_global = (double)io_refDataOriginal.bits_per_sample * min_entropy_bitstring;
+            min_entropy_global = static_cast<double>(i_refDataOriginal.bits_per_sample) * min_entropy_bitstring;
         }
         boost::property_tree::wptree& child = the_tree.add(L"entropy_report.summary.min_entropy", std::to_wstring(min_entropy_global));
-        if (1 <= vec_me.size())
+        if (!vec_me.empty())
         {
             child.put(L"<xmlattr>.unit", vec_me[0].getUnit());
         }
@@ -526,7 +519,7 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(IDInfoForReport& i_refInfoReport,
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    const int indent = 4;
+    constexpr  int indent = 4;
     boost::property_tree::xml_parser::write_xml(the_report_path.string(), the_tree, std::locale(),
         boost::property_tree::xml_parser::xml_writer_make_settings<std::wstring>(L' ', indent));
     // -------------------------------------------------------------------------- //
@@ -543,7 +536,7 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(IDInfoForReport& i_refInfoReport,
 /// </remarks>
 /// <params="i_refInfoReport">
 /// </params>
-/// <params="io_refDataBinary">
+/// <params="i_refDataBinary">
 /// </params>
 /// <returns>
 /// </returns>
@@ -552,15 +545,15 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(IDInfoForReport& i_refInfoReport,
 /// <postcondition>
 /// </postcondition>
 // -------------------------------------------------------------------------- //
-ns_consts::EnmReturnStatus reportXMLBinary(IDInfoForReport& i_refInfoReport,
-    ns_dt::t_data_for_estimator& io_refDataBinary)
+ns_consts::EnmReturnStatus reportXMLBinary(const IDInfoForReport& i_refInfoReport,
+    const ns_dt::t_data_for_estimator& i_refDataBinary)
 {
     ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ns_consts::EnmNonIIDTrack   enm_estimate_ids_binary[] = {
+    constexpr ns_consts::EnmNonIIDTrack   enm_estimate_ids_binary[] = {
             ns_consts::EnmNonIIDTrack::EstimatorMostCommonValue,
             ns_consts::EnmNonIIDTrack::EstimatorCollision,
             ns_consts::EnmNonIIDTrack::EstimatorMarkov,
@@ -580,10 +573,10 @@ ns_consts::EnmReturnStatus reportXMLBinary(IDInfoForReport& i_refInfoReport,
         return  sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
     }
     bs_fs::path the_report_path;
-    sts = synthesizeReportPath(the_report_path, *i_refInfoReport.info_source.p_path_to_entropy_input);
-    if (ns_consts::EnmReturnStatus::Success != sts)
+    const ns_consts::EnmReturnStatus	stsSynthesize = synthesizeReportPath(the_report_path, *i_refInfoReport.info_source.p_path_to_entropy_input);
+    if (ns_consts::EnmReturnStatus::Success != stsSynthesize)
     {
-        return  sts;
+        return  sts = stsSynthesize;
     }
     // -------------------------------------------------------------------------- //
     // 
@@ -606,42 +599,41 @@ ns_consts::EnmReturnStatus reportXMLBinary(IDInfoForReport& i_refInfoReport,
             // -------------------------------------------------------------------------- //
             // 
             // -------------------------------------------------------------------------- //
-            double* p_min_entropy = nullptr;
+            const double* p_min_entropy = nullptr;
             switch (i)
             {
             case 0:
-                p_min_entropy = &(io_refDataBinary.t_6_3_1.t_common.min_entropy);
+                p_min_entropy = &(i_refDataBinary.t_6_3_1.t_common.min_entropy);
                 break;
             case 1:
-                p_min_entropy = &(io_refDataBinary.t_6_3_2.t_common.min_entropy);
+                p_min_entropy = &(i_refDataBinary.t_6_3_2.t_common.min_entropy);
                 break;
             case 2:
-                p_min_entropy = &(io_refDataBinary.t_6_3_3.t_common.min_entropy);
+                p_min_entropy = &(i_refDataBinary.t_6_3_3.t_common.min_entropy);
                 break;
             case 3:
-                p_min_entropy = &(io_refDataBinary.t_6_3_4.t_common.min_entropy);
+                p_min_entropy = &(i_refDataBinary.t_6_3_4.t_common.min_entropy);
                 break;
             case 4:
-                p_min_entropy = &(io_refDataBinary.t_6_3_5.t_common.min_entropy);
+                p_min_entropy = &(i_refDataBinary.t_6_3_5.t_common.min_entropy);
                 break;
             case 5:
-                p_min_entropy = &(io_refDataBinary.t_6_3_6.t_common.min_entropy);
+                p_min_entropy = &(i_refDataBinary.t_6_3_6.t_common.min_entropy);
                 break;
             case 6:
-                p_min_entropy = &(io_refDataBinary.t_6_3_7.t_common.min_entropy);
+                p_min_entropy = &(i_refDataBinary.t_6_3_7.t_common.min_entropy);
                 break;
             case 7:
-                p_min_entropy = &(io_refDataBinary.t_6_3_8.t_common.min_entropy);
+                p_min_entropy = &(i_refDataBinary.t_6_3_8.t_common.min_entropy);
                 break;
             case 8:
-                p_min_entropy = &(io_refDataBinary.t_6_3_9.t_common.min_entropy);
+                p_min_entropy = &(i_refDataBinary.t_6_3_9.t_common.min_entropy);
                 break;
             case 9:
-                p_min_entropy = &(io_refDataBinary.t_6_3_10.t_common.min_entropy);
+                p_min_entropy = &(i_refDataBinary.t_6_3_10.t_common.min_entropy);
                 break;
             default:
                 return  sts;
-                break;
             }
             // -------------------------------------------------------------------------- //
             // 
@@ -650,16 +642,16 @@ ns_consts::EnmReturnStatus reportXMLBinary(IDInfoForReport& i_refInfoReport,
             switch (i)
             {
             case 1:
-                bIsSolutionFound = io_refDataBinary.t_6_3_2.bIsRootFound;
+                bIsSolutionFound = i_refDataBinary.t_6_3_2.bIsRootFound;
                 break;
             case 4:
-                bIsSolutionFound = io_refDataBinary.t_6_3_4.bIsRootFound;
+                bIsSolutionFound = i_refDataBinary.t_6_3_4.bIsRootFound;
                 break;
             default:
                 break;
             }
 
-            vec_me.push_back(MinEntropy(*p_min_entropy, enm_estimate_ids_binary[i], ns_consts::EnmSampleInterpretation::ELiteralButBinary, io_refDataBinary.bits_per_sample, bIsSolutionFound));
+            vec_me.emplace_back(MinEntropy(*p_min_entropy, enm_estimate_ids_binary[i], ns_consts::EnmSampleInterpretation::ELiteralButBinary, i_refDataBinary.bits_per_sample, bIsSolutionFound));
             // -------------------------------------------------------------------------- //
             // 
             // -------------------------------------------------------------------------- //
@@ -675,8 +667,6 @@ ns_consts::EnmReturnStatus reportXMLBinary(IDInfoForReport& i_refInfoReport,
     // <identification><source>
     // -------------------------------------------------------------------------- //
     {
-        wchar_t buffer[128];
-        memset(buffer, 0, sizeof(buffer));
         the_tree.add(L"entropy_report.identification.source.path", i_refInfoReport.info_source.p_path_to_entropy_input->wstring());
 
         struct tm newtime;
@@ -688,7 +678,7 @@ ns_consts::EnmReturnStatus reportXMLBinary(IDInfoForReport& i_refInfoReport,
         }
 
         the_tree.add(L"entropy_report.identification.source.last_write_time", std::put_time(&newtime, L"%Y-%b-%d %H:%M:%S"));
-        the_tree.add(L"entropy_report.identification.source.bits_per_sample", std::to_wstring(io_refDataBinary.bits_per_sample));
+        the_tree.add(L"entropy_report.identification.source.bits_per_sample", std::to_wstring(i_refDataBinary.bits_per_sample));
         the_tree.add(L"entropy_report.identification.source.description", std::wstring(L" "));
     }
     // -------------------------------------------------------------------------- //
@@ -726,7 +716,7 @@ ns_consts::EnmReturnStatus reportXMLBinary(IDInfoForReport& i_refInfoReport,
     // -------------------------------------------------------------------------- //
     {
         boost::property_tree::wptree& child = the_tree.add(L"entropy_report.summary.min_entropy", std::to_wstring(min_entropy_bitstring));
-        if (1 <= vec_me.size())
+        if (!vec_me.empty())
         {
             child.put(L"<xmlattr>.unit", vec_me[0].getUnit());
         }
@@ -760,7 +750,7 @@ ns_consts::EnmReturnStatus reportXMLBinary(IDInfoForReport& i_refInfoReport,
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    const int indent = 4;
+    constexpr int indent = 4;
     boost::property_tree::xml_parser::write_xml(the_report_path.string(), the_tree, std::locale(),
         boost::property_tree::xml_parser::xml_writer_make_settings<std::wstring>(L' ', indent));
     // -------------------------------------------------------------------------- //
@@ -786,21 +776,21 @@ ns_consts::EnmReturnStatus reportXMLBinary(IDInfoForReport& i_refInfoReport,
 /// </postcondition>
 // -------------------------------------------------------------------------- //
 ns_consts::EnmReturnStatus synthesizeReportPath(bs_fs::path& o_report_complete_path,
-    bs_fs::path& i_path_entropy_input)
+    const bs_fs::path& i_path_entropy_input)
 {
     ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    std::string strBaseFileName("entropy_report_");
-    std::string strExtension(".xml");
+    const std::string strBaseFileName("entropy_report_");
+    const std::string strExtension(".xml");
 
-    boost::posix_time::ptime pt =
+    const auto pt =
         boost::posix_time::ptime(
             boost::posix_time::microsec_clock::local_time());
 
-    std::string strTimeInfo(boost::posix_time::to_iso_string(pt));
+    const std::string strTimeInfo(boost::posix_time::to_iso_string(pt));
     std::string strFileName(strBaseFileName);
     strFileName += i_path_entropy_input.stem().string();
     strFileName += "_";
@@ -834,21 +824,21 @@ ns_consts::EnmReturnStatus synthesizeReportPath(bs_fs::path& o_report_complete_p
 /// </postcondition>
 // -------------------------------------------------------------------------- //
 ns_consts::EnmReturnStatus synthesizeReportPathTex(bs_fs::path& o_report_complete_path,
-    bs_fs::path& i_path_entropy_input)
+    const bs_fs::path& i_path_entropy_input)
 {
     ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    std::string strBaseFileName("entropy_report_");
-    std::string strExtension(".tex");
+    const std::string strBaseFileName("entropy_report_");
+    const std::string strExtension(".tex");
 
-    boost::posix_time::ptime pt =
+    const auto pt =
         boost::posix_time::ptime(
             boost::posix_time::microsec_clock::local_time());
 
-    std::string strTimeInfo(boost::posix_time::to_iso_string(pt));
+    const std::string strTimeInfo(boost::posix_time::to_iso_string(pt));
     std::string strFileName(strBaseFileName);
     strFileName += i_path_entropy_input.stem().string();
     strFileName += "_";
@@ -1029,15 +1019,15 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    boost::posix_time::ptime pt =
+    const auto pt =
         boost::posix_time::ptime(
             boost::posix_time::microsec_clock::local_time());
 
-    std::string strTimeInfo(boost::posix_time::to_simple_string(pt));
+    const std::string strTimeInfo(boost::posix_time::to_simple_string(pt));
 
-    int size_needed = MultiByteToWideChar(CP_UTF8, 0, &strTimeInfo[0], (int)strTimeInfo.size(), nullptr, 0);
+    const int size_needed = MultiByteToWideChar(CP_UTF8, 0, strTimeInfo.data(), static_cast<int>(strTimeInfo.size()), nullptr, 0);
     std::wstring    wstrTimeInfo(size_needed, 0);
-    MultiByteToWideChar(CP_UTF8, 0, &strTimeInfo[0], (int)strTimeInfo.size(), &wstrTimeInfo[0], size_needed);
+    MultiByteToWideChar(CP_UTF8, 0, strTimeInfo.data(), static_cast<int>(strTimeInfo.size()), wstrTimeInfo.data(), size_needed);
 
     o_ssLaTeX << L"\\date{" << wstrTimeInfo << L"}" <<std::endl;
     // -------------------------------------------------------------------------- //
@@ -1066,7 +1056,7 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
 /// <postcondition>
 /// </postcondition>
 // -------------------------------------------------------------------------- //
-ns_consts::EnmReturnStatus loadPGFPlotSummary(std::wstringstream& o_ssLaTeX, bool isBinary, double min_entropy, int bits_per_sample)
+ns_consts::EnmReturnStatus loadPGFPlotSummary(std::wstringstream& o_ssLaTeX, bool isBinary, double min_entropy, unsigned int bits_per_sample)
 {
     ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 
@@ -1106,7 +1096,7 @@ ns_consts::EnmReturnStatus loadPGFPlotSummary(std::wstringstream& o_ssLaTeX, boo
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    double relativeRange = min_entropy / ((double)bits_per_sample);
+    const double relativeRange = min_entropy / (static_cast<double>(bits_per_sample));
     if (relativeRange < 0.25)
     {
         o_ssLaTeX << L"above";
@@ -1201,8 +1191,8 @@ ns_consts::EnmReturnStatus loadLaTeXBibliography(std::wstringstream& o_ssLaTeX)
 /// </postcondition>
 // -------------------------------------------------------------------------- //
 ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLaTeXSupportingInfo, 
-    IDInfoForReport& i_refInfoReport,
-    ns_dt::t_data_for_estimator& io_refDataOriginal)
+    const IDInfoForReport& i_refInfoReport,
+    const ns_dt::t_data_for_estimator& io_refDataOriginal)
 {
     ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 
@@ -1211,8 +1201,8 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // -------------------------------------------------------------------------- //
     std::string strHashOfAcquisitionData = std::string();
 
-    entropy_estimator_app::constants::EnmHashAlgorithm  enmDefaultHashId = entropy_estimator_app::constants::EnmHashAlgorithm::ESHA_256;
-    ns_consts::EnmReturnStatus  stsCalcHash = entropy_estimator_app::calcMessageDigest(strHashOfAcquisitionData,
+    constexpr entropy_estimator_app::constants::EnmHashAlgorithm  enmDefaultHashId = entropy_estimator_app::constants::EnmHashAlgorithm::ESHA_256;
+    const ns_consts::EnmReturnStatus  stsCalcHash = entropy_estimator_app::calcMessageDigest(strHashOfAcquisitionData,
         io_refDataOriginal.p_bzInputS->data(), io_refDataOriginal.p_bzInputS->length(blitz::firstDim),
         enmDefaultHashId);
 
@@ -1255,9 +1245,9 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     o_refLaTeXSupportingInfo << L" hash value of the acquisition data [hex] & " << std::endl;
     o_refLaTeXSupportingInfo << L"\\begin{verbatim}" << std::endl;
 
-    int size_needed = MultiByteToWideChar(CP_UTF8, 0, &strHashOfAcquisitionData[0], (int)strHashOfAcquisitionData.size(), nullptr, 0);
+    const int size_needed = MultiByteToWideChar(CP_UTF8, 0, strHashOfAcquisitionData.data(), static_cast<int>(strHashOfAcquisitionData.size()), nullptr, 0);
     std::wstring    wstrHashOfAcquisitionData(size_needed, 0);
-    MultiByteToWideChar(CP_UTF8, 0, &strHashOfAcquisitionData[0], (int)strHashOfAcquisitionData.size(), &wstrHashOfAcquisitionData[0], size_needed);
+    MultiByteToWideChar(CP_UTF8, 0, strHashOfAcquisitionData.data(), static_cast<int>(strHashOfAcquisitionData.size()), wstrHashOfAcquisitionData.data(), size_needed);
 
     o_refLaTeXSupportingInfo << wstrHashOfAcquisitionData << std::endl;
     o_refLaTeXSupportingInfo << L"\\end{verbatim} " << std::endl;
@@ -1513,7 +1503,7 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     // 
     // -------------------------------------------------------------------------- //
     double  min_entropy_bitstring = 1.0;
-    double  min_entropy_literal = (double)io_refDataOriginal.bits_per_sample;
+    auto  min_entropy_literal = static_cast<double>(io_refDataOriginal.bits_per_sample);
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1622,7 +1612,6 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
                 break;
             default:
                 return  sts;
-                break;
             }
             // -------------------------------------------------------------------------- //
             // 
@@ -1724,9 +1713,9 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     // -------------------------------------------------------------------------- //
     {
         double  min_entropy_global = min_entropy_literal;
-        if ((double)io_refDataOriginal.bits_per_sample * min_entropy_bitstring < min_entropy_literal)
+        if (static_cast<double>(io_refDataOriginal.bits_per_sample) * min_entropy_bitstring < min_entropy_literal)
         {
-            min_entropy_global = (double)io_refDataOriginal.bits_per_sample * min_entropy_bitstring;
+            min_entropy_global = static_cast<double>(io_refDataOriginal.bits_per_sample) * min_entropy_bitstring;
         }
         ssLaTeXSummary << L"The intial entropy source estimate [bit / " << io_refDataOriginal.bits_per_sample << L" - bit]	& \\multicolumn{4}{|c|}{" << min_entropy_global << L"}	\\\\" << std::endl;
     }
@@ -1747,7 +1736,6 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     ssLaTeXSummary << L"\\clearpage" << std::endl;
     ssLaTeXSummary << L"\\subsection{Visual comparison of min-entropy estimates from original samples}" << std::endl;
     loadPGFPlotSummary(ssLaTeXSummary, false, min_entropy_literal, io_refDataOriginal.bits_per_sample);
-    //ssLaTeXSummary << L"\\clearpage" << std::endl;
     ssLaTeXSummary << L"\\subsection{Visual comparison of min-entropy estimates by interpreting each sample as bitstring}" << std::endl;
     loadPGFPlotSummary(ssLaTeXSummary, true, min_entropy_bitstring, io_refDataBinary.bits_per_sample);
     // -------------------------------------------------------------------------- //
@@ -1966,7 +1954,6 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
             break;
         default:
             return  sts;
-            break;
         }
         // -------------------------------------------------------------------------- //
         // 

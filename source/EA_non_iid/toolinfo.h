@@ -2,7 +2,7 @@
 // toolinfo.h
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #if defined(_MSC_VER)
@@ -17,6 +17,6 @@
 
 namespace ns_consts = entropy_estimator_lib::constants;
 
-ns_consts::EnmReturnStatus getToolInfo(InfoAnalysisTool& i_refAnalysisTool);
+ns_consts::EnmReturnStatus getToolInfo(const InfoAnalysisTool& i_refAnalysisTool);
 
 #endif

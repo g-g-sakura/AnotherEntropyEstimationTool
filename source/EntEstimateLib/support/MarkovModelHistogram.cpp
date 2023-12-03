@@ -3,12 +3,12 @@
 //
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "../pch.h"
 #include "MarkovModelHistogram.h"
-#include <iomanip>
+#include <boost/range.hpp>
 
 namespace entropy_estimator_lib
 {
@@ -36,7 +36,7 @@ namespace entropy_estimator_lib
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
 			ns_consts::EnmReturnStatus incrementXY(
-				boost::dynamic_bitset<>& i_target_x,
+				const boost::dynamic_bitset<>& i_target_x,
 				ns_dt::octet i_target_y,
 				MarkovModelHistogram& i_refHistogram)
 			{
@@ -44,16 +44,16 @@ namespace entropy_estimator_lib
 
 				ex_x_map& x_map_hg = i_refHistogram.get<ex_x>();
 
-				std::pair<ex_x_map::iterator, ex_x_map::iterator> rg_x = x_map_hg.equal_range(i_target_x);
+				const std::pair<ex_x_map::iterator, ex_x_map::iterator> rg_x = x_map_hg.equal_range(i_target_x);
 
 				if (rg_x.first != rg_x.second)
 				{
 					sts = ns_consts::EnmReturnStatus::ErrorFirstIndexFoundButSecondIndexNotFound;
-					for (ex_x_map::iterator it = rg_x.first; it != rg_x.second; it++)
+					for (ex_x_map::iterator it = rg_x.first; it != rg_x.second; ++it)
 					{
 						if (it->ex_y == i_target_y)
 						{
-							int new_count = 1 + (it->ex_cnt);
+							const int new_count = 1 + (it->ex_cnt);
 							x_map_hg.replace(it, t_xy_bin(i_target_x, i_target_y, new_count));
 							sts = ns_consts::EnmReturnStatus::Success;
 							break;
@@ -87,12 +87,12 @@ namespace entropy_estimator_lib
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
 			ns_consts::EnmReturnStatus getFrequent(t_xy_bin& o_refFrequent,
-				boost::dynamic_bitset<>& i_target_x,
+				const boost::dynamic_bitset<>& i_target_x,
 				MarkovModelHistogram& i_refHistogram)
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 
-				ex_x_map& x_map_hg = i_refHistogram.get<ex_x>();
+				const ex_x_map& x_map_hg = i_refHistogram.get<ex_x>();
 
 				auto const range = x_map_hg.equal_range(i_target_x);
 

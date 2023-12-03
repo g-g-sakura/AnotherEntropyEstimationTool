@@ -96,7 +96,7 @@ namespace entropy_estimator_lib
 					(*io_refData.p_ssLaTeXFragment) << L"	bar width=1.25pt," << std::endl;
 				}
 				(*io_refData.p_ssLaTeXFragment) << L"	xmin=-0.125," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"xmax=" << (double)(xmax) + 0.125 << ",";
+				(*io_refData.p_ssLaTeXFragment) << L"xmax=" << static_cast<double>(xmax) + 0.125 << ",";
 				(*io_refData.p_ssLaTeXFragment) << L"	ymin=0," << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"	width=20cm," << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"	xlabel=$x_i$," << std::endl;
@@ -107,12 +107,11 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				ns_es::idx_map& index_map_hg = i_ref_whg.m_hg.get<ns_es::idx>();
-				ns_es::idx_map::iterator it = index_map_hg.begin();
-				for (it = index_map_hg.begin(); it != index_map_hg.end(); it++)
+				for (ns_es::idx_map::iterator it = index_map_hg.begin(); it != index_map_hg.end(); ++it)
 				{
 					(*io_refData.p_ssLaTeXFragment) << L"(";
 					(*io_refData.p_ssLaTeXFragment) << std::setw(8) << (it->idx);
-					(*io_refData.p_ssLaTeXFragment) << L", " << std::setw(8) << (double)(it->cnt) / (double)(io_refData.L);
+					(*io_refData.p_ssLaTeXFragment) << L", " << std::setw(8) << static_cast<double>(it->cnt) / static_cast<double>(io_refData.L);
 					(*io_refData.p_ssLaTeXFragment) << L")" << std::endl;
 				}
 				// -------------------------------------------------------------------------- //
@@ -233,7 +232,7 @@ namespace entropy_estimator_lib
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 
-				ns_consts::EnmReturnStatus	stsCommon = ns_spt::perform_common_args_for_estimate(i_refData);
+				const ns_consts::EnmReturnStatus	stsCommon = ns_spt::perform_common_args_for_estimate(i_refData);
 				if (ns_consts::EnmReturnStatus::Success != stsCommon)
 				{
 					return sts = stsCommon;
@@ -274,7 +273,7 @@ namespace entropy_estimator_lib
 				}
 
 				// Calc $Z_{\alpha}$ value (=2.5758293035489008)
-				double z_alpha = calc_Z_alpha(0.995);
+				const double z_alpha = calc_Z_alpha(0.995);
 				// -------------------------------------------------------------------------- //
 				// Step 1.
 				//  Find the proportion of the most common value \hat{p} in the dataset
@@ -286,14 +285,14 @@ namespace entropy_estimator_lib
 				{
 					return sts;
 				}
-				unsigned int max_occurences = binFrequent.cnt;
+				const unsigned int max_occurrences = binFrequent.cnt;
 				// -------------------------------------------------------------------------- //
 				// Step 2.
 				//  Calculate an upper bound on the probability of the most common value p_{u}
 				// -------------------------------------------------------------------------- //
-				io_refData.t_6_3_1.t_common.number_of_significant_digits = log10((double)max_occurences);
-				double p_hat = (double)max_occurences / (double)io_refData.L;
-				double p_u = p_hat + z_alpha * sqrt(p_hat * (1.0 - p_hat) / (double)(io_refData.L - 1));
+				io_refData.t_6_3_1.t_common.number_of_significant_digits = log10(static_cast<double>(max_occurrences));
+				const double p_hat = static_cast<double>(max_occurrences) / static_cast<double>(io_refData.L);
+				double p_u = p_hat + z_alpha * sqrt(p_hat * (1.0 - p_hat) / static_cast<double>(io_refData.L - 1));
 				if (1.0 < p_u)
 				{
 					p_u = 1.0;
@@ -303,7 +302,7 @@ namespace entropy_estimator_lib
 				// Step 3.
 				//  The estimated min-entropy is -log2(p_{u}).
 				// -------------------------------------------------------------------------- //
-				io_refData.t_6_3_1.mode = max_occurences;
+				io_refData.t_6_3_1.mode = max_occurrences;
 				io_refData.t_6_3_1.p_hat = p_hat;
 				io_refData.t_6_3_1.p_u = p_u;
 				io_refData.t_6_3_1.t_common.min_entropy = -log2(p_u);
@@ -311,18 +310,18 @@ namespace entropy_estimator_lib
 				// Estimate significant digits
 				//  
 				// -------------------------------------------------------------------------- //
-				double p_hat_plus_eps = (double)(max_occurences + 1) / (double)io_refData.L;
-				double p_u_plus_eps = p_hat_plus_eps + z_alpha * sqrt(p_hat_plus_eps * (1.0 - p_hat_plus_eps) / (double)(io_refData.L - 1));
+				const double p_hat_plus_eps = static_cast<double>(max_occurrences + 1) / static_cast<double>(io_refData.L);
+				double p_u_plus_eps = p_hat_plus_eps + z_alpha * sqrt(p_hat_plus_eps * (1.0 - p_hat_plus_eps) / static_cast<double>(io_refData.L - 1));
 				if (1.0 < p_u_plus_eps)
 				{
 					p_u_plus_eps = 1.0;
 				}
-				double p_hat_minus_eps = (double)(max_occurences - 1) / (double)io_refData.L;
-				if (max_occurences <= 1)
+				double p_hat_minus_eps = static_cast<double>(max_occurrences - 1) / static_cast<double>(io_refData.L);
+				if (max_occurrences <= 1)
 				{
-					p_hat_minus_eps = 1.0 / (double)io_refData.L;
+					p_hat_minus_eps = 1.0 / static_cast<double>(io_refData.L);
 				}
-				double p_u_minus_eps = p_hat_minus_eps + z_alpha * sqrt(p_hat_minus_eps * (1.0 - p_hat_minus_eps) / (double)(io_refData.L - 1));
+				double p_u_minus_eps = p_hat_minus_eps + z_alpha * sqrt(p_hat_minus_eps * (1.0 - p_hat_minus_eps) / static_cast<double>(io_refData.L - 1));
 				if (p_u_minus_eps < (1.0 / io_refData.k))
 				{
 					p_u_minus_eps = 1.0 / io_refData.k;
@@ -333,7 +332,7 @@ namespace entropy_estimator_lib
 				io_refData.t_6_3_1.t_common.min_entropy_lower_bound = -log2(p_u_plus_eps);
 				io_refData.t_6_3_1.t_common.min_entropy_lower_bound = -log2(p_u_minus_eps);
 
-				double	delta_entropy = fabs(-log2(p_u_plus_eps) + log2(p_u));
+				const double	delta_entropy = fabs(-log2(p_u_plus_eps) + log2(p_u));
 				io_refData.t_6_3_1.t_common.number_of_significant_digits = -log10(delta_entropy / io_refData.t_6_3_1.t_common.min_entropy);
 				// -------------------------------------------------------------------------- //
 				// output LaTeX

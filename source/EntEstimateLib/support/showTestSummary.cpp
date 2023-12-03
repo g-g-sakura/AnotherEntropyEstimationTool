@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "../pch.h"
@@ -38,8 +38,8 @@ namespace entropy_estimator_lib
 		/// </postcondition>
 		// -------------------------------------------------------------------------- //
 		ns_consts::EnmReturnStatus showTestSpecificHeader(std::stringstream& o_refStream,
-			ns_consts::EnmNonIIDTrack& i_enmEstimator,
-			ns_consts::EnmSampleInterpretation& i_enmInterpretation,
+			const ns_consts::EnmNonIIDTrack& i_enmEstimator,
+			const ns_consts::EnmSampleInterpretation& i_enmInterpretation,
 			ns_dt::t_data_for_estimator& io_refData)
 		{
 			ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
@@ -108,7 +108,7 @@ namespace entropy_estimator_lib
 			// -------------------------------------------------------------------------- //
 			// 
 			// -------------------------------------------------------------------------- //
-			boost::posix_time::ptime pt_s =
+			const auto pt_s =
 				boost::posix_time::ptime(
 					boost::posix_time::microsec_clock::local_time());
 
@@ -161,7 +161,7 @@ namespace entropy_estimator_lib
 			{
 				p_perf->startTime = boost::posix_time::to_tm(pt_s);
 
-				boost::posix_time::ptime	pt_round = boost::posix_time::ptime_from_tm(p_perf->startTime);
+				const boost::posix_time::ptime	pt_round = boost::posix_time::ptime_from_tm(p_perf->startTime);
 				boost::posix_time::time_duration	tdelta = pt_s - pt_round;
 				p_perf->start_delta_microseconds = tdelta.total_microseconds();
 			}
@@ -192,7 +192,7 @@ namespace entropy_estimator_lib
 		/// </postcondition>
 		// -------------------------------------------------------------------------- //
 		ns_consts::EnmReturnStatus showTestSpecificFooter(std::stringstream& o_refStream,
-			ns_consts::EnmNonIIDTrack& i_enmEstimator,
+			const ns_consts::EnmNonIIDTrack& i_enmEstimator,
 			ns_consts::EnmSampleInterpretation& i_enmInterpretation,
 			ns_dt::t_data_for_estimator& io_refData)
 		{
@@ -200,7 +200,7 @@ namespace entropy_estimator_lib
 			// -------------------------------------------------------------------------- //
 			// 
 			// -------------------------------------------------------------------------- //
-			boost::posix_time::ptime pt_e =
+			const auto pt_e =
 				boost::posix_time::ptime(
 					boost::posix_time::microsec_clock::local_time());
 
@@ -253,9 +253,9 @@ namespace entropy_estimator_lib
 			{
 				p_perf->endTime = boost::posix_time::to_tm(pt_e);
 
-				boost::posix_time::ptime    pt_s = boost::posix_time::ptime_from_tm(p_perf->startTime);
+				const boost::posix_time::ptime    pt_s = boost::posix_time::ptime_from_tm(p_perf->startTime);
 				boost::posix_time::time_duration    tdelta = boost::posix_time::microseconds(p_perf->start_delta_microseconds);
-				boost::posix_time::time_duration    td = pt_e - pt_s - tdelta;
+				const boost::posix_time::time_duration    td = pt_e - pt_s - tdelta;
 				p_perf->duration = boost::posix_time::to_tm(td);
 
 				o_refStream << "#\tThe time duration for this Entropy Estimate :\t" << boost::posix_time::to_simple_string(td) << std::endl;

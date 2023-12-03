@@ -12,7 +12,6 @@
 #include "./support/conversion.h"
 #include "./math/SpecialFunctions.h"
 #include <boost/math/special_functions.hpp>
-#include <boost/math/tools/roots.hpp>
 #include "./support/TupleHistogram.h"
 
 namespace entropy_estimator_lib
@@ -25,7 +24,6 @@ namespace entropy_estimator_lib
 			namespace ns_dt = entropy_estimator_lib::data_types;
 			namespace ns_spt = entropy_estimator_lib::support;
 			namespace ns_es = entropy_estimator_lib::estimators::support;
-			namespace mp = boost::multiprecision;
 
 			// -------------------------------------------------------------------------- //
 			/// <summary>
@@ -180,7 +178,7 @@ namespace entropy_estimator_lib
 			/// <postcondition>
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
-			ns_consts::EnmReturnStatus outputLaTeXFooter(ns_dt::t_data_for_estimator& io_refData, std::wstring &i_refCaption)
+			ns_consts::EnmReturnStatus outputLaTeXFooter(ns_dt::t_data_for_estimator& io_refData, const std::wstring &i_refCaption)
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 				// -------------------------------------------------------------------------- //
@@ -230,7 +228,7 @@ namespace entropy_estimator_lib
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
 			ns_consts::EnmReturnStatus outputLaTeXFooterWithPhat(ns_dt::t_data_for_estimator& io_refData, 
-				std::wstring& i_refCaption, int argMax)
+				const std::wstring& i_refCaption, int argMax)
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 				// -------------------------------------------------------------------------- //
@@ -508,7 +506,7 @@ namespace entropy_estimator_lib
 							// -------------------------------------------------------------------------- //
 							// For W = u to \nu, compute the estimated W-tuple collision probability
 							//   $P_{W} = \sum_{i} \binom_{C_{i}}{2} / \binom{L - W + 1}{2}$
-							// where C_{i} is the number of occurences of the i-th unique W-tuple.
+							// where C_{i} is the number of occurrences of the i-th unique W-tuple.
 							// -------------------------------------------------------------------------- //
 							ns_es::tpl_bscnt_map& cnt_map_hg = hg.get<ns_es::bsx_cnt>();
 
@@ -520,15 +518,15 @@ namespace entropy_estimator_lib
 							// -------------------------------------------------------------------------- //
 							//
 							// -------------------------------------------------------------------------- //
-							for (ns_es::tpl_bscnt_map::iterator it = cnt_map_hg.begin(); it != cnt_map_hg.end(); it++)
+							for (ns_es::tpl_bscnt_map::iterator it = cnt_map_hg.begin(); it != cnt_map_hg.end(); ++it)
 							{
-								if (2 <= (*it).ex_cnt)
+								if (2 <= it->ex_cnt)
 								{
-									numerator += boost::math::binomial_coefficient<double>((*it).ex_cnt, 2);
+									numerator += boost::math::binomial_coefficient<double>(it->ex_cnt, 2);
 									// -------------------------------------------------------------------------- //
 									//
 									// -------------------------------------------------------------------------- //
-									ui64_numerator += (((uint64_t)((*it).ex_cnt)) * (((uint64_t)(*it).ex_cnt) - 1)) >> 1;
+									ui64_numerator += ((static_cast<uint64_t>(it->ex_cnt)) * ((static_cast<uint64_t>(it->ex_cnt)) - 1)) >> 1;
 									// -------------------------------------------------------------------------- //
 									//
 									// -------------------------------------------------------------------------- //
@@ -552,7 +550,7 @@ namespace entropy_estimator_lib
 									if (rg_x.first != rg_x.second)
 									{
 										// multiplicity != 0
-										for (ns_es::tpl_bscnt_map::iterator it = rg_x.first; it != rg_x.second; it++)
+										for (ns_es::tpl_bscnt_map::iterator it = rg_x.first; it != rg_x.second; ++it)
 										{
 											++multiplicity_for_ci;
 										}
@@ -605,7 +603,7 @@ namespace entropy_estimator_lib
 								double	P_W = (double)numerator / boost::math::binomial_coefficient<double>(LminusWplusOne, 2);
 								ssFragmentForLaTeXPmax << L"(";
 								ssFragmentForLaTeXPmax << std::setw(4) << t;
-								ssFragmentForLaTeXPmax << L", " << std::setw(8) << std::pow(P_W, 1.0 / ((double)t));
+								ssFragmentForLaTeXPmax << L", " << std::setw(8) << std::pow(P_W, 1.0 / (static_cast<double>(t)));
 								ssFragmentForLaTeXPmax << L")" << std::endl;
 							}
 							// -------------------------------------------------------------------------- //
@@ -641,7 +639,7 @@ namespace entropy_estimator_lib
 					// -------------------------------------------------------------------------- //
 					// Here, W = u + j, because offset u must be taken into account.
 					// -------------------------------------------------------------------------- //
-					bz_P_max(j) = pow(o_ref_bz_P_W(j), 1.0 / (double)(j + u));
+					bz_P_max(j) = pow(o_ref_bz_P_W(j), 1.0 / static_cast<double>(j + u));
 				}
 				io_refData.t_6_3_6.p_hat = blitz::max(bz_P_max);
 				// -------------------------------------------------------------------------- //
@@ -693,12 +691,12 @@ namespace entropy_estimator_lib
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 
-				double& p_hat = io_refData.t_6_3_6.p_hat;
+				const double& p_hat = io_refData.t_6_3_6.p_hat;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				double	z_alpha = calc_Z_alpha(0.995);
-				double	p_u = p_hat + z_alpha * sqrt((p_hat * (1.0 - p_hat)) / (io_refData.L - 1));
+				const double	z_alpha = calc_Z_alpha(0.995);
+				double	p_u = p_hat + z_alpha * sqrt((p_hat * (1.0 - p_hat)) / static_cast<double>(io_refData.L - 1));
 
 				if (1.0 < p_u)
 				{
@@ -761,9 +759,9 @@ namespace entropy_estimator_lib
 			// -------------------------------------------------------------------------- //
 			ns_consts::EnmReturnStatus check_args_for_estimate(const ns_dt::t_data_for_estimator& i_refData)
 			{
-				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
+				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 
-				ns_consts::EnmReturnStatus	stsCommon = ns_spt::perform_common_args_for_estimate(i_refData);
+				const ns_consts::EnmReturnStatus	stsCommon = ns_spt::perform_common_args_for_estimate(i_refData);
 				if (ns_consts::EnmReturnStatus::Success != stsCommon)
 				{
 					return sts = stsCommon;
@@ -771,7 +769,6 @@ namespace entropy_estimator_lib
 
 				if (i_refData.L < 2)
 				{
-					sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 					return sts;
 				}
 
@@ -785,7 +782,6 @@ namespace entropy_estimator_lib
 				}
 				if (i_refData.t_6_3_6.cutoff != def_cutoff)
 				{
-					sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 					return sts;
 				}
 

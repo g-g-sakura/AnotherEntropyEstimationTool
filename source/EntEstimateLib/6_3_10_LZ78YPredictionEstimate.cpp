@@ -92,7 +92,7 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"	ymin=0," << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"	width=20cm," << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"	xlabel=length of run of ones in $correct$," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"	ylabel=occurences" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"	ylabel=occurrences" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"]" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\addplot+[ybar] coordinates {" << std::endl;
 				// -------------------------------------------------------------------------- //
@@ -139,10 +139,10 @@ namespace entropy_estimator_lib
 				// 
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\addplot+[Nigelle,no marks,sharp plot,update limits=false] " << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"coordinates {(" << io_refData.t_6_3_10.r - 1 << L", " << io_refData.t_6_3_10.occurences_at_longest_run << L") ";
-				(*io_refData.p_ssLaTeXFragment) << L"(" << io_refData.t_6_3_10.r - 1 << L", "<< io_refData.t_6_3_10.occurences_at_longest_run << L")}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"coordinates {(" << io_refData.t_6_3_10.r - 1 << L", " << io_refData.t_6_3_10.occurrences_at_longest_run << L") ";
+				(*io_refData.p_ssLaTeXFragment) << L"(" << io_refData.t_6_3_10.r - 1 << L", "<< io_refData.t_6_3_10.occurrences_at_longest_run << L")}" << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"node[above left] at (axis cs:" << io_refData.t_6_3_10.r - 1 << L", ";
-				(*io_refData.p_ssLaTeXFragment) << io_refData.t_6_3_10.occurences_at_longest_run << L")";
+				(*io_refData.p_ssLaTeXFragment) << io_refData.t_6_3_10.occurrences_at_longest_run << L")";
 				(*io_refData.p_ssLaTeXFragment) << L"{\\shortstack{$r - 1$ = ";
 				(*io_refData.p_ssLaTeXFragment) << io_refData.t_6_3_10.r - 1 << L" " << std::endl;
 				(*io_refData.p_ssLaTeXFragment) << L"\\\\($\\rightarrow$ min-entropy = " << io_refData.t_6_3_10.t_common.min_entropy;
@@ -275,7 +275,7 @@ namespace entropy_estimator_lib
 					return	sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
 				}
 
-				int		N = i_refData.p_bzInputS->length(blitz::firstDim) - i_refData.t_6_3_10.B - 1;
+				const int		N = i_refData.p_bzInputS->length(blitz::firstDim) - i_refData.t_6_3_10.B - 1;
 				o_ref_bz_correct.resize(N);
 				o_ref_bz_correct = 0;
 
@@ -488,7 +488,7 @@ namespace entropy_estimator_lib
 								std::cout << "argmax D[prev][y]:\t\t\t";
 								if (bIsPrevInDictionary)
 								{
-									std::cout << (int)y_candidate << std::endl;
+									std::cout << static_cast<int>(y_candidate) << std::endl;
 								}
 								else
 								{
@@ -520,11 +520,11 @@ namespace entropy_estimator_lib
 						}
 						else
 						{
-							std::cout << (int)prediction.value;
+							std::cout << static_cast<int>(prediction.value);
 						}
 						std::cout << std::endl;
-						std::cout << "s_{i}:\t\t\t\t\t" << (int)(*(i_refData.p_bzInputS))(i - 1) << std::endl;
-						std::cout << "correct_{i - B - 1}:\t\t\t\t\t" << (int)io_ref_bz_correct(i - i_refData.t_6_3_10.B - 2) << std::endl;
+						std::cout << "s_{i}:\t\t\t\t\t" << static_cast<int>((*(i_refData.p_bzInputS))(i - 1)) << std::endl;
+						std::cout << "correct_{i - B - 1}:\t\t\t\t\t" << static_cast<int>(io_ref_bz_correct(i - i_refData.t_6_3_10.B - 2)) << std::endl;
 					}
 				}
 
@@ -539,7 +539,7 @@ namespace entropy_estimator_lib
 			/// </remarks>
 			/// <params="o_refC">
 			/// </params>
-			/// <params="o_ref_bz_correct">
+			/// <params="i_ref_bz_correct">
 			/// </params>
 			/// <returns>
 			/// </returns>
@@ -548,11 +548,11 @@ namespace entropy_estimator_lib
 			/// <postcondition>
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
-			ns_consts::EnmReturnStatus step4minus(int& o_refC, blitz::Array<ns_dt::octet, 1>& io_ref_bz_correct)
+			ns_consts::EnmReturnStatus step4minus(int& o_refC, const blitz::Array<ns_dt::octet, 1>& i_ref_bz_correct)
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 
-				o_refC = blitz::count(io_ref_bz_correct == (ns_dt::octet)1);
+				o_refC = blitz::count(i_ref_bz_correct == static_cast<ns_dt::octet>(1));
 
 				return sts = ns_consts::EnmReturnStatus::Success;
 			}
@@ -584,16 +584,16 @@ namespace entropy_estimator_lib
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 
-				o_ref_p_global = (double)i_refC / (double)i_refN;
+				o_ref_p_global = static_cast<double>(i_refC) / static_cast<double>(i_refN);
 
 				if (0 == i_refC)
 				{
-					o_ref_p_prime_global = 1.0 - pow(0.01, 1.0 / (double)i_refN);
+					o_ref_p_prime_global = 1.0 - pow(0.01, 1.0 / static_cast<double>(i_refN));
 				}
 				else
 				{
-					double z_alpha = calc_Z_alpha(0.995);
-					o_ref_p_prime_global = o_ref_p_global + z_alpha * sqrt(o_ref_p_global * (1.0 - o_ref_p_global) / (double)(i_refN - 1));
+					const double z_alpha = calc_Z_alpha(0.995);
+					o_ref_p_prime_global = o_ref_p_global + z_alpha * sqrt(o_ref_p_global * (1.0 - o_ref_p_global) / static_cast<double>(i_refN - 1));
 					if (1.0 < o_ref_p_prime_global)
 					{
 						o_ref_p_prime_global = 1.0;
@@ -616,7 +616,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refN">
 			/// </params>
-			/// <params="o_ref_occurences_at_logest_run">
+			/// <params="o_ref_occurrences_at_longest_run">
 			/// </params>
 			/// <params="o_refSSFragmentForLaTeX">
 			/// </params>
@@ -632,8 +632,8 @@ namespace entropy_estimator_lib
 			ns_consts::EnmReturnStatus step5(int& o_ref_r,
 				double& o_ref_p_local,
 				const blitz::Array<ns_dt::octet, 1>& i_ref_bz_correct,
-				int& i_refN,
-				int& o_ref_occurences_at_logest_run,
+				const int& i_refN,
+				int& o_ref_occurrences_at_longest_run,
 				std::wstringstream& o_refSSFragmentForLaTeX,
 				bool i_bIsGeneratingReportInLaTeXformatRequested)
 			{
@@ -661,14 +661,14 @@ namespace entropy_estimator_lib
 							// -------------------------------------------------------------------------- //
 							// 
 							// -------------------------------------------------------------------------- //
-							std::map<int, int>::iterator	mit = mp_correct.find(r_prev);
+							auto	mit = mp_correct.find(r_prev);
 							if (mit == mp_correct.end())
 							{
 								mp_correct.insert(std::make_pair(r_prev, 1));
 							}
 							else
 							{
-								int count = mit->second;
+								const int count = mit->second;
 								mit->second = (count + 1);
 							}
 						}
@@ -703,14 +703,14 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
-				std::map<int, int>::iterator	mit = mp_correct.find(r_current);
+				const auto	mit = mp_correct.find(r_current);
 				if (mit == mp_correct.end())
 				{
 					mp_correct.insert(std::make_pair(r_current, 1));
 				}
 				else
 				{
-					int count = mit->second;
+					const int count = mit->second;
 					mit->second = (count + 1);
 				}
 				// -------------------------------------------------------------------------- //
@@ -718,15 +718,15 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				if (i_bIsGeneratingReportInLaTeXformatRequested)
 				{
-					for (std::map<int, int>::const_iterator cit = mp_correct.cbegin(); cit != mp_correct.cend(); cit++)
+					for (const auto&e : mp_correct)
 					{
 						o_refSSFragmentForLaTeX << L"(";
-						o_refSSFragmentForLaTeX << std::setw(8) << cit->first << L"," << std::setw(8) << cit->second;
+						o_refSSFragmentForLaTeX << std::setw(8) << e.first << L"," << std::setw(8) << e.second;
 						o_refSSFragmentForLaTeX << L")" << std::endl;
 
-						if (cit->first == o_ref_r)
+						if (e.first == o_ref_r)
 						{
-							o_ref_occurences_at_logest_run = cit->second;
+							o_ref_occurrences_at_longest_run = e.second;
 						}
 					}
 				}
@@ -740,9 +740,9 @@ namespace entropy_estimator_lib
 				ns_math::RhsMinusLhs	fnc(o_ref_r, i_refN, 0.99);
 				double	lowerbound = pow(0.5, 20.0);
 				double	upperbound = 1.0 - pow(0.5, 20.0);
-				boost::math::tools::eps_tolerance<double> tol(std::numeric_limits<double>::digits - 4);
+				const boost::math::tools::eps_tolerance<double> tol(std::numeric_limits<double>::digits - 4);
 				boost::uintmax_t it = 32;
-				std::pair<double, double>	rg = boost::math::tools::toms748_solve(fnc, lowerbound, upperbound, tol, it);
+				const std::pair<double, double>	rg = boost::math::tools::toms748_solve(fnc, lowerbound, upperbound, tol, it);
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
@@ -771,7 +771,7 @@ namespace entropy_estimator_lib
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 
-				ns_consts::EnmReturnStatus	stsCommon = ns_spt::perform_common_args_for_estimate(i_refData);
+				const ns_consts::EnmReturnStatus	stsCommon = ns_spt::perform_common_args_for_estimate(i_refData);
 				if (ns_consts::EnmReturnStatus::Success != stsCommon)
 				{
 					return sts = stsCommon;
@@ -823,7 +823,7 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
-				int		N = io_refData.p_bzInputS->length(blitz::firstDim) - io_refData.t_6_3_10.B - 1;
+				const int		N = io_refData.p_bzInputS->length(blitz::firstDim) - io_refData.t_6_3_10.B - 1;
 				blitz::Array<ns_dt::octet, 1>	bz_correct(N);
 				bz_correct = 0;
 				// -------------------------------------------------------------------------- //
@@ -889,7 +889,7 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				// Step 4.
 				//  Calculate the predictor' s global performance as P_{global} = C / N.
-				//  The upper bound of the 99% confidence interval on P_{global}, denoted P'_{gloabal} is calculated as:
+				//  The upper bound of the 99% confidence interval on P_{global}, denoted P'_{global} is calculated as:
 				// -------------------------------------------------------------------------- //
 				io_refData.t_6_3_10.p_global = 0;
 				io_refData.t_6_3_10.p_prime_global = 0.0;
@@ -910,9 +910,9 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				io_refData.t_6_3_10.p_local = 0.0;
 				io_refData.t_6_3_10.r = 0;
-				io_refData.t_6_3_10.occurences_at_longest_run = 0;
+				io_refData.t_6_3_10.occurrences_at_longest_run = 0;
 				sts = step5(io_refData.t_6_3_10.r, io_refData.t_6_3_10.p_local, bz_correct, N, 
-					io_refData.t_6_3_10.occurences_at_longest_run, 
+					io_refData.t_6_3_10.occurrences_at_longest_run, 
 					ssFragmentForLaTeX, io_refData.isGeneratingReportInLaTeXformatRequested);
 				if (ns_consts::EnmReturnStatus::Success != sts)
 				{
@@ -922,7 +922,7 @@ namespace entropy_estimator_lib
 				// Step 6.
 				//  The min-entropy is the negative logarithm of the greater performance metric
 				// -------------------------------------------------------------------------- //
-				double	one_over_k = 1.0 / (double)io_refData.k;
+				const double	one_over_k = 1.0 / static_cast<double>(io_refData.k);
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
@@ -947,7 +947,7 @@ namespace entropy_estimator_lib
 						// -------------------------------------------------------------------------- //
 						// evaluate number of significant digits based on p_local
 						// -------------------------------------------------------------------------- //
-						ns_consts::EnmReturnStatus	stsNumSignificantDigits = ns_es::evaluateSignificantDigitsOfMinEntropyByPlocalSP800_90B_6_3_7_6_3_10(
+						const ns_consts::EnmReturnStatus	stsNumSignificantDigits = ns_es::evaluateSignificantDigitsOfMinEntropyByPlocalSP800_90B_6_3_7_6_3_10(
 							min_entropy_lower_bound, min_entropy_upper_bound,
 							number_of_significant_digits, io_refData.t_6_3_10.r, N, io_refData.k);
 						if (ns_consts::EnmReturnStatus::Success == stsNumSignificantDigits)
@@ -973,7 +973,7 @@ namespace entropy_estimator_lib
 						// -------------------------------------------------------------------------- //
 						// evaluate number of significant digits based on p_prime_global
 						// -------------------------------------------------------------------------- //
-						ns_consts::EnmReturnStatus	stsNumSignificantDigits = ns_es::evaluateSignificantDigitsOfMinEntropyByPglobalSP800_90B_6_3_7_6_3_10(
+						const ns_consts::EnmReturnStatus	stsNumSignificantDigits = ns_es::evaluateSignificantDigitsOfMinEntropyByPglobalSP800_90B_6_3_7_6_3_10(
 							min_entropy_lower_bound, min_entropy_upper_bound,
 							number_of_significant_digits, io_refData.t_6_3_10.C, N);
 						if (ns_consts::EnmReturnStatus::Success == stsNumSignificantDigits)

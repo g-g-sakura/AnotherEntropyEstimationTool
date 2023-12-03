@@ -14,7 +14,6 @@
 
 #include <blitz/array.h>
 #include <ctime>
-#include <sstream>
 
 namespace entropy_estimator_lib
 {
@@ -36,7 +35,7 @@ namespace entropy_estimator_lib
 			}
 			else
 			{
-				os << (int)nt.value;
+				os << static_cast<int>(nt.value);
 			}
 			return	os;
 		}
@@ -95,9 +94,9 @@ namespace entropy_estimator_lib
 			// 
 			// -------------------------------------------------------------------------- //
 			double	p;
-			double	x_bar;
-			double	sigma_hat;
-			double	x_bar_prime;
+			long double	x_bar;
+			long double	sigma_hat;
+			long double	x_bar_prime;
 
 			bool	bIsRootFound;
 		} t_data_for_collision_estimate;
@@ -210,7 +209,7 @@ namespace entropy_estimator_lib
 			double	p_global;
 
 			int		r;
-			int		occurences_at_longest_run;
+			int		occurrences_at_longest_run;
 
 			int		N;
 			int		C;
@@ -236,7 +235,7 @@ namespace entropy_estimator_lib
 			double	p_global;
 
 			int		r;
-			int		occurences_at_longest_run;
+			int		occurrences_at_longest_run;
 
 			int		D;
 			int		N;
@@ -263,7 +262,7 @@ namespace entropy_estimator_lib
 			double	number_of_significant_digits;
 
 			int		r;
-			int		occurences_at_longest_run;
+			int		occurrences_at_longest_run;
 
 			int		D;
 			int		N;
@@ -293,7 +292,7 @@ namespace entropy_estimator_lib
 			// 
 			// -------------------------------------------------------------------------- //
 			int		r;
-			int		occurences_at_longest_run;
+			int		occurrences_at_longest_run;
 
 			int		B;
 			int		N;
@@ -304,7 +303,7 @@ namespace entropy_estimator_lib
 		typedef struct _TDataForEstimator
 		{
 			unsigned int			k;	// size of alphabet
-			unsigned int			L;	// size of input
+			uintmax_t				L;	// size of input
 			unsigned int			bits_per_sample;	//
 			blitz::Array<octet, 1>	*p_bzSampleSpaceA;
 			blitz::Array<octet, 1>	*p_bzInputS;
