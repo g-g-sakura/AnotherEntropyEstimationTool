@@ -8,7 +8,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include <string>
 #include <boost/program_options.hpp>
-#include <boost/filesystem.hpp>
 #include "EntEstimateLib/support/enumerateAlphabet.h"
 #include "EntEstimateLib/support/setUp.h"
 #include "parse.h"

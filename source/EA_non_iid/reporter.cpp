@@ -6,10 +6,8 @@
 // Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
-#include <string>
 #include "reporter.h"
 #include <boost/program_options.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/foreach.hpp>
@@ -18,7 +16,6 @@
 #include <boost/filesystem/fstream.hpp>
 #include <vector>
 #include <sstream>
-#include <ctime>
 #include <Windows.h>
 #include <boost/version.hpp>
 #include "calcMessageDigest.h"
