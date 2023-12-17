@@ -135,9 +135,9 @@
 %%%%%%
 %%%%%%
 \title{Report of Entropy estimates based on NIST SP 800-90B non-IID track}
-\date{2023-Nov-04 08:13:25.650116}
+\date{2023-Dec-17 11:07:02.803871}
 \begin{document}
-%\StopCensoring
+\StopCensoring
 \maketitle
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%
@@ -154,13 +154,15 @@
 \begin{center}
 \begin{tabular}{|>{\columncolor{anotherlightblue}}p{2cm}|p{20.5cm}|}
 \hline 
-URL of the acquisition data & \url{https://github.com/usnistgov/SP800-90B_EntropyAssessment/blob/master/bin/rand8_short.bin} \\
+Path to the acquisition data & \verb|"D:\usr\SP800-90B_EntropyAssessment-master\bin\rand8_short.bin"| \\
 \hline
 SHA-256 hash value of the acquisition data [hex] & 
 \begin{verbatim}
 17d2eaf9 544cd6ae a3e245be c362f494 376d0b1c a6140c47 5a35f1ad 1f8c2803
 \end{verbatim} 
 \\
+\hline
+Last write time & 2021-Sep-20 10:22:44 \\
 \hline
 \end{tabular}
 \end{center}
@@ -187,19 +189,19 @@ SHA-256 hash value of the acquisition data [hex] &
 \hline 
 Analysis tool & Name & Another entropy estimation tool with extensions \\
 \cline{2-3}
-\, & Versioning information & 1.0.50 \\
+\, & Versioning information & 1.0.52 \\
 \cline{2-3}
 \, & built as &  64-bit application \\
 \cline{2-3}
-\, & built by &  Intel C++ Compiler ( \verb|__INTEL_LLVM_COMPILER|: 20230202 ) \\
+\, & built by &  Intel C++ Compiler ( \verb|__INTEL_LLVM_COMPILER|: 20240000 ) \\
 \cline{2-3}
-\, & linked libraries &  Boost C++ 1.83.0 \\
+\, & linked libraries &  Boost C++ 1.84.0 \\
 \hline
 Analysis environment & Hostname & \censor{PANTHERF340} \\
 \cline{2-3}
-\, & CPU information & Intel(R) Core(TM) i5\censor{-10500T CPU @ 2.30GHz} \\
+\, & CPU information & Intel(R) Core(TM) i5-10500T CPU @ 2.30GHz \\
 \cline{2-3}
-\, &  Physical memory size & \censor{65239} MiB \\
+\, &  Physical memory size & 65239 MiB \\
 \cline{2-3}
 \, &  OS information & Windows 10 or greater 64-bit \\
 \cline{2-3}
@@ -792,7 +794,7 @@ $p_u$				& 0.00639341\\ \hline
 	ymin=0,
 	width=20cm,
 	xlabel=length of run of ones in $correct$,
-	ylabel=occurences
+	ylabel=occurrences
 ]
 \addplot+[ybar] coordinates {
 (       1,       2)
@@ -837,7 +839,7 @@ $P_{\textrm{local}}$ 			& 0.00100624\\ \hline
 	ymin=0,
 	width=20cm,
 	xlabel=length of run of ones in $correct$,
-	ylabel=occurences
+	ylabel=occurrences
 ]
 \addplot+[ybar] coordinates {
 (       1,       2)
@@ -883,7 +885,7 @@ $P_{\textrm{local}}$ 			& 0.0100515\\ \hline
 	ymin=0,
 	width=20cm,
 	xlabel=length of run of ones in $correct$,
-	ylabel=occurences
+	ylabel=occurrences
 ]
 \addplot+[ybar] coordinates {
 (       1,       2)
@@ -928,7 +930,7 @@ $P_{\textrm{local}}$ 			& 0.00100317\\ \hline
 	ymin=0,
 	width=20cm,
 	xlabel=length of run of ones in $correct$,
-	ylabel=occurences
+	ylabel=occurrences
 ]
 \addplot+[ybar] coordinates {
 (       1,       2)
@@ -1020,7 +1022,7 @@ $p_u$				& 0.505791\\ \hline
 	ymin=0,
 	width=20cm,
 	xlabel=$t_{\nu}$,
-	ylabel=occurences of $t_{\nu}$
+	ylabel=occurrences of $t_{\nu}$
 ]
 \addplot+[ybar] coordinates {
 (       2,    16016)
@@ -1864,7 +1866,7 @@ $p_u$				& 0.506302\\ \hline
 	ymin=0,
 	width=20cm,
 	xlabel=length of run of ones in $correct$,
-	ylabel=occurences
+	ylabel=occurrences
 ]
 \addplot+[ybar] coordinates {
 (       1,       1)
@@ -1916,7 +1918,7 @@ $P_{\textrm{local}}$ 			& 0.357072\\ \hline
 	ymin=0,
 	width=20cm,
 	xlabel=length of run of ones in $correct$,
-	ylabel=occurences
+	ylabel=occurrences
 ]
 \addplot+[ybar] coordinates {
 (       2,       2)
@@ -1966,7 +1968,7 @@ $P_{\textrm{local}}$ 			& 0.330783\\ \hline
 	ymin=0,
 	width=20cm,
 	xlabel=length of run of ones in $correct$,
-	ylabel=occurences
+	ylabel=occurrences
 ]
 \addplot+[ybar] coordinates {
 (       1,       1)
@@ -2016,7 +2018,7 @@ $P_{\textrm{local}}$ 			& 0.357053\\ \hline
 	ymin=0,
 	width=20cm,
 	xlabel=length of run of ones in $correct$,
-	ylabel=occurences
+	ylabel=occurrences
 ]
 \addplot+[ybar] coordinates {
 (       1,       1)
