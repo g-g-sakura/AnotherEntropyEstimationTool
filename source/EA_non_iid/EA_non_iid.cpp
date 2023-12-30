@@ -10,11 +10,9 @@
 #include <iostream>
 #include <string>
 #include <boost/program_options.hpp>
-#include <boost/filesystem.hpp>
 #include "parse.h"
 #include "runEntropyEstimates.h"
 #include "hostinfo.h"
-#include "reporter.h"
 #include "toolinfo.h"
 
 namespace bs_fs = boost::filesystem;

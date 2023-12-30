@@ -12,8 +12,6 @@
 #ifndef __ENTROPY_ESTIMATOR_LIB_WINDOWED_HISTOGRAM_H__
 #define __ENTROPY_ESTIMATOR_LIB_WINDOWED_HISTOGRAM_H__
 
-#include "../EntropyEstimateData.h"
-#include "../constants.h"
 #include "IHistogram.h"
 #include <boost/multi_index_container.hpp>
 #include <boost/multi_index/sequenced_index.hpp>

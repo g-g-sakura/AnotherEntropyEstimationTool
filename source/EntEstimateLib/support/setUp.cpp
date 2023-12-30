@@ -10,7 +10,6 @@
 #include "setUp.h"
 #include <boost/filesystem.hpp>
 #include <fstream>
-namespace fs = boost::filesystem;
 
 namespace entropy_estimator_lib
 {
@@ -18,6 +17,7 @@ namespace entropy_estimator_lib
 	{
 		namespace ns_consts = entropy_estimator_lib::constants;
 		namespace ns_dt = entropy_estimator_lib::data_types;
+		namespace bs_fs = boost::filesystem;
 
 		// -------------------------------------------------------------------------- //
 		/// <summary>
@@ -174,7 +174,7 @@ namespace entropy_estimator_lib
 		/// </postcondition>
 		// -------------------------------------------------------------------------- //
 		ns_consts::EnmReturnStatus loadSamples(ns_dt::t_data_for_estimator& io_refData,
-			const fs::path& i_refFullPath)
+			const bs_fs::path& i_refFullPath)
 		{
 			ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 
@@ -185,7 +185,7 @@ namespace entropy_estimator_lib
 			{
 				return	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
 			}
-			const boost::uintmax_t size = fs::file_size(i_refFullPath);
+			const boost::uintmax_t size = bs_fs::file_size(i_refFullPath);
 			// -------------------------------------------------------------------------- //
 			//
 			// -------------------------------------------------------------------------- //
@@ -238,7 +238,7 @@ namespace entropy_estimator_lib
 		/// </postcondition>
 		// -------------------------------------------------------------------------- //
 		ns_consts::EnmReturnStatus loadSamplesByInterpretation(ns_dt::t_data_for_estimator& io_refData,
-			const fs::path& i_refFullPath,
+			const bs_fs::path& i_refFullPath,
 			const uintmax_t i_number_of_bits_to_be_loaded,
 			const unsigned int i_bits_per_sample)
 		{
@@ -262,7 +262,7 @@ namespace entropy_estimator_lib
 			{
 				return	sts = ns_consts::EnmReturnStatus::ErrorDomain;
 			}
-			const boost::uintmax_t size = fs::file_size(i_refFullPath);
+			const boost::uintmax_t size = bs_fs::file_size(i_refFullPath);
 			// -------------------------------------------------------------------------- //
 			//
 			// -------------------------------------------------------------------------- //

@@ -110,17 +110,17 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_83_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_84_0;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_83_0;$(ExternalIncludePath)</ExternalIncludePath>
-    <IncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_83_0;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_84_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <IncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_84_0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Intel|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_83_0;$(ExternalIncludePath)</ExternalIncludePath>
-    <IncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_83_0;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_84_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <IncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_84_0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

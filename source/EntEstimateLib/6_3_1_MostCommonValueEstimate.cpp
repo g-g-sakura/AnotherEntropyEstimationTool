@@ -9,7 +9,6 @@
 #include "pch.h"
 #include "6_3_1_MostCommonValueEstimate.h"
 #include "./support/checkArgs.h"
-#include <cmath>
 #include "./math/SpecialFunctions.h"
 #include "./support/WindowedHistogram.h"
 
