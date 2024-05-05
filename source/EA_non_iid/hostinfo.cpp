@@ -44,12 +44,11 @@ ns_consts::EnmReturnStatus getCPUInfo(std::wstring& o_refCPUInfo)
     memset(infoBuf, 0, sizeof(infoBuf));
     // Obtain the CPU information.
     int CPUInfo[4] = { -1 };
-    unsigned   nExIds, i = 0;
     char CPUBrandString[0x40];
     // Get the information associated with each extended ID.
     __cpuid(CPUInfo, 0x80000000);
-    nExIds = CPUInfo[0];
-    for (i = 0x80000000; i <= nExIds; ++i)
+    unsigned    nExIds = CPUInfo[0];
+    for (unsigned i = 0x80000000; i <= nExIds; ++i)
     {
         __cpuid(CPUInfo, i);
         // Interpret CPU brand string
@@ -162,7 +161,7 @@ ns_consts::EnmReturnStatus getUserInfo(std::wstring& o_refUserInfo)
 	ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 
 	memset(infoBuf, 0, sizeof(infoBuf));
-	// Obtain the user name.
+	// Obtain the username.
 	if (!GetUserName(infoBuf, &bufCharCount))
 	{
 		return	sts;

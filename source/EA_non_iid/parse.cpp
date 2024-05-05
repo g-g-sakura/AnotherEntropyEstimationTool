@@ -72,7 +72,7 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
         // 
         // -------------------------------------------------------------------------- //
         if (po_vm.count("help")) {
-            std::cout << desc << std::endl;
+            std::cout << desc << "\n";
             return  sts = ns_consts::EnmReturnStatus::ErrorNoTask;
         }
         // -------------------------------------------------------------------------- //
@@ -82,7 +82,7 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
         if (po_vm.count("bits_per_sample")) {
             if ((bits_per_sample < 1) || (8 < bits_per_sample)) {
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE);
-                std::cout << "# [ERROR]: Invalid bits per symbol." << std::endl;
+                std::cout << "# [ERROR]: Invalid bits per symbol." << "\n";
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
                 return  sts;
             }
@@ -94,19 +94,19 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
         if (po_vm.count("file")) {
             const bs_fs::path file_path = po_vm["file"].as<std::wstring>(); // <<<
             std::wcout << L"# [INFO]: Opening file:\t";
-            std::wcout << file_path << std::endl;
+            std::wcout << file_path << "\n";
 
             boost::system::error_code error;
             const bool result = bs_fs::exists(file_path, error);
             if (!result || error) {
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE);
-                std::cout << "# [ERROR]: Specified file was not found." << std::endl;
+                std::cout << "# [ERROR]: Specified file was not found." << "\n";
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 
                 return  sts;
             }
             else {
-                std::cout << "# [INFO]: Specified file was found." << std::endl;
+                std::cout << "# [INFO]: Specified file was found." << "\n";
             }
             // -------------------------------------------------------------------------- //
             // full path
@@ -124,11 +124,11 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
             // -------------------------------------------------------------------------- //
             const boost::uintmax_t size = bs_fs::file_size(file_path);
 
-            std::cout << "Its file size: " << size << "-byte" << std::endl;
+            std::cout << "Its file size: " << size << "-byte" << "\n";
             if (file_size_limit < size)
             {
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE);
-                std::cout << "# [ERROR]: Huge file is specified, so the estimation is stopped." << std::endl;
+                std::cout << "# [ERROR]: Huge file is specified, so the estimation is stopped." << "\n";
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
                 return  sts;
             }
@@ -159,7 +159,7 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
             if (io_refData.L < 1000000)
             {
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
-                std::cout << "# [WARNING]: data contains less than 1,000,000 samples." << std::endl;
+                std::cout << "# [WARNING]: data contains less than 1,000,000 samples." << "\n";
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
             }
             // -------------------------------------------------------------------------- //
@@ -169,7 +169,7 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
             if ((io_refData.L * bits_per_sample) < 6012)
             {
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE);
-                std::cout << "# [ERROR]: The number of samples does not meet one of pre-conditions specified in NIST SP 800-90B, so the estimation is stopped." << std::endl;
+                std::cout << "# [ERROR]: The number of samples does not meet one of pre-conditions specified in NIST SP 800-90B, so the estimation is stopped." << "\n";
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
                 return  sts = ns_consts::EnmReturnStatus::ErrorPreconditions;
             }
@@ -179,9 +179,9 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
             // -------------------------------------------------------------------------- //
             if ((io_refData.L) < 4097)
             {
-                std::cout << io_refData.L << std::endl;
+                std::cout << io_refData.L << "\n";
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE);
-                std::cout << "# [ERROR]: The number of samples does not meet one of pre-conditions specified in NIST SP 800-90B, so the estimation is stopped." << std::endl;
+                std::cout << "# [ERROR]: The number of samples does not meet one of pre-conditions specified in NIST SP 800-90B, so the estimation is stopped." << "\n";
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
                 return  sts = ns_consts::EnmReturnStatus::ErrorPreconditions;
             }
@@ -210,13 +210,13 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
                 if (po_vm.count("all")) {
                     if (po_vm.count("truncate")) {
                         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE);
-                        std::cout << "# [ERROR]: all and truncate cannot be used simultaneously." << std::endl;
+                        std::cout << "# [ERROR]: all and truncate cannot be used simultaneously." << "\n";
                         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
                         return  sts;
                     }
                     io_refData.isTestingAllBitsRequested = true;
                     io_refDataBitString.isTestingAllBitsRequested = true;
-                    std::cout << "# [INFO]: Requesting all bits in the bitstring to be tested" << std::endl;
+                    std::cout << "# [INFO]: Requesting all bits in the bitstring to be tested" << "\n";
                 }
                 else if (po_vm.count("truncate"))
                 {
@@ -233,7 +233,7 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
                             number_of_bits_to_be_loaded = bits_per_sample * ((def_number_of_bits_when_truncation + bits_per_sample - 1) / bits_per_sample);
                         }
                     }
-                    std::cout << "# [INFO]: Requesting first " << number_of_bits_to_be_loaded << " bits to be tested" << std::endl;
+                    std::cout << "# [INFO]: Requesting first " << number_of_bits_to_be_loaded << " bits to be tested" << "\n";
                 }
                 // -------------------------------------------------------------------------- //
                 // 
@@ -244,17 +244,17 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
                 if (po_vm.count("MSb")) {
                     if (po_vm.count("LSb")) {
                         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE);
-                        std::cout << "# [ERROR]: MSb and LSb cannot be used simultaneously." << std::endl;
+                        std::cout << "# [ERROR]: MSb and LSb cannot be used simultaneously." << "\n";
                         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
                         return  sts;
                     }
-                    std::cout << "# [INFO]: Byte to bitstring conversion is performed by assuming Most Significant bit (MSb) first." << std::endl;
+                    std::cout << "# [INFO]: Byte to bitstring conversion is performed by assuming Most Significant bit (MSb) first." << "\n";
                 }
                 else
                 {
                     if (po_vm.count("LSb")) {
                         io_refDataBitString.bIsMSbFirstByteBitConversion = false;
-                        std::cout << "# [INFO]: Byte to bitstring conversion is performed by assuming Least Significant bit (LSb) first." << std::endl;
+                        std::cout << "# [INFO]: Byte to bitstring conversion is performed by assuming Least Significant bit (LSb) first." << "\n";
                     }
                 }
                 // -------------------------------------------------------------------------- //
@@ -269,7 +269,7 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
                 // -------------------------------------------------------------------------- //
                 // 
                 // -------------------------------------------------------------------------- //
-                std::cout << "# [INFO]: Loaded " << io_refData.L << " samples of " << io_refData.k << " distinct " << bits_per_sample << "-bit-wide symbols" << std::endl;
+                std::cout << "# [INFO]: Loaded " << io_refData.L << " samples of " << io_refData.k << " distinct " << bits_per_sample << "-bit-wide symbols" << "\n";
             }
         }
         else {
@@ -283,8 +283,8 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
         // 
         // -------------------------------------------------------------------------- //
         if (po_vm.count("LaTeX")) {
-            std::cout << "# [INFO]: Generating a report in LaTeX format is requested." << std::endl;
-            std::cout << "# [INFO]: The report in LaTeX format will be output in the same folder as the input file." << std::endl;
+            std::cout << "# [INFO]: Generating a report in LaTeX format is requested." << "\n";
+            std::cout << "# [INFO]: The report in LaTeX format will be output in the same folder as the input file." << "\n";
             io_refData.isGeneratingReportInLaTeXformatRequested = true;
             if (1 < bits_per_sample)
             {
@@ -298,7 +298,7 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
         if (po_vm.count("verbose_level")) {
             if ((vl < 0) || (3 < vl)) {
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE);
-                std::cout << "# [ERROR]: Invalid verbose level." << std::endl;
+                std::cout << "# [ERROR]: Invalid verbose level." << "\n";
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
                 return  sts;
             }

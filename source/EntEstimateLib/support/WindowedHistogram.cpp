@@ -54,7 +54,7 @@ namespace entropy_estimator_lib
 					ns_dt::octet	x = (*i_refData.p_bzInputS)(i);
 
 					// -------------------------------------------------------------------------- //
-					// idx‚ðƒL[‚É‚µ‚ÄŒŸõ
+					// search an item by using idx as a key
 					// -------------------------------------------------------------------------- //
 					idx_map::iterator it = this->m_hg.get<idx>().find(x);
 					if (it != this->m_hg.get<idx>().end()) {
@@ -283,7 +283,9 @@ namespace entropy_estimator_lib
 				{
 					WindowedHistogram* p_whg = this->m_hg_array[j];
 					delete p_whg;
+					this->m_hg_array[j] = nullptr;
 				}
+				this->m_hg_array.clear();
 			}
 
 			// -------------------------------------------------------------------------- //
@@ -544,6 +546,7 @@ namespace entropy_estimator_lib
 					{
 						WindowedHistogram* p_whg = (*p_vwhg)[j];
 						delete p_whg;
+						(*p_vwhg)[j] = nullptr;
 					}
 				}
 			}

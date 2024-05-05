@@ -82,7 +82,7 @@ ns_consts::EnmReturnStatus runEntropyEstimatesBinary(ns_dt::t_data_for_estimator
         sts = (*funcs_binary[j])(io_refData);
         if (ns_consts::EnmReturnStatus::Success != sts)
         {
-            std::cout << "The entropy estimate was terminated..." << std::endl;
+            std::cout << "The entropy estimate was terminated..." << "\n";
             return  sts;
         }
         // -------------------------------------------------------------------------- //
@@ -165,8 +165,8 @@ ns_consts::EnmReturnStatus runEntropyEstimatesBinary(ns_dt::t_data_for_estimator
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    std::cout << std::endl;
-    std::cout << "H_original\t\t\t:\t" << min_entropy_bitstring << std::endl;
+    std::cout << "\n";
+    std::cout << "H_original\t\t\t:\t" << min_entropy_bitstring << "\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -279,7 +279,7 @@ ns_consts::EnmReturnStatus runEntropyEstimatesNonBinary(ns_dt::t_data_for_estima
             sts = (*funcs_non_binary[j])(*pData);
             if (ns_consts::EnmReturnStatus::Success != sts)
             {
-                std::cout << "The entropy estimate was terminated..." << std::endl;
+                std::cout << "The entropy estimate was terminated..." << "\n";
                 return  sts;
             }
             // -------------------------------------------------------------------------- //
@@ -386,16 +386,16 @@ ns_consts::EnmReturnStatus runEntropyEstimatesNonBinary(ns_dt::t_data_for_estima
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    std::cout << std::endl;
-    std::cout << "H_original\t\t\t:\t" << min_entropy_literal << std::endl;
-    std::cout << "H_bitstring\t\t\t:\t" << min_entropy_bitstring << std::endl;
-    std::cout << std::endl;
+    std::cout << "\n";
+    std::cout << "H_original\t\t\t:\t" << min_entropy_literal << "\n";
+    std::cout << "H_bitstring\t\t\t:\t" << min_entropy_bitstring << "\n";
+    std::cout << "\n";
     double  min_entropy_global = min_entropy_literal;
     if (static_cast<double>(io_refDataOriginal.bits_per_sample) * min_entropy_bitstring < min_entropy_literal)
     {
         min_entropy_global = static_cast<double>(io_refDataOriginal.bits_per_sample) * min_entropy_bitstring;
     }
-    std::cout << "min(H_original, 8 X H_bitstring):\t" << min_entropy_global << std::endl;
+    std::cout << "min(H_original, 8 X H_bitstring):\t" << min_entropy_global << "\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //

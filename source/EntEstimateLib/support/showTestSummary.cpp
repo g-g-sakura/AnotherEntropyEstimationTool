@@ -47,9 +47,9 @@ namespace entropy_estimator_lib
 			// 
 			// -------------------------------------------------------------------------- //
 			o_refStream.str("");
-			o_refStream << std::endl << std::endl;
-			o_refStream << "# -------------------------------------------------------------------------- " << std::endl;
-			o_refStream << "# " << std::endl;
+			o_refStream << "\n" << "\n";
+			o_refStream << "# -------------------------------------------------------------------------- " << "\n";
+			o_refStream << "# " << "\n";
 			o_refStream << "# Running ";
 			switch (i_enmEstimator)
 			{
@@ -86,8 +86,8 @@ namespace entropy_estimator_lib
 			default:
 				break;
 			}
-			o_refStream << std::endl;
-			o_refStream << "# " << std::endl;
+			o_refStream << "\n";
+			o_refStream << "# " << "\n";
 			// -------------------------------------------------------------------------- //
 			// 
 			// -------------------------------------------------------------------------- //
@@ -104,7 +104,7 @@ namespace entropy_estimator_lib
 			default:
 				break;
 			}
-			o_refStream << std::endl;
+			o_refStream << "\n";
 			// -------------------------------------------------------------------------- //
 			// 
 			// -------------------------------------------------------------------------- //
@@ -112,7 +112,7 @@ namespace entropy_estimator_lib
 				boost::posix_time::ptime(
 					boost::posix_time::microsec_clock::local_time());
 
-			o_refStream << "#\tThis estimate was initiated at \t" << pt_s << std::endl;
+			o_refStream << "#\tThis estimate was initiated at \t" << pt_s << "\n";
 			// -------------------------------------------------------------------------- //
 			// 
 			// -------------------------------------------------------------------------- //
@@ -208,8 +208,8 @@ namespace entropy_estimator_lib
 			// 
 			// -------------------------------------------------------------------------- //
 			o_refStream.str("");
-			o_refStream << "# " << std::endl;
-			o_refStream << "#\tThis estimate was finished at \t" << pt_e << std::endl;
+			o_refStream << "# " << "\n";
+			o_refStream << "#\tThis estimate was finished at \t" << pt_e << "\n";
 			// -------------------------------------------------------------------------- //
 			// 
 			// -------------------------------------------------------------------------- //
@@ -258,7 +258,7 @@ namespace entropy_estimator_lib
 				const boost::posix_time::time_duration    td = pt_e - pt_s - tdelta;
 				p_perf->duration = boost::posix_time::to_tm(td);
 
-				o_refStream << "#\tThe time duration for this Entropy Estimate :\t" << boost::posix_time::to_simple_string(td) << std::endl;
+				o_refStream << "#\tThe time duration for this Entropy Estimate :\t" << boost::posix_time::to_simple_string(td) << "\n";
 			}
 			// -------------------------------------------------------------------------- //
 			// 
@@ -330,7 +330,7 @@ namespace entropy_estimator_lib
 			// 
 			// -------------------------------------------------------------------------- //
 			o_refStream.str("");
-			o_refStream << "# Finalizing ..." << std::endl;
+			o_refStream << "# Finalizing ..." << "\n";
 			// -------------------------------------------------------------------------- //
 			// 
 			// -------------------------------------------------------------------------- //
@@ -343,34 +343,34 @@ namespace entropy_estimator_lib
 				if (1 < io_refData.verbose_level)
 				{
 					o_refStream << ssSeparator.str();
-					o_refStream << "#   " << "Mode count \t= " << io_refData.t_6_3_1.mode << std::endl;
-					o_refStream << "#   " << "p-hat \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_1.p_hat << std::endl;
-					o_refStream << "#   " << "p_u \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_1.p_u << std::endl;
+					o_refStream << "#   " << "Mode count \t= " << io_refData.t_6_3_1.mode << "\n";
+					o_refStream << "#   " << "p-hat \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_1.p_hat << "\n";
+					o_refStream << "#   " << "p_u \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_1.p_u << "\n";
 					o_refStream << "#   " << "min entropy (lower bound)" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_1.t_common.min_entropy_lower_bound << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_1.t_common.min_entropy_lower_bound << ssUnitInfo.str() << "\n";
 					o_refStream << "#   " << "min entropy (upper bound)" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_1.t_common.min_entropy_upper_bound << ssUnitInfo.str() << std::endl;
-					o_refStream << "#   " << "number of significant digits of min entropy \t= " << std::setprecision(2) << io_refData.t_6_3_1.t_common.number_of_significant_digits << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_1.t_common.min_entropy_upper_bound << ssUnitInfo.str() << "\n";
+					o_refStream << "#   " << "number of significant digits of min entropy \t= " << std::setprecision(2) << io_refData.t_6_3_1.t_common.number_of_significant_digits << "\n";
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
 					o_refStream << ssSeparatorSimple.str();
-					o_refStream << "# " << ssSampleInterp.str() << "MCV Estimate:\t" << std::endl;
+					o_refStream << "# " << ssSampleInterp.str() << "MCV Estimate:\t" << "\n";
 					o_refStream << "#   " << "min entropy" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_1.t_common.min_entropy << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_1.t_common.min_entropy << ssUnitInfo.str() << "\n";
 				}
 				else
 				{
 					o_refStream << "# " << ssSampleInterp.str() << "MCV Estimate:\t";
 					o_refStream << "mode = " << io_refData.t_6_3_1.mode << ", ";
 					o_refStream << "p-hat = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_1.p_hat << ", ";
-					o_refStream << "p_u = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_1.p_u << std::endl;
+					o_refStream << "p_u = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_1.p_u << "\n";
 					o_refStream << ssSeparator.str();
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
 					o_refStream << "\tMost Common Value Estimate" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_1.t_common.min_entropy << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_1.t_common.min_entropy << ssUnitInfo.str() << "\n";
 				}
 				break;
 			case ns_consts::EnmNonIIDTrack::EstimatorCollision:
@@ -380,40 +380,40 @@ namespace entropy_estimator_lib
 				if (1 < io_refData.verbose_level)
 				{
 					o_refStream << ssSeparator.str();
-					o_refStream << "#   " << "X-bar \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_2.x_bar << std::endl;
-					o_refStream << "#   " << "sigma-hat \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_2.sigma_hat << std::endl;
-					o_refStream << "#   " << "X-bar' \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_2.x_bar_prime << std::endl;
+					o_refStream << "#   " << "X-bar \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_2.x_bar << "\n";
+					o_refStream << "#   " << "sigma-hat \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_2.sigma_hat << "\n";
+					o_refStream << "#   " << "X-bar' \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_2.x_bar_prime << "\n";
 					if (false == io_refData.t_6_3_2.bIsRootFound)
 					{
-						o_refStream << "#   " << "Note that the root is not found." << std::endl;
+						o_refStream << "#   " << "Note that the root is not found." << "\n";
 					}
-					o_refStream << "#   " << "p \t\t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_2.p << std::endl;
+					o_refStream << "#   " << "p \t\t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_2.p << "\n";
 					o_refStream << "#   " << "min entropy (lower bound)" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_2.t_common.min_entropy_lower_bound << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_2.t_common.min_entropy_lower_bound << ssUnitInfo.str() << "\n";
 					o_refStream << "#   " << "min entropy (upper bound)" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_2.t_common.min_entropy_upper_bound << ssUnitInfo.str() << std::endl;
-					o_refStream << "#   " << "number of significant digits of min entropy\t= " << std::setprecision(2) << io_refData.t_6_3_2.t_common.number_of_significant_digits << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_2.t_common.min_entropy_upper_bound << ssUnitInfo.str() << "\n";
+					o_refStream << "#   " << "number of significant digits of min entropy\t= " << std::setprecision(2) << io_refData.t_6_3_2.t_common.number_of_significant_digits << "\n";
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
 					o_refStream << ssSeparatorSimple.str();
-					o_refStream << "# " << ssSampleInterp.str() << "Collision Estimate:\t" << std::endl;
+					o_refStream << "# " << ssSampleInterp.str() << "Collision Estimate:\t" << "\n";
 					o_refStream << "#   " << "min entropy" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_2.t_common.min_entropy << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_2.t_common.min_entropy << ssUnitInfo.str() << "\n";
 				}
 				else
 				{
 					o_refStream << "# " << ssSampleInterp.str() << "Collision Estimate:\t";
-					o_refStream << "p = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_2.p << std::endl;
-					o_refStream << "# X-bar = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_2.x_bar << std::endl;
-					o_refStream << "# X-bar-prime = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_2.x_bar_prime << std::endl;
-					o_refStream << "# sigma-hat = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_2.sigma_hat << std::endl;
+					o_refStream << "p = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_2.p << "\n";
+					o_refStream << "# X-bar = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_2.x_bar << "\n";
+					o_refStream << "# X-bar-prime = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_2.x_bar_prime << "\n";
+					o_refStream << "# sigma-hat = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_2.sigma_hat << "\n";
 					o_refStream << ssSeparator.str();
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
 					o_refStream << "\tCollision Estimate" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_2.t_common.min_entropy << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_2.t_common.min_entropy << ssUnitInfo.str() << "\n";
 				}
 				break;
 			case ns_consts::EnmNonIIDTrack::EstimatorMarkov:
@@ -423,21 +423,21 @@ namespace entropy_estimator_lib
 				if (1 < io_refData.verbose_level)
 				{
 					o_refStream << ssSeparator.str();
-					o_refStream << "#   " << "P_0 \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_3.p_initial[0] << std::endl;
-					o_refStream << "#   " << "P_1 \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_3.p_initial[1] << std::endl;
-					o_refStream << "#   " << "P_0,0 \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_3.p_transition[0][0] << std::endl;
-					o_refStream << "#   " << "P_0,1 \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_3.p_transition[1][0] << std::endl;
-					o_refStream << "#   " << "P_1,0 \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_3.p_transition[0][1] << std::endl;
-					o_refStream << "#   " << "P_1,1 \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_3.p_transition[1][1] << std::endl;
-					o_refStream << "#   " << "Most likely sequence index (extended)\t= " << io_refData.t_6_3_3.mostLikelySequenceCategoryIndex + 1 << std::endl;
-					o_refStream << "#   " << "p-hat_max = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_3.p_max << std::endl;
+					o_refStream << "#   " << "P_0 \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_3.p_initial[0] << "\n";
+					o_refStream << "#   " << "P_1 \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_3.p_initial[1] << "\n";
+					o_refStream << "#   " << "P_0,0 \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_3.p_transition[0][0] << "\n";
+					o_refStream << "#   " << "P_0,1 \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_3.p_transition[1][0] << "\n";
+					o_refStream << "#   " << "P_1,0 \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_3.p_transition[0][1] << "\n";
+					o_refStream << "#   " << "P_1,1 \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_3.p_transition[1][1] << "\n";
+					o_refStream << "#   " << "Most likely sequence index (extended)\t= " << io_refData.t_6_3_3.mostLikelySequenceCategoryIndex + 1 << "\n";
+					o_refStream << "#   " << "p-hat_max = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_3.p_max << "\n";
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
 					o_refStream << ssSeparatorSimple.str();
-					o_refStream << "# " << ssSampleInterp.str() << "Markov Estimate:\t" << std::endl;
+					o_refStream << "# " << ssSampleInterp.str() << "Markov Estimate:\t" << "\n";
 					o_refStream << "#   " << "min entropy" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_3.t_common.min_entropy << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_3.t_common.min_entropy << ssUnitInfo.str() << "\n";
 				}
 				else
 				{
@@ -448,13 +448,13 @@ namespace entropy_estimator_lib
 					o_refStream << "P_0,1 = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_3.p_transition[1][0] << ", ";
 					o_refStream << "P_1,0 = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_3.p_transition[0][1] << ", ";
 					o_refStream << "P_1,1 = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_3.p_transition[1][1] << ", ";
-					o_refStream << "p-hat_max = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_3.p_max << std::endl;
+					o_refStream << "p-hat_max = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_3.p_max << "\n";
 					o_refStream << ssSeparator.str();
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
 					o_refStream << "\tMarkov Estimate" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_3.t_common.min_entropy << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_3.t_common.min_entropy << ssUnitInfo.str() << "\n";
 				}
 				break;
 			case ns_consts::EnmNonIIDTrack::EstimatorCompression:
@@ -464,34 +464,34 @@ namespace entropy_estimator_lib
 				if (1 < io_refData.verbose_level)
 				{
 					o_refStream << ssSeparator.str();
-					o_refStream << "#   " << "X-bar \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_4.x_bar << std::endl;
-					o_refStream << "#   " << "sigma-hat \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_4.sigma_hat << std::endl;
-					o_refStream << "#   " << "X-bar' \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_4.x_bar_prime << std::endl;
+					o_refStream << "#   " << "X-bar \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_4.x_bar << "\n";
+					o_refStream << "#   " << "sigma-hat \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_4.sigma_hat << "\n";
+					o_refStream << "#   " << "X-bar' \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_4.x_bar_prime << "\n";
 					if (false == io_refData.t_6_3_4.bIsRootFound)
 					{
-						o_refStream << "#   " << "Note that the root is not found." << std::endl;
+						o_refStream << "#   " << "Note that the root is not found." << "\n";
 					}
-					o_refStream << "#   " << "p \t\t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_4.p << std::endl;
+					o_refStream << "#   " << "p \t\t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_4.p << "\n";
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
 					o_refStream << ssSeparatorSimple.str();
-					o_refStream << "# " << ssSampleInterp.str() << "Compression Estimate:\t" << std::endl;
+					o_refStream << "# " << ssSampleInterp.str() << "Compression Estimate:\t" << "\n";
 					o_refStream << "#   " << "min entropy" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_4.t_common.min_entropy << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_4.t_common.min_entropy << ssUnitInfo.str() << "\n";
 				}
 				else
 				{
 					o_refStream << "# " << ssSampleInterp.str() << "Compression Estimate:\t";
 					o_refStream << "X-bar = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_4.x_bar << ", ";
 					o_refStream << "sigma-hat = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_4.sigma_hat << ", ";
-					o_refStream << "p = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_4.p << std::endl;
+					o_refStream << "p = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_4.p << "\n";
 					o_refStream << ssSeparator.str();
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
 					o_refStream << "\tCompression Estimate" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_4.t_common.min_entropy << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_4.t_common.min_entropy << ssUnitInfo.str() << "\n";
 				}
 				break;
 			case ns_consts::EnmNonIIDTrack::EstimatorTTuple:
@@ -501,29 +501,29 @@ namespace entropy_estimator_lib
 				if (1 < io_refData.verbose_level)
 				{
 					o_refStream << ssSeparator.str();
-					o_refStream << "#   " << "t \t\t= " << io_refData.t_6_3_5.t << std::endl;
-					o_refStream << "#   " << "p-hat_max \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_5.p_hat_max << std::endl;
-					o_refStream << "#   " << "p_u \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_5.p << std::endl;
+					o_refStream << "#   " << "t \t\t= " << io_refData.t_6_3_5.t << "\n";
+					o_refStream << "#   " << "p-hat_max \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_5.p_hat_max << "\n";
+					o_refStream << "#   " << "p_u \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_5.p << "\n";
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
 					o_refStream << ssSeparatorSimple.str();
-					o_refStream << "# " << ssSampleInterp.str() << "t-Tuple Estimate:\t" << std::endl;
+					o_refStream << "# " << ssSampleInterp.str() << "t-Tuple Estimate:\t" << "\n";
 					o_refStream << "#   " << "min entropy" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_5.t_common.min_entropy << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_5.t_common.min_entropy << ssUnitInfo.str() << "\n";
 				}
 				else
 				{
 					o_refStream << "# " << ssSampleInterp.str() << "t-Tuple Estimate:\t";
 					o_refStream << "t = " << io_refData.t_6_3_5.t << ", ";
 					o_refStream << "p-hat_max = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_5.p_hat_max << ", ";
-					o_refStream << "p_u = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_5.p << std::endl;
+					o_refStream << "p_u = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_5.p << "\n";
 					o_refStream << ssSeparator.str();
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
 					o_refStream << "\tt-Tuple Estimate" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_5.t_common.min_entropy << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_5.t_common.min_entropy << ssUnitInfo.str() << "\n";
 				}
 				break;
 			case ns_consts::EnmNonIIDTrack::EstimatorLRS:
@@ -533,17 +533,17 @@ namespace entropy_estimator_lib
 				if (1 < io_refData.verbose_level)
 				{
 					o_refStream << ssSeparator.str();
-					o_refStream << "#   " << "u \t\t= " << io_refData.t_6_3_6.u << std::endl;
-					o_refStream << "#   " << "nu \t\t= " << io_refData.t_6_3_6.nu << std::endl;
-					o_refStream << "#   " << "p-hat \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_6.p_hat << std::endl;
-					o_refStream << "#   " << "p_u \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_6.p_u << std::endl;
+					o_refStream << "#   " << "u \t\t= " << io_refData.t_6_3_6.u << "\n";
+					o_refStream << "#   " << "nu \t\t= " << io_refData.t_6_3_6.nu << "\n";
+					o_refStream << "#   " << "p-hat \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_6.p_hat << "\n";
+					o_refStream << "#   " << "p_u \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_6.p_u << "\n";
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
 					o_refStream << ssSeparatorSimple.str();
-					o_refStream << "# " << ssSampleInterp.str() << "LRS Estimate:\t" << std::endl;
+					o_refStream << "# " << ssSampleInterp.str() << "LRS Estimate:\t" << "\n";
 					o_refStream << "#   " << "min entropy" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_6.t_common.min_entropy << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_6.t_common.min_entropy << ssUnitInfo.str() << "\n";
 				}
 				else
 				{
@@ -551,13 +551,13 @@ namespace entropy_estimator_lib
 					o_refStream << "u = " << io_refData.t_6_3_6.u << ", ";
 					o_refStream << "nu = " << io_refData.t_6_3_6.nu << ", ";
 					o_refStream << "p-hat = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_6.p_hat << ", ";
-					o_refStream << "p_u = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_6.p_u << std::endl;
+					o_refStream << "p_u = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_6.p_u << "\n";
 					o_refStream << ssSeparator.str();
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
 					o_refStream << "\tLRS Estimate" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_6.t_common.min_entropy << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_6.t_common.min_entropy << ssUnitInfo.str() << "\n";
 				}
 				break;
 			case ns_consts::EnmNonIIDTrack::EstimatorMMCWPrediction:
@@ -567,24 +567,24 @@ namespace entropy_estimator_lib
 				if (1 < io_refData.verbose_level)
 				{
 					o_refStream << ssSeparator.str();
-					o_refStream << "#   " << "C \t\t= " << io_refData.t_6_3_7.C << std::endl;
-					o_refStream << "#   " << "r \t\t= " << io_refData.t_6_3_7.r << std::endl;
-					o_refStream << "#   " << "N \t\t= " << io_refData.t_6_3_7.N << std::endl;
-					o_refStream << "#   " << "P_global \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_7.p_global << std::endl;
-					o_refStream << "#   " << "P_global' \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_7.p_prime_global << std::endl;
-					o_refStream << "#   " << "P_local \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_7.p_local << std::endl;
+					o_refStream << "#   " << "C \t\t= " << io_refData.t_6_3_7.C << "\n";
+					o_refStream << "#   " << "r \t\t= " << io_refData.t_6_3_7.r << "\n";
+					o_refStream << "#   " << "N \t\t= " << io_refData.t_6_3_7.N << "\n";
+					o_refStream << "#   " << "P_global \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_7.p_global << "\n";
+					o_refStream << "#   " << "P_global' \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_7.p_prime_global << "\n";
+					o_refStream << "#   " << "P_local \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_7.p_local << "\n";
 					o_refStream << "#   " << "min entropy (lower bound)" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_7.t_common.min_entropy_lower_bound << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_7.t_common.min_entropy_lower_bound << ssUnitInfo.str() << "\n";
 					o_refStream << "#   " << "min entropy (upper bound)" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_7.t_common.min_entropy_upper_bound << ssUnitInfo.str() << std::endl;
-					o_refStream << "#   " << "number of significant digits of min entropy \t= " << std::setprecision(2) << io_refData.t_6_3_7.t_common.number_of_significant_digits << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_7.t_common.min_entropy_upper_bound << ssUnitInfo.str() << "\n";
+					o_refStream << "#   " << "number of significant digits of min entropy \t= " << std::setprecision(2) << io_refData.t_6_3_7.t_common.number_of_significant_digits << "\n";
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
 					o_refStream << ssSeparatorSimple.str();
-					o_refStream << "# " << ssSampleInterp.str() << "MultiMCW Prediction Estimate:\t" << std::endl;
+					o_refStream << "# " << ssSampleInterp.str() << "MultiMCW Prediction Estimate:\t" << "\n";
 					o_refStream << "#   " << "min entropy" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_7.t_common.min_entropy << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_7.t_common.min_entropy << ssUnitInfo.str() << "\n";
 				}
 				else
 				{
@@ -593,13 +593,13 @@ namespace entropy_estimator_lib
 					o_refStream << "Pglobal' = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_7.p_prime_global << " ";
 					o_refStream << "(C = " << io_refData.t_6_3_7.C << "), ";
 					o_refStream << "Plocal = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_7.p_local << " ";
-					o_refStream << "(r = " << io_refData.t_6_3_7.r << ")" << std::endl;
+					o_refStream << "(r = " << io_refData.t_6_3_7.r << ")" << "\n";
 					o_refStream << ssSeparator.str();
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
 					o_refStream << "\tMulti Most Common in Window (MultiMCW) Prediction Estimate" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_7.t_common.min_entropy << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_7.t_common.min_entropy << ssUnitInfo.str() << "\n";
 				}
 				break;
 			case ns_consts::EnmNonIIDTrack::EstimatorLagPrediction:
@@ -609,24 +609,24 @@ namespace entropy_estimator_lib
 				if (1 < io_refData.verbose_level)
 				{
 					o_refStream << ssSeparator.str();
-					o_refStream << "#   " << "C \t\t= " << io_refData.t_6_3_8.C << std::endl;
-					o_refStream << "#   " << "r \t\t= " << io_refData.t_6_3_8.r << std::endl;
-					o_refStream << "#   " << "N \t\t= " << io_refData.t_6_3_8.N << std::endl;
-					o_refStream << "#   " << "P_global \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_8.p_global << std::endl;
-					o_refStream << "#   " << "P_global' \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_8.p_prime_global << std::endl;
-					o_refStream << "#   " << "P_local \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_8.p_local << std::endl;
+					o_refStream << "#   " << "C \t\t= " << io_refData.t_6_3_8.C << "\n";
+					o_refStream << "#   " << "r \t\t= " << io_refData.t_6_3_8.r << "\n";
+					o_refStream << "#   " << "N \t\t= " << io_refData.t_6_3_8.N << "\n";
+					o_refStream << "#   " << "P_global \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_8.p_global << "\n";
+					o_refStream << "#   " << "P_global' \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_8.p_prime_global << "\n";
+					o_refStream << "#   " << "P_local \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_8.p_local << "\n";
 					o_refStream << "#   " << "min entropy (lower bound)" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_8.t_common.min_entropy_lower_bound << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_8.t_common.min_entropy_lower_bound << ssUnitInfo.str() << "\n";
 					o_refStream << "#   " << "min entropy (upper bound)" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_8.t_common.min_entropy_upper_bound << ssUnitInfo.str() << std::endl;
-					o_refStream << "#   " << "number of significant digits of min entropy \t= " << std::setprecision(2) << io_refData.t_6_3_8.t_common.number_of_significant_digits << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_8.t_common.min_entropy_upper_bound << ssUnitInfo.str() << "\n";
+					o_refStream << "#   " << "number of significant digits of min entropy \t= " << std::setprecision(2) << io_refData.t_6_3_8.t_common.number_of_significant_digits << "\n";
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
 					o_refStream << ssSeparatorSimple.str();
-					o_refStream << "# " << ssSampleInterp.str() << "Lag Prediction Estimate:\t" << std::endl;
+					o_refStream << "# " << ssSampleInterp.str() << "Lag Prediction Estimate:\t" << "\n";
 					o_refStream << "#   " << "min entropy" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_8.t_common.min_entropy << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_8.t_common.min_entropy << ssUnitInfo.str() << "\n";
 				}
 				else
 				{
@@ -635,13 +635,13 @@ namespace entropy_estimator_lib
 					o_refStream << "Pglobal' = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_8.p_prime_global << " ";
 					o_refStream << "(C = " << io_refData.t_6_3_8.C << "), ";
 					o_refStream << "Plocal = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_8.p_local << " ";
-					o_refStream << "(r = " << io_refData.t_6_3_8.r << ")" << std::endl;
+					o_refStream << "(r = " << io_refData.t_6_3_8.r << ")" << "\n";
 					o_refStream << ssSeparator.str();
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
 					o_refStream << "\tLag Prediction Estimate" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_8.t_common.min_entropy << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_8.t_common.min_entropy << ssUnitInfo.str() << "\n";
 				}
 				break;
 			case ns_consts::EnmNonIIDTrack::EstimatorMultiMMCPrediction:
@@ -651,24 +651,24 @@ namespace entropy_estimator_lib
 				if (1 < io_refData.verbose_level)
 				{
 					o_refStream << ssSeparator.str();
-					o_refStream << "#   " << "C \t\t= " << io_refData.t_6_3_9.C << std::endl;
-					o_refStream << "#   " << "r \t\t= " << io_refData.t_6_3_9.r << std::endl;
-					o_refStream << "#   " << "N \t\t= " << io_refData.t_6_3_9.N << std::endl;
-					o_refStream << "#   " << "P_global \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_9.p_global << std::endl;
-					o_refStream << "#   " << "P_global' \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_9.p_prime_global << std::endl;
-					o_refStream << "#   " << "P_local \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_9.p_local << std::endl;
+					o_refStream << "#   " << "C \t\t= " << io_refData.t_6_3_9.C << "\n";
+					o_refStream << "#   " << "r \t\t= " << io_refData.t_6_3_9.r << "\n";
+					o_refStream << "#   " << "N \t\t= " << io_refData.t_6_3_9.N << "\n";
+					o_refStream << "#   " << "P_global \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_9.p_global << "\n";
+					o_refStream << "#   " << "P_global' \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_9.p_prime_global << "\n";
+					o_refStream << "#   " << "P_local \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_9.p_local << "\n";
 					o_refStream << "#   " << "min entropy (lower bound)" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_9.t_common.min_entropy_lower_bound << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_9.t_common.min_entropy_lower_bound << ssUnitInfo.str() << "\n";
 					o_refStream << "#   " << "min entropy (upper bound)" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_9.t_common.min_entropy_upper_bound << ssUnitInfo.str() << std::endl;
-					o_refStream << "#   " << "number of significant digits of min entropy \t= " << std::setprecision(2) << io_refData.t_6_3_9.t_common.number_of_significant_digits << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_9.t_common.min_entropy_upper_bound << ssUnitInfo.str() << "\n";
+					o_refStream << "#   " << "number of significant digits of min entropy \t= " << std::setprecision(2) << io_refData.t_6_3_9.t_common.number_of_significant_digits << "\n";
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
 					o_refStream << ssSeparatorSimple.str();
-					o_refStream << "# " << ssSampleInterp.str() << "MultiMMC Prediction Estimate:\t" << std::endl;
+					o_refStream << "# " << ssSampleInterp.str() << "MultiMMC Prediction Estimate:\t" << "\n";
 					o_refStream << "#   " << "min entropy" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_9.t_common.min_entropy << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_9.t_common.min_entropy << ssUnitInfo.str() << "\n";
 				}
 				else
 				{
@@ -677,13 +677,13 @@ namespace entropy_estimator_lib
 					o_refStream << "Pglobal' = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_9.p_prime_global << " ";
 					o_refStream << "(C = " << io_refData.t_6_3_9.C << "), ";
 					o_refStream << "Plocal = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_9.p_local << " ";
-					o_refStream << "(r = " << io_refData.t_6_3_9.r << ")" << std::endl;
+					o_refStream << "(r = " << io_refData.t_6_3_9.r << ")" << "\n";
 					o_refStream << ssSeparator.str();
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
 					o_refStream << "\tMulti Markov Model with Counting (MultiMMC) Prediction Estimate" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_9.t_common.min_entropy << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_9.t_common.min_entropy << ssUnitInfo.str() << "\n";
 				}
 				break;
 			case ns_consts::EnmNonIIDTrack::EstimatorLZ78YPrediction:
@@ -693,24 +693,24 @@ namespace entropy_estimator_lib
 				if (1 < io_refData.verbose_level)
 				{
 					o_refStream << ssSeparator.str();
-					o_refStream << "#   " << "C \t\t= " << io_refData.t_6_3_10.C << std::endl;
-					o_refStream << "#   " << "r \t\t= " << io_refData.t_6_3_10.r << std::endl;
-					o_refStream << "#   " << "N \t\t= " << io_refData.t_6_3_10.N << std::endl;
-					o_refStream << "#   " << "P_global \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_10.p_global << std::endl;
-					o_refStream << "#   " << "P_global' \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_10.p_prime_global << std::endl;
-					o_refStream << "#   " << "P_local \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_10.p_local << std::endl;
+					o_refStream << "#   " << "C \t\t= " << io_refData.t_6_3_10.C << "\n";
+					o_refStream << "#   " << "r \t\t= " << io_refData.t_6_3_10.r << "\n";
+					o_refStream << "#   " << "N \t\t= " << io_refData.t_6_3_10.N << "\n";
+					o_refStream << "#   " << "P_global \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_10.p_global << "\n";
+					o_refStream << "#   " << "P_global' \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_10.p_prime_global << "\n";
+					o_refStream << "#   " << "P_local \t= " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_10.p_local << "\n";
 					o_refStream << "#   " << "min entropy (lower bound)" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_10.t_common.min_entropy_lower_bound << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_10.t_common.min_entropy_lower_bound << ssUnitInfo.str() << "\n";
 					o_refStream << "#   " << "min entropy (upper bound)" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_10.t_common.min_entropy_upper_bound << ssUnitInfo.str() << std::endl;
-					o_refStream << "#   " << "number of significant digits of min entropy \t= " << std::setprecision(2) << io_refData.t_6_3_10.t_common.number_of_significant_digits << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_10.t_common.min_entropy_upper_bound << ssUnitInfo.str() << "\n";
+					o_refStream << "#   " << "number of significant digits of min entropy \t= " << std::setprecision(2) << io_refData.t_6_3_10.t_common.number_of_significant_digits << "\n";
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
 					o_refStream << ssSeparatorSimple.str();
-					o_refStream << "# " << ssSampleInterp.str() << "LZ78Y Prediction Estimate:\t" << std::endl;
+					o_refStream << "# " << ssSampleInterp.str() << "LZ78Y Prediction Estimate:\t" << "\n";
 					o_refStream << "#   " << "min entropy" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_10.t_common.min_entropy << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_10.t_common.min_entropy << ssUnitInfo.str() << "\n";
 				}
 				else
 				{
@@ -719,13 +719,13 @@ namespace entropy_estimator_lib
 					o_refStream << "Pglobal' = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_10.p_prime_global << " ";
 					o_refStream << "(C = " << io_refData.t_6_3_10.C << "), ";
 					o_refStream << "Plocal = " << std::setprecision(size_real_prec_tracing) << io_refData.t_6_3_10.p_local << " ";
-					o_refStream << "(r = " << io_refData.t_6_3_10.r << ")" << std::endl;
+					o_refStream << "(r = " << io_refData.t_6_3_10.r << ")" << "\n";
 					o_refStream << ssSeparator.str();
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
 					o_refStream << "\tLZ78Y Prediction Estimate" << ssTrail.str() << " = ";
-					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_10.t_common.min_entropy << ssUnitInfo.str() << std::endl;
+					o_refStream << std::setprecision(size_real_prec_final) << io_refData.t_6_3_10.t_common.min_entropy << ssUnitInfo.str() << "\n";
 				}
 				break;
 			default:
@@ -734,7 +734,7 @@ namespace entropy_estimator_lib
 			// -------------------------------------------------------------------------- //
 			// 
 			// -------------------------------------------------------------------------- //
-			std::cout << o_refStream.str() << std::endl;
+			std::cout << o_refStream.str() << "\n";
 			std::cout.flush();
 			// -------------------------------------------------------------------------- //
 			// 

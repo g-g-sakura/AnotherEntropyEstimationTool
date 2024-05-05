@@ -31,8 +31,8 @@ namespace entropy_estimator_lib
 
 		ns_consts::EnmReturnStatus loadSamplesByInterpretation(ns_dt::t_data_for_estimator& io_refData,
 			const bs_fs::path& i_refFullPath,
-			const uintmax_t i_number_of_bits_to_be_loaded,
-			const unsigned int i_bits_per_sample);
+			uintmax_t i_number_of_bits_to_be_loaded,
+			unsigned int i_bits_per_sample);
 	}
 }
 #endif

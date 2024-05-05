@@ -53,8 +53,8 @@ void showHeadSamples(const ns_dt::t_data_for_estimator& i_refData)
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    std::cout << std::endl;
-    std::cout << "The following are the first " << num_bytes << "-byte samples, in hexadecimal, of the specified file for confirmation:" << std::endl;
+    std::cout << "\n";
+    std::cout << "The following are the first " << num_bytes << "-byte samples, in hexadecimal, of the specified file for confirmation:" << "\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -65,7 +65,7 @@ void showHeadSamples(const ns_dt::t_data_for_estimator& i_refData)
         std::cout << std::setw(2) << static_cast<int>((*i_refData.p_bzInputS)(j)) << ", ";
         if ((j != 0) && (15 == j % 16))
         {
-            std::cout << std::endl;
+            std::cout << "\n";
         }
     }
     std::cout.fill(chFillSaved);
@@ -105,8 +105,8 @@ void showTailSamples(const ns_dt::t_data_for_estimator& i_refData)
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    std::cout << std::endl;
-    std::cout << "The following are the last " << num_bytes << "-byte samples, in hexadecimal, of the specified file for confirmation:" << std::endl;
+    std::cout << "\n";
+    std::cout << "The following are the last " << num_bytes << "-byte samples, in hexadecimal, of the specified file for confirmation:" << "\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -117,7 +117,7 @@ void showTailSamples(const ns_dt::t_data_for_estimator& i_refData)
         std::cout << std::setw(2) << static_cast<int>((*i_refData.p_bzInputS)(offset + j)) << ", ";
         if ((j != 0) && (15 == j % 16))
         {
-            std::cout << std::endl;
+            std::cout << "\n";
         }
     }
     std::cout.fill(chFillSaved);
@@ -432,8 +432,7 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(const IDInfoForReport& i_refInfoRe
 
         struct tm newtime;
 
-        errno_t err = localtime_s(&newtime, &(i_refInfoReport.info_source.tm_last_write_time));
-        if (err)
+        if (errno_t err = localtime_s(&newtime, &(i_refInfoReport.info_source.tm_last_write_time)))
         {
             return  sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
         }
@@ -668,8 +667,7 @@ ns_consts::EnmReturnStatus reportXMLBinary(const IDInfoForReport& i_refInfoRepor
 
         struct tm newtime;
 
-        errno_t err = localtime_s(&newtime, &(i_refInfoReport.info_source.tm_last_write_time));
-        if (err)
+        if (errno_t err = localtime_s(&newtime, &(i_refInfoReport.info_source.tm_last_write_time)))
         {
             return  sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
         }
@@ -873,146 +871,146 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_ssLaTeX << L"\\documentclass[a3paper,xelatex,english]{bxjsarticle}" << std::endl;
-    o_ssLaTeX << L"\\usepackage{pgfplots,pgfplotstable}" << std::endl;
-    o_ssLaTeX << L"\\pgfplotsset{ compat = newest }" << std::endl;
-    o_ssLaTeX << L"\\usepackage{tikz}" << std::endl;
-    o_ssLaTeX << L"\\usetikzlibrary{arrows.meta,bending,calc,shapes,positioning}" << std::endl;
-    o_ssLaTeX << L"\\usepackage{ascmac}" << std::endl;
-    o_ssLaTeX << L"\\usepackage{fancybox}" << std::endl;
-    o_ssLaTeX << L"\\usepackage{amsmath,amssymb}" << std::endl;
-    o_ssLaTeX << L"\\usepackage{algorithm}" << std::endl;
-    o_ssLaTeX << L"\\usepackage[edges]{forest}" << std::endl;
-    o_ssLaTeX << L"\\usepackage{array}" << std::endl;
-    o_ssLaTeX << L"\\usepackage{algpseudocode}" << std::endl;
-    o_ssLaTeX << L"\\usepackage{paralist}" << std::endl;
-    o_ssLaTeX << L"\\usepackage{cases}" << std::endl;
-    o_ssLaTeX << L"\\usepackage{fvextra}" << std::endl;
-    o_ssLaTeX << L"\\usepackage{colortbl}" << std::endl;
-    o_ssLaTeX << L"\\usepackage{xcolor}" << std::endl;
-    o_ssLaTeX << L"\\usepackage{fancyhdr}" << std::endl;
-    o_ssLaTeX << L"\\usepackage[explicit]{titlesec}" << std::endl;
-    o_ssLaTeX << L"\\usepackage{xspace}" << std::endl;
-    o_ssLaTeX << L"\\usepackage[many]{tcolorbox}" << std::endl;
-    o_ssLaTeX << L"\\usepackage{lastpage}" << std::endl;
-    o_ssLaTeX << L"\\usepackage{verbatim}" << std::endl;
-    o_ssLaTeX << L"\\usepackage{multirow}" << std::endl;
-    o_ssLaTeX << L"\\usepackage{censor}" << std::endl;
-    o_ssLaTeX << L"\\usepackage[unicode,pdftitle={Report of Entropy estimates based on NIST SP 800-90B non-IID track},setpagesize=false]{hyperref}" << std::endl;
-    o_ssLaTeX << L"\\usepackage[open,openlevel=4]{bookmark}" << std::endl;
-    o_ssLaTeX << L"\\newcommand\\mib[1]{\\boldsymbol{#1}}" << std::endl;
-    o_ssLaTeX << L"\\usepgfplotslibrary{patchplots}" << std::endl;
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%% customize page numbering" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    o_ssLaTeX << L"\\fancypagestyle{mypagestylewithtotalpagenumbers}{" << std::endl; //
-    o_ssLaTeX << L"\\lhead{}" << std::endl; // 
-    o_ssLaTeX << L"\\rhead{}" << std::endl; //
-    o_ssLaTeX << L"\\cfoot{\\thepage/\\pageref{LastPage}}" << std::endl; // 
-    o_ssLaTeX << L"\\renewcommand{\\headrulewidth}{0.0pt}" << std::endl; // 
-    o_ssLaTeX << L"}" << std::endl;
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%% output up to 4-th level" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    o_ssLaTeX << L"\\setcounter{secnumdepth}{4}" << std::endl;
-    o_ssLaTeX << L"\\setcounter{tocdepth}{4}" << std::endl;    
-    o_ssLaTeX << L"\\setlength{\\topmargin}{-1cm}" << std::endl;
-    o_ssLaTeX << L"\\setlength{\\textheight}{37cm}" << std::endl;
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%\\renewcommand{ \\figurename }{Figure }" << std::endl;
-    o_ssLaTeX << L"%%%\\renewcommand{ \\tablename }{Table }" << std::endl;
-    o_ssLaTeX << L"%%%\\renewcommand{ \\refname }{References}" << std::endl;
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    o_ssLaTeX << L"\\definecolor{rowcolorlightblue}{RGB}{191,233,251}" << std::endl;
-    o_ssLaTeX << L"\\definecolor{bordercolordarkblue}{RGB}{0,163,243}" << std::endl;
-    o_ssLaTeX << L"\\definecolor{BleuDur}{RGB}{27,61,176}" << std::endl;
-    o_ssLaTeX << L"\\definecolor{Nigelle}{RGB}{0,133,201}" << std::endl;
-    o_ssLaTeX << L"\\definecolor{BleuFaience}{RGB}{105,171,219}" << std::endl;
-    o_ssLaTeX << L"\\definecolor{anotherlightblue}{RGB}{61,143,244}" << std::endl;
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    o_ssLaTeX << L"\\def\\chpcolor{BleuDur}" << std::endl;
-    o_ssLaTeX << L"\\def\\chpcolortxt{BleuDur}" << std::endl;
-    o_ssLaTeX << L"\\def\\sectionfont{\\sffamily\\LARGE}" << std::endl;
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    o_ssLaTeX << L"\\makeatletter" << std::endl;
-    o_ssLaTeX << L"%Section:" << std::endl;
-    o_ssLaTeX << L"\\def\\@sectionstrut{\\vrule\\@width\\z@\\@height12.5\\p@}" << std::endl;
-    o_ssLaTeX << L"\\def\\@makesectionhead#1{%" << std::endl;
-    o_ssLaTeX << L"  {\\par\\vspace{20pt}%" << std::endl;
-    o_ssLaTeX << L"   \\parindent 0pt\\raggedleft\\sectionfont" << std::endl;
-    o_ssLaTeX << L"   \\colorbox{\\chpcolor}{%" << std::endl;
-    o_ssLaTeX << L"     \\parbox[t]{90pt}{\\color{white}\\@sectionstrut\\@depth4.5\\p@\\hfill" << std::endl;
-    o_ssLaTeX << L"       \\ifnum\\c@secnumdepth>\\z@\\thesection\\fi}%" << std::endl;
-    o_ssLaTeX << L"   }%" << std::endl;
-    o_ssLaTeX << L"   \\begin{minipage}[t]{\\dimexpr\\textwidth-90pt-2\\fboxsep\\relax}" << std::endl;
-    o_ssLaTeX << L"   \\color{\\chpcolortxt}\\@sectionstrut\\hspace{5pt}#1" << std::endl;
-    o_ssLaTeX << L"   \\end{minipage}\\par" << std::endl;
-    o_ssLaTeX << L"   \\vspace{10pt}%" << std::endl;
-    o_ssLaTeX << L"  }" << std::endl;
-    o_ssLaTeX << L"}" << std::endl;
-    o_ssLaTeX << L"\\def\\section{\\@afterindentfalse\\secdef\\@section\\@ssection}" << std::endl;
-    o_ssLaTeX << L"\\def\\@section[#1]#2{%" << std::endl;
-    o_ssLaTeX << L"  \\ifnum\\c@secnumdepth>\\m@ne" << std::endl;
-    o_ssLaTeX << L"    \\refstepcounter{section}%" << std::endl;
-    o_ssLaTeX << L"    \\addcontentsline{toc}{section}{\\protect\\numberline{\\thesection}#1}%" << std::endl;
-    o_ssLaTeX << L"  \\else" << std::endl;
-    o_ssLaTeX << L"    \\phantomsection" << std::endl;
-    o_ssLaTeX << L"    \\addcontentsline{toc}{section}{#1}%" << std::endl;
-    o_ssLaTeX << L"  \\fi" << std::endl;
-    o_ssLaTeX << L"  \\sectionmark{#1}%" << std::endl;
-    o_ssLaTeX << L"  \\if@twocolumn" << std::endl;
-    o_ssLaTeX << L"    \\@topnewpage[\\@makesectionhead{#2}]%" << std::endl;
-    o_ssLaTeX << L"  \\else" << std::endl;
-    o_ssLaTeX << L"    \\@makesectionhead{#2}\\@afterheading" << std::endl;
-    o_ssLaTeX << L"  \\fi" << std::endl;
-    o_ssLaTeX << L"}" << std::endl;
-    o_ssLaTeX << L"\\def\\@ssection#1{%" << std::endl;
-    o_ssLaTeX << L"  \\if@twocolumn" << std::endl;
-    o_ssLaTeX << L"    \\@topnewpage[\\@makesectionhead{#1}]%" << std::endl;
-    o_ssLaTeX << L"  \\else" << std::endl;
-    o_ssLaTeX << L"    \\@makesectionhead{#1}\\@afterheading" << std::endl;
-    o_ssLaTeX << L"  \\fi" << std::endl;
-    o_ssLaTeX << L"}" << std::endl;
-    o_ssLaTeX << L"\\makeatother" << std::endl;
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    o_ssLaTeX << L"\\setlength{ \\topmargin }{-1.5cm}" << std::endl;
+    o_ssLaTeX << L"\\documentclass[a3paper,xelatex,english]{bxjsarticle}" << L"\n";
+    o_ssLaTeX << L"\\usepackage{pgfplots,pgfplotstable}" << L"\n";
+    o_ssLaTeX << L"\\pgfplotsset{ compat = newest }" << L"\n";
+    o_ssLaTeX << L"\\usepackage{tikz}" << L"\n";
+    o_ssLaTeX << L"\\usetikzlibrary{arrows.meta,bending,calc,shapes,positioning}" << L"\n";
+    o_ssLaTeX << L"\\usepackage{ascmac}" << L"\n";
+    o_ssLaTeX << L"\\usepackage{fancybox}" << L"\n";
+    o_ssLaTeX << L"\\usepackage{amsmath,amssymb}" << L"\n";
+    o_ssLaTeX << L"\\usepackage{algorithm}" << L"\n";
+    o_ssLaTeX << L"\\usepackage[edges]{forest}" << L"\n";
+    o_ssLaTeX << L"\\usepackage{array}" << L"\n";
+    o_ssLaTeX << L"\\usepackage{algpseudocode}" << L"\n";
+    o_ssLaTeX << L"\\usepackage{paralist}" << L"\n";
+    o_ssLaTeX << L"\\usepackage{cases}" << L"\n";
+    o_ssLaTeX << L"\\usepackage{fvextra}" << L"\n";
+    o_ssLaTeX << L"\\usepackage{colortbl}" << L"\n";
+    o_ssLaTeX << L"\\usepackage{xcolor}" << L"\n";
+    o_ssLaTeX << L"\\usepackage{fancyhdr}" << L"\n";
+    o_ssLaTeX << L"\\usepackage[explicit]{titlesec}" << L"\n";
+    o_ssLaTeX << L"\\usepackage{xspace}" << L"\n";
+    o_ssLaTeX << L"\\usepackage[many]{tcolorbox}" << L"\n";
+    o_ssLaTeX << L"\\usepackage{lastpage}" << L"\n";
+    o_ssLaTeX << L"\\usepackage{verbatim}" << L"\n";
+    o_ssLaTeX << L"\\usepackage{multirow}" << L"\n";
+    o_ssLaTeX << L"\\usepackage{censor}" << L"\n";
+    o_ssLaTeX << L"\\usepackage[unicode,pdftitle={Report of Entropy estimates based on NIST SP 800-90B non-IID track},setpagesize=false]{hyperref}" << L"\n";
+    o_ssLaTeX << L"\\usepackage[open,openlevel=4]{bookmark}" << L"\n";
+    o_ssLaTeX << L"\\newcommand\\mib[1]{\\boldsymbol{#1}}" << L"\n";
+    o_ssLaTeX << L"\\usepgfplotslibrary{patchplots}" << L"\n";
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%% customize page numbering" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << L"\\fancypagestyle{mypagestylewithtotalpagenumbers}{" << L"\n"; //
+    o_ssLaTeX << L"\\lhead{}" << L"\n"; // 
+    o_ssLaTeX << L"\\rhead{}" << L"\n"; //
+    o_ssLaTeX << L"\\cfoot{\\thepage/\\pageref{LastPage}}" << L"\n"; // 
+    o_ssLaTeX << L"\\renewcommand{\\headrulewidth}{0.0pt}" << L"\n"; // 
+    o_ssLaTeX << L"}" << L"\n";
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%% output up to 4-th level" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << L"\\setcounter{secnumdepth}{4}" << L"\n";
+    o_ssLaTeX << L"\\setcounter{tocdepth}{4}" << L"\n";    
+    o_ssLaTeX << L"\\setlength{\\topmargin}{-1cm}" << L"\n";
+    o_ssLaTeX << L"\\setlength{\\textheight}{37cm}" << L"\n";
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%\\renewcommand{ \\figurename }{Figure }" << L"\n";
+    o_ssLaTeX << L"%%%\\renewcommand{ \\tablename }{Table }" << L"\n";
+    o_ssLaTeX << L"%%%\\renewcommand{ \\refname }{References}" << L"\n";
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << L"\\definecolor{rowcolorlightblue}{RGB}{191,233,251}" << L"\n";
+    o_ssLaTeX << L"\\definecolor{bordercolordarkblue}{RGB}{0,163,243}" << L"\n";
+    o_ssLaTeX << L"\\definecolor{BleuDur}{RGB}{27,61,176}" << L"\n";
+    o_ssLaTeX << L"\\definecolor{Nigelle}{RGB}{0,133,201}" << L"\n";
+    o_ssLaTeX << L"\\definecolor{BleuFaience}{RGB}{105,171,219}" << L"\n";
+    o_ssLaTeX << L"\\definecolor{anotherlightblue}{RGB}{61,143,244}" << L"\n";
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << L"\\def\\chpcolor{BleuDur}" << L"\n";
+    o_ssLaTeX << L"\\def\\chpcolortxt{BleuDur}" << L"\n";
+    o_ssLaTeX << L"\\def\\sectionfont{\\sffamily\\LARGE}" << L"\n";
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << L"\\makeatletter" << L"\n";
+    o_ssLaTeX << L"%Section:" << L"\n";
+    o_ssLaTeX << L"\\def\\@sectionstrut{\\vrule\\@width\\z@\\@height12.5\\p@}" << L"\n";
+    o_ssLaTeX << L"\\def\\@makesectionhead#1{%" << L"\n";
+    o_ssLaTeX << L"  {\\par\\vspace{20pt}%" << L"\n";
+    o_ssLaTeX << L"   \\parindent 0pt\\raggedleft\\sectionfont" << L"\n";
+    o_ssLaTeX << L"   \\colorbox{\\chpcolor}{%" << L"\n";
+    o_ssLaTeX << L"     \\parbox[t]{90pt}{\\color{white}\\@sectionstrut\\@depth4.5\\p@\\hfill" << L"\n";
+    o_ssLaTeX << L"       \\ifnum\\c@secnumdepth>\\z@\\thesection\\fi}%" << L"\n";
+    o_ssLaTeX << L"   }%" << L"\n";
+    o_ssLaTeX << L"   \\begin{minipage}[t]{\\dimexpr\\textwidth-90pt-2\\fboxsep\\relax}" << L"\n";
+    o_ssLaTeX << L"   \\color{\\chpcolortxt}\\@sectionstrut\\hspace{5pt}#1" << L"\n";
+    o_ssLaTeX << L"   \\end{minipage}\\par" << L"\n";
+    o_ssLaTeX << L"   \\vspace{10pt}%" << L"\n";
+    o_ssLaTeX << L"  }" << L"\n";
+    o_ssLaTeX << L"}" << L"\n";
+    o_ssLaTeX << L"\\def\\section{\\@afterindentfalse\\secdef\\@section\\@ssection}" << L"\n";
+    o_ssLaTeX << L"\\def\\@section[#1]#2{%" << L"\n";
+    o_ssLaTeX << L"  \\ifnum\\c@secnumdepth>\\m@ne" << L"\n";
+    o_ssLaTeX << L"    \\refstepcounter{section}%" << L"\n";
+    o_ssLaTeX << L"    \\addcontentsline{toc}{section}{\\protect\\numberline{\\thesection}#1}%" << L"\n";
+    o_ssLaTeX << L"  \\else" << L"\n";
+    o_ssLaTeX << L"    \\phantomsection" << L"\n";
+    o_ssLaTeX << L"    \\addcontentsline{toc}{section}{#1}%" << L"\n";
+    o_ssLaTeX << L"  \\fi" << L"\n";
+    o_ssLaTeX << L"  \\sectionmark{#1}%" << L"\n";
+    o_ssLaTeX << L"  \\if@twocolumn" << L"\n";
+    o_ssLaTeX << L"    \\@topnewpage[\\@makesectionhead{#2}]%" << L"\n";
+    o_ssLaTeX << L"  \\else" << L"\n";
+    o_ssLaTeX << L"    \\@makesectionhead{#2}\\@afterheading" << L"\n";
+    o_ssLaTeX << L"  \\fi" << L"\n";
+    o_ssLaTeX << L"}" << L"\n";
+    o_ssLaTeX << L"\\def\\@ssection#1{%" << L"\n";
+    o_ssLaTeX << L"  \\if@twocolumn" << L"\n";
+    o_ssLaTeX << L"    \\@topnewpage[\\@makesectionhead{#1}]%" << L"\n";
+    o_ssLaTeX << L"  \\else" << L"\n";
+    o_ssLaTeX << L"    \\@makesectionhead{#1}\\@afterheading" << L"\n";
+    o_ssLaTeX << L"  \\fi" << L"\n";
+    o_ssLaTeX << L"}" << L"\n";
+    o_ssLaTeX << L"\\makeatother" << L"\n";
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << L"\\setlength{ \\topmargin }{-1.5cm}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    o_ssLaTeX << L"\\pagestyle{mypagestylewithtotalpagenumbers}" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"%%%%%%" << std::endl;
-    o_ssLaTeX << L"\\title{Report of Entropy estimates based on NIST SP 800-90B non-IID track}" << std::endl;
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << L"\\pagestyle{mypagestylewithtotalpagenumbers}" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"%%%%%%" << L"\n";
+    o_ssLaTeX << L"\\title{Report of Entropy estimates based on NIST SP 800-90B non-IID track}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1026,7 +1024,7 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
     std::wstring    wstrTimeInfo(size_needed, 0);
     MultiByteToWideChar(CP_UTF8, 0, strTimeInfo.data(), static_cast<int>(strTimeInfo.size()), wstrTimeInfo.data(), size_needed);
 
-    o_ssLaTeX << L"\\date{" << wstrTimeInfo << L"}" <<std::endl;
+    o_ssLaTeX << L"\\date{" << wstrTimeInfo << L"}" <<L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1064,31 +1062,31 @@ ns_consts::EnmReturnStatus loadPGFPlotSummary(std::wstringstream& o_ssLaTeX, boo
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_ssLaTeX << L"\\begin{figure}[htbp]" << std::endl;
-    o_ssLaTeX << L"\\centering" << std::endl;
-    o_ssLaTeX << std::endl;
-    o_ssLaTeX << L"\\begin{tikzpicture} " << std::endl;
-    o_ssLaTeX << L"\\begin{axis}" << std::endl;
-    o_ssLaTeX << L"\t[symbolic x coords={6.3.1,6.3.2,6.3.3,6.3.4,6.3.5,6.3.6,6.3.7,6.3.8,6.3.9,6.3.10}," << std::endl;
-    o_ssLaTeX << L"\twidth=18cm," << std::endl;
-    o_ssLaTeX << L"\tymin=0," << std::endl;
-    o_ssLaTeX << L"\tymax=" << bits_per_sample << "," << std::endl;
-    o_ssLaTeX << L"	xlabel=Sub-sub-section of NIST SP 800-90B," << std::endl;
-    o_ssLaTeX << L"	ylabel={Estimated min-entropy $[$bit / " << bits_per_sample << L"-bit$]$}," << std::endl;
-    o_ssLaTeX << L"\txtick=data]" << std::endl;
-    o_ssLaTeX << L"\\addplot+[forget plot,only marks] " << std::endl;
-    o_ssLaTeX << L"  plot[error bars/.cd, y dir=both, y explicit]" << std::endl;
+    o_ssLaTeX << L"\\begin{figure}[htbp]" << L"\n";
+    o_ssLaTeX << L"\\centering" << L"\n";
+    o_ssLaTeX << L"\n";
+    o_ssLaTeX << L"\\begin{tikzpicture} " << L"\n";
+    o_ssLaTeX << L"\\begin{axis}" << L"\n";
+    o_ssLaTeX << L"\t[symbolic x coords={6.3.1,6.3.2,6.3.3,6.3.4,6.3.5,6.3.6,6.3.7,6.3.8,6.3.9,6.3.10}," << L"\n";
+    o_ssLaTeX << L"\twidth=18cm," << L"\n";
+    o_ssLaTeX << L"\tymin=0," << L"\n";
+    o_ssLaTeX << L"\tymax=" << bits_per_sample << "," << L"\n";
+    o_ssLaTeX << L"	xlabel=Sub-sub-section of NIST SP 800-90B," << L"\n";
+    o_ssLaTeX << L"	ylabel={Estimated min-entropy $[$bit / " << bits_per_sample << L"-bit$]$}," << L"\n";
+    o_ssLaTeX << L"\txtick=data]" << L"\n";
+    o_ssLaTeX << L"\\addplot+[forget plot,only marks] " << L"\n";
+    o_ssLaTeX << L"  plot[error bars/.cd, y dir=both, y explicit]" << L"\n";
     o_ssLaTeX << L"  table[x=section,y=y,y error plus expr=\\thisrow{y-max},y error minus expr=\\thisrow{y-min}] {\\summarytable";
     if (false == isBinary)
     {
         o_ssLaTeX << L"Non";
     }
-    o_ssLaTeX << L"Binary};" << std::endl;
+    o_ssLaTeX << L"Binary};" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_ssLaTeX << L"\\addplot+[Nigelle,no marks,sharp plot,update limits=false] " << std::endl;
-    o_ssLaTeX << L"coordinates {(6.3.1," << min_entropy << L") (6.3.10," << min_entropy << L")}" << std::endl;
+    o_ssLaTeX << L"\\addplot+[Nigelle,no marks,sharp plot,update limits=false] " << L"\n";
+    o_ssLaTeX << L"coordinates {(6.3.1," << min_entropy << L") (6.3.10," << min_entropy << L")}" << L"\n";
     o_ssLaTeX << L"node[";
     // -------------------------------------------------------------------------- //
     // 
@@ -1109,16 +1107,16 @@ ns_consts::EnmReturnStatus loadPGFPlotSummary(std::wstringstream& o_ssLaTeX, boo
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_ssLaTeX << L"] at (axis cs:6.3.5," << min_entropy << L") {Estimated min-entropy = " << std::endl;
-    o_ssLaTeX << min_entropy << L"};" << std::endl;
+    o_ssLaTeX << L"] at (axis cs:6.3.5," << min_entropy << L") {Estimated min-entropy = " << L"\n";
+    o_ssLaTeX << min_entropy << L"};" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_ssLaTeX << L"\\end{axis} " << std::endl;
-    o_ssLaTeX << L"\\end{tikzpicture}" << std::endl;
-    o_ssLaTeX << std::endl;
-    o_ssLaTeX << L"\\caption{Estimated Min-Entropy using $\\S$6.3 of NIST SP 800-90B}" << std::endl;
-    o_ssLaTeX << L"\\end{figure}" << std::endl;
+    o_ssLaTeX << L"\\end{axis} " << L"\n";
+    o_ssLaTeX << L"\\end{tikzpicture}" << L"\n";
+    o_ssLaTeX << L"\n";
+    o_ssLaTeX << L"\\caption{Estimated Min-Entropy using $\\S$6.3 of NIST SP 800-90B}" << L"\n";
+    o_ssLaTeX << L"\\end{figure}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1146,23 +1144,23 @@ ns_consts::EnmReturnStatus loadLaTeXBibliography(std::wstringstream& o_ssLaTeX)
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_ssLaTeX << L"\\begin{thebibliography}{99}" << std::endl;
-    o_ssLaTeX << L"% 1" << std::endl;
-    o_ssLaTeX << L"\\bibitem{SP80090B}" << std::endl;
-    o_ssLaTeX << L"Meltem S\\\"{o}nmez Turan," << std::endl;
-    o_ssLaTeX << L"Elaine Barker," << std::endl;
-    o_ssLaTeX << L"John Kelsey," << std::endl;
-    o_ssLaTeX << L"Kerry A. McKay," << std::endl;
-    o_ssLaTeX << L"Mary L. Baish," << std::endl;
-    o_ssLaTeX << L"Mike Boyle" << std::endl;
-    o_ssLaTeX << L"\\textit{Recommendation for the Entropy Sources Used for Random Bit Generation}," << std::endl;
-    o_ssLaTeX << L"NIST Special Publication 800-90B, Jan. 2018 " << std::endl;
-    o_ssLaTeX << L"\\url{https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-90B.pdf}" << std::endl;
-    o_ssLaTeX << L"% 2" << std::endl;
-    o_ssLaTeX << L"\\bibitem{CorrectionsSP80090B}" << std::endl;
-    o_ssLaTeX << L"G. Sakurai, \\textit{Proposed list of corrections for NIST SP 800-90B 6.3 Estimators}, Dec. 2022 " << std::endl;
-    o_ssLaTeX << L"\\url{https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ProposedListOfCorrections_SP800-90B.pdf}" << std::endl;
-    o_ssLaTeX << L"\\end{thebibliography}" << std::endl;
+    o_ssLaTeX << L"\\begin{thebibliography}{99}" << L"\n";
+    o_ssLaTeX << L"% 1" << L"\n";
+    o_ssLaTeX << L"\\bibitem{SP80090B}" << L"\n";
+    o_ssLaTeX << L"Meltem S\\\"{o}nmez Turan," << L"\n";
+    o_ssLaTeX << L"Elaine Barker," << L"\n";
+    o_ssLaTeX << L"John Kelsey," << L"\n";
+    o_ssLaTeX << L"Kerry A. McKay," << L"\n";
+    o_ssLaTeX << L"Mary L. Baish," << L"\n";
+    o_ssLaTeX << L"Mike Boyle" << L"\n";
+    o_ssLaTeX << L"\\textit{Recommendation for the Entropy Sources Used for Random Bit Generation}," << L"\n";
+    o_ssLaTeX << L"NIST Special Publication 800-90B, Jan. 2018 " << L"\n";
+    o_ssLaTeX << L"\\url{https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-90B.pdf}" << L"\n";
+    o_ssLaTeX << L"% 2" << L"\n";
+    o_ssLaTeX << L"\\bibitem{CorrectionsSP80090B}" << L"\n";
+    o_ssLaTeX << L"G. Sakurai, \\textit{Proposed list of corrections for NIST SP 800-90B 6.3 Estimators}, Dec. 2022 " << L"\n";
+    o_ssLaTeX << L"\\url{https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ProposedListOfCorrections_SP800-90B.pdf}" << L"\n";
+    o_ssLaTeX << L"\\end{thebibliography}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1211,19 +1209,19 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\section{Identification information}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\section{Identification information}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\subsection{Identification of acquisition data from entropy source}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.8}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\begin{table}[h]" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\caption{Identification information of acquisition data from entropy source}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\begin{center}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{anotherlightblue}}p{2cm}|p{20.5cm}|}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\hline " << std::endl;
-    o_refLaTeXSupportingInfo << L"Path to the acquisition data & \\verb|" << (*i_refInfoReport.info_source.p_path_to_entropy_input) << L"| \\\\" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\subsection{Identification of acquisition data from entropy source}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.8}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\begin{table}[h]" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\caption{Identification information of acquisition data from entropy source}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\begin{center}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{anotherlightblue}}p{2cm}|p{20.5cm}|}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\hline " << L"\n";
+    o_refLaTeXSupportingInfo << L"Path to the acquisition data & \\verb|" << (*i_refInfoReport.info_source.p_path_to_entropy_input) << L"| \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\hline" << L"\n";
 
     switch (enmDefaultHashId)
     {
@@ -1239,68 +1237,67 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     default:
         return  sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
     }
-    o_refLaTeXSupportingInfo << L" hash value of the acquisition data [hex] & " << std::endl;
-    o_refLaTeXSupportingInfo << L"\\begin{verbatim}" << std::endl;
+    o_refLaTeXSupportingInfo << L" hash value of the acquisition data [hex] & " << L"\n";
+    o_refLaTeXSupportingInfo << L"\\begin{verbatim}" << L"\n";
 
     const int size_needed = MultiByteToWideChar(CP_UTF8, 0, strHashOfAcquisitionData.data(), static_cast<int>(strHashOfAcquisitionData.size()), nullptr, 0);
     std::wstring    wstrHashOfAcquisitionData(size_needed, 0);
     MultiByteToWideChar(CP_UTF8, 0, strHashOfAcquisitionData.data(), static_cast<int>(strHashOfAcquisitionData.size()), wstrHashOfAcquisitionData.data(), size_needed);
 
-    o_refLaTeXSupportingInfo << wstrHashOfAcquisitionData << std::endl;
-    o_refLaTeXSupportingInfo << L"\\end{verbatim} " << std::endl;
-    o_refLaTeXSupportingInfo << L"\\\\" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
+    o_refLaTeXSupportingInfo << wstrHashOfAcquisitionData << L"\n";
+    o_refLaTeXSupportingInfo << L"\\end{verbatim} " << L"\n";
+    o_refLaTeXSupportingInfo << L"\\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\hline" << L"\n";
 
     struct tm newtime;
 
-    errno_t err = localtime_s(&newtime, &(i_refInfoReport.info_source.tm_last_write_time));
-    if (err)
+    if (errno_t err = localtime_s(&newtime, &(i_refInfoReport.info_source.tm_last_write_time)))
     {
         return  sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
     }
 
-    o_refLaTeXSupportingInfo << L"Last write time & " << std::put_time(&newtime, L"%Y-%b-%d %H:%M:%S") << L" \\\\" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\end{tabular}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\end{center}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\end{table}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.8}" << std::endl;
+    o_refLaTeXSupportingInfo << L"Last write time & " << std::put_time(&newtime, L"%Y-%b-%d %H:%M:%S") << L" \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\hline" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\end{tabular}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\end{center}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\end{table}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.8}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\begin{itemize}" << std::endl;
-    o_refLaTeXSupportingInfo << L"		\\item Name of the submitter of the acquisition data : " << std::endl;
-    o_refLaTeXSupportingInfo << L"		    \\begin{Form}" << std::endl;
-    o_refLaTeXSupportingInfo << L"		    \\noindent" << std::endl;
-    o_refLaTeXSupportingInfo << L"		    \\TextField[name=NameOfSubmitter, multiline=false, bordercolor=bordercolordarkblue,width=12cm]{}" << std::endl;
-    o_refLaTeXSupportingInfo << L"		    \\end{Form}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\t	\\item Brief explanation of the acquisition data (or entropy source) : \\\\" << std::endl;
-    o_refLaTeXSupportingInfo << L"\t	    \\begin{Form}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\t	    \\noindent" << std::endl;
-    o_refLaTeXSupportingInfo << L"\t	    \\TextField[name=ExplanationOfAcquisitionData, multiline=true, bordercolor=bordercolordarkblue,width=\\linewidth,height=1in]{}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\t	    \\end{Form}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\t\\end{itemize} " << std::endl;
+    o_refLaTeXSupportingInfo << L"\\begin{itemize}" << L"\n";
+    o_refLaTeXSupportingInfo << L"		\\item Name of the submitter of the acquisition data : " << L"\n";
+    o_refLaTeXSupportingInfo << L"		    \\begin{Form}" << L"\n";
+    o_refLaTeXSupportingInfo << L"		    \\noindent" << L"\n";
+    o_refLaTeXSupportingInfo << L"		    \\TextField[name=NameOfSubmitter, multiline=false, bordercolor=bordercolordarkblue,width=12cm]{}" << L"\n";
+    o_refLaTeXSupportingInfo << L"		    \\end{Form}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\t	\\item Brief explanation of the acquisition data (or entropy source) : \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\t	    \\begin{Form}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\t	    \\noindent" << L"\n";
+    o_refLaTeXSupportingInfo << L"\t	    \\TextField[name=ExplanationOfAcquisitionData, multiline=true, bordercolor=bordercolordarkblue,width=\\linewidth,height=1in]{}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\t	    \\end{Form}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\t\\end{itemize} " << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\subsection{Identification of analysis environment}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\subsection{Identification of analysis environment}" << L"\n";
 
-    o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.8}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\begin{table}[h]" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\caption{Identification information of analysis environment}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\begin{center}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{anotherlightblue}}l|>{\\columncolor{anotherlightblue}}l|p{12cm}|}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\hline " << std::endl;
+    o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.8}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\begin{table}[h]" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\caption{Identification information of analysis environment}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\begin{center}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{anotherlightblue}}l|>{\\columncolor{anotherlightblue}}l|p{12cm}|}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\hline " << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"Analysis tool & Name & " << (*i_refInfoReport.info_analysis_tool.p_analyzer_name) << L" \\\\" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << std::endl;
+    o_refLaTeXSupportingInfo << L"Analysis tool & Name & " << (*i_refInfoReport.info_analysis_tool.p_analyzer_name) << L" \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\, & Versioning information & " << (*i_refInfoReport.info_analysis_tool.p_analyzer_versioning) << L" \\\\" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\, & Versioning information & " << (*i_refInfoReport.info_analysis_tool.p_analyzer_versioning) << L" \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1313,8 +1310,8 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
 #else
 #endif
     }
-    o_refLaTeXSupportingInfo << L" \\\\" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << std::endl;
+    o_refLaTeXSupportingInfo << L" \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << L"\n";
     // -------------------------------------------------------------------------- //
     // compiler information
     // -------------------------------------------------------------------------- //
@@ -1362,8 +1359,8 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
         o_refLaTeXSupportingInfo << L" )";
 #endif
     }
-    o_refLaTeXSupportingInfo << L" \\\\" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << std::endl;
+    o_refLaTeXSupportingInfo << L" \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1371,9 +1368,9 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     {
         o_refLaTeXSupportingInfo << L" Boost C++ ";
         o_refLaTeXSupportingInfo << BOOST_VERSION / 100000 << L"." << ((BOOST_VERSION / 100) % 1000) << L"." << BOOST_VERSION % 100;
-        o_refLaTeXSupportingInfo << L" \\\\" << std::endl;
+        o_refLaTeXSupportingInfo << L" \\\\" << L"\n";
     }
-    o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\hline" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1381,23 +1378,23 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     o_refLaTeXSupportingInfo << L"\\censor{";   // censor/redact
     o_refLaTeXSupportingInfo << (*i_refInfoReport.info_env.p_hostname);
     o_refLaTeXSupportingInfo << L"}";           // censor/redact
-    o_refLaTeXSupportingInfo << L" \\\\" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << std::endl;
+    o_refLaTeXSupportingInfo << L" \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\, & CPU information & " << (*i_refInfoReport.info_env.p_cpuinfo) << L" \\\\" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\, & CPU information & " << (*i_refInfoReport.info_env.p_cpuinfo) << L" \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\, &  Physical memory size & " << (*i_refInfoReport.info_env.p_physicalmemory) << L" \\\\" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\, &  Physical memory size & " << (*i_refInfoReport.info_env.p_physicalmemory) << L" \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\, &  OS information & "<< (*i_refInfoReport.info_env.p_osinfo) << L" \\\\" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\, &  OS information & "<< (*i_refInfoReport.info_env.p_osinfo) << L" \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1405,55 +1402,55 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     o_refLaTeXSupportingInfo << L"\\censor{";   // censor/redact
     o_refLaTeXSupportingInfo << (*i_refInfoReport.info_env.p_username);
     o_refLaTeXSupportingInfo << L"}";           // censor/redact
-    o_refLaTeXSupportingInfo << L" \\\\" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\end{tabular}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\end{center}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\end{table}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.4}" << std::endl;
+    o_refLaTeXSupportingInfo << L" \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\hline" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\end{tabular}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\end{center}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\end{table}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.4}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\subsection{Identification of analysis conditions}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\subsection{Identification of analysis conditions}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.8}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\begin{table}[h]" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\caption{Identification information of analysis conditions}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\begin{center}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{anotherlightblue}}l|p{8cm}|}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\hline " << std::endl;
-    o_refLaTeXSupportingInfo << L"Number of samples & " << io_refDataOriginal.L << L" \\\\" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
-    o_refLaTeXSupportingInfo << L"Bits per sample & " << io_refDataOriginal.bits_per_sample << L" \\\\" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.8}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\begin{table}[h]" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\caption{Identification information of analysis conditions}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\begin{center}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{anotherlightblue}}l|p{8cm}|}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\hline " << L"\n";
+    o_refLaTeXSupportingInfo << L"Number of samples & " << io_refDataOriginal.L << L" \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\hline" << L"\n";
+    o_refLaTeXSupportingInfo << L"Bits per sample & " << io_refDataOriginal.bits_per_sample << L" \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\hline" << L"\n";
     if (1 < io_refDataOriginal.bits_per_sample)
     {
-        o_refLaTeXSupportingInfo << L"Byte to bit conversion & " << std::endl;
+        o_refLaTeXSupportingInfo << L"Byte to bit conversion & " << L"\n";
         if (io_refDataOriginal.bIsMSbFirstByteBitConversion)
         {
-            o_refLaTeXSupportingInfo << L"Most Significant bit (MSb) first" << std::endl;
+            o_refLaTeXSupportingInfo << L"Most Significant bit (MSb) first" << L"\n";
         }
         else
         {
-            o_refLaTeXSupportingInfo << L"Least Significant bit (LSb) first" << std::endl;
+            o_refLaTeXSupportingInfo << L"Least Significant bit (LSb) first" << L"\n";
         }
-        o_refLaTeXSupportingInfo << L" \\\\" << std::endl;
-        o_refLaTeXSupportingInfo << L"\\hline" << std::endl;
+        o_refLaTeXSupportingInfo << L" \\\\" << L"\n";
+        o_refLaTeXSupportingInfo << L"\\hline" << L"\n";
     }
-    o_refLaTeXSupportingInfo << L"\\end{tabular}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\end{center}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\end{table}" << std::endl;
-    o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.4}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\end{tabular}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\end{center}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\end{table}" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.4}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\subsection{Identification of analysis method}" << std::endl;
+    o_refLaTeXSupportingInfo << L"\\subsection{Identification of analysis method}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"NIST SP 800-90B \\cite{SP80090B} 6.3 with corrections \\cite{CorrectionsSP80090B} is applied" << std::endl;
+    o_refLaTeXSupportingInfo << L"NIST SP 800-90B \\cite{SP80090B} 6.3 with corrections \\cite{CorrectionsSP80090B} is applied" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1513,8 +1510,8 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
         // -------------------------------------------------------------------------- //
         // 
         // -------------------------------------------------------------------------- //
-        ssLaTeXSummary << L"\\pgfplotstableread{" << std::endl;
-        ssLaTeXSummary << L"section\ty\ty-min\ty-max" << std::endl;
+        ssLaTeXSummary << L"\\pgfplotstableread{" << L"\n";
+        ssLaTeXSummary << L"section\ty\ty-min\ty-max" << L"\n";
         // -------------------------------------------------------------------------- //
         // 
         // -------------------------------------------------------------------------- //
@@ -1650,11 +1647,11 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
                 ssLaTeXSummary << L"\t";
                 if (0.0 != *p_min_entropy_upper_bound)
                 {
-                    ssLaTeXSummary << std::setw(8) << std::fabs(*p_min_entropy_upper_bound - *p_min_entropy) << std::endl;
+                    ssLaTeXSummary << std::setw(8) << std::fabs(*p_min_entropy_upper_bound - *p_min_entropy) << L"\n";
                 }
                 else
                 {
-                    ssLaTeXSummary << std::setw(8) << 0.0 << std::endl;
+                    ssLaTeXSummary << std::setw(8) << 0.0 << L"\n";
                 }
             }
         }
@@ -1669,42 +1666,42 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
         default:
             break;
         }
-        ssLaTeXSummary << L"Binary}" << std::endl;
+        ssLaTeXSummary << L"Binary}" << L"\n";
     }
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeXSummary << L"\\begin{table}[h]" << std::endl;
-    ssLaTeXSummary << L"\\caption{Numerical results}" << std::endl;
-    ssLaTeXSummary << L"\\begin{center}" << std::endl;
-    ssLaTeXSummary << L"\\begin{tabular}{|l|c|c|c|c|}" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"\\rowcolor{anotherlightblue} %%" << std::endl;
-    ssLaTeXSummary << L"Estimator										& $H_{\\textrm{original}}$$^{\\textrm{\\,a}}$			& Notes to $H_{\\textrm{original}}$  & $H_{\\textrm{bitstring}}$$^{\\textrm{\\,b}}$	& Notes to $H_{\\textrm{bitstring}}$			\\\\ " << std::endl;
-    ssLaTeXSummary << L"\\cline{2-5}" << std::endl;
-    ssLaTeXSummary << L"\\rowcolor{anotherlightblue} %%" << std::endl;
-    ssLaTeXSummary << L"\\,												& [bit / "<< io_refDataOriginal.bits_per_sample << L" - bit] & \\, & [bit / 1 - bit] &	\\,	\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Most Common Value Estimate					& " << io_refDataOriginal.t_6_3_1.t_common.min_entropy << L"& see \\ref{sec:NonBinary631} & " << io_refDataBinary.t_6_3_1.t_common.min_entropy << L"& see \\ref{sec:Binary631} " << L"\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Collision Estimate							& ---		  & --- & " << io_refDataBinary.t_6_3_2.t_common.min_entropy << L"& see \\ref{sec:Binary632} " << L"\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Markov Estimate								& ---		  & --- & " << io_refDataBinary.t_6_3_3.t_common.min_entropy << L"& see \\ref{sec:Binary633} " << L"\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Compression Estimate						& ---		  & --- & " << io_refDataBinary.t_6_3_4.t_common.min_entropy << L"& see \\ref{sec:Binary634} " << L"\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The t-Tuple Estimate							& " << io_refDataOriginal.t_6_3_5.t_common.min_entropy << L"& see \\ref{sec:NonBinary635} & " << io_refDataBinary.t_6_3_5.t_common.min_entropy << L"& see \\ref{sec:Binary635} " << L"\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Longest Repeated Substring (LRS) Estimate	& " << io_refDataOriginal.t_6_3_6.t_common.min_entropy << L"& see \\ref{sec:NonBinary636} & " << io_refDataBinary.t_6_3_6.t_common.min_entropy << L"& see \\ref{sec:Binary636} " << L"\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"Multi Most Common in Window Prediction Estimate	& " << io_refDataOriginal.t_6_3_7.t_common.min_entropy << L"& see \\ref{sec:NonBinary637} & " << io_refDataBinary.t_6_3_7.t_common.min_entropy << L"& see \\ref{sec:Binary637} " << L"\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Lag Prediction Estimate						& " << io_refDataOriginal.t_6_3_8.t_common.min_entropy << L"& see \\ref{sec:NonBinary638} & " << io_refDataBinary.t_6_3_8.t_common.min_entropy << L"& see \\ref{sec:Binary638} " << L"\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The MultiMMC Prediction Estimate				& " << io_refDataOriginal.t_6_3_9.t_common.min_entropy << L"& see \\ref{sec:NonBinary639} & " << io_refDataBinary.t_6_3_9.t_common.min_entropy << L"& see \\ref{sec:Binary639} " << L"\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The LZ78Y Prediction Estimate					& " << io_refDataOriginal.t_6_3_10.t_common.min_entropy << L"& see \\ref{sec:NonBinary6310} &" << io_refDataBinary.t_6_3_10.t_common.min_entropy << L"& see \\ref{sec:Binary6310} " << L"\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline \\hline " << std::endl;
+    ssLaTeXSummary << L"\\begin{table}[h]" << L"\n";
+    ssLaTeXSummary << L"\\caption{Numerical results}" << L"\n";
+    ssLaTeXSummary << L"\\begin{center}" << L"\n";
+    ssLaTeXSummary << L"\\begin{tabular}{|l|c|c|c|c|}" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"\\rowcolor{anotherlightblue} %%" << L"\n";
+    ssLaTeXSummary << L"Estimator										& $H_{\\textrm{original}}$$^{\\textrm{\\,a}}$			& Notes to $H_{\\textrm{original}}$  & $H_{\\textrm{bitstring}}$$^{\\textrm{\\,b}}$	& Notes to $H_{\\textrm{bitstring}}$			\\\\ " << L"\n";
+    ssLaTeXSummary << L"\\cline{2-5}" << L"\n";
+    ssLaTeXSummary << L"\\rowcolor{anotherlightblue} %%" << L"\n";
+    ssLaTeXSummary << L"\\,												& [bit / "<< io_refDataOriginal.bits_per_sample << L" - bit] & \\, & [bit / 1 - bit] &	\\,	\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"The Most Common Value Estimate					& " << io_refDataOriginal.t_6_3_1.t_common.min_entropy << L"& see \\ref{sec:NonBinary631} & " << io_refDataBinary.t_6_3_1.t_common.min_entropy << L"& see \\ref{sec:Binary631} " << L"\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"The Collision Estimate							& ---		  & --- & " << io_refDataBinary.t_6_3_2.t_common.min_entropy << L"& see \\ref{sec:Binary632} " << L"\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"The Markov Estimate								& ---		  & --- & " << io_refDataBinary.t_6_3_3.t_common.min_entropy << L"& see \\ref{sec:Binary633} " << L"\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"The Compression Estimate						& ---		  & --- & " << io_refDataBinary.t_6_3_4.t_common.min_entropy << L"& see \\ref{sec:Binary634} " << L"\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"The t-Tuple Estimate							& " << io_refDataOriginal.t_6_3_5.t_common.min_entropy << L"& see \\ref{sec:NonBinary635} & " << io_refDataBinary.t_6_3_5.t_common.min_entropy << L"& see \\ref{sec:Binary635} " << L"\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"The Longest Repeated Substring (LRS) Estimate	& " << io_refDataOriginal.t_6_3_6.t_common.min_entropy << L"& see \\ref{sec:NonBinary636} & " << io_refDataBinary.t_6_3_6.t_common.min_entropy << L"& see \\ref{sec:Binary636} " << L"\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"Multi Most Common in Window Prediction Estimate	& " << io_refDataOriginal.t_6_3_7.t_common.min_entropy << L"& see \\ref{sec:NonBinary637} & " << io_refDataBinary.t_6_3_7.t_common.min_entropy << L"& see \\ref{sec:Binary637} " << L"\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"The Lag Prediction Estimate						& " << io_refDataOriginal.t_6_3_8.t_common.min_entropy << L"& see \\ref{sec:NonBinary638} & " << io_refDataBinary.t_6_3_8.t_common.min_entropy << L"& see \\ref{sec:Binary638} " << L"\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"The MultiMMC Prediction Estimate				& " << io_refDataOriginal.t_6_3_9.t_common.min_entropy << L"& see \\ref{sec:NonBinary639} & " << io_refDataBinary.t_6_3_9.t_common.min_entropy << L"& see \\ref{sec:Binary639} " << L"\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"The LZ78Y Prediction Estimate					& " << io_refDataOriginal.t_6_3_10.t_common.min_entropy << L"& see \\ref{sec:NonBinary6310} &" << io_refDataBinary.t_6_3_10.t_common.min_entropy << L"& see \\ref{sec:Binary6310} " << L"\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline \\hline " << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1714,26 +1711,26 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
         {
             min_entropy_global = static_cast<double>(io_refDataOriginal.bits_per_sample) * min_entropy_bitstring;
         }
-        ssLaTeXSummary << L"The intial entropy source estimate [bit / " << io_refDataOriginal.bits_per_sample << L" - bit]	& \\multicolumn{4}{|c|}{" << min_entropy_global << L"}	\\\\" << std::endl;
+        ssLaTeXSummary << L"The intial entropy source estimate [bit / " << io_refDataOriginal.bits_per_sample << L" - bit]	& \\multicolumn{4}{|c|}{" << min_entropy_global << L"}	\\\\" << L"\n";
     }
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeXSummary << L"$H_{I} = \\min (H_{\\textrm{original}}, " << io_refDataOriginal.bits_per_sample << L"\\times H_{\\textrm{bitstring}})$ &\\multicolumn{4}{ | c | } {\\, }	\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline \\hline " << std::endl;
-    ssLaTeXSummary << L"\\multicolumn{5}{|l|}{$^{\\,a}$\\quad Entropy estimate of the sequential dataset [source: NIST SP 800-90B \\cite{SP80090B} 3.1.3]} \\\\" << std::endl;
-    ssLaTeXSummary << L"\\multicolumn{5}{|l|}{$^{\\,b}$\\quad An additional entropy estimation (per bit) for the non-binary sequential dataset [see NIST SP 800-90B \\cite{SP80090B} 3.1.3]} \\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"\\end{tabular}" << std::endl;
-    ssLaTeXSummary << L"\\end{center}" << std::endl;
-    ssLaTeXSummary << L"\\end{table}" << std::endl;
+    ssLaTeXSummary << L"$H_{I} = \\min (H_{\\textrm{original}}, " << io_refDataOriginal.bits_per_sample << L"\\times H_{\\textrm{bitstring}})$ &\\multicolumn{4}{ | c | } {\\, }	\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline \\hline " << L"\n";
+    ssLaTeXSummary << L"\\multicolumn{5}{|l|}{$^{\\,a}$\\quad Entropy estimate of the sequential dataset [source: NIST SP 800-90B \\cite{SP80090B} 3.1.3]} \\\\" << L"\n";
+    ssLaTeXSummary << L"\\multicolumn{5}{|l|}{$^{\\,b}$\\quad An additional entropy estimation (per bit) for the non-binary sequential dataset [see NIST SP 800-90B \\cite{SP80090B} 3.1.3]} \\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"\\end{tabular}" << L"\n";
+    ssLaTeXSummary << L"\\end{center}" << L"\n";
+    ssLaTeXSummary << L"\\end{table}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeXSummary << L"\\clearpage" << std::endl;
-    ssLaTeXSummary << L"\\subsection{Visual comparison of min-entropy estimates from original samples}" << std::endl;
+    ssLaTeXSummary << L"\\clearpage" << L"\n";
+    ssLaTeXSummary << L"\\subsection{Visual comparison of min-entropy estimates from original samples}" << L"\n";
     loadPGFPlotSummary(ssLaTeXSummary, false, min_entropy_literal, io_refDataOriginal.bits_per_sample);
-    ssLaTeXSummary << L"\\subsection{Visual comparison of min-entropy estimates by interpreting each sample as bitstring}" << std::endl;
+    ssLaTeXSummary << L"\\subsection{Visual comparison of min-entropy estimates by interpreting each sample as bitstring}" << L"\n";
     loadPGFPlotSummary(ssLaTeXSummary, true, min_entropy_bitstring, io_refDataBinary.bits_per_sample);
     // -------------------------------------------------------------------------- //
     // 
@@ -1745,16 +1742,16 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     // -------------------------------------------------------------------------- //
     std::wstringstream ssLaTeX = std::wstringstream();
     loadLaTeXPreamble(ssLaTeX);
-    ssLaTeX << L"\\begin{document}" << std::endl;
-    ssLaTeX << L"\\StopCensoring" << std::endl;
-    ssLaTeX << L"\\maketitle" << std::endl;
-    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    ssLaTeX << L"%%%%%%" << std::endl;
-    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    ssLaTeX << L"\\thispagestyle{mypagestylewithtotalpagenumbers}" << std::endl;
-    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    ssLaTeX << L"%%%%%%" << std::endl;
-    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+    ssLaTeX << L"\\begin{document}" << L"\n";
+    ssLaTeX << L"\\StopCensoring" << L"\n";
+    ssLaTeX << L"\\maketitle" << L"\n";
+    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    ssLaTeX << L"%%%%%%" << L"\n";
+    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    ssLaTeX << L"\\thispagestyle{mypagestylewithtotalpagenumbers}" << L"\n";
+    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    ssLaTeX << L"%%%%%%" << L"\n";
+    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1762,15 +1759,15 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeX << L"\\clearpage" << std::endl;
-    ssLaTeX << L"\\section{Executive summary}" << std::endl;
-    ssLaTeX << L"\\subsection{Numerical results of min-entropy estimates based on non-IID track}" << std::endl;
+    ssLaTeX << L"\\clearpage" << L"\n";
+    ssLaTeX << L"\\section{Executive summary}" << L"\n";
+    ssLaTeX << L"\\subsection{Numerical results of min-entropy estimates based on non-IID track}" << L"\n";
     ssLaTeX << ssLaTeXSummary.rdbuf();
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeX << L"\\clearpage" << std::endl;
-    ssLaTeX << L"\\section{Detailed results of analysis from original samples}" << std::endl;
+    ssLaTeX << L"\\clearpage" << L"\n";
+    ssLaTeX << L"\\section{Detailed results of analysis from original samples}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1778,8 +1775,8 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeX << L"\\clearpage" << std::endl;
-    ssLaTeX << L"\\section{Detailed results of analysis by interpreting each sample as bitstrings}" << std::endl;
+    ssLaTeX << L"\\clearpage" << L"\n";
+    ssLaTeX << L"\\section{Detailed results of analysis by interpreting each sample as bitstrings}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1793,7 +1790,7 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeX << L"\\end{document}" << std::endl;
+    ssLaTeX << L"\\end{document}" << L"\n";
     // -------------------------------------------------------------------------- //
     //
     // -------------------------------------------------------------------------- //
@@ -1810,27 +1807,27 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     setlocale(LC_ALL, "");
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    std::wcout << std::endl;
-    std::wcout << L"# [INFO] In order to compile the generated XeLaTeX source file of entropy estimation report, " << std::endl;
-    std::wcout << L"# [INFO] you need to type the following command and press Enter key." << std::endl;
+    std::wcout << L"\n";
+    std::wcout << L"# [INFO] In order to compile the generated XeLaTeX source file of entropy estimation report, " << L"\n";
+    std::wcout << L"# [INFO] you need to type the following command and press Enter key." << L"\n";
     std::wcout << L"# [INFO] ";
     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L" xelatex " << the_report_path_LaTeX.wstring() << std::endl;
+    std::wcout << L" xelatex " << the_report_path_LaTeX.wstring() << L"\n";
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << std::endl;
+    std::wcout << L"\n";
     std::wcout << L"# [INFO] In a case where you get an error message like ";
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
-    std::wcout << L"\"TeX capacity exceeded, sorry [main memory size=...]\"," << std::endl;
+    std::wcout << L"\"TeX capacity exceeded, sorry [main memory size=...]\"," << L"\n";
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L"# [INFO] first you need to update the \"texmf.cnf\" file so as to modify the memory size like as follows:" << std::endl;
+    std::wcout << L"# [INFO] first you need to update the \"texmf.cnf\" file so as to modify the memory size like as follows:" << L"\n";
     std::wcout << L"# [INFO] ";
     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L" main_memory = 12400000" << std::endl;
+    std::wcout << L" main_memory = 12400000" << L"\n";
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L"# [INFO] Next you need to run command prompt with Administrator privilege and type as follows:" << std::endl;
+    std::wcout << L"# [INFO] Next you need to run command prompt with Administrator privilege and type as follows:" << L"\n";
     std::wcout << L"# [INFO] ";
     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L" fmtutil-sys --all" << std::endl;
+    std::wcout << L" fmtutil-sys --all" << L"\n";
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     std::wcout << L"# [INFO] and press \"Enter\" key";
     // -------------------------------------------------------------------------- //
@@ -1884,8 +1881,8 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeXSummary << L"\\pgfplotstableread{" << std::endl;
-    ssLaTeXSummary << L"section\ty\ty-min\ty-max" << std::endl;
+    ssLaTeXSummary << L"\\pgfplotstableread{" << L"\n";
+    ssLaTeXSummary << L"section\ty\ty-min\ty-max" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1979,64 +1976,64 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
             ssLaTeXSummary << L"\t";
             if (0.0 != *p_min_entropy_upper_bound)
             {
-                ssLaTeXSummary << std::setw(8) << *p_min_entropy_upper_bound << std::endl;
+                ssLaTeXSummary << std::setw(8) << *p_min_entropy_upper_bound << L"\n";
             }
             else
             {
-                ssLaTeXSummary << std::setw(8) << 0.0 << std::endl;
+                ssLaTeXSummary << std::setw(8) << 0.0 << L"\n";
             }
         }
     }
-    ssLaTeXSummary << L"}{\\summarytableBinary}" << std::endl;
-    ssLaTeXSummary << L"\\begin{table}[h]" << std::endl;
-    ssLaTeXSummary << L"\\caption{Numerical results}" << std::endl;
-    ssLaTeXSummary << L"\\begin{center}" << std::endl;
-    ssLaTeXSummary << L"\\begin{tabular}{|l|c|c|}" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"\\rowcolor{anotherlightblue} %%" << std::endl;
-    ssLaTeXSummary << L"Estimator										& $H_{\\textrm{bitstring}}$$^{\\textrm{\\,a}}$ & Notes to $H_{\\textrm{bitstring}}$	\\\\ " << std::endl;
-    ssLaTeXSummary << L"\\cline{2-3}" << std::endl;
-    ssLaTeXSummary << L"\\rowcolor{anotherlightblue} %%" << std::endl;
-    ssLaTeXSummary << L"\\,												& [bit / 1 - bit] & \\,		\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Most Common Value Estimate					& " << io_refDataBinary.t_6_3_1.t_common.min_entropy << L"& see \\ref{sec:Binary631} " << L"\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Collision Estimate							& " << io_refDataBinary.t_6_3_2.t_common.min_entropy << L"& see \\ref{sec:Binary632} " << L"\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Markov Estimate								& " << io_refDataBinary.t_6_3_3.t_common.min_entropy << L"& see \\ref{sec:Binary633} " << L"\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Compression Estimate						& " << io_refDataBinary.t_6_3_4.t_common.min_entropy << L"& see \\ref{sec:Binary634} " << L"\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The t-Tuple Estimate							& " << io_refDataBinary.t_6_3_5.t_common.min_entropy << L"& see \\ref{sec:Binary635} " << L"\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Longest Repeated Substring (LRS) Estimate	& " << io_refDataBinary.t_6_3_6.t_common.min_entropy << L"& see \\ref{sec:Binary636} " << L"\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"Multi Most Common in Window Prediction Estimate	& " << io_refDataBinary.t_6_3_7.t_common.min_entropy << L"& see \\ref{sec:Binary637} " << L"\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The Lag Prediction Estimate						& " << io_refDataBinary.t_6_3_8.t_common.min_entropy << L"& see \\ref{sec:Binary638} " << L"\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The MultiMMC Prediction Estimate				& " << io_refDataBinary.t_6_3_9.t_common.min_entropy << L"& see \\ref{sec:Binary639} " << L"\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"The LZ78Y Prediction Estimate					& " << io_refDataBinary.t_6_3_10.t_common.min_entropy << L"& see \\ref{sec:Binary6310} " << L"\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline \\hline " << std::endl;
+    ssLaTeXSummary << L"}{\\summarytableBinary}" << L"\n";
+    ssLaTeXSummary << L"\\begin{table}[h]" << L"\n";
+    ssLaTeXSummary << L"\\caption{Numerical results}" << L"\n";
+    ssLaTeXSummary << L"\\begin{center}" << L"\n";
+    ssLaTeXSummary << L"\\begin{tabular}{|l|c|c|}" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"\\rowcolor{anotherlightblue} %%" << L"\n";
+    ssLaTeXSummary << L"Estimator										& $H_{\\textrm{bitstring}}$$^{\\textrm{\\,a}}$ & Notes to $H_{\\textrm{bitstring}}$	\\\\ " << L"\n";
+    ssLaTeXSummary << L"\\cline{2-3}" << L"\n";
+    ssLaTeXSummary << L"\\rowcolor{anotherlightblue} %%" << L"\n";
+    ssLaTeXSummary << L"\\,												& [bit / 1 - bit] & \\,		\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"The Most Common Value Estimate					& " << io_refDataBinary.t_6_3_1.t_common.min_entropy << L"& see \\ref{sec:Binary631} " << L"\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"The Collision Estimate							& " << io_refDataBinary.t_6_3_2.t_common.min_entropy << L"& see \\ref{sec:Binary632} " << L"\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"The Markov Estimate								& " << io_refDataBinary.t_6_3_3.t_common.min_entropy << L"& see \\ref{sec:Binary633} " << L"\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"The Compression Estimate						& " << io_refDataBinary.t_6_3_4.t_common.min_entropy << L"& see \\ref{sec:Binary634} " << L"\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"The t-Tuple Estimate							& " << io_refDataBinary.t_6_3_5.t_common.min_entropy << L"& see \\ref{sec:Binary635} " << L"\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"The Longest Repeated Substring (LRS) Estimate	& " << io_refDataBinary.t_6_3_6.t_common.min_entropy << L"& see \\ref{sec:Binary636} " << L"\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"Multi Most Common in Window Prediction Estimate	& " << io_refDataBinary.t_6_3_7.t_common.min_entropy << L"& see \\ref{sec:Binary637} " << L"\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"The Lag Prediction Estimate						& " << io_refDataBinary.t_6_3_8.t_common.min_entropy << L"& see \\ref{sec:Binary638} " << L"\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"The MultiMMC Prediction Estimate				& " << io_refDataBinary.t_6_3_9.t_common.min_entropy << L"& see \\ref{sec:Binary639} " << L"\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"The LZ78Y Prediction Estimate					& " << io_refDataBinary.t_6_3_10.t_common.min_entropy << L"& see \\ref{sec:Binary6310} " << L"\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline \\hline " << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeXSummary << L"The intial entropy source estimate [bit / " << io_refDataBinary.bits_per_sample << L" -bit]	& \\multicolumn{2}{|c|}{" << min_entropy_bitstring << L"}	\\\\" << std::endl;
+    ssLaTeXSummary << L"The intial entropy source estimate [bit / " << io_refDataBinary.bits_per_sample << L" -bit]	& \\multicolumn{2}{|c|}{" << min_entropy_bitstring << L"}	\\\\" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeXSummary << L"$H_{I} = H_{\\textrm{bitstring}}$ & \\multicolumn{2}{|c|}{ \\, } 	\\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline \\hline " << std::endl;
-    ssLaTeXSummary << L"\\multicolumn{3}{|l|}{$^{\\,a}$\\quad Entropy estimate of the sequential dataset [source: NIST SP 800-90B \\cite{SP80090B} 3.1.3]} \\\\" << std::endl;
-    ssLaTeXSummary << L"\\hline " << std::endl;
-    ssLaTeXSummary << L"\\end{tabular}" << std::endl;
-    ssLaTeXSummary << L"\\end{center}" << std::endl;
-    ssLaTeXSummary << L"\\end{table}" << std::endl;
+    ssLaTeXSummary << L"$H_{I} = H_{\\textrm{bitstring}}$ & \\multicolumn{2}{|c|}{ \\, } 	\\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline \\hline " << L"\n";
+    ssLaTeXSummary << L"\\multicolumn{3}{|l|}{$^{\\,a}$\\quad Entropy estimate of the sequential dataset [source: NIST SP 800-90B \\cite{SP80090B} 3.1.3]} \\\\" << L"\n";
+    ssLaTeXSummary << L"\\hline " << L"\n";
+    ssLaTeXSummary << L"\\end{tabular}" << L"\n";
+    ssLaTeXSummary << L"\\end{center}" << L"\n";
+    ssLaTeXSummary << L"\\end{table}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeXSummary << L"\\subsection{Visual comparison of min-entropy estimates from binary samples}" << std::endl;
+    ssLaTeXSummary << L"\\subsection{Visual comparison of min-entropy estimates from binary samples}" << L"\n";
     loadPGFPlotSummary(ssLaTeXSummary, true, min_entropy_bitstring, 1.0);
     // -------------------------------------------------------------------------- //
     // 
@@ -2048,16 +2045,16 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     // -------------------------------------------------------------------------- //
     std::wstringstream ssLaTeX = std::wstringstream();
     loadLaTeXPreamble(ssLaTeX);
-    ssLaTeX << L"\\begin{document}" << std::endl;
-    ssLaTeX << L"\\StopCensoring" << std::endl;
-    ssLaTeX << L"\\maketitle" << std::endl;
-    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    ssLaTeX << L"%%%%%%" << std::endl;
-    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    ssLaTeX << L"\\thispagestyle{mypagestylewithtotalpagenumbers}" << std::endl;
-    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-    ssLaTeX << L"%%%%%%" << std::endl;
-    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+    ssLaTeX << L"\\begin{document}" << L"\n";
+    ssLaTeX << L"\\StopCensoring" << L"\n";
+    ssLaTeX << L"\\maketitle" << L"\n";
+    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    ssLaTeX << L"%%%%%%" << L"\n";
+    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    ssLaTeX << L"\\thispagestyle{mypagestylewithtotalpagenumbers}" << L"\n";
+    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    ssLaTeX << L"%%%%%%" << L"\n";
+    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -2065,15 +2062,15 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeX << L"\\clearpage" << std::endl;
-    ssLaTeX << L"\\section{Executive summary}" << std::endl;
-    ssLaTeX << L"\\subsection{Numerical results of min-entropy estimates based on non-IID track}" << std::endl;
+    ssLaTeX << L"\\clearpage" << L"\n";
+    ssLaTeX << L"\\section{Executive summary}" << L"\n";
+    ssLaTeX << L"\\subsection{Numerical results of min-entropy estimates based on non-IID track}" << L"\n";
     ssLaTeX << ssLaTeXSummary.rdbuf();
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeX << L"\\clearpage" << std::endl;
-    ssLaTeX << L"\\section{Detailed results of analysis from original samples}" << std::endl;
+    ssLaTeX << L"\\clearpage" << L"\n";
+    ssLaTeX << L"\\section{Detailed results of analysis from original samples}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -2087,7 +2084,7 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeX << L"\\end{document}" << std::endl;
+    ssLaTeX << L"\\end{document}" << L"\n";
     // -------------------------------------------------------------------------- //
     //
     // -------------------------------------------------------------------------- //
@@ -2104,27 +2101,27 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     setlocale(LC_ALL, "");
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    std::wcout << std::endl;
-    std::wcout << L"# [INFO] In order to compile the generated XeLaTeX source file of entropy estimation report, " << std::endl;
-    std::wcout << L"# [INFO] you need to type the following command and press Enter key." << std::endl;
+    std::wcout << L"\n";
+    std::wcout << L"# [INFO] In order to compile the generated XeLaTeX source file of entropy estimation report, " << L"\n";
+    std::wcout << L"# [INFO] you need to type the following command and press Enter key." << L"\n";
     std::wcout << L"# [INFO] ";
     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L" xelatex " << the_report_path_LaTeX.wstring() << std::endl;
+    std::wcout << L" xelatex " << the_report_path_LaTeX.wstring() << L"\n";
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << std::endl;
+    std::wcout << L"\n";
     std::wcout << L"# [INFO] In a case where you get an error message like ";
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
-    std::wcout << L"\"TeX capacity exceeded, sorry [main memory size=...]\"," << std::endl;
+    std::wcout << L"\"TeX capacity exceeded, sorry [main memory size=...]\"," << L"\n";
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L"# [INFO] first you need to update the \"texmf.cnf\" file so as to modify the memory size like as follows:" << std::endl;
+    std::wcout << L"# [INFO] first you need to update the \"texmf.cnf\" file so as to modify the memory size like as follows:" << L"\n";
     std::wcout << L"# [INFO] ";
     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L" main_memory = 12400000" << std::endl;
+    std::wcout << L" main_memory = 12400000" << L"\n";
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L"# [INFO] Next you need to run command prompt with Administrator privilege and type as follows:" << std::endl;
+    std::wcout << L"# [INFO] Next you need to run command prompt with Administrator privilege and type as follows:" << L"\n";
     std::wcout << L"# [INFO] ";
     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L" fmtutil-sys --all" << std::endl;
+    std::wcout << L" fmtutil-sys --all" << L"\n";
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     std::wcout << L"# [INFO] and press \"Enter\" key";
     // -------------------------------------------------------------------------- //

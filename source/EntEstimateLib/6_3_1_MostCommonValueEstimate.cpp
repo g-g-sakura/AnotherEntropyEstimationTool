@@ -67,41 +67,41 @@ namespace entropy_estimator_lib
 				switch (io_refData.bits_per_sample)
 				{
 				case 1:
-					(*io_refData.p_ssLaTeXFragment) << L"\\label{sec:Binary631}" << std::endl;
+					(*io_refData.p_ssLaTeXFragment) << L"\\label{sec:Binary631}" << L"\n";
 					break;
 				default:
-					(*io_refData.p_ssLaTeXFragment) << L"\\label{sec:NonBinary631}" << std::endl;
+					(*io_refData.p_ssLaTeXFragment) << L"\\label{sec:NonBinary631}" << L"\n";
 					break;
 				}
-				(*io_refData.p_ssLaTeXFragment) << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\n";
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\begin{figure}[htbp]" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\centering" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\begin{figure}[htbp]" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\centering" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\n";
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\begin{tikzpicture}" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\begin{axis}[" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"	ybar," << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\begin{tikzpicture}" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\begin{axis}[" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"	ybar," << L"\n";
 				if (2 == io_refData.k)
 				{
-					(*io_refData.p_ssLaTeXFragment) << L"	bar width=5pt," << std::endl;
+					(*io_refData.p_ssLaTeXFragment) << L"	bar width=5pt," << L"\n";
 				}
 				else
 				{
-					(*io_refData.p_ssLaTeXFragment) << L"	bar width=1.25pt," << std::endl;
+					(*io_refData.p_ssLaTeXFragment) << L"	bar width=1.25pt," << L"\n";
 				}
-				(*io_refData.p_ssLaTeXFragment) << L"	xmin=-0.125," << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"	xmin=-0.125," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"xmax=" << static_cast<double>(xmax) + 0.125 << ",";
-				(*io_refData.p_ssLaTeXFragment) << L"	ymin=0," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"	width=20cm," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"	xlabel=$x_i$," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"	ylabel=\\#$\\{x_i \\,\\textrm{in} \\,S\\} / L$" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"]" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\addplot coordinates {" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"	ymin=0," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"	width=20cm," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"	xlabel=$x_i$," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"	ylabel=\\#$\\{x_i \\,\\textrm{in} \\,S\\} / L$" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"]" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\addplot coordinates {" << L"\n";
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
@@ -111,28 +111,28 @@ namespace entropy_estimator_lib
 					(*io_refData.p_ssLaTeXFragment) << L"(";
 					(*io_refData.p_ssLaTeXFragment) << std::setw(8) << (it->idx);
 					(*io_refData.p_ssLaTeXFragment) << L", " << std::setw(8) << static_cast<double>(it->cnt) / static_cast<double>(io_refData.L);
-					(*io_refData.p_ssLaTeXFragment) << L")" << std::endl;
+					(*io_refData.p_ssLaTeXFragment) << L")" << L"\n";
 				}
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"};" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"};" << L"\n";
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\addplot+[Nigelle,no marks,sharp plot,update limits=false] " << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"coordinates {(0," << io_refData.t_6_3_1.p_hat << L") (" << xmax << L"," << io_refData.t_6_3_1.p_hat << L")}" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"node[above] at (axis cs:" << 0.5 * xmax << L"," << io_refData.t_6_3_1.p_hat << L") {\\shortstack{$\\hat{p}$ = " << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\addplot+[Nigelle,no marks,sharp plot,update limits=false] " << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"coordinates {(0," << io_refData.t_6_3_1.p_hat << L") (" << xmax << L"," << io_refData.t_6_3_1.p_hat << L")}" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"node[above] at (axis cs:" << 0.5 * xmax << L"," << io_refData.t_6_3_1.p_hat << L") {\\shortstack{$\\hat{p}$ = " << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << io_refData.t_6_3_1.p_hat << L"\\\\($\\rightarrow$ min-entropy = " << io_refData.t_6_3_1.t_common.min_entropy;
-				(*io_refData.p_ssLaTeXFragment) << L" [bit / " << io_refData.bits_per_sample << L"-bit])}};" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L" [bit / " << io_refData.bits_per_sample << L"-bit])}};" << L"\n";
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\end{axis}" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\end{tikzpicture}" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\caption{Distribution of $x_i$}" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\end{figure}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\end{axis}" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\end{tikzpicture}" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\caption{Distribution of $x_i$}" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\end{figure}" << L"\n";
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
@@ -172,41 +172,41 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\subsubsection{Supplemental information for traceability}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\subsubsection{Supplemental information for traceability}" << L"\n";
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\renewcommand{\\arraystretch}{1.8}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\renewcommand{\\arraystretch}{1.8}" << L"\n";
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\begin{table}[h]" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\caption{Supplemental information for traceability (NIST SP 800-90B Section 6.3.1)}" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\begin{center}" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\begin{tabular}{|l|c|}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\begin{table}[h]" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\caption{Supplemental information for traceability (NIST SP 800-90B Section 6.3.1)}" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\begin{center}" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\begin{tabular}{|l|c|}" << L"\n";
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\hline " << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\rowcolor{anotherlightblue} %%" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\hline " << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\rowcolor{anotherlightblue} %%" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"Symbol				& Value ";
-				(*io_refData.p_ssLaTeXFragment) << L"\\\\ \\hline " << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\\\ \\hline " << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"mode				& " << std::setw(8) << io_refData.t_6_3_1.mode;
-				(*io_refData.p_ssLaTeXFragment) << L"\\\\ \\hline " << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\\\ \\hline " << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"$\\hat{p}$ 			& " << std::setw(8) << io_refData.t_6_3_1.p_hat;
-				(*io_refData.p_ssLaTeXFragment) << L"\\\\ \\hline" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\\\ \\hline" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"$p_u$				& " << std::setw(8) << io_refData.t_6_3_1.p_u;
-				(*io_refData.p_ssLaTeXFragment) << L"\\\\ \\hline" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\\\ \\hline" << L"\n";
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\end{tabular}" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\end{center}" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\end{table}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\end{tabular}" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\end{center}" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\end{table}" << L"\n";
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\renewcommand{\\arraystretch}{1.4}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\renewcommand{\\arraystretch}{1.4}" << L"\n";
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //

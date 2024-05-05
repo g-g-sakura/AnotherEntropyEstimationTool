@@ -52,38 +52,38 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\begin{figure}[htbp]" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\begin{tikzpicture} " << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\begin{axis}[" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\txlabel=$i$," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\tylabel=$P_{i,j}$," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"	width=10cm," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"	xmin=-0.125,xmax=1.125," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"	xtick={0, 1}," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"	legend style={at={(1,0.75)},anchor=north west}," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"	/pgf/number format/.cd,fixed,precision=6," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"	scatter/classes={%" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"		a={mark=square*,blue}," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"		b={mark=square*,red}," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"		c={mark=square*,green}," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"		d={mark=square*,cyan}}]" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"	\\addplot[scatter,only marks,%" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"		scatter src=explicit symbolic]%" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"	table[meta=label] {" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"x\ty\tlabel" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << std::setw(2) << 0 << L"\t" << std::setw(8) << io_refData.t_6_3_3.p_transition[0][0] << L"\ta" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << std::setw(2) << 0 << L"\t" << std::setw(8) << io_refData.t_6_3_3.p_transition[1][0] << L"\tb" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << std::setw(2) << 1 << L"\t" << std::setw(8) << io_refData.t_6_3_3.p_transition[0][1] << L"\tc" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << std::setw(2) << 1 << L"\t" << std::setw(8) << io_refData.t_6_3_3.p_transition[1][1] << L"\td" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"	};" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\legend{$P_{0,0}$, $P_{0,1}$, $P_{1,0}$, $P_{1,1}$}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\begin{figure}[htbp]" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\begin{tikzpicture} " << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\begin{axis}[" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\txlabel=$i$," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\tylabel=$P_{i,j}$," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"	width=10cm," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"	xmin=-0.125,xmax=1.125," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"	xtick={0, 1}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"	legend style={at={(1,0.75)},anchor=north west}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"	/pgf/number format/.cd,fixed,precision=6," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"	scatter/classes={%" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		a={mark=square*,blue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		b={mark=square*,red}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		c={mark=square*,green}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		d={mark=square*,cyan}}]" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"	\\addplot[scatter,only marks,%" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		scatter src=explicit symbolic]%" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"	table[meta=label] {" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"x\ty\tlabel" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << std::setw(2) << 0 << L"\t" << std::setw(8) << io_refData.t_6_3_3.p_transition[0][0] << L"\ta" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << std::setw(2) << 0 << L"\t" << std::setw(8) << io_refData.t_6_3_3.p_transition[1][0] << L"\tb" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << std::setw(2) << 1 << L"\t" << std::setw(8) << io_refData.t_6_3_3.p_transition[0][1] << L"\tc" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << std::setw(2) << 1 << L"\t" << std::setw(8) << io_refData.t_6_3_3.p_transition[1][1] << L"\td" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"	};" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\legend{$P_{0,0}$, $P_{0,1}$, $P_{1,0}$, $P_{1,1}$}" << L"\n";
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\end{axis} " << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\end{tikzpicture}" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\caption{Transition probability $P_{i,j}$ of $\\S$6.3.3 of NIST SP 800-90B}" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\end{figure}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\end{axis} " << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\end{tikzpicture}" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\caption{Transition probability $P_{i,j}$ of $\\S$6.3.3 of NIST SP 800-90B}" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\end{figure}" << L"\n";
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
@@ -118,13 +118,13 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\clearpage" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\clearpage" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"\\subsection{The Markov Estimate (NIST SP 800-90B Section 6.3.3)}";
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\label{sec:Binary633}" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\label{sec:Binary633}" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\n";
 				// -------------------------------------------------------------------------- //
 				// output transition probability P_{i,j}
 				// -------------------------------------------------------------------------- //
@@ -132,95 +132,95 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\begin{figure}[htbp]" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\begin{tikzpicture} " << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\begin{axis}[" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\txlabel=Sequence index," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\tylabel=$-\\log_{2}\\left ( \\textrm{Probability}\\right ) / 128$," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"	width=18cm," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"	xmin=0.5,xmax=14.5," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"	legend style={at={(1,1)},anchor=north west}," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"	/pgf/number format/.cd,fixed,precision=6," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"	scatter/classes={%" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"		a={mark=square*,blue}," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"		b={mark=square*,red}," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"		c={mark=square*,green}," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"		d={mark=square*,cyan}," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"		e={mark=square*,magenta}," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"		f={mark=square*,yellow}," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"		g={mark=triangle*,blue}," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"		h={mark=triangle*,red}," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"		i={mark=triangle*,green}," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"		j={mark=triangle*,cyan}," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"		k={mark=triangle*,magenta}," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"		l={mark=triangle*,yellow}," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"		m={mark=o,blue}," << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"		n={mark=o,red}}]" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\begin{figure}[htbp]" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\begin{tikzpicture} " << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\begin{axis}[" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\txlabel=Sequence index," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\tylabel=$-\\log_{2}\\left ( \\textrm{Probability}\\right ) / 128$," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"	width=18cm," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"	xmin=0.5,xmax=14.5," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"	legend style={at={(1,1)},anchor=north west}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"	/pgf/number format/.cd,fixed,precision=6," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"	scatter/classes={%" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		a={mark=square*,blue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		b={mark=square*,red}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		c={mark=square*,green}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		d={mark=square*,cyan}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		e={mark=square*,magenta}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		f={mark=square*,yellow}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		g={mark=triangle*,blue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		h={mark=triangle*,red}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		i={mark=triangle*,green}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		j={mark=triangle*,cyan}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		k={mark=triangle*,magenta}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		l={mark=triangle*,yellow}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		m={mark=o,blue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		n={mark=o,red}}]" << L"\n";
 				for (int j = 0; j < 14; ++j)
 				{
-					(*io_refData.p_ssLaTeXFragment) << L"	\\addplot[scatter,only marks,%" << std::endl;
-					(*io_refData.p_ssLaTeXFragment) << L"		scatter src=explicit symbolic]%" << std::endl;
-					(*io_refData.p_ssLaTeXFragment) << L"	table[meta=label] {" << std::endl;
-					(*io_refData.p_ssLaTeXFragment) << L"x\ty\tlabel" << std::endl;
+					(*io_refData.p_ssLaTeXFragment) << L"	\\addplot[scatter,only marks,%" << L"\n";
+					(*io_refData.p_ssLaTeXFragment) << L"		scatter src=explicit symbolic]%" << L"\n";
+					(*io_refData.p_ssLaTeXFragment) << L"	table[meta=label] {" << L"\n";
+					(*io_refData.p_ssLaTeXFragment) << L"x\ty\tlabel" << L"\n";
 					(*io_refData.p_ssLaTeXFragment) << std::setw(2) << j + 1 << L"\t" << std::setw(8) << io_refData.t_6_3_3.negativeLogPoverLength[j];
 					switch (j % 14)
 					{
 					case 0:
-						(*io_refData.p_ssLaTeXFragment) << L"\ta" << std::endl;
+						(*io_refData.p_ssLaTeXFragment) << L"\ta" << L"\n";
 						break;
 					case 1:
-						(*io_refData.p_ssLaTeXFragment) << L"\tb" << std::endl;
+						(*io_refData.p_ssLaTeXFragment) << L"\tb" << L"\n";
 						break;
 					case 2:
-						(*io_refData.p_ssLaTeXFragment) << L"\tc" << std::endl;
+						(*io_refData.p_ssLaTeXFragment) << L"\tc" << L"\n";
 						break;
 					case 3:
-						(*io_refData.p_ssLaTeXFragment) << L"\td" << std::endl;
+						(*io_refData.p_ssLaTeXFragment) << L"\td" << L"\n";
 						break;
 					case 4:
-						(*io_refData.p_ssLaTeXFragment) << L"\te" << std::endl;
+						(*io_refData.p_ssLaTeXFragment) << L"\te" << L"\n";
 						break;
 					case 5:
-						(*io_refData.p_ssLaTeXFragment) << L"\tf" << std::endl;
+						(*io_refData.p_ssLaTeXFragment) << L"\tf" << L"\n";
 						break;
 					case 6:
-						(*io_refData.p_ssLaTeXFragment) << L"\tg" << std::endl;
+						(*io_refData.p_ssLaTeXFragment) << L"\tg" << L"\n";
 						break;
 					case 7:
-						(*io_refData.p_ssLaTeXFragment) << L"\th" << std::endl;
+						(*io_refData.p_ssLaTeXFragment) << L"\th" << L"\n";
 						break;
 					case 8:
-						(*io_refData.p_ssLaTeXFragment) << L"\ti" << std::endl;
+						(*io_refData.p_ssLaTeXFragment) << L"\ti" << L"\n";
 						break;
 					case 9:
-						(*io_refData.p_ssLaTeXFragment) << L"\tj" << std::endl;
+						(*io_refData.p_ssLaTeXFragment) << L"\tj" << L"\n";
 						break;
 					case 10:
-						(*io_refData.p_ssLaTeXFragment) << L"\tk" << std::endl;
+						(*io_refData.p_ssLaTeXFragment) << L"\tk" << L"\n";
 						break;
 					case 11:
-						(*io_refData.p_ssLaTeXFragment) << L"\tl" << std::endl;
+						(*io_refData.p_ssLaTeXFragment) << L"\tl" << L"\n";
 						break;
 					case 12:
-						(*io_refData.p_ssLaTeXFragment) << L"\tm" << std::endl;
+						(*io_refData.p_ssLaTeXFragment) << L"\tm" << L"\n";
 						break;
 					case 13:
-						(*io_refData.p_ssLaTeXFragment) << L"\tn" << std::endl;
+						(*io_refData.p_ssLaTeXFragment) << L"\tn" << L"\n";
 						break;
 					default:
-						(*io_refData.p_ssLaTeXFragment) << L"\ta" << std::endl;
+						(*io_refData.p_ssLaTeXFragment) << L"\ta" << L"\n";
 						break;
 					}
-					(*io_refData.p_ssLaTeXFragment) << L"	};" << std::endl;
+					(*io_refData.p_ssLaTeXFragment) << L"	};" << L"\n";
 				}
-				(*io_refData.p_ssLaTeXFragment) << L"\\legend{$[$sequence index 1$]$ $0000 \\cdots 0000$, $[$sequence index 2$]$ $0101 \\cdots 0101001010 \\cdots 1010$, $[$sequence index 3$]$ $0101 \\cdots 0101101010 \\cdots 1010$, $[$sequence index 4$]$ $0111 \\cdots 1110$, $[$sequence index 5$]$ $0000 \\cdots 0001$, $[$sequence index 6$]$ $0101 \\cdots 0101$, $[$sequence index 7$]$ $0111 \\cdots 1111$, $[$sequence index 8$]$ $1000 \\cdots 0000$, $[$sequence index 9$]$ $1010 \\cdots 1010$, $[$sequence index 10$]$ $1111 \\cdots 1110$, $[$sequence index 11$]$ $1000 \\cdots 0001$, $[$sequence index 12$]$ $1010 \\cdots 1010100101 \\cdots 0101$, $[$sequence index 13$]$ $1010 \\cdots 1010110101 \\cdots 0101$, $[$sequence index 14$]$ $1111 \\cdots 1111$}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\legend{$[$sequence index 1$]$ $0000 \\cdots 0000$, $[$sequence index 2$]$ $0101 \\cdots 0101001010 \\cdots 1010$, $[$sequence index 3$]$ $0101 \\cdots 0101101010 \\cdots 1010$, $[$sequence index 4$]$ $0111 \\cdots 1110$, $[$sequence index 5$]$ $0000 \\cdots 0001$, $[$sequence index 6$]$ $0101 \\cdots 0101$, $[$sequence index 7$]$ $0111 \\cdots 1111$, $[$sequence index 8$]$ $1000 \\cdots 0000$, $[$sequence index 9$]$ $1010 \\cdots 1010$, $[$sequence index 10$]$ $1111 \\cdots 1110$, $[$sequence index 11$]$ $1000 \\cdots 0001$, $[$sequence index 12$]$ $1010 \\cdots 1010100101 \\cdots 0101$, $[$sequence index 13$]$ $1010 \\cdots 1010110101 \\cdots 0101$, $[$sequence index 14$]$ $1111 \\cdots 1111$}" << L"\n";
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\end{axis} " << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\end{tikzpicture}" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\caption{Estimated Min-Entropy using $\\S$6.3.3 of NIST SP 800-90B}" << std::endl;
-				(*io_refData.p_ssLaTeXFragment) << L"\\end{figure}" << std::endl;
+				(*io_refData.p_ssLaTeXFragment) << L"\\end{axis} " << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\end{tikzpicture}" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\caption{Estimated Min-Entropy using $\\S$6.3.3 of NIST SP 800-90B}" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\end{figure}" << L"\n";
 				// -------------------------------------------------------------------------- //
 				// 
 				// -------------------------------------------------------------------------- //
@@ -241,7 +241,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the column vector from left.
+			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -289,7 +289,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the column vector from left.
+			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -345,7 +345,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the column vector from left.
+			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -401,7 +401,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the column vector from left.
+			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -457,7 +457,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the column vector from left.
+			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -509,7 +509,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the column vector from left.
+			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -561,7 +561,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the column vector from left.
+			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -613,7 +613,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the column vector from left.
+			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -665,7 +665,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the column vector from left.
+			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -717,7 +717,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the column vector from left.
+			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -769,7 +769,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the column vector from left.
+			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -825,7 +825,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the column vector from left.
+			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -881,7 +881,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the column vector from left.
+			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -937,7 +937,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the column vector from left.
+			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">
@@ -983,7 +983,7 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_refPTransition">
 			///   [Input] Transition matrix.
-			///   Note here that this matrix is defined so as to operate on the column vector from left.
+			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </params>
 			/// <params="i_refInitialP">

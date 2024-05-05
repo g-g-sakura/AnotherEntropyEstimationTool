@@ -85,7 +85,6 @@ namespace entropy_estimator_lib
 				Histogram	m_hg;
 
 				WindowedHistogram(int window_width, int start_pos, int end_pos, const ns_dt::t_data_for_estimator& i_refData);
-				~WindowedHistogram() {}
 
 				WindowedHistogram& operator+=(const WindowedHistogram & i_refRight);
 

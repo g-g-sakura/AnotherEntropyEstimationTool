@@ -47,11 +47,11 @@ int wmain(int ac, wchar_t* av[], wchar_t* envp[])
     sts = getToolInfo(the_info_report.info_analysis_tool);
     if (ns_consts::EnmReturnStatus::Success == sts)
     {
-        std::wcout << L"# \t\t" << strToolName << std::endl;
-        std::wcout << L"# \t\tVersion info:\t" << strToolVersioning << std::endl;
+        std::wcout << L"# \t\t" << strToolName << L"\n";
+        std::wcout << L"# \t\tVersion info:\t" << strToolVersioning << L"\n";
     }
     // -------------------------------------------------------------------------- //
-    // show host name and user name, for traceability
+    // show host name and username, for traceability
     // -------------------------------------------------------------------------- //
     std::wstring strHostName;
     std::wstring strCPUInfo;
@@ -66,11 +66,11 @@ int wmain(int ac, wchar_t* av[], wchar_t* envp[])
     sts = getEnvInfo(the_info_report.info_env);
     if (ns_consts::EnmReturnStatus::Success == sts)
     {
-        std::wcout << std::wstring(L"# Host name:\t") << strHostName << std::endl;
-        std::wcout << std::wstring(L"# CPU id:\t") << strCPUInfo << std::endl;
-        std::wcout << std::wstring(L"# Amount of Physical Memory:\t") << strPhysicalMemory << std::endl;
-        std::wcout << std::wstring(L"# Operating System:\t") << strOSInfo << std::endl;
-        std::wcout << std::wstring(L"# User name:\t") << strUserName << std::endl;
+        std::wcout << std::wstring(L"# Host name:\t") << strHostName << L"\n";
+        std::wcout << std::wstring(L"# CPU id:\t") << strCPUInfo << L"\n";
+        std::wcout << std::wstring(L"# Amount of Physical Memory:\t") << strPhysicalMemory << L"\n";
+        std::wcout << std::wstring(L"# Operating System:\t") << strOSInfo << L"\n";
+        std::wcout << std::wstring(L"# User name:\t") << strUserName << L"\n";
     }
     // -------------------------------------------------------------------------- //
     // 
