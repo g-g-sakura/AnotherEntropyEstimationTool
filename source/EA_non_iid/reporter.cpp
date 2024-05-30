@@ -1318,7 +1318,31 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     o_refLaTeXSupportingInfo << L"\\, & built by & ";
     {
 #if defined(_MSC_VER) && !defined(__INTEL_LLVM_COMPILER) && !defined(__INTEL_COMPILER)
-#if _MSC_VER >= 1932
+#if _MSC_VER >= 1940
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.10";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1939
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.9";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1938
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.8";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1937
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.7";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1936
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.6";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1935
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.5";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1934
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.4";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1933
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.3";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1932
         o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.2";
         o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
 #elif _MSC_VER >= 1931
