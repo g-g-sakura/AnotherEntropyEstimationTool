@@ -14,7 +14,7 @@ https://github.com/usnistgov/SP800-90B_EntropyAssessment/issues/170
   - Developed based on the documented and corrected [formulation](https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ProposedListOfCorrections_SP800-90B.pdf), to support ISO/IEC 17025 conformance.
   - Basically each function is commented in a traceable manner with [NIST SP 800-90B](https://doi.org/10.6028/NIST.SP.800-90B) or corrected [formulation](https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ProposedListOfCorrections_SP800-90B.pdf).
 - Automatic report generation with graphs
-  - Supports report generation capability, in XeLaTeX source file (see ```-x``` option), where relevant intermediate results are also contained to gain confidence and support characterization.
+  - Supports report generation capability, in XeLaTeX source file (see ```-x``` option), where relevant intermediate results are also contained to gain confidence and support characterization of entropy sources.
 
 # Usage
 ```
@@ -101,6 +101,7 @@ https://github.com/usnistgov/SP800-90B_EntropyAssessment/issues/170
 # System equirements for runtime environment
 - OS : Windows 10 or newer with 64-bit
 - RAM : 16GB or more main memory
+- TeX Live (optional for compiling automatically generated XeLaTeX source file)
 
 # System requirements for development environment
 ## Compiler
@@ -112,6 +113,7 @@ Visual Studio 2019 or newer, or Intel oneAPI compiler
   - Boost.Filesystem for manipulation of file path.
   - Boost.Math for root finding and for evaluating special functions.
   - Boost.Multi-Index for t-tuples.
+  - Boost.Posix Time for logging performance information.
   - Boost.Program Options for parsing command line options.
 - [Blitz++ library](https://github.com/blitzpp/blitz)
   - for array indexing, referencing subarray, and for perform array reductions (e.g. mean, sum) briefly
