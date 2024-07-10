@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//
+// constants.h
 //
 //
 // Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
@@ -9,8 +9,8 @@
 #pragma once
 #endif
 
-#ifndef __ENTROPY_ESTIMATOR_LIB_CONSTANTS_H__
-#define __ENTROPY_ESTIMATOR_LIB_CONSTANTS_H__
+#ifndef ENTROPY_ESTIMATOR_LIB_CONSTANTS_H
+#define ENTROPY_ESTIMATOR_LIB_CONSTANTS_H
 
 namespace entropy_estimator_lib
 {

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//
+// 6_3_1_MostCommonValueEstimate.h
 //
 //
 // Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
@@ -9,8 +9,8 @@
 #pragma once
 #endif
 
-#ifndef __ENTROPY_ESTIMATOR_LIB_6_3_1_MOST_COMMON_VALUE_ESTIMATE_H__
-#define __ENTROPY_ESTIMATOR_LIB_6_3_1_MOST_COMMON_VALUE_ESTIMATE_H__
+#ifndef ENTROPY_ESTIMATOR_LIB_6_3_1_MOST_COMMON_VALUE_ESTIMATE_H
+#define ENTROPY_ESTIMATOR_LIB_6_3_1_MOST_COMMON_VALUE_ESTIMATE_H
 
 #include "EntropyEstimateData.h"
 #include "constants.h"

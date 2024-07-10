@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//
+// 6_3_6_LRSEstimate.h
 //
 //
 // Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
@@ -9,8 +9,8 @@
 #pragma once
 #endif
 
-#ifndef __ENTROPY_ESTIMATOR_LIB_6_3_6_LRS_ESTIMATE_H__
-#define __ENTROPY_ESTIMATOR_LIB_6_3_6_LRS_ESTIMATE_H__
+#ifndef ENTROPY_ESTIMATOR_LIB_6_3_6_LRS_ESTIMATE_H
+#define ENTROPY_ESTIMATOR_LIB_6_3_6_LRS_ESTIMATE_H
 
 #include "EntropyEstimateData.h"
 #include "constants.h"

@@ -17,6 +17,7 @@
 #include <boost/range/iterator_range.hpp>
 #include "./support/WindowedHistogram.h"
 #include <map>
+#include "./support/LaTeX.h"
 
 namespace entropy_estimator_lib
 {
@@ -64,7 +65,15 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\clearpage" << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"\\subsection{Multi Most Common in Window Prediction Estimate (NIST SP 800-90B Section 6.3.7)}";
+				// -------------------------------------------------------------------------- //
+				// prepend subsection 
+				// -------------------------------------------------------------------------- //
+				std::wstring	ssSubsection637 = std::wstring();
+				std::wstring	ssSubsectionTitle637 = std::wstring(L"Multi Most Common in Window Prediction Estimate (NIST SP 800-90B Section 6.3.7)");
+
+				ns_spt::getLaTeXSubsection(ssSubsection637, ssSubsectionTitle637);
+
+				(*io_refData.p_ssLaTeXFragment) << ssSubsection637;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
@@ -192,7 +201,9 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\subsubsection{Supplemental information for traceability}" << L"\n";
+				std::wstring	strSubsubsectionTraceability = std::wstring();
+				ns_spt::getLaTeXSubsubsectionTraceability(strSubsubsectionTraceability);
+				(*io_refData.p_ssLaTeXFragment) << strSubsubsectionTraceability;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //

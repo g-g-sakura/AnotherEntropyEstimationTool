@@ -3,13 +3,14 @@
 //
 //
 //
-// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2024 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "pch.h"
 #include "6_3_3_MarkovEstimate.h"
 #include "./support/checkArgs.h"
 #include <boost/math/special_functions.hpp>
+#include "./support/LaTeX.h"
 
 namespace entropy_estimator_lib
 {
@@ -63,10 +64,10 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"	legend style={at={(1,0.75)},anchor=north west}," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	/pgf/number format/.cd,fixed,precision=6," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	scatter/classes={%" << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		a={mark=square*,blue}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		b={mark=square*,red}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		c={mark=square*,green}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		d={mark=square*,cyan}}]" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		a={mark=square*,NPGskyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		b={mark=square*,NPGnavyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		c={mark=square*,NPGsalmon}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		d={mark=square*,NPGred}}]" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	\\addplot[scatter,only marks,%" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"		scatter src=explicit symbolic]%" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	table[meta=label] {" << L"\n";
@@ -119,7 +120,15 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\clearpage" << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"\\subsection{The Markov Estimate (NIST SP 800-90B Section 6.3.3)}";
+				// -------------------------------------------------------------------------- //
+				// prepend subsection 
+				// -------------------------------------------------------------------------- //
+				std::wstring	ssSubsection633 = std::wstring();
+				std::wstring	ssSubsectionTitle633 = std::wstring(L"The Markov Estimate (NIST SP 800-90B Section 6.3.3)");
+
+				ns_spt::getLaTeXSubsection(ssSubsection633, ssSubsectionTitle633);
+
+				(*io_refData.p_ssLaTeXFragment) << ssSubsection633;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
@@ -142,20 +151,20 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"	legend style={at={(1,1)},anchor=north west}," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	/pgf/number format/.cd,fixed,precision=6," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	scatter/classes={%" << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		a={mark=square*,blue}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		b={mark=square*,red}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		c={mark=square*,green}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		d={mark=square*,cyan}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		e={mark=square*,magenta}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		f={mark=square*,yellow}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		g={mark=triangle*,blue}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		h={mark=triangle*,red}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		i={mark=triangle*,green}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		j={mark=triangle*,cyan}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		k={mark=triangle*,magenta}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		l={mark=triangle*,yellow}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		m={mark=o,blue}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		n={mark=o,red}}]" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		a={mark=triangle*,NPGskyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		b={mark=triangle*,NPGnavyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		c={mark=triangle,NPGnavyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		d={mark=triangle*,NPGred}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		e={mark=triangle,NPGskyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		f={mark=square*,NPGnavyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		g={mark=triangle,NPGred}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		h={mark=square*,NPGskyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		i={mark=square,NPGnavyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		j={mark=square*,NPGred}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		k={mark=square,NPGskyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		l={mark=*,NPGnavyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		m={mark=o,NPGnavyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		n={mark=square,NPGred}}]" << L"\n";
 				for (int j = 0; j < 14; ++j)
 				{
 					(*io_refData.p_ssLaTeXFragment) << L"	\\addplot[scatter,only marks,%" << L"\n";

@@ -1,8 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
-// parse.h
+// runEntropyEstimates.h
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2024 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #if defined(_MSC_VER)
@@ -10,8 +10,8 @@
 #endif
 
 
-#ifndef __EA_NON_IID_RUN_ENTROPY_ESTIMATES_H__
-#define __EA_NON_IID_RUN_ENTROPY_ESTIMATES_H__
+#ifndef EA_NON_IID_RUN_ENTROPY_ESTIMATES_H
+#define EA_NON_IID_RUN_ENTROPY_ESTIMATES_H
 
 #include "EntEstimateLib/constants.h"
 #include "EntEstimateLib/EntropyEstimateData.h"

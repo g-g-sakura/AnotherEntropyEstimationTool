@@ -9,8 +9,8 @@
 #pragma once
 #endif
 
-#ifndef __ENTROPY_ESTIMATOR_LIB_SUPPORTING_INFO_H__
-#define __ENTROPY_ESTIMATOR_LIB_SUPPORTING_INFO_H__
+#ifndef ENTROPY_ESTIMATOR_LIB_SUPPORTING_INFO_H
+#define ENTROPY_ESTIMATOR_LIB_SUPPORTING_INFO_H
 
 namespace entropy_estimator_lib
 {

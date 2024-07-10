@@ -9,8 +9,8 @@
 #pragma once
 #endif
 
-#ifndef __ENTROPY_ESTIMATOR_LIB_TUPLE_HISTOGRAM_H__
-#define __ENTROPY_ESTIMATOR_LIB_TUPLE_HISTOGRAM_H__
+#ifndef ENTROPY_ESTIMATOR_LIB_TUPLE_HISTOGRAM_H
+#define ENTROPY_ESTIMATOR_LIB_TUPLE_HISTOGRAM_H
 
 #include "../constants.h"
 #include <boost/multi_index_container.hpp>

@@ -9,8 +9,8 @@
 #pragma once
 #endif
 
-#ifndef __EA_NON_IID_HOST_INFO_H__
-#define __EA_NON_IID_HOST_INFO_H__
+#ifndef EA_NON_IID_HOST_INFO_H
+#define EA_NON_IID_HOST_INFO_H
 
 #include "EntEstimateLib/constants.h"
 #include "reportItems.h"

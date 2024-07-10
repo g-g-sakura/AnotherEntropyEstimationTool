@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2024 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "reporter.h"
@@ -855,6 +855,46 @@ ns_consts::EnmReturnStatus synthesizeReportPathTex(bs_fs::path& o_report_complet
 /// </summary>
 /// <remarks>
 /// </remarks>
+/// <params="i_refCommentSummary">
+/// </params>
+/// <returns>
+/// </returns>
+/// <precondition>
+/// </precondition>
+/// <postcondition>
+/// </postcondition>
+// -------------------------------------------------------------------------- //
+ns_consts::EnmReturnStatus getLaTeXComment(std::wstring& o_refComment, const std::wstring& i_refCommentSummary)
+{
+    ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
+
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    std::wstringstream	ssComments = std::wstringstream();
+    ssComments << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    ssComments << L"%%%%%%" << L"\n";
+    ssComments << L"%%%%%%";
+    if (false == i_refCommentSummary.empty())
+    {
+        ssComments << L" " << i_refCommentSummary;
+    }
+    ssComments << L"\n";
+    ssComments << L"%%%%%%" << L"\n";
+    ssComments << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+
+    o_refComment = ssComments.str();
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    return  sts = ns_consts::EnmReturnStatus::Success;
+}
+
+// -------------------------------------------------------------------------- //
+/// <summary>
+/// </summary>
+/// <remarks>
+/// </remarks>
 /// <params="o_ssLaTeX">
 /// </params>
 /// <returns>
@@ -868,6 +908,13 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
 {
     ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    std::wstring	ssCommentDefault = std::wstring();
+    std::wstring	ssNull = std::wstring();
+
+    getLaTeXComment(ssCommentDefault, ssNull);
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -900,58 +947,61 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
     o_ssLaTeX << L"\\usepackage[open,openlevel=4]{bookmark}" << L"\n";
     o_ssLaTeX << L"\\newcommand\\mib[1]{\\boldsymbol{#1}}" << L"\n";
     o_ssLaTeX << L"\\usepgfplotslibrary{patchplots}" << L"\n";
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%% customize page numbering" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    std::wstring	ssCommentCustomPageNumber = std::wstring();
+    std::wstring	ssSummaryCustomPageNumber = std::wstring(L"customize page numbering");
+
+    getLaTeXComment(ssCommentCustomPageNumber, ssSummaryCustomPageNumber);
+
+	o_ssLaTeX << ssCommentCustomPageNumber;
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
     o_ssLaTeX << L"\\fancypagestyle{mypagestylewithtotalpagenumbers}{" << L"\n"; //
     o_ssLaTeX << L"\\lhead{}" << L"\n"; // 
     o_ssLaTeX << L"\\rhead{}" << L"\n"; //
     o_ssLaTeX << L"\\cfoot{\\thepage/\\pageref{LastPage}}" << L"\n"; // 
     o_ssLaTeX << L"\\renewcommand{\\headrulewidth}{0.0pt}" << L"\n"; // 
     o_ssLaTeX << L"}" << L"\n";
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%% output up to 4-th level" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    std::wstring	ssCommentToC = std::wstring();
+    std::wstring	ssSummaryToC = std::wstring(L"output up to 4-th level");
+
+    getLaTeXComment(ssCommentToC, ssSummaryToC);
+
+    o_ssLaTeX << ssCommentToC;
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
     o_ssLaTeX << L"\\setcounter{secnumdepth}{4}" << L"\n";
     o_ssLaTeX << L"\\setcounter{tocdepth}{4}" << L"\n";    
     o_ssLaTeX << L"\\setlength{\\topmargin}{-1cm}" << L"\n";
     o_ssLaTeX << L"\\setlength{\\textheight}{37cm}" << L"\n";
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << ssCommentDefault;
     o_ssLaTeX << L"%%%\\renewcommand{ \\figurename }{Figure }" << L"\n";
     o_ssLaTeX << L"%%%\\renewcommand{ \\tablename }{Table }" << L"\n";
     o_ssLaTeX << L"%%%\\renewcommand{ \\refname }{References}" << L"\n";
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << ssCommentDefault;
     o_ssLaTeX << L"\\definecolor{rowcolorlightblue}{RGB}{191,233,251}" << L"\n";
     o_ssLaTeX << L"\\definecolor{bordercolordarkblue}{RGB}{0,163,243}" << L"\n";
     o_ssLaTeX << L"\\definecolor{BleuDur}{RGB}{27,61,176}" << L"\n";
     o_ssLaTeX << L"\\definecolor{Nigelle}{RGB}{0,133,201}" << L"\n";
     o_ssLaTeX << L"\\definecolor{BleuFaience}{RGB}{105,171,219}" << L"\n";
     o_ssLaTeX << L"\\definecolor{anotherlightblue}{RGB}{61,143,244}" << L"\n";
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << L"\\definecolor{NPGred}{RGB} {230, 75, 53}" << L"\n";
+    o_ssLaTeX << L"\\definecolor{NPGskyblue}{RGB} {77, 187, 213}" << L"\n";
+    o_ssLaTeX << L"\\definecolor{NPGgreen}{RGB} {0, 160, 135}" << L"\n";
+    o_ssLaTeX << L"\\definecolor{NPGnavyblue}{RGB} {60, 84, 136}" << L"\n";
+    o_ssLaTeX << L"\\definecolor{NPGsalmon}{RGB} {243, 155, 127}" << L"\n";
+    o_ssLaTeX << ssCommentDefault;
     o_ssLaTeX << L"\\def\\chpcolor{BleuDur}" << L"\n";
     o_ssLaTeX << L"\\def\\chpcolortxt{BleuDur}" << L"\n";
     o_ssLaTeX << L"\\def\\sectionfont{\\sffamily\\LARGE}" << L"\n";
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << ssCommentDefault;
     o_ssLaTeX << L"\\makeatletter" << L"\n";
     o_ssLaTeX << L"%Section:" << L"\n";
     o_ssLaTeX << L"\\def\\@sectionstrut{\\vrule\\@width\\z@\\@height12.5\\p@}" << L"\n";
@@ -992,20 +1042,12 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
     o_ssLaTeX << L"  \\fi" << L"\n";
     o_ssLaTeX << L"}" << L"\n";
     o_ssLaTeX << L"\\makeatother" << L"\n";
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << ssCommentDefault;
     o_ssLaTeX << L"\\setlength{ \\topmargin }{-1.5cm}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%" << L"\n";
-    o_ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    o_ssLaTeX << ssCommentDefault;
     o_ssLaTeX << L"\\pagestyle{mypagestylewithtotalpagenumbers}" << L"\n";
     o_ssLaTeX << L"%%%%%%" << L"\n";
     o_ssLaTeX << L"%%%%%%" << L"\n";
@@ -1174,6 +1216,103 @@ ns_consts::EnmReturnStatus loadLaTeXBibliography(std::wstringstream& o_ssLaTeX)
 /// </remarks>
 /// <params="o_refLaTeXSupportingInfo">
 /// </params>
+/// <returns>
+/// </returns>
+/// <precondition>
+/// </precondition>
+/// <postcondition>
+/// </postcondition>
+// -------------------------------------------------------------------------- //
+ns_consts::EnmReturnStatus reportLaTeXSupportingCompilerInfo(std::wstringstream& o_refLaTeXSupportingInfo)
+{
+    ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
+
+    // -------------------------------------------------------------------------- //
+    // compiler information
+    // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"\\, & built by & ";
+    {
+#if defined(_MSC_VER) && !defined(__INTEL_LLVM_COMPILER) && !defined(__INTEL_COMPILER)
+#if _MSC_VER >= 1940
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.10";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1939
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.9";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1938
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.8";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1937
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.7";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1936
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.6";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1935
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.5";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1934
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.4";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1933
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.3";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1932
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.2";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1931
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.1";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1930
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 RTW (17.0)";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1929
+        o_refLaTeXSupportingInfo << L" Visual Studio 2019 version ";
+#if _MSC_FULL_VER >= 192930100 
+        o_refLaTeXSupportingInfo << L"16.11";
+#else
+        o_refLaTeXSupportingInfo << L"16.10";
+#endif
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1928
+        o_refLaTeXSupportingInfo << L" Visual Studio 2019 version ";
+#if _MSC_FULL_VER >= 192829500 
+        o_refLaTeXSupportingInfo << L"16.9";
+#else
+        o_refLaTeXSupportingInfo << L"16.8";
+#endif
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1927
+        o_refLaTeXSupportingInfo << L" Visual Studio 2019 version 16.7";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#endif
+#elif defined(_MSC_VER) && defined(__INTEL_LLVM_COMPILER)
+        o_refLaTeXSupportingInfo << L" Intel C++ Compiler";
+        o_refLaTeXSupportingInfo << L" (";
+        o_refLaTeXSupportingInfo << L" \\verb|__INTEL_LLVM_COMPILER|: " << __INTEL_LLVM_COMPILER;
+        o_refLaTeXSupportingInfo << L" )";
+#elif defined(_MSC_VER) && defined(__INTEL_COMPILER)
+        o_refLaTeXSupportingInfo << L" Intel C++ Compiler Classic";
+        o_refLaTeXSupportingInfo << L" (";
+        o_refLaTeXSupportingInfo << L" \\verb|__INTEL_COMPILER|: " << __INTEL_COMPILER;
+        o_refLaTeXSupportingInfo << L" )";
+#endif
+    }
+    o_refLaTeXSupportingInfo << L" \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    return  sts = ns_consts::EnmReturnStatus::Success;
+}
+
+// -------------------------------------------------------------------------- //
+/// <summary>
+/// </summary>
+/// <remarks>
+/// </remarks>
+/// <params="o_refLaTeXSupportingInfo">
+/// </params>
 /// <params="i_refInfoReport">
 /// </params>
 /// <params="io_refDataOriginal">
@@ -1315,78 +1454,13 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // -------------------------------------------------------------------------- //
     // compiler information
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\, & built by & ";
+    const ns_consts::EnmReturnStatus  stsCompiler = reportLaTeXSupportingCompilerInfo(o_refLaTeXSupportingInfo);
+    if (ns_consts::EnmReturnStatus::Success != stsCompiler)
     {
-#if defined(_MSC_VER) && !defined(__INTEL_LLVM_COMPILER) && !defined(__INTEL_COMPILER)
-#if _MSC_VER >= 1940
-        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.10";
-        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
-#elif _MSC_VER >= 1939
-        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.9";
-        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
-#elif _MSC_VER >= 1938
-        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.8";
-        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
-#elif _MSC_VER >= 1937
-        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.7";
-        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
-#elif _MSC_VER >= 1936
-        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.6";
-        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
-#elif _MSC_VER >= 1935
-        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.5";
-        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
-#elif _MSC_VER >= 1934
-        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.4";
-        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
-#elif _MSC_VER >= 1933
-        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.3";
-        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
-#elif _MSC_VER >= 1932
-        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.2";
-        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
-#elif _MSC_VER >= 1931
-        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.1";
-        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
-#elif _MSC_VER >= 1930
-        o_refLaTeXSupportingInfo << L" Visual Studio 2022 RTW (17.0)";
-        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
-#elif _MSC_VER >= 1929
-        o_refLaTeXSupportingInfo << L" Visual Studio 2019 version ";
-#if _MSC_FULL_VER >= 192930100 
-        o_refLaTeXSupportingInfo << L"16.11";
-#else
-        o_refLaTeXSupportingInfo << L"16.10";
-#endif
-        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
-#elif _MSC_VER >= 1928
-        o_refLaTeXSupportingInfo << L" Visual Studio 2019 version ";
-#if _MSC_FULL_VER >= 192829500 
-        o_refLaTeXSupportingInfo << L"16.9";
-#else
-        o_refLaTeXSupportingInfo << L"16.8";
-#endif
-        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
-#elif _MSC_VER >= 1927
-        o_refLaTeXSupportingInfo << L" Visual Studio 2019 version 16.7";
-        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
-#endif
-#elif defined(_MSC_VER) && defined(__INTEL_LLVM_COMPILER)
-        o_refLaTeXSupportingInfo << L" Intel C++ Compiler";
-        o_refLaTeXSupportingInfo << L" (";
-        o_refLaTeXSupportingInfo << L" \\verb|__INTEL_LLVM_COMPILER|: " << __INTEL_LLVM_COMPILER;
-        o_refLaTeXSupportingInfo << L" )";
-#elif defined(_MSC_VER) && defined(__INTEL_COMPILER)
-        o_refLaTeXSupportingInfo << L" Intel C++ Compiler Classic";
-        o_refLaTeXSupportingInfo << L" (";
-        o_refLaTeXSupportingInfo << L" \\verb|__INTEL_COMPILER|: " << __INTEL_COMPILER;
-        o_refLaTeXSupportingInfo << L" )";
-#endif
+        return  sts = stsCompiler;
     }
-    o_refLaTeXSupportingInfo << L" \\\\" << L"\n";
-    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << L"\n";
     // -------------------------------------------------------------------------- //
-    // 
+    // information of linked libraries
     // -------------------------------------------------------------------------- //
     o_refLaTeXSupportingInfo << L"\\, & linked libraries & ";
     {
@@ -1769,13 +1843,19 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     ssLaTeX << L"\\begin{document}" << L"\n";
     ssLaTeX << L"\\StopCensoring" << L"\n";
     ssLaTeX << L"\\maketitle" << L"\n";
-    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
-    ssLaTeX << L"%%%%%%" << L"\n";
-    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+	// -------------------------------------------------------------------------- //
+	// 
+	// -------------------------------------------------------------------------- //
+	std::wstring	ssCommentDefault = std::wstring();
+	std::wstring	ssNull = std::wstring();
+
+	getLaTeXComment(ssCommentDefault, ssNull);
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    ssLaTeX << ssCommentDefault;
     ssLaTeX << L"\\thispagestyle{mypagestylewithtotalpagenumbers}" << L"\n";
-    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
-    ssLaTeX << L"%%%%%%" << L"\n";
-    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    ssLaTeX << ssCommentDefault;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -2072,13 +2152,19 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     ssLaTeX << L"\\begin{document}" << L"\n";
     ssLaTeX << L"\\StopCensoring" << L"\n";
     ssLaTeX << L"\\maketitle" << L"\n";
-    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
-    ssLaTeX << L"%%%%%%" << L"\n";
-    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    std::wstring	ssCommentDefault = std::wstring();
+    std::wstring	ssNull = std::wstring();
+
+    getLaTeXComment(ssCommentDefault, ssNull);
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    ssLaTeX << ssCommentDefault;
     ssLaTeX << L"\\thispagestyle{mypagestylewithtotalpagenumbers}" << L"\n";
-    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
-    ssLaTeX << L"%%%%%%" << L"\n";
-    ssLaTeX << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+    ssLaTeX << ssCommentDefault;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //

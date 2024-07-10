@@ -18,6 +18,7 @@
 #include <vector>
 #include <map>
 #include <iomanip>
+#include "./support/LaTeX.h"
 
 namespace entropy_estimator_lib
 {
@@ -65,7 +66,15 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\clearpage" << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"\\subsection{The LZ78Y Prediction Estimate (NIST SP 800-90B Section 6.3.10)}";
+				// -------------------------------------------------------------------------- //
+				// prepend subsection 
+				// -------------------------------------------------------------------------- //
+				std::wstring	ssSubsection6310 = std::wstring();
+				std::wstring	ssSubsectionTitle6310 = std::wstring(L"The LZ78Y Prediction Estimate (NIST SP 800-90B Section 6.3.10)");
+
+				ns_spt::getLaTeXSubsection(ssSubsection6310, ssSubsectionTitle6310);
+
+				(*io_refData.p_ssLaTeXFragment) << ssSubsection6310;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
@@ -193,7 +202,9 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\subsubsection{Supplemental information for traceability}" << L"\n";
+				std::wstring	strSubsubsectionTraceability = std::wstring();
+				ns_spt::getLaTeXSubsubsectionTraceability(strSubsubsectionTraceability);
+				(*io_refData.p_ssLaTeXFragment) << strSubsubsectionTraceability;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //

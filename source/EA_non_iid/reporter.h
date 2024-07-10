@@ -9,8 +9,8 @@
 #pragma once
 #endif
 
-#ifndef __EA_NON_IID_REPORTER_H__
-#define __EA_NON_IID_REPORTER_H__
+#ifndef EA_NON_IID_REPORTER_H
+#define EA_NON_IID_REPORTER_H
 
 #include "EntEstimateLib/constants.h"
 #include "EntEstimateLib/EntropyEstimateData.h"

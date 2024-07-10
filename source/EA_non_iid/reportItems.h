@@ -9,8 +9,8 @@
 #pragma once
 #endif
 
-#ifndef __EA_NON_IID_REPORT_ITEMS_H__
-#define __EA_NON_IID_REPORT_ITEMS_H__
+#ifndef EA_NON_IID_REPORT_ITEMS_H
+#define EA_NON_IID_REPORT_ITEMS_H
 
 #include <boost/filesystem.hpp>
 

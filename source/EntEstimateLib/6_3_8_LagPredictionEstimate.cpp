@@ -14,6 +14,7 @@
 #include "./math/Equations.h"
 #include <boost/math/tools/roots.hpp>
 #include <map>
+#include "./support/LaTeX.h"
 
 namespace entropy_estimator_lib
 {
@@ -61,7 +62,15 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\clearpage" << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"\\subsection{Lag Prediction Estimate (NIST SP 800-90B Section 6.3.8)}";
+				// -------------------------------------------------------------------------- //
+				// prepend subsection 
+				// -------------------------------------------------------------------------- //
+				std::wstring	ssSubsection638 = std::wstring();
+				std::wstring	ssSubsectionTitle638 = std::wstring(L"Lag Prediction Estimate (NIST SP 800-90B Section 6.3.8)");
+
+				ns_spt::getLaTeXSubsection(ssSubsection638, ssSubsectionTitle638);
+
+				(*io_refData.p_ssLaTeXFragment) << ssSubsection638;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
@@ -189,7 +198,9 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\subsubsection{Supplemental information for traceability}" << L"\n";
+				std::wstring	strSubsubsectionTraceability = std::wstring();
+				ns_spt::getLaTeXSubsubsectionTraceability(strSubsubsectionTraceability);
+				(*io_refData.p_ssLaTeXFragment) << strSubsubsectionTraceability;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //

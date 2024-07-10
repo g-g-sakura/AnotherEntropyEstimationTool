@@ -206,7 +206,7 @@ namespace entropy_estimator_lib
 				{
 					os << "#\t\t";
 					os << "(idx, cnt, last_pos) = ";
-					os << "(" << (int)rit->idx << ",\t" << rit->cnt << ",\t" << rit->last_pos << ")" << std::endl;
+					os << "(" << (int)rit->idx << ",\t" << rit->cnt << ",\t" << rit->last_pos << ")" << "\n";
 				}
 				return	os;
 			}
@@ -405,7 +405,7 @@ namespace entropy_estimator_lib
 				{
 					std::cout << "#" << j << "-th histogram:\t";
 					std::cout << *(i_refRight.m_hg_array[j]);
-					std::cout << std::endl;
+					std::cout << "\n";
 				}
 				return	os;
 			}
@@ -765,18 +765,18 @@ namespace entropy_estimator_lib
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
-					std::cout << "#" << std::endl;
-					std::cout << "# information of " << (i + 1) << "-th layer histogram" << std::endl;
-					std::cout << "#\t" << (i + 1) << "-th layer window size:\t" << i_refRight.m_window_widths[i] << std::endl;
-					std::cout << "#" << std::endl;
+					std::cout << "#" << "\n";
+					std::cout << "# information of " << (i + 1) << "-th layer histogram" << "\n";
+					std::cout << "#\t" << (i + 1) << "-th layer window size:\t" << i_refRight.m_window_widths[i] << "\n";
+					std::cout << "#" << "\n";
 					// -------------------------------------------------------------------------- //
 					// 
 					// -------------------------------------------------------------------------- //
 					for (size_t j = 0; j < p_vwhg->size(); ++j)
 					{
-						std::cout << "# " << j << "-th histogram:\t" << std::endl;
+						std::cout << "# " << j << "-th histogram:\t" << "\n";
 						std::cout << *((*p_vwhg)[j]);
-						std::cout << std::endl;
+						std::cout << "\n";
 					}
 				}
 				return	os;

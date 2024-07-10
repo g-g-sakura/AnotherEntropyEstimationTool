@@ -11,6 +11,7 @@
 #include "./support/checkArgs.h"
 #include "./math/SpecialFunctions.h"
 #include "./support/WindowedHistogram.h"
+#include "./support/LaTeX.h"
 
 namespace entropy_estimator_lib
 {
@@ -58,9 +59,14 @@ namespace entropy_estimator_lib
 				}
 				int	xmax = (*io_refData.p_bzSampleSpaceA)(io_refData.p_bzSampleSpaceA->extent(blitz::firstDim) - 1);
 				// -------------------------------------------------------------------------- //
-				//
+				// prepend subsection 
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\subsection{The Most Common Value Estimate (NIST SP 800-90B Section 6.3.1)}";
+				std::wstring	ssSubsection631 = std::wstring();
+				std::wstring	ssSubsectionTitle631 = std::wstring(L"The Most Common Value Estimate (NIST SP 800-90B Section 6.3.1)");
+
+				ns_spt::getLaTeXSubsection(ssSubsection631, ssSubsectionTitle631);
+
+				(*io_refData.p_ssLaTeXFragment) << ssSubsection631;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
@@ -172,7 +178,9 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\subsubsection{Supplemental information for traceability}" << L"\n";
+				std::wstring	strSubsubsectionTraceability = std::wstring();
+				ns_spt::getLaTeXSubsubsectionTraceability(strSubsubsectionTraceability);
+				(*io_refData.p_ssLaTeXFragment) << strSubsubsectionTraceability;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //

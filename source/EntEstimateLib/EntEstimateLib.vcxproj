@@ -100,7 +100,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <ExternalIncludePath>Z:\shared\blitzpp;C:\usr\boost_1_79_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_85_0;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -260,6 +260,7 @@
     <ClInclude Include="support\conversion.h" />
     <ClInclude Include="support\enumerateAlphabet.h" />
     <ClInclude Include="support\IHistogram.h" />
+    <ClInclude Include="support\LaTeX.h" />
     <ClInclude Include="support\MarkovModelHistogram.h" />
     <ClInclude Include="support\setUp.h" />
     <ClInclude Include="support\showTestSummary.h" />
@@ -283,6 +284,7 @@
     <ClCompile Include="support\checkArgs.cpp" />
     <ClCompile Include="support\conversion.cpp" />
     <ClCompile Include="support\enumerateAlphabet.cpp" />
+    <ClCompile Include="support\LaTeX.cpp" />
     <ClCompile Include="support\MarkovModelHistogram.cpp" />
     <ClCompile Include="support\setUp.cpp" />
     <ClCompile Include="support\showTestSummary.cpp" />

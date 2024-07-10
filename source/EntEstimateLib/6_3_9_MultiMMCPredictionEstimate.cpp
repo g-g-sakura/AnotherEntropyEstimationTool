@@ -17,6 +17,7 @@
 #include <boost/math/tools/roots.hpp>
 #include <vector>
 #include <map>
+#include "./support/LaTeX.h"
 
 namespace entropy_estimator_lib
 {
@@ -64,7 +65,15 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\clearpage" << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"\\subsection{The MultiMMC Prediction Estimate (NIST SP 800-90B Section 6.3.9)}";
+				// -------------------------------------------------------------------------- //
+				// prepend subsection 
+				// -------------------------------------------------------------------------- //
+				std::wstring	ssSubsection639 = std::wstring();
+				std::wstring	ssSubsectionTitle639 = std::wstring(L"The MultiMMC Prediction Estimate (NIST SP 800-90B Section 6.3.9)");
+
+				ns_spt::getLaTeXSubsection(ssSubsection639, ssSubsectionTitle639);
+
+				(*io_refData.p_ssLaTeXFragment) << ssSubsection639;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
@@ -192,7 +201,9 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\subsubsection{Supplemental information for traceability}" << L"\n";
+				std::wstring	strSubsubsectionTraceability = std::wstring();
+				ns_spt::getLaTeXSubsubsectionTraceability(strSubsubsectionTraceability);
+				(*io_refData.p_ssLaTeXFragment) << strSubsubsectionTraceability;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //

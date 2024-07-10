@@ -14,6 +14,7 @@
 #include "./math/SpecialFunctions.h"
 #include <boost/math/special_functions.hpp>
 #include <map>
+#include "./support/LaTeX.h"
 
 namespace entropy_estimator_lib
 {
@@ -63,7 +64,15 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\clearpage" << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"\\subsection{The Collision Estimate (NIST SP 800-90B Section 6.3.2)}";
+				// -------------------------------------------------------------------------- //
+				// prepend subsection 
+				// -------------------------------------------------------------------------- //
+				std::wstring	ssSubsection632 = std::wstring();
+				std::wstring	ssSubsectionTitle632 = std::wstring(L"The Collision Estimate (NIST SP 800-90B Section 6.3.2)");
+
+				ns_spt::getLaTeXSubsection(ssSubsection632, ssSubsectionTitle632);
+
+				(*io_refData.p_ssLaTeXFragment) << ssSubsection632;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
@@ -245,7 +254,12 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\clearpage" << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"\\subsubsection{Supplemental information for traceability}" << L"\n";
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
+				std::wstring	strSubsubsectionTraceability = std::wstring();
+				ns_spt::getLaTeXSubsubsectionTraceability(strSubsubsectionTraceability);
+				(*io_refData.p_ssLaTeXFragment) << strSubsubsectionTraceability;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //

@@ -9,8 +9,8 @@
 #pragma once
 #endif
 
-#ifndef __EA_NON_IID_CALC_MESSAGE_DIGEST_H__
-#define __EA_NON_IID_CALC_MESSAGE_DIGEST_H__
+#ifndef EA_NON_IID_CALC_MESSAGE_DIGEST_H
+#define EA_NON_IID_CALC_MESSAGE_DIGEST_H
 
 #include <string>
 #include "EntEstimateLib/constants.h"

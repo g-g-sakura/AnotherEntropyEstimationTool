@@ -108,6 +108,9 @@
     <ClInclude Include="SupportingInfo.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="support\LaTeX.h">
+      <Filter>ヘッダー ファイル\support</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -172,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="6_3_1_MostCommonValueEstimate.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="support\LaTeX.cpp">
+      <Filter>ソース ファイル\support</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

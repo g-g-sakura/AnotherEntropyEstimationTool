@@ -13,6 +13,7 @@
 #include <boost/math/special_functions.hpp>
 #include <boost/math/tools/roots.hpp>
 #include <map>
+#include "./support/LaTeX.h"
 
 namespace entropy_estimator_lib
 {
@@ -31,6 +32,8 @@ namespace entropy_estimator_lib
 			/// <remarks>
 			/// </remarks>
 			/// <params="io_refData">
+			/// </params>
+			/// <params="i_refD">
 			/// </params>
 			/// <returns>
 			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::ErrorNullPointer</c>:  when the following condition is met:
@@ -59,7 +62,15 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\clearpage" << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"\\subsection{The Compression Estimate (NIST SP 800-90B Section 6.3.4)}";
+				// -------------------------------------------------------------------------- //
+				// prepend subsection 
+				// -------------------------------------------------------------------------- //
+				std::wstring	ssSubsection634 = std::wstring();
+				std::wstring	ssSubsectionTitle634 = std::wstring(L"The Compression Estimate (NIST SP 800-90B Section 6.3.4)");
+
+				ns_spt::getLaTeXSubsection(ssSubsection634, ssSubsectionTitle634);
+
+				(*io_refData.p_ssLaTeXFragment) << ssSubsection634;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
@@ -168,7 +179,9 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\subsubsection{Supplemental information for traceability}" << L"\n";
+				std::wstring	strSubsubsectionTraceability = std::wstring();
+				ns_spt::getLaTeXSubsubsectionTraceability(strSubsubsectionTraceability);
+				(*io_refData.p_ssLaTeXFragment) << strSubsubsectionTraceability;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
@@ -285,6 +298,8 @@ namespace entropy_estimator_lib
 			/// </params>
 			/// <params="i_d">
 			/// </params>
+			/// <params="bIsModeDemo">
+			/// </params>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -347,6 +362,8 @@ namespace entropy_estimator_lib
 			/// <params="i_d">
 			/// </params>
 			/// <params="i_L">
+			/// </params>
+			/// <params="bIsModeDemo">
 			/// </params>
 			/// <returns>
 			/// </returns>

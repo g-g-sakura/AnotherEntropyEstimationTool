@@ -9,8 +9,8 @@
 #pragma once
 #endif
 
-#ifndef __ENTROPY_ESTIMATOR_LIB_IHISTOGRAM_H__
-#define __ENTROPY_ESTIMATOR_LIB_IHISTOGRAM_H__
+#ifndef ENTROPY_ESTIMATOR_LIB_IHISTOGRAM_H
+#define ENTROPY_ESTIMATOR_LIB_IHISTOGRAM_H
 
 #include "../EntropyEstimateData.h"
 #include "../constants.h"

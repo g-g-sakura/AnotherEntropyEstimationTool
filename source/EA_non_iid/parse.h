@@ -9,8 +9,8 @@
 #pragma once
 #endif
 
-#ifndef __EA_NON_IID_PARSE_H__
-#define __EA_NON_IID_PARSE_H__
+#ifndef EA_NON_IID_PARSE_H
+#define EA_NON_IID_PARSE_H
 
 #include "reporter.h"
 
