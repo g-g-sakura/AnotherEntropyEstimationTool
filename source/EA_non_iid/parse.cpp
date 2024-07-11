@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2024 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include <string>
@@ -94,7 +94,7 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
         if (po_vm.count("file")) {
             const bs_fs::path file_path = po_vm["file"].as<std::wstring>(); // <<<
             std::wcout << L"# [INFO]: Opening file:\t";
-            std::wcout << file_path << "\n";
+            std::wcout << file_path << L"\n";
 
             boost::system::error_code error;
             const bool result = bs_fs::exists(file_path, error);
@@ -124,7 +124,7 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
             // -------------------------------------------------------------------------- //
             const boost::uintmax_t size = bs_fs::file_size(file_path);
 
-            std::cout << "Its file size: " << size << "-byte" << "\n";
+            std::cout << "# [INFO]: Its file size: " << size << "-byte" << "\n";
             if (file_size_limit < size)
             {
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE);

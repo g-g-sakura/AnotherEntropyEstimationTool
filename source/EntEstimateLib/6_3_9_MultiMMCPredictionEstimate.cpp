@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2024 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "pch.h"
@@ -498,11 +498,11 @@ namespace entropy_estimator_lib
 					// -------------------------------------------------------------------------- //
 					if (true == i_refData.isModeDemonstration)
 					{
-						std::cout << "// ------------------------- //" << L"\n";
-						std::cout << "i:\t\t\t" << i << L"\n";
-						std::cout << "subpredict:\t\t\t" << o_ref_bz_subpredict << L"\n";
-						std::cout << "scoreboard (step 4c):\t" << io_ref_bz_scoreboard << L"\n";
-						std::cout << "winner:\t\t\t" << io_ref_winner << L"\n";
+						std::cout << "// ------------------------- //" << "\n";
+						std::cout << "i:\t\t\t" << i << "\n";
+						std::cout << "subpredict:\t\t\t" << o_ref_bz_subpredict << "\n";
+						std::cout << "scoreboard (step 4c):\t" << io_ref_bz_scoreboard << "\n";
+						std::cout << "winner:\t\t\t" << io_ref_winner << "\n";
 						std::cout << "prediction:\t\t";
 						if (prediction.bIsValueNull)
 						{
@@ -512,8 +512,8 @@ namespace entropy_estimator_lib
 						{
 							std::cout << static_cast<int>(prediction.value);
 						}
-						std::cout << L"\n";
-						std::cout << "correct_{i - 2}:\t" << static_cast<int>(io_ref_bz_correct(i - 3)) << L"\n";
+						std::cout << "\n";
+						std::cout << "correct_{i - 2}:\t" << static_cast<int>(io_ref_bz_correct(i - 3)) << "\n";
 					}
 					// -------------------------------------------------------------------------- //
 					// e. Update the scoreboard. 
@@ -547,7 +547,7 @@ namespace entropy_estimator_lib
 					// -------------------------------------------------------------------------- //
 					if (true == i_refData.isModeDemonstration)
 					{
-						std::cout << "scoreboard (step 4e):\t" << io_ref_bz_scoreboard << L"\n";
+						std::cout << "scoreboard (step 4e):\t" << io_ref_bz_scoreboard << "\n";
 					}
 				}
 

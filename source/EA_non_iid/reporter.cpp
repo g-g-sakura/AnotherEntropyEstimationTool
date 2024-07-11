@@ -467,6 +467,18 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(const IDInfoForReport& i_refInfoRe
     {
         the_tree.add(L"entropy_report.identification.environment.physicalmemory", *i_refInfoReport.info_env.p_physicalmemory);
     }
+    if (nullptr != i_refInfoReport.info_env.p_osname)
+    {
+        the_tree.add(L"entropy_report.identification.environment.os_name", *i_refInfoReport.info_env.p_osname);
+    }
+    if (nullptr != i_refInfoReport.info_env.p_osversion)
+    {
+        the_tree.add(L"entropy_report.identification.environment.os_version", *i_refInfoReport.info_env.p_osversion);
+    }
+    if (nullptr != i_refInfoReport.info_env.p_system_type)
+    {
+        the_tree.add(L"entropy_report.identification.environment.system_type", *i_refInfoReport.info_env.p_system_type);
+    }
     if (nullptr != i_refInfoReport.info_env.p_username)
     {
         the_tree.add(L"entropy_report.identification.environment.username", *i_refInfoReport.info_env.p_username);
@@ -701,6 +713,18 @@ ns_consts::EnmReturnStatus reportXMLBinary(const IDInfoForReport& i_refInfoRepor
     if (nullptr != i_refInfoReport.info_env.p_physicalmemory)
     {
         the_tree.add(L"entropy_report.identification.environment.physicalmemory", *i_refInfoReport.info_env.p_physicalmemory);
+    }
+    if (nullptr != i_refInfoReport.info_env.p_osname)
+    {
+        the_tree.add(L"entropy_report.identification.environment.os_name", *i_refInfoReport.info_env.p_osname);
+    }
+    if (nullptr != i_refInfoReport.info_env.p_osversion)
+    {
+        the_tree.add(L"entropy_report.identification.environment.os_version", *i_refInfoReport.info_env.p_osversion);
+    }
+    if (nullptr != i_refInfoReport.info_env.p_system_type)
+    {
+        the_tree.add(L"entropy_report.identification.environment.system_type", *i_refInfoReport.info_env.p_system_type);
     }
     if (nullptr != i_refInfoReport.info_env.p_username)
     {
@@ -943,6 +967,7 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
     o_ssLaTeX << L"\\usepackage{verbatim}" << L"\n";
     o_ssLaTeX << L"\\usepackage{multirow}" << L"\n";
     o_ssLaTeX << L"\\usepackage{censor}" << L"\n";
+    o_ssLaTeX << L"\\usepackage{adjustbox}" << L"\n";
     o_ssLaTeX << L"\\usepackage[unicode,pdftitle={Report of Entropy estimates based on NIST SP 800-90B non-IID track},setpagesize=false]{hyperref}" << L"\n";
     o_ssLaTeX << L"\\usepackage[open,openlevel=4]{bookmark}" << L"\n";
     o_ssLaTeX << L"\\newcommand\\mib[1]{\\boldsymbol{#1}}" << L"\n";
@@ -1404,11 +1429,12 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"\\vspace*{-3mm}" << L"\n";
     o_refLaTeXSupportingInfo << L"\\begin{itemize}" << L"\n";
     o_refLaTeXSupportingInfo << L"		\\item Name of the submitter of the acquisition data : " << L"\n";
     o_refLaTeXSupportingInfo << L"		    \\begin{Form}" << L"\n";
     o_refLaTeXSupportingInfo << L"		    \\noindent" << L"\n";
-    o_refLaTeXSupportingInfo << L"		    \\TextField[name=NameOfSubmitter, multiline=false, bordercolor=bordercolordarkblue,width=12cm]{}" << L"\n";
+    o_refLaTeXSupportingInfo << L"		    \\adjustbox{valign=M}{\\TextField[name=NameOfSubmitter, multiline=false, bordercolor=bordercolordarkblue,width=14cm,height=1cm,charsize=0pt]{}}" << L"\n";
     o_refLaTeXSupportingInfo << L"		    \\end{Form}" << L"\n";
     o_refLaTeXSupportingInfo << L"\t	\\item Brief explanation of the acquisition data (or entropy source) : \\\\" << L"\n";
     o_refLaTeXSupportingInfo << L"\t	    \\begin{Form}" << L"\n";
@@ -1491,7 +1517,17 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\, &  OS information & "<< (*i_refInfoReport.info_env.p_osinfo) << L" \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\, &  OS name & "<< (*i_refInfoReport.info_env.p_osname) << L" \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"\\, &  OS version & " << (*i_refInfoReport.info_env.p_osversion) << L" \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\cline{2-3}" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"\\, &  System type & " << (*i_refInfoReport.info_env.p_system_type) << L" \\\\" << L"\n";
     o_refLaTeXSupportingInfo << L"\\cline{2-3}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
@@ -1919,7 +1955,7 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     std::wcout << L" xelatex " << the_report_path_LaTeX.wstring() << L"\n";
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     std::wcout << L"\n";
-    std::wcout << L"# [INFO] In a case where you get an error message like ";
+    std::wcout << L"# [INFO] In a case when you get an error message like ";
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
     std::wcout << L"\"TeX capacity exceeded, sorry [main memory size=...]\"," << L"\n";
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
@@ -1933,7 +1969,7 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
     std::wcout << L" fmtutil-sys --all" << L"\n";
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L"# [INFO] and press \"Enter\" key";
+    std::wcout << L"# [INFO] and press \"Enter\" key.";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -2219,7 +2255,7 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     std::wcout << L" xelatex " << the_report_path_LaTeX.wstring() << L"\n";
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     std::wcout << L"\n";
-    std::wcout << L"# [INFO] In a case where you get an error message like ";
+    std::wcout << L"# [INFO] In a case when you get an error message like ";
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
     std::wcout << L"\"TeX capacity exceeded, sorry [main memory size=...]\"," << L"\n";
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
@@ -2233,7 +2269,7 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
     std::wcout << L" fmtutil-sys --all" << L"\n";
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L"# [INFO] and press \"Enter\" key";
+    std::wcout << L"# [INFO] and press \"Enter\" key.";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //

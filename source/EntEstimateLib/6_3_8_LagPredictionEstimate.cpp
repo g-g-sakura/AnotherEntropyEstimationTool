@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2024 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "pch.h"
@@ -372,12 +372,12 @@ namespace entropy_estimator_lib
 					// -------------------------------------------------------------------------- //
 					if (true == i_refData.isModeDemonstration)
 					{
-						std::cout << "// ------------------------- //" << L"\n";
-						std::cout << "i:\t\t\t" << i + 1 << L"\n";
-						std::cout << "lag:\t\t\t" << io_ref_bz_lag << L"\n";
-						std::cout << "winner:\t\t\t" << io_ref_winner << L"\n";
-						std::cout << "prediction:\t\t" << static_cast<int>(prediction.value) << L"\n";
-						std::cout << "correct_{i - 1}:\t" << static_cast<int>(io_ref_bz_correct(i - 1)) << L"\n";
+						std::cout << "// ------------------------- //" << "\n";
+						std::cout << "i:\t\t\t" << i + 1 << "\n";
+						std::cout << "lag:\t\t\t" << io_ref_bz_lag << "\n";
+						std::cout << "winner:\t\t\t" << io_ref_winner << "\n";
+						std::cout << "prediction:\t\t" << static_cast<int>(prediction.value) << "\n";
+						std::cout << "correct_{i - 1}:\t" << static_cast<int>(io_ref_bz_correct(i - 1)) << "\n";
 					}
 					// -------------------------------------------------------------------------- //
 					// d. Update the scoreboard. 
@@ -411,7 +411,7 @@ namespace entropy_estimator_lib
 					// -------------------------------------------------------------------------- //
 					if (true == i_refData.isModeDemonstration)
 					{
-						std::cout << "scoreboard (step 3d):\t" << io_ref_bz_scoreboard << L"\n";
+						std::cout << "scoreboard (step 3d):\t" << io_ref_bz_scoreboard << "\n";
 					}
 				}
 

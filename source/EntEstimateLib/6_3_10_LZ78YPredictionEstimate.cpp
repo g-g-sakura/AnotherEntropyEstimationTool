@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2024 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "pch.h"
@@ -371,8 +371,8 @@ namespace entropy_estimator_lib
 					// -------------------------------------------------------------------------- //
 					if (true == i_refData.isModeDemonstration)
 					{
-						std::cout << "// ------------------------- //" << L"\n";
-						std::cout << "i:\t\t\t" << i << L"\n";
+						std::cout << "// ------------------------- //" << "\n";
+						std::cout << "i:\t\t\t" << i << "\n";
 						std::cout << "Add to D:\t\t\t";
 					}
 					// -------------------------------------------------------------------------- //
@@ -494,18 +494,18 @@ namespace entropy_estimator_lib
 							// -------------------------------------------------------------------------- //
 							if (true == i_refData.isModeDemonstration)
 							{
-								std::cout << "prev:\t\t\t" << bz_prev_dash << L"\n";
+								std::cout << "prev:\t\t\t" << bz_prev_dash << "\n";
 
 								std::cout << "argmax D[prev][y]:\t\t\t";
 								if (bIsPrevInDictionary)
 								{
-									std::cout << static_cast<int>(y_candidate) << L"\n";
+									std::cout << static_cast<int>(y_candidate) << "\n";
 								}
 								else
 								{
 									std::cout << "Null";
 								}
-								std::cout << L"\n";
+								std::cout << "\n";
 							}
 						}
 					}
@@ -533,9 +533,9 @@ namespace entropy_estimator_lib
 						{
 							std::cout << static_cast<int>(prediction.value);
 						}
-						std::cout << L"\n";
-						std::cout << "s_{i}:\t\t\t\t\t" << static_cast<int>((*(i_refData.p_bzInputS))(i - 1)) << L"\n";
-						std::cout << "correct_{i - B - 1}:\t\t\t\t\t" << static_cast<int>(io_ref_bz_correct(i - i_refData.t_6_3_10.B - 2)) << L"\n";
+						std::cout << "\n";
+						std::cout << "s_{i}:\t\t\t\t\t" << static_cast<int>((*(i_refData.p_bzInputS))(i - 1)) << "\n";
+						std::cout << "correct_{i - B - 1}:\t\t\t\t\t" << static_cast<int>(io_ref_bz_correct(i - i_refData.t_6_3_10.B - 2)) << "\n";
 					}
 				}
 

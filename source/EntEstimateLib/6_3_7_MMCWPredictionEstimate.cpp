@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2024 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "pch.h"
@@ -331,8 +331,8 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				if (true == i_refData.isModeDemonstration)
 				{
-					std::cout << "# pre-calculated histograms for performance" << L"\n";
-					std::cout << histArray << L"\n";
+					std::cout << "# pre-calculated histograms for performance" << "\n";
+					std::cout << histArray << "\n";
 				}
 				// -------------------------------------------------------------------------- //
 				// 3. For i = w_{1} + 1 to L:
@@ -384,13 +384,13 @@ namespace entropy_estimator_lib
 					// -------------------------------------------------------------------------- //
 					if (true == i_refData.isModeDemonstration)
 					{
-						std::cout << "// ------------------------- //" << L"\n";
-						std::cout << "i:\t\t\t" << i << L"\n";
-						std::cout << "frequent:\t\t" << io_ref_bz_frequent << L"\n";
-						std::cout << "scoreboard (step 3b):\t" << io_ref_bz_scoreboard << L"\n";
-						std::cout << "winner:\t\t" << io_ref_winner << L"\n";
-						std::cout << "prediction:\t\t" << static_cast<int>(prediction.value) << L"\n";
-						std::cout << "correct_{i - w_{1}}\t" << static_cast<int>(io_ref_bz_correct(i - i_refData.t_6_3_7.w[0] - 1)) << L"\n";
+						std::cout << "// ------------------------- //" << "\n";
+						std::cout << "i:\t\t\t" << i << "\n";
+						std::cout << "frequent:\t\t" << io_ref_bz_frequent << "\n";
+						std::cout << "scoreboard (step 3b):\t" << io_ref_bz_scoreboard << "\n";
+						std::cout << "winner:\t\t" << io_ref_winner << "\n";
+						std::cout << "prediction:\t\t" << static_cast<int>(prediction.value) << "\n";
+						std::cout << "correct_{i - w_{1}}\t" << static_cast<int>(io_ref_bz_correct(i - i_refData.t_6_3_7.w[0] - 1)) << "\n";
 					}
 					// -------------------------------------------------------------------------- //
 					// d. Update the scoreboard. 
@@ -424,7 +424,7 @@ namespace entropy_estimator_lib
 					// -------------------------------------------------------------------------- //
 					if (true == i_refData.isModeDemonstration)
 					{
-						std::cout << "scoreboard (step 3d):\t" << io_ref_bz_scoreboard << L"\n";
+						std::cout << "scoreboard (step 3d):\t" << io_ref_bz_scoreboard << "\n";
 					}
 				}
 

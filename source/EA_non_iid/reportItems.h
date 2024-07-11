@@ -33,7 +33,9 @@ struct InfoEnv
 	std::wstring* p_hostname;
 	std::wstring* p_cpuinfo;
 	std::wstring* p_physicalmemory;
-	std::wstring* p_osinfo;
+	std::wstring* p_osname;
+	std::wstring* p_osversion;
+	std::wstring* p_system_type;
 	std::wstring* p_username;
 };
 

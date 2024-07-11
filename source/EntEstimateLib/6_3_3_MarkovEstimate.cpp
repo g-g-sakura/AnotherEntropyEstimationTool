@@ -64,19 +64,57 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"	legend style={at={(1,0.75)},anchor=north west}," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	/pgf/number format/.cd,fixed,precision=6," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	scatter/classes={%" << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		a={mark=square*,NPGskyblue}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		b={mark=square*,NPGnavyblue}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		c={mark=square*,NPGsalmon}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		d={mark=square*,NPGred}}]" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		p00={mark=square*,NPGskyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		p01={mark=square*,NPGnavyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		p10={mark=square*,NPGsalmon}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		p11={mark=square*,NPGred}}]" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	\\addplot[scatter,only marks,%" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"		scatter src=explicit symbolic]%" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	table[meta=label] {" << L"\n";
+				// -------------------------------------------------------------------------- //
+				// 
+				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"x\ty\tlabel" << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << std::setw(2) << 0 << L"\t" << std::setw(8) << io_refData.t_6_3_3.p_transition[0][0] << L"\ta" << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << std::setw(2) << 0 << L"\t" << std::setw(8) << io_refData.t_6_3_3.p_transition[1][0] << L"\tb" << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << std::setw(2) << 1 << L"\t" << std::setw(8) << io_refData.t_6_3_3.p_transition[0][1] << L"\tc" << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << std::setw(2) << 1 << L"\t" << std::setw(8) << io_refData.t_6_3_3.p_transition[1][1] << L"\td" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << std::setw(2) << 0 << L"\t" << std::setw(8) << io_refData.t_6_3_3.p_transition[0][0] << L"\tp00" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << std::setw(2) << 0 << L"\t" << std::setw(8) << io_refData.t_6_3_3.p_transition[1][0] << L"\tp01" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << std::setw(2) << 1 << L"\t" << std::setw(8) << io_refData.t_6_3_3.p_transition[0][1] << L"\tp10" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << std::setw(2) << 1 << L"\t" << std::setw(8) << io_refData.t_6_3_3.p_transition[1][1] << L"\tp11" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	};" << L"\n";
+				// -------------------------------------------------------------------------- //
+				// 
+				// -------------------------------------------------------------------------- //
+				int	max_index = 0;
+				double	ymax = 0.0;
+				for (int i = 0; i < 2; ++i)
+				{
+					for (int j = 0; j < 2; ++j)
+					{
+						if (ymax < io_refData.t_6_3_3.p_transition[j][i])
+						{
+							max_index = i;
+							ymax = io_refData.t_6_3_3.p_transition[j][i];
+						}
+					}
+				}
+				// -------------------------------------------------------------------------- //
+				// 
+				// -------------------------------------------------------------------------- //
+				(*io_refData.p_ssLaTeXFragment) << L"\\addplot+[Nigelle,no marks,sharp plot,update limits=false] " << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"coordinates {(0, " << ymax << L") (1, " << ymax << L") }" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"node[above ";
+				if (0 == max_index)
+				{
+					(*io_refData.p_ssLaTeXFragment) << L"right";
+				}
+				else
+				{
+					(*io_refData.p_ssLaTeXFragment) << L"left";
+				}
+				(*io_refData.p_ssLaTeXFragment) << L"] at (axis cs:" << max_index << L"," << ymax;
+				(*io_refData.p_ssLaTeXFragment) << L") {" << ymax << L"};" << L"\n";
+				// -------------------------------------------------------------------------- //
+				// 
+				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\legend{$P_{0,0}$, $P_{0,1}$, $P_{1,0}$, $P_{1,1}$}" << L"\n";
 				// -------------------------------------------------------------------------- //
 				// 
@@ -151,20 +189,20 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"	legend style={at={(1,1)},anchor=north west}," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	/pgf/number format/.cd,fixed,precision=6," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	scatter/classes={%" << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		a={mark=triangle*,NPGskyblue}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		b={mark=triangle*,NPGnavyblue}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		c={mark=triangle,NPGnavyblue}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		d={mark=triangle*,NPGred}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		e={mark=triangle,NPGskyblue}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		f={mark=square*,NPGnavyblue}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		g={mark=triangle,NPGred}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		h={mark=square*,NPGskyblue}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		i={mark=square,NPGnavyblue}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		j={mark=square*,NPGred}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		k={mark=square,NPGskyblue}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		l={mark=*,NPGnavyblue}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		m={mark=o,NPGnavyblue}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		n={mark=square,NPGred}}]" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		sq01={mark=triangle*,NPGskyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		sq02={mark=triangle*,NPGnavyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		sq03={mark=triangle,NPGnavyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		sq04={mark=triangle*,NPGred}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		sq05={mark=triangle,NPGskyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		sq06={mark=square*,NPGnavyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		sq07={mark=triangle,NPGred}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		sq08={mark=square*,NPGskyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		sq09={mark=square,NPGnavyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		sq10={mark=square*,NPGred}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		sq11={mark=square,NPGskyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		sq12={mark=*,NPGnavyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		sq13={mark=o,NPGnavyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		sq14={mark=square,NPGred}}]" << L"\n";
 				for (int j = 0; j < 14; ++j)
 				{
 					(*io_refData.p_ssLaTeXFragment) << L"	\\addplot[scatter,only marks,%" << L"\n";
@@ -172,56 +210,30 @@ namespace entropy_estimator_lib
 					(*io_refData.p_ssLaTeXFragment) << L"	table[meta=label] {" << L"\n";
 					(*io_refData.p_ssLaTeXFragment) << L"x\ty\tlabel" << L"\n";
 					(*io_refData.p_ssLaTeXFragment) << std::setw(2) << j + 1 << L"\t" << std::setw(8) << io_refData.t_6_3_3.negativeLogPoverLength[j];
-					switch (j % 14)
-					{
-					case 0:
-						(*io_refData.p_ssLaTeXFragment) << L"\ta" << L"\n";
-						break;
-					case 1:
-						(*io_refData.p_ssLaTeXFragment) << L"\tb" << L"\n";
-						break;
-					case 2:
-						(*io_refData.p_ssLaTeXFragment) << L"\tc" << L"\n";
-						break;
-					case 3:
-						(*io_refData.p_ssLaTeXFragment) << L"\td" << L"\n";
-						break;
-					case 4:
-						(*io_refData.p_ssLaTeXFragment) << L"\te" << L"\n";
-						break;
-					case 5:
-						(*io_refData.p_ssLaTeXFragment) << L"\tf" << L"\n";
-						break;
-					case 6:
-						(*io_refData.p_ssLaTeXFragment) << L"\tg" << L"\n";
-						break;
-					case 7:
-						(*io_refData.p_ssLaTeXFragment) << L"\th" << L"\n";
-						break;
-					case 8:
-						(*io_refData.p_ssLaTeXFragment) << L"\ti" << L"\n";
-						break;
-					case 9:
-						(*io_refData.p_ssLaTeXFragment) << L"\tj" << L"\n";
-						break;
-					case 10:
-						(*io_refData.p_ssLaTeXFragment) << L"\tk" << L"\n";
-						break;
-					case 11:
-						(*io_refData.p_ssLaTeXFragment) << L"\tl" << L"\n";
-						break;
-					case 12:
-						(*io_refData.p_ssLaTeXFragment) << L"\tm" << L"\n";
-						break;
-					case 13:
-						(*io_refData.p_ssLaTeXFragment) << L"\tn" << L"\n";
-						break;
-					default:
-						(*io_refData.p_ssLaTeXFragment) << L"\ta" << L"\n";
-						break;
-					}
+					(*io_refData.p_ssLaTeXFragment) << L"\tsq" << std::setw(2) << std::setfill<wchar_t>(L'0') << (j + 1) << L"\n";
 					(*io_refData.p_ssLaTeXFragment) << L"	};" << L"\n";
 				}
+				(*io_refData.p_ssLaTeXFragment) << std::setfill<wchar_t>(L' ');
+				// -------------------------------------------------------------------------- //
+				// 
+				// -------------------------------------------------------------------------- //
+				(*io_refData.p_ssLaTeXFragment) << L"\\addplot+[Nigelle,no marks,sharp plot,update limits=false] " << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"coordinates {(1," << io_refData.t_6_3_3.t_common.min_entropy << L") (14," << io_refData.t_6_3_3.t_common.min_entropy << L")}" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"node[below ";
+				if (io_refData.t_6_3_3.mostLikelySequenceCategoryIndex < 8)
+				{
+					(*io_refData.p_ssLaTeXFragment) << L"right";
+				}
+				else
+				{
+					(*io_refData.p_ssLaTeXFragment) << L"left";
+				}
+				(*io_refData.p_ssLaTeXFragment) << L"] at (axis cs:" << (1 + io_refData.t_6_3_3.mostLikelySequenceCategoryIndex) << L"," << io_refData.t_6_3_3.t_common.min_entropy;
+				(*io_refData.p_ssLaTeXFragment) << L") {min-entropy = " << io_refData.t_6_3_3.t_common.min_entropy;
+				(*io_refData.p_ssLaTeXFragment) << L" [bit / " << io_refData.bits_per_sample << L"-bit]};" << L"\n";
+				// -------------------------------------------------------------------------- //
+				// 
+				// -------------------------------------------------------------------------- //
 				(*io_refData.p_ssLaTeXFragment) << L"\\legend{$[$sequence index 1$]$ $0000 \\cdots 0000$, $[$sequence index 2$]$ $0101 \\cdots 0101001010 \\cdots 1010$, $[$sequence index 3$]$ $0101 \\cdots 0101101010 \\cdots 1010$, $[$sequence index 4$]$ $0111 \\cdots 1110$, $[$sequence index 5$]$ $0000 \\cdots 0001$, $[$sequence index 6$]$ $0101 \\cdots 0101$, $[$sequence index 7$]$ $0111 \\cdots 1111$, $[$sequence index 8$]$ $1000 \\cdots 0000$, $[$sequence index 9$]$ $1010 \\cdots 1010$, $[$sequence index 10$]$ $1111 \\cdots 1110$, $[$sequence index 11$]$ $1000 \\cdots 0001$, $[$sequence index 12$]$ $1010 \\cdots 1010100101 \\cdots 0101$, $[$sequence index 13$]$ $1010 \\cdots 1010110101 \\cdots 0101$, $[$sequence index 14$]$ $1111 \\cdots 1111$}" << L"\n";
 				// -------------------------------------------------------------------------- //
 				// 

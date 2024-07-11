@@ -33,6 +33,53 @@ namespace entropy_estimator_lib
 		/// </summary>
 		/// <remarks>
 		/// </remarks>
+		/// <params="o_refLaTeXFragment">
+		/// </params>
+		/// <params="i_refComment">
+		/// </params>
+		/// <returns>
+		/// </returns>
+		/// <precondition>
+		/// </precondition>
+		/// <postcondition>
+		/// </postcondition>
+		// -------------------------------------------------------------------------- //
+		ns_consts::EnmReturnStatus getLaTeXCommentBlock(std::wstring& o_refLaTeXFragment, const std::wstring& i_refComment)
+		{
+			ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
+
+			// -------------------------------------------------------------------------- //
+			// 
+			// -------------------------------------------------------------------------- //
+			std::wstringstream	ss = std::wstringstream();
+			// -------------------------------------------------------------------------- //
+			// 
+			// -------------------------------------------------------------------------- //
+			ss << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+			ss << L"%%%%%%" << L"\n";
+			ss << L"%%%%%%";
+			if (false == i_refComment.empty())
+			{
+				ss << L" " << i_refComment;
+			}
+			ss << L"\n";
+			ss << L"%%%%%%" << L"\n";
+			ss << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+			// -------------------------------------------------------------------------- //
+			// 
+			// -------------------------------------------------------------------------- //
+			o_refLaTeXFragment = ss.str();
+			// -------------------------------------------------------------------------- //
+			// 
+			// -------------------------------------------------------------------------- //
+			return  sts = ns_consts::EnmReturnStatus::Success;
+		}
+
+		// -------------------------------------------------------------------------- //
+		/// <summary>
+		/// </summary>
+		/// <remarks>
+		/// </remarks>
 		/// <params="o_refSubsection">
 		/// </params>
 		/// <params="i_refSubsectionTitle">
@@ -55,16 +102,13 @@ namespace entropy_estimator_lib
 			// -------------------------------------------------------------------------- //
 			// 
 			// -------------------------------------------------------------------------- //
-			ssSubsection << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
-			ssSubsection << L"%%%%%%" << L"\n";
-			ssSubsection << L"%%%%%%";
-			if (false == i_refSubsectionTitle.empty())
+			std::wstring	strComment = std::wstring();
+			sts = getLaTeXCommentBlock(strComment, i_refSubsectionTitle);
+			if (ns_consts::EnmReturnStatus::Success != sts)
 			{
-				ssSubsection << L" " << i_refSubsectionTitle;
+				return  sts;
 			}
-			ssSubsection << L"\n";
-			ssSubsection << L"%%%%%%" << L"\n";
-			ssSubsection << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+			ssSubsection << strComment;
 			// -------------------------------------------------------------------------- //
 			// 
 			// -------------------------------------------------------------------------- //
@@ -109,16 +153,13 @@ namespace entropy_estimator_lib
 			// -------------------------------------------------------------------------- //
 			// 
 			// -------------------------------------------------------------------------- //
-			ssSubsubsection << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
-			ssSubsubsection << L"%%%%%%" << L"\n";
-			ssSubsubsection << L"%%%%%%";
-			if (false == i_refSubsubsectionTitle.empty())
+			std::wstring	strComment = std::wstring();
+			sts = getLaTeXCommentBlock(strComment, i_refSubsubsectionTitle);
+			if (ns_consts::EnmReturnStatus::Success != sts)
 			{
-				ssSubsubsection << L" " << i_refSubsubsectionTitle;
+				return  sts;
 			}
-			ssSubsubsection << L"\n";
-			ssSubsubsection << L"%%%%%%" << L"\n";
-			ssSubsubsection << L"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << L"\n";
+			ssSubsubsection << strComment;
 			// -------------------------------------------------------------------------- //
 			// 
 			// -------------------------------------------------------------------------- //

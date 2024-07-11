@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2024 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "pch.h"
@@ -551,8 +551,6 @@ namespace entropy_estimator_lib
 							// -------------------------------------------------------------------------- //
 							if (true == io_refData.isGeneratingReportInLaTeXformatRequested)
 							{
-								//ns_es::tpl_bscnt_map::iterator	it_ci_min = cnt_map_hg.begin();
-								//int	ci_min = it_ci_min->ex_cnt;
 								ns_es::tpl_bscnt_map::reverse_iterator	rit_ci_max = cnt_map_hg.rbegin();
 								int	ci_max = rit_ci_max->ex_cnt;
 
@@ -606,7 +604,7 @@ namespace entropy_estimator_lib
 							// -------------------------------------------------------------------------- //
 							if (1 < io_refData.verbose_level)
 							{
-								std::cout << "# \tNumerator of P_W ( W = " << std::setw(8) << t << " ) = " << std::setw(18) << ui64_numerator << L"\n";
+								std::cout << "# \tNumerator of P_W ( W = " << std::setw(8) << t << " ) = " << std::setw(20) << std::dec << ui64_numerator << "\n";
 							}
 							// -------------------------------------------------------------------------- //
 							//
