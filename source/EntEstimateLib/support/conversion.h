@@ -30,12 +30,12 @@ namespace entropy_estimator_lib
 		/// </summary>
 		/// <remarks>
 		/// </remarks>
-		/// <params="o_refInt">
-		/// </params>
-		/// <params="i_refSeqSamples">
-		/// </params>
-		/// <params="i_bit_width">
-		/// </params>
+		/// <param name="o_refInt">
+		/// </param>
+		/// <param name="i_refSeqSamples">
+		/// </param>
+		/// <param name="i_bit_width">
+		/// </param>
 		/// <returns>
 		/// </returns>
 		/// <precondition>
@@ -50,12 +50,12 @@ namespace entropy_estimator_lib
 		/// </summary>
 		/// <remarks>
 		/// </remarks>
-		/// <params="o_refBitSet">
-		/// </params>
-		/// <params="i_refDTuple">
-		/// </params>
-		/// <params="i_bit_width">
-		/// </params>
+		/// <param name="o_refBitSet">
+		/// </param>
+		/// <param name="i_refDTuple">
+		/// </param>
+		/// <param name="i_bit_width">
+		/// </param>
 		/// <returns>
 		/// </returns>
 		/// <precondition>

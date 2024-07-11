@@ -74,12 +74,12 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="o_refUpdatedCount">
-			/// </params>
-			/// <params="i_target_x">
-			/// </params>
-			/// <params="i_refHistogram">
-			/// </params>
+			/// <param name="o_refUpdatedCount">
+			/// </param>
+			/// <param name="i_target_x">
+			/// </param>
+			/// <param name="i_refHistogram">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -98,10 +98,10 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="o_refFrequent">
-			/// </params>
-			/// <params="i_refHistogram">
-			/// </params>
+			/// <param name="o_refFrequent">
+			/// </param>
+			/// <param name="i_refHistogram">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>

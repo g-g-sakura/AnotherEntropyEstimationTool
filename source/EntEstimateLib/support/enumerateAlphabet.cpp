@@ -24,9 +24,9 @@ namespace entropy_estimator_lib
 		/// <remarks>
 		///  Enumerated alphabet will be stored in <c>*(io_refData.p_bzSampleSpaceA)</c>
 		/// </remarks>
-		/// <params="io_refData">
+		/// <param name="io_refData">
 		///  Specifies the reference to data structure for entropy estimation.
-		/// </params>
+		/// </param>
 		/// <returns>
 		/// </returns>
 		/// <precondition>

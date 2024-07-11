@@ -24,8 +24,8 @@ namespace entropy_estimator_lib
 		/// </summary>
 		/// <remarks>
 		/// </remarks>
-		/// <params="io_refData">
-		/// </params>
+		/// <param name="io_refData">
+		/// </param>
 		/// <returns>
 		/// </returns>
 		/// <precondition>
@@ -162,10 +162,10 @@ namespace entropy_estimator_lib
 		/// </summary>
 		/// <remarks>
 		/// </remarks>
-		/// <params="io_refData">
-		/// </params>
-		/// <params="i_refFullPath">
-		/// </params>
+		/// <param name="io_refData">
+		/// </param>
+		/// <param name="i_refFullPath">
+		/// </param>
 		/// <returns>
 		/// </returns>
 		/// <precondition>
@@ -222,14 +222,14 @@ namespace entropy_estimator_lib
 		/// </summary>
 		/// <remarks>
 		/// </remarks>
-		/// <params="io_refData">
-		/// </params>
-		/// <params="i_refFullPath">
-		/// </params>
-		/// <params="i_number_of_bits_to_be_loaded">
-		/// </params>
-		/// <params="i_bits_per_sample">
-		/// </params>
+		/// <param name="io_refData">
+		/// </param>
+		/// <param name="i_refFullPath">
+		/// </param>
+		/// <param name="i_number_of_bits_to_be_loaded">
+		/// </param>
+		/// <param name="i_bits_per_sample">
+		/// </param>
 		/// <returns>
 		/// </returns>
 		/// <precondition>

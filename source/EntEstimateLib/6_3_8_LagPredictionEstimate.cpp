@@ -34,8 +34,8 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="io_refData">
-			/// </params>
+			/// <param name="io_refData">
+			/// </param>
 			/// <returns>
 			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::ErrorNullPointer</c>:  when the following condition is met:
 			///    <ul>
@@ -112,8 +112,8 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="io_refData">
-			/// </params>
+			/// <param name="io_refData">
+			/// </param>
 			/// <returns>
 			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::ErrorNullPointer</c>:  when the following condition is met:
 			///    <ul>
@@ -171,8 +171,8 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="io_refData">
-			/// </params>
+			/// <param name="io_refData">
+			/// </param>
 			/// <returns>
 			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::ErrorNullPointer</c>:  when the following condition is met:
 			///    <ul>
@@ -253,12 +253,12 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="o_ref_bz_lag">
-			/// </params>
-			/// <params="o_ref_bz_correct">
-			/// </params>
-			/// <params="i_refData">
-			/// </params>
+			/// <param name="o_ref_bz_lag">
+			/// </param>
+			/// <param name="o_ref_bz_correct">
+			/// </param>
+			/// <param name="i_refData">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -302,16 +302,16 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="io_ref_bz_lag">
-			/// </params>
-			/// <params="io_ref_bz_correct">
-			/// </params>
-			/// <params="io_ref_bz_scoreboard">
-			/// </params>
-			/// <params="io_ref_winner">
-			/// </params>
-			/// <params="i_refData">
-			/// </params>
+			/// <param name="io_ref_bz_lag">
+			/// </param>
+			/// <param name="io_ref_bz_correct">
+			/// </param>
+			/// <param name="io_ref_bz_scoreboard">
+			/// </param>
+			/// <param name="io_ref_winner">
+			/// </param>
+			/// <param name="i_refData">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -424,10 +424,10 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="o_refC">
-			/// </params>
-			/// <params="o_ref_bz_correct">
-			/// </params>
+			/// <param name="o_refC">
+			/// </param>
+			/// <param name="o_ref_bz_correct">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -450,12 +450,12 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="o_ref_p_prime_global">
-			/// </params>
-			/// <params="i_refC">
-			/// </params>
-			/// <params="i_refN">
-			/// </params>
+			/// <param name="o_ref_p_prime_global">
+			/// </param>
+			/// <param name="i_refC">
+			/// </param>
+			/// <param name="i_refN">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -493,20 +493,20 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="o_ref_r">
-			/// </params>
-			/// <params="o_ref_p_local">
-			/// </params>
-			/// <params="i_ref_bz_correct">
-			/// </params>
-			/// <params="i_refN">
-			/// </params>
-			/// <params="o_ref_occurrences_at_longest_run">
-			/// </params>
-			/// <params="o_refSSFragmentForLaTeX">
-			/// </params>
-			/// <params="i_bIsGeneratingReportInLaTeXformatRequested">
-			/// </params>
+			/// <param name="o_ref_r">
+			/// </param>
+			/// <param name="o_ref_p_local">
+			/// </param>
+			/// <param name="i_ref_bz_correct">
+			/// </param>
+			/// <param name="i_refN">
+			/// </param>
+			/// <param name="o_ref_occurrences_at_longest_run">
+			/// </param>
+			/// <param name="o_refSSFragmentForLaTeX">
+			/// </param>
+			/// <param name="i_bIsGeneratingReportInLaTeXformatRequested">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -639,8 +639,8 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="i_refData">
-			/// </params>
+			/// <param name="i_refData">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -679,8 +679,8 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="io_refData">
-			/// </params>
+			/// <param name="io_refData">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>

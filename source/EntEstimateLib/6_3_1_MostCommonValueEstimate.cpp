@@ -30,10 +30,10 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="io_refData">
-			/// </params>
-			/// <params="i_ref_whg">
-			/// </params>
+			/// <param name="io_refData">
+			/// </param>
+			/// <param name="i_ref_whg">
+			/// </param>
 			/// <returns>
 			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::ErrorNullPointer</c>:  when the following condition is met:
 			///    <ul>
@@ -151,8 +151,8 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="io_refData">
-			/// </params>
+			/// <param name="io_refData">
+			/// </param>
 			/// <returns>
 			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::ErrorNullPointer</c>:  when the following condition is met:
 			///    <ul>
@@ -226,8 +226,8 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="i_refData">
-			/// </params>
+			/// <param name="i_refData">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -260,8 +260,8 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="io_refData">
-			/// </params>
+			/// <param name="io_refData">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>

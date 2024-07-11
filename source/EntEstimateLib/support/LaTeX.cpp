@@ -13,8 +13,8 @@
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="i_refCommentSummary">
-/// </params>
+/// <param name="i_refCommentSummary">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -33,10 +33,10 @@ namespace entropy_estimator_lib
 		/// </summary>
 		/// <remarks>
 		/// </remarks>
-		/// <params="o_refLaTeXFragment">
-		/// </params>
-		/// <params="i_refComment">
-		/// </params>
+		/// <param name="o_refLaTeXFragment">
+		/// </param>
+		/// <param name="i_refComment">
+		/// </param>
 		/// <returns>
 		/// </returns>
 		/// <precondition>
@@ -80,10 +80,10 @@ namespace entropy_estimator_lib
 		/// </summary>
 		/// <remarks>
 		/// </remarks>
-		/// <params="o_refSubsection">
-		/// </params>
-		/// <params="i_refSubsectionTitle">
-		/// </params>
+		/// <param name="o_refSubsection">
+		/// </param>
+		/// <param name="i_refSubsectionTitle">
+		/// </param>
 		/// <returns>
 		/// </returns>
 		/// <precondition>
@@ -131,10 +131,10 @@ namespace entropy_estimator_lib
 		/// </summary>
 		/// <remarks>
 		/// </remarks>
-		/// <params="o_refSubsubsection">
-		/// </params>
-		/// <params="i_refSubsubsectionTitle">
-		/// </params>
+		/// <param name="o_refSubsubsection">
+		/// </param>
+		/// <param name="i_refSubsubsectionTitle">
+		/// </param>
 		/// <returns>
 		/// </returns>
 		/// <precondition>
@@ -182,8 +182,8 @@ namespace entropy_estimator_lib
 		/// </summary>
 		/// <remarks>
 		/// </remarks>
-		/// <params="o_refSubsection">
-		/// </params>
+		/// <param name="o_refSubsection">
+		/// </param>
 		/// <returns>
 		/// </returns>
 		/// <precondition>

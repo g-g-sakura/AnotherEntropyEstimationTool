@@ -18,9 +18,9 @@ namespace entropy_estimator_lib
 		/// </summary>
 		/// <remarks>
 		/// </remarks>
-		/// <params="i_refData">
+		/// <param name="i_refData">
 		///  Specifies the reference to data structure for entropy estimation.
-		/// </params>
+		/// </param>
 		/// <returns>
 		///  <c>entropy_estimator_lib::constants::EnmReturnStatus::ErrorNullPointer</c>: when one of the following conditions is met:
 		///    <ul>

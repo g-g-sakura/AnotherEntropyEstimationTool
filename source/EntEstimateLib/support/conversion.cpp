@@ -21,15 +21,15 @@ namespace entropy_estimator_lib
 		/// </summary>
 		/// <remarks>
 		/// </remarks>
-		/// <params="o_refInt">
+		/// <param name="o_refInt">
 		///  Specifies the reference to the converted boost::multiprecision::cpp_int type integer.
-		/// </params>
-		/// <params="i_refSeqSamples">
+		/// </param>
+		/// <param name="i_refSeqSamples">
 		///  Specifies the reference to the sequence of samples to be converted to boost::multiprecision::cpp_int type integer, using base (=256).
-		/// </params>
-		/// <params="i_bit_width">
+		/// </param>
+		/// <param name="i_bit_width">
 		///  Specifies the number of bits per sample.
-		/// </params>
+		/// </param>
 		/// <returns>
 		/// </returns>
 		/// <precondition>
@@ -65,15 +65,15 @@ namespace entropy_estimator_lib
 		/// </summary>
 		/// <remarks>
 		/// </remarks>
-		/// <params="o_refBitSet">
+		/// <param name="o_refBitSet">
 		///  Specifies the reference to the bitset to store the converted bitset from <c>i_refSeqSamples</c>.
-		/// </params>
-		/// <params="i_refSeqSamples">
+		/// </param>
+		/// <param name="i_refSeqSamples">
 		///  Specifies the reference to the sequence of samples to be converted to boost::dynamic_bitset<> type.
-		/// </params>
-		/// <params="i_bit_width">
+		/// </param>
+		/// <param name="i_bit_width">
 		///  Specifies the number of bits per sample.
-		/// </params>
+		/// </param>
 		/// <returns>
 		///  <c>entropy_estimator_lib::constants::EnmReturnStatus::ErrorInvalidData</c>: when one of the following conditions is met:
 		///    <ul>

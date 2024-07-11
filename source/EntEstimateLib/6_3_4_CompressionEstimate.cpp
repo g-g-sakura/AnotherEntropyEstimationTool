@@ -31,10 +31,10 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="io_refData">
-			/// </params>
-			/// <params="i_refD">
-			/// </params>
+			/// <param name="io_refData">
+			/// </param>
+			/// <param name="i_refD">
+			/// </param>
 			/// <returns>
 			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::ErrorNullPointer</c>:  when the following condition is met:
 			///    <ul>
@@ -152,8 +152,8 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="io_refData">
-			/// </params>
+			/// <param name="io_refData">
+			/// </param>
 			/// <returns>
 			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::ErrorNullPointer</c>:  when the following condition is met:
 			///    <ul>
@@ -230,10 +230,10 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="o_refSprime">
-			/// </params>
-			/// <params="i_refData">
-			/// </params>
+			/// <param name="o_refSprime">
+			/// </param>
+			/// <param name="i_refData">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -290,16 +290,16 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="o_refDict">
-			/// </params>
-			/// <params="i_refSprime">
-			/// </params>
-			/// <params="i_b">
-			/// </params>
-			/// <params="i_d">
-			/// </params>
-			/// <params="bIsModeDemo">
-			/// </params>
+			/// <param name="o_refDict">
+			/// </param>
+			/// <param name="i_refSprime">
+			/// </param>
+			/// <param name="i_b">
+			/// </param>
+			/// <param name="i_d">
+			/// </param>
+			/// <param name="bIsModeDemo">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -351,20 +351,20 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="o_refD">
-			/// </params>
-			/// <params="io_refDict">
-			/// </params>
-			/// <params="i_refSprime">
-			/// </params>
-			/// <params="i_b">
-			/// </params>
-			/// <params="i_d">
-			/// </params>
-			/// <params="i_L">
-			/// </params>
-			/// <params="bIsModeDemo">
-			/// </params>
+			/// <param name="o_refD">
+			/// </param>
+			/// <param name="io_refDict">
+			/// </param>
+			/// <param name="i_refSprime">
+			/// </param>
+			/// <param name="i_b">
+			/// </param>
+			/// <param name="i_d">
+			/// </param>
+			/// <param name="i_L">
+			/// </param>
+			/// <param name="bIsModeDemo">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -443,14 +443,14 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="o_refXbar">
-			/// </params>
-			/// <params="o_refSigmaHat">
-			/// </params>
-			/// <params="o_refD">
-			/// </params>
-			/// <params="i_nu">
-			/// </params>
+			/// <param name="o_refXbar">
+			/// </param>
+			/// <param name="o_refSigmaHat">
+			/// </param>
+			/// <param name="o_refD">
+			/// </param>
+			/// <param name="i_nu">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -521,12 +521,12 @@ namespace entropy_estimator_lib
 			/// <remarks>
 			///  not optimized version
 			/// </remarks>
-			/// <params="i_z">
-			/// </params>
-			/// <params="i_t">
-			/// </params>
-			/// <params="i_u">
-			/// </params>
+			/// <param name="i_z">
+			/// </param>
+			/// <param name="i_t">
+			/// </param>
+			/// <param name="i_u">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -555,14 +555,14 @@ namespace entropy_estimator_lib
 			/// <remarks>
 			///  not optimized version
 			/// </remarks>
-			/// <params="z">
-			/// </params>
-			/// <params="i_d">
-			/// </params>
-			/// <params="i_Loverb">
-			/// </params>
-			/// <params="i_nu">
-			/// </params>
+			/// <param name="z">
+			/// </param>
+			/// <param name="i_d">
+			/// </param>
+			/// <param name="i_Loverb">
+			/// </param>
+			/// <param name="i_nu">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -622,14 +622,14 @@ namespace entropy_estimator_lib
 			/// <remarks>
 			///  Optimized through formula transformation
 			/// </remarks>
-			/// <params="z">
-			/// </params>
-			/// <params="i_d">
-			/// </params>
-			/// <params="i_Loverb">
-			/// </params>
-			/// <params="i_nu">
-			/// </params>
+			/// <param name="z">
+			/// </param>
+			/// <param name="i_d">
+			/// </param>
+			/// <param name="i_Loverb">
+			/// </param>
+			/// <param name="i_nu">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -711,14 +711,14 @@ namespace entropy_estimator_lib
 			/// <remarks>
 			///  Optimized through formula transformation
 			/// </remarks>
-			/// <params="z">
-			/// </params>
-			/// <params="i_d">
-			/// </params>
-			/// <params="i_Loverb">
-			/// </params>
-			/// <params="i_nu">
-			/// </params>
+			/// <param name="z">
+			/// </param>
+			/// <param name="i_d">
+			/// </param>
+			/// <param name="i_Loverb">
+			/// </param>
+			/// <param name="i_nu">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -776,8 +776,8 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="i_refData">
-			/// </params>
+			/// <param name="i_refData">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -826,8 +826,8 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="io_refData">
-			/// </params>
+			/// <param name="io_refData">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>

@@ -22,14 +22,14 @@ namespace entropy_estimator_lib
 		/// </summary>
 		/// <remarks>
 		/// </remarks>
-		/// <params="o_refStream">
-		/// </params>
-		/// <params="i_enmEstimator">
-		/// </params>
-		/// <params="i_enmInterpretation">
-		/// </params>
-		/// <params="io_refData">
-		/// </params>
+		/// <param name="o_refStream">
+		/// </param>
+		/// <param name="i_enmEstimator">
+		/// </param>
+		/// <param name="i_enmInterpretation">
+		/// </param>
+		/// <param name="io_refData">
+		/// </param>
 		/// <returns>
 		/// </returns>
 		/// <precondition>
@@ -176,14 +176,14 @@ namespace entropy_estimator_lib
 		/// </summary>
 		/// <remarks>
 		/// </remarks>
-		/// <params="o_refStream">
-		/// </params>
-		/// <params="i_enmEstimator">
-		/// </params>
-		/// <params="i_enmInterpretation">
-		/// </params>
-		/// <params="io_refData">
-		/// </params>
+		/// <param name="o_refStream">
+		/// </param>
+		/// <param name="i_enmEstimator">
+		/// </param>
+		/// <param name="i_enmInterpretation">
+		/// </param>
+		/// <param name="io_refData">
+		/// </param>
 		/// <returns>
 		/// </returns>
 		/// <precondition>
@@ -276,14 +276,14 @@ namespace entropy_estimator_lib
 		/// </summary>
 		/// <remarks>
 		/// </remarks>
-		/// <params="o_refStream">
-		/// </params>
-		/// <params="i_enmEstimator">
-		/// </params>
-		/// <params="i_enmInterpretation">
-		/// </params>
-		/// <params="io_refData">
-		/// </params>
+		/// <param name="o_refStream">
+		/// </param>
+		/// <param name="i_enmEstimator">
+		/// </param>
+		/// <param name="i_enmInterpretation">
+		/// </param>
+		/// <param name="io_refData">
+		/// </param>
 		/// <returns>
 		/// </returns>
 		/// <precondition>

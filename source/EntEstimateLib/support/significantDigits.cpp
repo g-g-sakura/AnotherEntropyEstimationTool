@@ -29,16 +29,16 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="o_ref_min_entropy_lower_bound">
-			/// </params>
-			/// <params="o_ref_min_entropy_upper_bound">
-			/// </params>
-			/// <params="o_ref_number_of_significant_digits">
-			/// </params>
-			/// <params="i_ref_X_bar_prime">
-			/// </params>
-			/// <params="i_ref_nu">
-			/// </params>
+			/// <param name="o_ref_min_entropy_lower_bound">
+			/// </param>
+			/// <param name="o_ref_min_entropy_upper_bound">
+			/// </param>
+			/// <param name="o_ref_number_of_significant_digits">
+			/// </param>
+			/// <param name="i_ref_X_bar_prime">
+			/// </param>
+			/// <param name="i_ref_nu">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -105,16 +105,16 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="o_ref_min_entropy_lower_bound">
-			/// </params>
-			/// <params="o_ref_min_entropy_upper_bound">
-			/// </params>
-			/// <params="o_ref_number_of_significant_digits">
-			/// </params>
-			/// <params="i_ref_C">
-			/// </params>
-			/// <params="i_ref_N">
-			/// </params>
+			/// <param name="o_ref_min_entropy_lower_bound">
+			/// </param>
+			/// <param name="o_ref_min_entropy_upper_bound">
+			/// </param>
+			/// <param name="o_ref_number_of_significant_digits">
+			/// </param>
+			/// <param name="i_ref_C">
+			/// </param>
+			/// <param name="i_ref_N">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -189,18 +189,18 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="o_ref_min_entropy_lower_bound">
-			/// </params>
-			/// <params="o_ref_min_entropy_upper_bound">
-			/// </params>
-			/// <params="o_ref_number_of_significant_digits">
-			/// </params>
-			/// <params="i_ref_r">
-			/// </params>
-			/// <params="i_ref_N">
-			/// </params>
-			/// <params="i_ref_k">
-			/// </params>
+			/// <param name="o_ref_min_entropy_lower_bound">
+			/// </param>
+			/// <param name="o_ref_min_entropy_upper_bound">
+			/// </param>
+			/// <param name="o_ref_number_of_significant_digits">
+			/// </param>
+			/// <param name="i_ref_r">
+			/// </param>
+			/// <param name="i_ref_N">
+			/// </param>
+			/// <param name="i_ref_k">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>

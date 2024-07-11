@@ -24,8 +24,8 @@ enum { STDOUT_BUFFER_SIZE = 6144 };
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="o_refHostInfo">
-/// </params>
+/// <param name="o_refHostInfo">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -57,8 +57,8 @@ ns_consts::EnmReturnStatus getHostInfo(std::wstring& o_refHostInfo)
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="o_refCPUInfo">
-/// </params>
+/// <param name="o_refCPUInfo">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -109,8 +109,8 @@ ns_consts::EnmReturnStatus getCPUInfo(std::wstring& o_refCPUInfo)
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="o_refMemoryStatus">
-/// </params>
+/// <param name="o_refMemoryStatus">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -143,8 +143,8 @@ ns_consts::EnmReturnStatus getMemoryStatus(std::wstring& o_refMemoryStatus)
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="">
-/// </params>
+/// <param name="">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -182,8 +182,8 @@ bool    Is64bitOS()
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="o_refSystemType">
-/// </params>
+/// <param name="o_refSystemType">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -225,8 +225,8 @@ typedef struct THandleContainer_
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="io_refContainer">
-/// </params>
+/// <param name="io_refContainer">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -307,12 +307,12 @@ ns_consts::EnmReturnStatus invokeSystemInfo(THandleContainer& io_refContainer)
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="o_refOSName">
-/// </params>
-/// <params="o_refOSVersion">
-/// </params>
-/// <params="io_container">
-/// </params>
+/// <param name="o_refOSName">
+/// </param>
+/// <param name="o_refOSVersion">
+/// </param>
+/// <param name="io_container">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -368,10 +368,10 @@ ns_consts::EnmReturnStatus readOSNameAndVersion(std::string& o_OS_name, std::str
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="o_refOSName">
-/// </params>
-/// <params="o_refOSVersion">
-/// </params>
+/// <param name="o_refOSName">
+/// </param>
+/// <param name="o_refOSVersion">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -446,8 +446,8 @@ ns_consts::EnmReturnStatus getOSNameAndVersion(std::wstring& o_refOSName, std::w
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="o_refUserInfo">
-/// </params>
+/// <param name="o_refUserInfo">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -479,8 +479,8 @@ ns_consts::EnmReturnStatus getUserInfo(std::wstring& o_refUserInfo)
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="i_refEnv">
-/// </params>
+/// <param name="i_refEnv">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>

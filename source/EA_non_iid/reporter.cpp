@@ -30,8 +30,8 @@ namespace ns_dt = entropy_estimator_lib::data_types;
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="i_refData">
-/// </params>
+/// <param name="i_refData">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -76,8 +76,8 @@ void showHeadSamples(const ns_dt::t_data_for_estimator& i_refData)
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="i_refData">
-/// </params>
+/// <param name="i_refData">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -154,8 +154,8 @@ struct MinEntropy
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="i_est">
-/// </params>
+/// <param name="i_est">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -209,8 +209,8 @@ std::wstring getEstimatorInfo(ns_consts::EnmNonIIDTrack i_est)
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="i_refData">
-/// </params>
+/// <param name="i_refData">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -241,12 +241,12 @@ std::wstring getSampleInterpretationMode(ns_consts::EnmSampleInterpretation i_si
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="i_refInfoReport">
-/// </params>
-/// <params="i_refDataOriginal">
-/// </params>
-/// <params="i_refDataBinary">
-/// </params>
+/// <param name="i_refInfoReport">
+/// </param>
+/// <param name="i_refDataOriginal">
+/// </param>
+/// <param name="i_refDataBinary">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -542,10 +542,10 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(const IDInfoForReport& i_refInfoRe
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="i_refInfoReport">
-/// </params>
-/// <params="i_refDataBinary">
-/// </params>
+/// <param name="i_refInfoReport">
+/// </param>
+/// <param name="i_refDataBinary">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -783,10 +783,10 @@ ns_consts::EnmReturnStatus reportXMLBinary(const IDInfoForReport& i_refInfoRepor
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="o_report_complete_path">
-/// </params>
-/// <params="i_path_entropy_input">
-/// </params>
+/// <param name="o_report_complete_path">
+/// </param>
+/// <param name="i_path_entropy_input">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -831,10 +831,10 @@ ns_consts::EnmReturnStatus synthesizeReportPath(bs_fs::path& o_report_complete_p
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="o_report_complete_path">
-/// </params>
-/// <params="i_path_entropy_input">
-/// </params>
+/// <param name="o_report_complete_path">
+/// </param>
+/// <param name="i_path_entropy_input">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -879,8 +879,8 @@ ns_consts::EnmReturnStatus synthesizeReportPathTex(bs_fs::path& o_report_complet
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="i_refCommentSummary">
-/// </params>
+/// <param name="i_refCommentSummary">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -919,8 +919,8 @@ ns_consts::EnmReturnStatus getLaTeXComment(std::wstring& o_refComment, const std
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="o_ssLaTeX">
-/// </params>
+/// <param name="o_ssLaTeX">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -1103,14 +1103,14 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="o_ssLaTeX">
-/// </params>
-/// <params="isBinary">
-/// </params>
-/// <params="min_entropy">
-/// </params>
-/// <params="bits_per_sample">
-/// </params>
+/// <param name="o_ssLaTeX">
+/// </param>
+/// <param name="isBinary">
+/// </param>
+/// <param name="min_entropy">
+/// </param>
+/// <param name="bits_per_sample">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -1195,8 +1195,8 @@ ns_consts::EnmReturnStatus loadPGFPlotSummary(std::wstringstream& o_ssLaTeX, boo
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="o_ssLaTeX">
-/// </params>
+/// <param name="o_ssLaTeX">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -1239,8 +1239,8 @@ ns_consts::EnmReturnStatus loadLaTeXBibliography(std::wstringstream& o_ssLaTeX)
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="o_refLaTeXSupportingInfo">
-/// </params>
+/// <param name="o_refLaTeXSupportingInfo">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -1336,12 +1336,12 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingCompilerInfo(std::wstringstream&
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="o_refLaTeXSupportingInfo">
-/// </params>
-/// <params="i_refInfoReport">
-/// </params>
-/// <params="io_refDataOriginal">
-/// </params>
+/// <param name="o_refLaTeXSupportingInfo">
+/// </param>
+/// <param name="i_refInfoReport">
+/// </param>
+/// <param name="io_refDataOriginal">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -1596,12 +1596,12 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="i_refInfoReport">
-/// </params>
-/// <params="io_refDataOriginal">
-/// </params>
-/// <params="io_refDataBinary">
-/// </params>
+/// <param name="i_refInfoReport">
+/// </param>
+/// <param name="io_refDataOriginal">
+/// </param>
+/// <param name="io_refDataBinary">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>
@@ -1981,10 +1981,10 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <params="i_refInfoReport">
-/// </params>
-/// <params="io_refDataBinary">
-/// </params>
+/// <param name="i_refInfoReport">
+/// </param>
+/// <param name="io_refDataBinary">
+/// </param>
 /// <returns>
 /// </returns>
 /// <precondition>

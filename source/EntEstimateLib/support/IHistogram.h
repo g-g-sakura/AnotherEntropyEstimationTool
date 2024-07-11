@@ -27,10 +27,10 @@ namespace entropy_estimator_lib
 		/// </summary>
 		/// <remarks>
 		/// </remarks>
-		/// <params="o_refInt">
-		/// </params>
-		/// <params="i_refDTuple">
-		/// </params>
+		/// <param name="o_refInt">
+		/// </param>
+		/// <param name="i_refDTuple">
+		/// </param>
 		/// <returns>
 		/// </returns>
 		/// <precondition>

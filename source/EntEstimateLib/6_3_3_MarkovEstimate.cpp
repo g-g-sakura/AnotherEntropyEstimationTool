@@ -32,8 +32,8 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="io_refData">
-			/// </params>
+			/// <param name="io_refData">
+			/// </param>
 			/// <returns>
 			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::ErrorNullPointer</c>:  when the following condition is met:
 			///    <ul>
@@ -136,8 +136,8 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="io_refData">
-			/// </params>
+			/// <param name="io_refData">
+			/// </param>
 			/// <returns>
 			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::ErrorNullPointer</c>:  when the following condition is met:
 			///    <ul>
@@ -257,21 +257,21 @@ namespace entropy_estimator_lib
 			/// <remarks>
 			///  called from <c>calcNegativeLogarithmProbability</c> function.
 			/// </remarks>
-			/// <params="o_refMinEntropyEstimate">
+			/// <param name="o_refMinEntropyEstimate">
 			///   [Output] Resultant -log2(P) / L.
-			/// </params>
-			/// <params="i_refPTransition">
+			/// </param>
+			/// <param name="i_refPTransition">
 			///   [Input] Transition matrix.
 			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_refInitialP">
+			/// </param>
+			/// <param name="i_refInitialP">
 			///   [Input] initial probabilities for each output value.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_lengthOfSeq">
+			/// </param>
+			/// <param name="i_lengthOfSeq">
 			///   [Input] Length of input S. See 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -305,21 +305,21 @@ namespace entropy_estimator_lib
 			/// <remarks>
 			///  called from <c>calcNegativeLogarithmProbability</c> function.
 			/// </remarks>
-			/// <params="o_refMinEntropyEstimate">
+			/// <param name="o_refMinEntropyEstimate">
 			///   [Output] Resultant -log2(P) / L.
-			/// </params>
-			/// <params="i_refPTransition">
+			/// </param>
+			/// <param name="i_refPTransition">
 			///   [Input] Transition matrix.
 			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_refInitialP">
+			/// </param>
+			/// <param name="i_refInitialP">
 			///   [Input] initial probabilities for each output value.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_lengthOfSeq">
+			/// </param>
+			/// <param name="i_lengthOfSeq">
 			///   [Input] Length of input S. See 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -361,21 +361,21 @@ namespace entropy_estimator_lib
 			/// <remarks>
 			///  called from <c>calcNegativeLogarithmProbability</c> function.
 			/// </remarks>
-			/// <params="o_refMinEntropyEstimate">
+			/// <param name="o_refMinEntropyEstimate">
 			///   [Output] Resultant -log2(P) / L.
-			/// </params>
-			/// <params="i_refPTransition">
+			/// </param>
+			/// <param name="i_refPTransition">
 			///   [Input] Transition matrix.
 			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_refInitialP">
+			/// </param>
+			/// <param name="i_refInitialP">
 			///   [Input] initial probabilities for each output value.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_lengthOfSeq">
+			/// </param>
+			/// <param name="i_lengthOfSeq">
 			///   [Input] Length of input S. See 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -417,21 +417,21 @@ namespace entropy_estimator_lib
 			/// <remarks>
 			///  called from <c>calcNegativeLogarithmProbability</c> function.
 			/// </remarks>
-			/// <params="o_refMinEntropyEstimate">
+			/// <param name="o_refMinEntropyEstimate">
 			///   [Output] Resultant -log2(P) / L.
-			/// </params>
-			/// <params="i_refPTransition">
+			/// </param>
+			/// <param name="i_refPTransition">
 			///   [Input] Transition matrix.
 			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_refInitialP">
+			/// </param>
+			/// <param name="i_refInitialP">
 			///   [Input] initial probabilities for each output value.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_lengthOfSeq">
+			/// </param>
+			/// <param name="i_lengthOfSeq">
 			///   [Input] Length of input S. See 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -473,21 +473,21 @@ namespace entropy_estimator_lib
 			/// <remarks>
 			///  called from <c>calcNegativeLogarithmProbability</c> function.
 			/// </remarks>
-			/// <params="o_refMinEntropyEstimate">
+			/// <param name="o_refMinEntropyEstimate">
 			///   [Output] Resultant -log2(P) / L.
-			/// </params>
-			/// <params="i_refPTransition">
+			/// </param>
+			/// <param name="i_refPTransition">
 			///   [Input] Transition matrix.
 			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_refInitialP">
+			/// </param>
+			/// <param name="i_refInitialP">
 			///   [Input] initial probabilities for each output value.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_lengthOfSeq">
+			/// </param>
+			/// <param name="i_lengthOfSeq">
 			///   [Input] Length of input S. See 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -525,21 +525,21 @@ namespace entropy_estimator_lib
 			/// <remarks>
 			///  called from <c>calcNegativeLogarithmProbability</c> function.
 			/// </remarks>
-			/// <params="o_refMinEntropyEstimate">
+			/// <param name="o_refMinEntropyEstimate">
 			///   [Output] Resultant -log2(P) / L.
-			/// </params>
-			/// <params="i_refPTransition">
+			/// </param>
+			/// <param name="i_refPTransition">
 			///   [Input] Transition matrix.
 			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_refInitialP">
+			/// </param>
+			/// <param name="i_refInitialP">
 			///   [Input] initial probabilities for each output value.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_lengthOfSeq">
+			/// </param>
+			/// <param name="i_lengthOfSeq">
 			///   [Input] Length of input S. See 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -577,21 +577,21 @@ namespace entropy_estimator_lib
 			/// <remarks>
 			///  called from <c>calcNegativeLogarithmProbability</c> function.
 			/// </remarks>
-			/// <params="o_refMinEntropyEstimate">
+			/// <param name="o_refMinEntropyEstimate">
 			///   [Output] Resultant -log2(P) / L.
-			/// </params>
-			/// <params="i_refPTransition">
+			/// </param>
+			/// <param name="i_refPTransition">
 			///   [Input] Transition matrix.
 			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_refInitialP">
+			/// </param>
+			/// <param name="i_refInitialP">
 			///   [Input] initial probabilities for each output value.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_lengthOfSeq">
+			/// </param>
+			/// <param name="i_lengthOfSeq">
 			///   [Input] Length of input S. See 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -629,21 +629,21 @@ namespace entropy_estimator_lib
 			/// <remarks>
 			///  called from <c>calcNegativeLogarithmProbability</c> function.
 			/// </remarks>
-			/// <params="o_refMinEntropyEstimate">
+			/// <param name="o_refMinEntropyEstimate">
 			///   [Output] Resultant -log2(P) / L.
-			/// </params>
-			/// <params="i_refPTransition">
+			/// </param>
+			/// <param name="i_refPTransition">
 			///   [Input] Transition matrix.
 			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_refInitialP">
+			/// </param>
+			/// <param name="i_refInitialP">
 			///   [Input] initial probabilities for each output value.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_lengthOfSeq">
+			/// </param>
+			/// <param name="i_lengthOfSeq">
 			///   [Input] Length of input S. See 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -681,21 +681,21 @@ namespace entropy_estimator_lib
 			/// <remarks>
 			///  called from <c>calcNegativeLogarithmProbability</c> function.
 			/// </remarks>
-			/// <params="o_refMinEntropyEstimate">
+			/// <param name="o_refMinEntropyEstimate">
 			///   [Output] Resultant -log2(P) / L.
-			/// </params>
-			/// <params="i_refPTransition">
+			/// </param>
+			/// <param name="i_refPTransition">
 			///   [Input] Transition matrix.
 			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_refInitialP">
+			/// </param>
+			/// <param name="i_refInitialP">
 			///   [Input] initial probabilities for each output value.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_lengthOfSeq">
+			/// </param>
+			/// <param name="i_lengthOfSeq">
 			///   [Input] Length of input S. See 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -733,21 +733,21 @@ namespace entropy_estimator_lib
 			/// <remarks>
 			///  called from <c>calcNegativeLogarithmProbability</c> function.
 			/// </remarks>
-			/// <params="o_refMinEntropyEstimate">
+			/// <param name="o_refMinEntropyEstimate">
 			///   [Output] Resultant -log2(P) / L.
-			/// </params>
-			/// <params="i_refPTransition">
+			/// </param>
+			/// <param name="i_refPTransition">
 			///   [Input] Transition matrix.
 			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_refInitialP">
+			/// </param>
+			/// <param name="i_refInitialP">
 			///   [Input] initial probabilities for each output value.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_lengthOfSeq">
+			/// </param>
+			/// <param name="i_lengthOfSeq">
 			///   [Input] Length of input S. See 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -785,21 +785,21 @@ namespace entropy_estimator_lib
 			/// <remarks>
 			///  called from <c>calcNegativeLogarithmProbability</c> function.
 			/// </remarks>
-			/// <params="o_refMinEntropyEstimate">
+			/// <param name="o_refMinEntropyEstimate">
 			///   [Output] Resultant -log2(P) / L.
-			/// </params>
-			/// <params="i_refPTransition">
+			/// </param>
+			/// <param name="i_refPTransition">
 			///   [Input] Transition matrix.
 			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_refInitialP">
+			/// </param>
+			/// <param name="i_refInitialP">
 			///   [Input] initial probabilities for each output value.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_lengthOfSeq">
+			/// </param>
+			/// <param name="i_lengthOfSeq">
 			///   [Input] Length of input S. See 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -841,21 +841,21 @@ namespace entropy_estimator_lib
 			/// <remarks>
 			///  called from <c>calcNegativeLogarithmProbability</c> function.
 			/// </remarks>
-			/// <params="o_refMinEntropyEstimate">
+			/// <param name="o_refMinEntropyEstimate">
 			///   [Output] Resultant -log2(P) / L.
-			/// </params>
-			/// <params="i_refPTransition">
+			/// </param>
+			/// <param name="i_refPTransition">
 			///   [Input] Transition matrix.
 			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_refInitialP">
+			/// </param>
+			/// <param name="i_refInitialP">
 			///   [Input] initial probabilities for each output value.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_lengthOfSeq">
+			/// </param>
+			/// <param name="i_lengthOfSeq">
 			///   [Input] Length of input S. See 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -897,21 +897,21 @@ namespace entropy_estimator_lib
 			/// <remarks>
 			///  called from <c>calcNegativeLogarithmProbability</c> function.
 			/// </remarks>
-			/// <params="o_refMinEntropyEstimate">
+			/// <param name="o_refMinEntropyEstimate">
 			///   [Output] Resultant -log2(P) / L.
-			/// </params>
-			/// <params="i_refPTransition">
+			/// </param>
+			/// <param name="i_refPTransition">
 			///   [Input] Transition matrix.
 			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_refInitialP">
+			/// </param>
+			/// <param name="i_refInitialP">
 			///   [Input] initial probabilities for each output value.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_lengthOfSeq">
+			/// </param>
+			/// <param name="i_lengthOfSeq">
 			///   [Input] Length of input S. See 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -953,21 +953,21 @@ namespace entropy_estimator_lib
 			/// <remarks>
 			///  called from <c>calcNegativeLogarithmProbability</c> function.
 			/// </remarks>
-			/// <params="o_refMinEntropyEstimate">
+			/// <param name="o_refMinEntropyEstimate">
 			///   [Output] Resultant -log2(P) / L.
-			/// </params>
-			/// <params="i_refPTransition">
+			/// </param>
+			/// <param name="i_refPTransition">
 			///   [Input] Transition matrix.
 			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_refInitialP">
+			/// </param>
+			/// <param name="i_refInitialP">
 			///   [Input] initial probabilities for each output value.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_lengthOfSeq">
+			/// </param>
+			/// <param name="i_lengthOfSeq">
 			///   [Input] Length of input S. See 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -999,21 +999,21 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="o_refMinEntropyEstimate">
+			/// <param name="o_refMinEntropyEstimate">
 			///   [Output] Resultant -log2(P) / L.
-			/// </params>
-			/// <params="i_refPTransition">
+			/// </param>
+			/// <param name="i_refPTransition">
 			///   [Input] Transition matrix.
 			///   Note here that this matrix is defined to operate on the column vector from left.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_refInitialP">
+			/// </param>
+			/// <param name="i_refInitialP">
 			///   [Input] initial probabilities for each output value.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
-			/// <params="i_lengthOfSeq">
+			/// </param>
+			/// <param name="i_lengthOfSeq">
 			///   [Input] Length of input S. See 6.3.3 of NIST SP 800-90B for more details.
-			/// </params>
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -1090,8 +1090,8 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="i_refData">
-			/// </params>
+			/// <param name="i_refData">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -1144,8 +1144,8 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="io_refData">
-			/// </params>
+			/// <param name="io_refData">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>

@@ -23,14 +23,14 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="i_window_width">
-			/// </params>
-			/// <params="i_start_pos">
-			/// </params>
-			/// <params="i_end_pos">
-			/// </params>
-			/// <params="i_refData">
-			/// </params>
+			/// <param name="i_window_width">
+			/// </param>
+			/// <param name="i_start_pos">
+			/// </param>
+			/// <param name="i_end_pos">
+			/// </param>
+			/// <param name="i_refData">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -73,8 +73,8 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="i_refRight">
-			/// </params>
+			/// <param name="i_refRight">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -132,8 +132,8 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="o_refFrequent">
-			/// </params>
+			/// <param name="o_refFrequent">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -187,10 +187,10 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="os">
-			/// </params>
-			/// <params="i_refRight">
-			/// </params>
+			/// <param name="os">
+			/// </param>
+			/// <param name="i_refRight">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -217,10 +217,10 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="i_window_width">
-			/// </params>
-			/// <params="i_refData">
-			/// </params>
+			/// <param name="i_window_width">
+			/// </param>
+			/// <param name="i_refData">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -268,8 +268,8 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="">
-			/// </params>
+			/// <param name="">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -293,14 +293,14 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="o_refFrequent">
-			/// </params>
-			/// <params="start_pos">
-			/// </params>
-			/// <params="end_pos">
-			/// </params>
-			/// <params="i_refData">
-			/// </params>
+			/// <param name="o_refFrequent">
+			/// </param>
+			/// <param name="start_pos">
+			/// </param>
+			/// <param name="end_pos">
+			/// </param>
+			/// <param name="i_refData">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -388,10 +388,10 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="os">
-			/// </params>
-			/// <params="i_refRight">
-			/// </params>
+			/// <param name="os">
+			/// </param>
+			/// <param name="i_refRight">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -416,12 +416,12 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="i_window_width_1">
-			/// </params>
-			/// <params="i_window_width_2">
-			/// </params>
-			/// <params="i_refData">
-			/// </params>
+			/// <param name="i_window_width_1">
+			/// </param>
+			/// <param name="i_window_width_2">
+			/// </param>
+			/// <param name="i_refData">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -507,8 +507,8 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="">
-			/// </params>
+			/// <param name="">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -556,14 +556,14 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="o_refFrequent">
-			/// </params>
-			/// <params="start_pos">
-			/// </params>
-			/// <params="end_pos">
-			/// </params>
-			/// <params="i_refData">
-			/// </params>
+			/// <param name="o_refFrequent">
+			/// </param>
+			/// <param name="start_pos">
+			/// </param>
+			/// <param name="end_pos">
+			/// </param>
+			/// <param name="i_refData">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
@@ -728,10 +728,10 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <params="os">
-			/// </params>
-			/// <params="i_refRight">
-			/// </params>
+			/// <param name="os">
+			/// </param>
+			/// <param name="i_refRight">
+			/// </param>
 			/// <returns>
 			/// </returns>
 			/// <precondition>
