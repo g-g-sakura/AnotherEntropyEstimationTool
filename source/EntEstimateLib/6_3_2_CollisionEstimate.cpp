@@ -67,16 +67,14 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				// prepend subsection 
 				// -------------------------------------------------------------------------- //
-				std::wstring	ssSubsection632 = std::wstring();
-				std::wstring	ssSubsectionTitle632 = std::wstring(L"The Collision Estimate (NIST SP 800-90B Section 6.3.2)");
-
-				ns_spt::getLaTeXSubsection(ssSubsection632, ssSubsectionTitle632);
-
-				(*io_refData.p_ssLaTeXFragment) << ssSubsection632;
+				std::wstring	strSubsection632 = std::wstring();
+				std::wstring	strSubsectionTitle632 = std::wstring(L"The Collision Estimate (NIST SP 800-90B Section 6.3.2)");
+				std::wstring	strLabel = std::wstring(L"sec:Binary632");
+				ns_spt::getLaTeXSubsection(strSubsection632, strSubsectionTitle632, strLabel);
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\label{sec:Binary632}" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << strSubsection632;
 				(*io_refData.p_ssLaTeXFragment) << L"\n";
 				// -------------------------------------------------------------------------- //
 				//
@@ -258,7 +256,8 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				std::wstring	strSubsubsectionTraceability = std::wstring();
-				ns_spt::getLaTeXSubsubsectionTraceability(strSubsubsectionTraceability);
+				std::wstring	strLabel = std::wstring(L"sec:Binary632-traceability");
+				ns_spt::getLaTeXSubsubsectionTraceability(strSubsubsectionTraceability, strLabel);
 				(*io_refData.p_ssLaTeXFragment) << strSubsubsectionTraceability;
 				// -------------------------------------------------------------------------- //
 				//

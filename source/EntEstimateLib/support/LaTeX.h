@@ -21,9 +21,17 @@ namespace entropy_estimator_lib
 	{
 		namespace ns_consts = entropy_estimator_lib::constants;
 
-		ns_consts::EnmReturnStatus getLaTeXSubsection(std::wstring& o_refSubsection, const std::wstring& i_refSubsectionTitle);
-		ns_consts::EnmReturnStatus getLaTeXSubsubsection(std::wstring& o_refSubsubsection, const std::wstring& i_refSubsubsectionTitle);
-		ns_consts::EnmReturnStatus getLaTeXSubsubsectionTraceability(std::wstring& o_refSubsubsection);
+		ns_consts::EnmReturnStatus getLaTeXSection(std::wstring& o_refSection,
+			const std::wstring& i_refSectionTitle,
+			const std::wstring& i_refLabel);
+		ns_consts::EnmReturnStatus getLaTeXSubsection(std::wstring& o_refSubsection,
+			const std::wstring& i_refSubsectionTitle,
+			const std::wstring& i_refLabel);
+		ns_consts::EnmReturnStatus getLaTeXSubsubsection(std::wstring& o_refSubsubsection, 
+			const std::wstring& i_refSubsubsectionTitle,
+			const std::wstring& i_refLabel);
+		ns_consts::EnmReturnStatus getLaTeXSubsubsectionTraceability(std::wstring& o_refSubsubsection,
+			const std::wstring& i_refLabel);
 	}
 }
 #endif

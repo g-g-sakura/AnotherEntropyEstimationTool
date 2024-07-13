@@ -12,6 +12,7 @@
 #include <intrin.h>
 #include <sstream>
 #include <regex>
+#include <boost/algorithm/string.hpp>
 
 namespace ns_consts = entropy_estimator_lib::constants;
 
@@ -351,6 +352,7 @@ ns_consts::EnmReturnStatus readOSNameAndVersion(std::string& o_OS_name, std::str
     if (true == std::regex_search(strRead, m, std::regex(experOSName)))
     {
         o_OS_name = m[1].str();
+        boost::algorithm::trim_right(o_OS_name);
     }
     // -------------------------------------------------------------------------- //
     // get OS version
@@ -358,6 +360,7 @@ ns_consts::EnmReturnStatus readOSNameAndVersion(std::string& o_OS_name, std::str
     if (true == std::regex_search(strRead, m, std::regex(experOSVersion)))
     {
         o_OS_version = m[1].str();
+        boost::algorithm::trim_right(o_OS_version);
     }
 
     return  sts = ns_consts::EnmReturnStatus::Success;

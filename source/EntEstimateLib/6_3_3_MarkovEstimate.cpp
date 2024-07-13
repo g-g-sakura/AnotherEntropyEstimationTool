@@ -161,16 +161,15 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				// prepend subsection 
 				// -------------------------------------------------------------------------- //
-				std::wstring	ssSubsection633 = std::wstring();
-				std::wstring	ssSubsectionTitle633 = std::wstring(L"The Markov Estimate (NIST SP 800-90B Section 6.3.3)");
+				std::wstring	strSubsection633 = std::wstring();
+				std::wstring	strSubsectionTitle633 = std::wstring(L"The Markov Estimate (NIST SP 800-90B Section 6.3.3)");
+				std::wstring	strLabel = std::wstring(L"sec:Binary633");
 
-				ns_spt::getLaTeXSubsection(ssSubsection633, ssSubsectionTitle633);
-
-				(*io_refData.p_ssLaTeXFragment) << ssSubsection633;
+				ns_spt::getLaTeXSubsection(strSubsection633, strSubsectionTitle633, strLabel);
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\label{sec:Binary633}" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << strSubsection633;
 				(*io_refData.p_ssLaTeXFragment) << L"\n";
 				// -------------------------------------------------------------------------- //
 				// output transition probability P_{i,j}

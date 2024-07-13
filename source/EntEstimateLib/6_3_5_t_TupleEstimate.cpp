@@ -66,24 +66,23 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				// prepend subsection 
 				// -------------------------------------------------------------------------- //
-				std::wstring	ssSubsection635 = std::wstring();
-				std::wstring	ssSubsectionTitle635 = std::wstring(L"The t-tuple Estimate (NIST SP 800-90B Section 6.3.5)");
-
-				ns_spt::getLaTeXSubsection(ssSubsection635, ssSubsectionTitle635);
-
-				(*io_refData.p_ssLaTeXFragment) << ssSubsection635;
-				// -------------------------------------------------------------------------- //
-				//
-				// -------------------------------------------------------------------------- //
+				std::wstring	strSubsection635 = std::wstring();
+				std::wstring	strSubsectionTitle635 = std::wstring(L"The t-tuple Estimate (NIST SP 800-90B Section 6.3.5)");
+				std::wstring	strLabel = std::wstring();
 				switch (io_refData.bits_per_sample)
 				{
 				case 1:
-					(*io_refData.p_ssLaTeXFragment) << L"\\label{sec:Binary635}" << L"\n";
+					strLabel = std::wstring(L"sec:Binary635");
 					break;
 				default:
-					(*io_refData.p_ssLaTeXFragment) << L"\\label{sec:NonBinary635}" << L"\n";
+					strLabel = std::wstring(L"sec:NonBinary635");
 					break;
 				}
+				ns_spt::getLaTeXSubsection(strSubsection635, strSubsectionTitle635, strLabel);
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
+				(*io_refData.p_ssLaTeXFragment) << strSubsection635;
 				(*io_refData.p_ssLaTeXFragment) << L"\n";
 				// -------------------------------------------------------------------------- //
 				//
@@ -208,7 +207,17 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				std::wstring	strSubsubsectionTraceability = std::wstring();
-				ns_spt::getLaTeXSubsubsectionTraceability(strSubsubsectionTraceability);
+				std::wstring	strLabel = std::wstring();
+				switch (io_refData.bits_per_sample)
+				{
+				case 1:
+					strLabel = std::wstring(L"sec:Binary635-traceability");
+					break;
+				default:
+					strLabel = std::wstring(L"sec:NonBinary635-traceability");
+					break;
+				}
+				ns_spt::getLaTeXSubsubsectionTraceability(strSubsubsectionTraceability, strLabel);
 				(*io_refData.p_ssLaTeXFragment) << strSubsubsectionTraceability;
 				// -------------------------------------------------------------------------- //
 				//

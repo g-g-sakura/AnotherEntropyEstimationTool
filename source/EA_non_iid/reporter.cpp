@@ -19,11 +19,13 @@
 #include <Windows.h>
 #include <boost/version.hpp>
 #include "calcMessageDigest.h"
+#include <EntEstimateLib/support/LaTeX.h>
 
 namespace bs_fs = boost::filesystem;
 
 namespace ns_consts = entropy_estimator_lib::constants;
 namespace ns_dt = entropy_estimator_lib::data_types;
+namespace ns_spt = entropy_estimator_lib::support;
 
 // -------------------------------------------------------------------------- //
 /// <summary>
@@ -935,10 +937,10 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    std::wstring	ssCommentDefault = std::wstring();
-    std::wstring	ssNull = std::wstring();
+    std::wstring	strCommentDefault = std::wstring();
+    std::wstring	strNull = std::wstring();
 
-    getLaTeXComment(ssCommentDefault, ssNull);
+    getLaTeXComment(strCommentDefault, strNull);
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -968,19 +970,19 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
     o_ssLaTeX << L"\\usepackage{multirow}" << L"\n";
     o_ssLaTeX << L"\\usepackage{censor}" << L"\n";
     o_ssLaTeX << L"\\usepackage{adjustbox}" << L"\n";
-    o_ssLaTeX << L"\\usepackage[unicode,pdftitle={Report of Entropy estimates based on NIST SP 800-90B non-IID track},setpagesize=false]{hyperref}" << L"\n";
+    o_ssLaTeX << L"\\usepackage[unicode,pdftitle={Report of Entropy estimates based on NIST SP 800-90B non-IID track},pdfkeywords={SP800-90B; entropy; random number generation;},setpagesize=false]{hyperref}" << L"\n";
     o_ssLaTeX << L"\\usepackage[open,openlevel=4]{bookmark}" << L"\n";
     o_ssLaTeX << L"\\newcommand\\mib[1]{\\boldsymbol{#1}}" << L"\n";
     o_ssLaTeX << L"\\usepgfplotslibrary{patchplots}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    std::wstring	ssCommentCustomPageNumber = std::wstring();
-    std::wstring	ssSummaryCustomPageNumber = std::wstring(L"customize page numbering");
+    std::wstring	strCommentCustomPageNumber = std::wstring();
+    std::wstring	strSummaryCustomPageNumber = std::wstring(L"customize page numbering");
 
-    getLaTeXComment(ssCommentCustomPageNumber, ssSummaryCustomPageNumber);
+    getLaTeXComment(strCommentCustomPageNumber, strSummaryCustomPageNumber);
 
-	o_ssLaTeX << ssCommentCustomPageNumber;
+	o_ssLaTeX << strCommentCustomPageNumber;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -993,12 +995,12 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    std::wstring	ssCommentToC = std::wstring();
-    std::wstring	ssSummaryToC = std::wstring(L"output up to 4-th level");
+    std::wstring	strCommentToC = std::wstring();
+    std::wstring	strSummaryToC = std::wstring(L"output up to 4-th level");
 
-    getLaTeXComment(ssCommentToC, ssSummaryToC);
+    getLaTeXComment(strCommentToC, strSummaryToC);
 
-    o_ssLaTeX << ssCommentToC;
+    o_ssLaTeX << strCommentToC;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1006,11 +1008,11 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
     o_ssLaTeX << L"\\setcounter{tocdepth}{4}" << L"\n";    
     o_ssLaTeX << L"\\setlength{\\topmargin}{-1cm}" << L"\n";
     o_ssLaTeX << L"\\setlength{\\textheight}{37cm}" << L"\n";
-    o_ssLaTeX << ssCommentDefault;
+    o_ssLaTeX << strCommentDefault;
     o_ssLaTeX << L"%%%\\renewcommand{ \\figurename }{Figure }" << L"\n";
     o_ssLaTeX << L"%%%\\renewcommand{ \\tablename }{Table }" << L"\n";
     o_ssLaTeX << L"%%%\\renewcommand{ \\refname }{References}" << L"\n";
-    o_ssLaTeX << ssCommentDefault;
+    o_ssLaTeX << strCommentDefault;
     o_ssLaTeX << L"\\definecolor{rowcolorlightblue}{RGB}{191,233,251}" << L"\n";
     o_ssLaTeX << L"\\definecolor{bordercolordarkblue}{RGB}{0,163,243}" << L"\n";
     o_ssLaTeX << L"\\definecolor{BleuDur}{RGB}{27,61,176}" << L"\n";
@@ -1022,11 +1024,11 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
     o_ssLaTeX << L"\\definecolor{NPGgreen}{RGB} {0, 160, 135}" << L"\n";
     o_ssLaTeX << L"\\definecolor{NPGnavyblue}{RGB} {60, 84, 136}" << L"\n";
     o_ssLaTeX << L"\\definecolor{NPGsalmon}{RGB} {243, 155, 127}" << L"\n";
-    o_ssLaTeX << ssCommentDefault;
+    o_ssLaTeX << strCommentDefault;
     o_ssLaTeX << L"\\def\\chpcolor{BleuDur}" << L"\n";
     o_ssLaTeX << L"\\def\\chpcolortxt{BleuDur}" << L"\n";
     o_ssLaTeX << L"\\def\\sectionfont{\\sffamily\\LARGE}" << L"\n";
-    o_ssLaTeX << ssCommentDefault;
+    o_ssLaTeX << strCommentDefault;
     o_ssLaTeX << L"\\makeatletter" << L"\n";
     o_ssLaTeX << L"%Section:" << L"\n";
     o_ssLaTeX << L"\\def\\@sectionstrut{\\vrule\\@width\\z@\\@height12.5\\p@}" << L"\n";
@@ -1067,12 +1069,12 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
     o_ssLaTeX << L"  \\fi" << L"\n";
     o_ssLaTeX << L"}" << L"\n";
     o_ssLaTeX << L"\\makeatother" << L"\n";
-    o_ssLaTeX << ssCommentDefault;
+    o_ssLaTeX << strCommentDefault;
     o_ssLaTeX << L"\\setlength{ \\topmargin }{-1.5cm}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_ssLaTeX << ssCommentDefault;
+    o_ssLaTeX << strCommentDefault;
     o_ssLaTeX << L"\\pagestyle{mypagestylewithtotalpagenumbers}" << L"\n";
     o_ssLaTeX << L"%%%%%%" << L"\n";
     o_ssLaTeX << L"%%%%%%" << L"\n";
@@ -1212,6 +1214,9 @@ ns_consts::EnmReturnStatus loadLaTeXBibliography(std::wstringstream& o_ssLaTeX)
     // 
     // -------------------------------------------------------------------------- //
     o_ssLaTeX << L"\\begin{thebibliography}{99}" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
     o_ssLaTeX << L"% 1" << L"\n";
     o_ssLaTeX << L"\\bibitem{SP80090B}" << L"\n";
     o_ssLaTeX << L"Meltem S\\\"{o}nmez Turan," << L"\n";
@@ -1219,10 +1224,13 @@ ns_consts::EnmReturnStatus loadLaTeXBibliography(std::wstringstream& o_ssLaTeX)
     o_ssLaTeX << L"John Kelsey," << L"\n";
     o_ssLaTeX << L"Kerry A. McKay," << L"\n";
     o_ssLaTeX << L"Mary L. Baish," << L"\n";
-    o_ssLaTeX << L"Mike Boyle" << L"\n";
+    o_ssLaTeX << L"Mike Boyle," << L"\n";
     o_ssLaTeX << L"\\textit{Recommendation for the Entropy Sources Used for Random Bit Generation}," << L"\n";
     o_ssLaTeX << L"NIST Special Publication 800-90B, Jan. 2018 " << L"\n";
     o_ssLaTeX << L"\\url{https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-90B.pdf}" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
     o_ssLaTeX << L"% 2" << L"\n";
     o_ssLaTeX << L"\\bibitem{CorrectionsSP80090B}" << L"\n";
     o_ssLaTeX << L"G. Sakurai, \\textit{Proposed list of corrections for NIST SP 800-90B 6.3 Estimators}, Dec. 2022 " << L"\n";
@@ -1373,11 +1381,22 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\section{Identification information}" << L"\n";
+    std::wstring	strSection = std::wstring();
+    std::wstring	strSectionTitle = std::wstring(L"Identification information");
+    std::wstring	strLabel = std::wstring(L"sec:IdentificationInfo");
+    ns_spt::getLaTeXSection(strSection, strSectionTitle, strLabel);
+    o_refLaTeXSupportingInfo << strSection << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\subsection{Identification of acquisition data from entropy source}" << L"\n";
+    std::wstring	strSubsectionAcquisitionData = std::wstring();
+    std::wstring	strSubsectionTitleAcquisitionData = std::wstring(L"Identification of acquisition data from entropy source");
+    strLabel = std::wstring(L"sec:IdentificationInfo-acquisitiondata");
+    ns_spt::getLaTeXSubsection(strSubsectionAcquisitionData, strSubsectionTitleAcquisitionData, strLabel);
+    o_refLaTeXSupportingInfo << strSubsectionAcquisitionData << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
     o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.8}" << L"\n";
     o_refLaTeXSupportingInfo << L"\\begin{table}[h]" << L"\n";
     o_refLaTeXSupportingInfo << L"\\caption{Identification information of acquisition data from entropy source}" << L"\n";
@@ -1445,8 +1464,14 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\subsection{Identification of analysis environment}" << L"\n";
-
+    std::wstring	strSubsectionAnalysisEnv = std::wstring();
+    std::wstring	strSubsectionTitleAnalysisEnv = std::wstring(L"Identification of analysis environment");
+    strLabel = std::wstring(L"sec:IdentificationInfo-analysisenv");
+    ns_spt::getLaTeXSubsection(strSubsectionAnalysisEnv, strSubsectionTitleAnalysisEnv, strLabel);
+    o_refLaTeXSupportingInfo << strSubsectionAnalysisEnv << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
     o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.8}" << L"\n";
     o_refLaTeXSupportingInfo << L"\\begin{table}[h]" << L"\n";
     o_refLaTeXSupportingInfo << L"\\caption{Identification information of analysis environment}" << L"\n";
@@ -1517,12 +1542,12 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\, &  OS name & "<< (*i_refInfoReport.info_env.p_osname) << L" \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\, &  OS name &  \\verb|"<< (*i_refInfoReport.info_env.p_osname) << L"| \\\\" << L"\n";
     o_refLaTeXSupportingInfo << L"\\cline{2-3}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\, &  OS version & " << (*i_refInfoReport.info_env.p_osversion) << L" \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\, &  OS version &  \\verb|" << (*i_refInfoReport.info_env.p_osversion) << L"| \\\\" << L"\n";
     o_refLaTeXSupportingInfo << L"\\cline{2-3}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
@@ -1545,7 +1570,11 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\subsection{Identification of analysis conditions}" << L"\n";
+    std::wstring	strSubsectionAnalysisCond = std::wstring();
+    std::wstring	strSubsectionTitleAnalysisCond = std::wstring(L"Identification of analysis conditions");
+    strLabel = std::wstring(L"sec:IdentificationInfo-analysisconditions");
+    ns_spt::getLaTeXSubsection(strSubsectionAnalysisCond, strSubsectionTitleAnalysisCond, strLabel);
+    o_refLaTeXSupportingInfo << strSubsectionAnalysisCond << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1580,7 +1609,11 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"\\subsection{Identification of analysis method}" << L"\n";
+    std::wstring	strSubsectionAnalysisMethod = std::wstring();
+    std::wstring	strSubsectionTitleAnalysisMethod = std::wstring(L"Identification of analysis method");
+    strLabel = std::wstring(L"sec:IdentificationInfo-analysismethod");
+    ns_spt::getLaTeXSubsection(strSubsectionAnalysisMethod, strSubsectionTitleAnalysisMethod, strLabel);
+    o_refLaTeXSupportingInfo << strSubsectionAnalysisMethod << L"\n";
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1589,6 +1622,53 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // 
     // -------------------------------------------------------------------------- //
     return  sts = ns_consts::EnmReturnStatus::Success;
+}
+
+// -------------------------------------------------------------------------- //
+/// <summary>
+/// </summary>
+/// <remarks>
+/// </remarks>
+/// <param name="i_report_path_LaTeX">
+/// </param>
+/// <returns>
+/// </returns>
+/// <precondition>
+/// </precondition>
+/// <postcondition>
+/// </postcondition>
+// -------------------------------------------------------------------------- //
+void showLaTeXCompilationHint(const bs_fs::path& i_report_path_LaTeX)
+{
+    // -------------------------------------------------------------------------- //
+    // Output supplementary information to compile LateX source file
+    // -------------------------------------------------------------------------- //
+    setlocale(LC_ALL, "");
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    std::wcout << L"\n";
+    std::wcout << L"# [INFO] In order to compile the generated XeLaTeX source file of entropy estimation report, " << L"\n";
+    std::wcout << L"# [INFO] you need to type the following command and press \"Enter\" key." << L"\n";
+    std::wcout << L"# [INFO] ";
+    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
+    std::wcout << L" xelatex " << i_report_path_LaTeX.wstring() << L"\n";
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+    std::wcout << L"\n";
+    std::wcout << L"# [INFO] In a case when you get an error message like ";
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
+    std::wcout << L"\"TeX capacity exceeded, sorry [main memory size=...]\"," << L"\n";
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+    std::wcout << L"# [INFO] first you need to update the \"texmf.cnf\" file so as to modify the memory size like as follows:" << L"\n";
+    std::wcout << L"# [INFO] ";
+    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
+    std::wcout << L" main_memory = 12400000" << L"\n";
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+    std::wcout << L"# [INFO] Next you need to run command prompt with Administrator privilege and type as follows:" << L"\n";
+    std::wcout << L"# [INFO] ";
+    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
+    std::wcout << L" fmtutil-sys --all" << L"\n";
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+    std::wcout << L"# [INFO] and press \"Enter\" key.";
 }
 
 // -------------------------------------------------------------------------- //
@@ -1862,9 +1942,29 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     // 
     // -------------------------------------------------------------------------- //
     ssLaTeXSummary << L"\\clearpage" << L"\n";
-    ssLaTeXSummary << L"\\subsection{Visual comparison of min-entropy estimates from original samples}" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // prepend subsection 
+    // -------------------------------------------------------------------------- //
+    std::wstring	strSubsectionOriginal = std::wstring();
+    std::wstring	strSubsectionTitleOriginal = std::wstring(L"Visual comparison of min-entropy estimates from original samples");
+    std::wstring	strLabel = std::wstring(L"sec:VisualComparison-original");
+    ns_spt::getLaTeXSubsection(strSubsectionOriginal, strSubsectionTitleOriginal, strLabel);
+    ssLaTeXSummary << strSubsectionOriginal << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
     loadPGFPlotSummary(ssLaTeXSummary, false, min_entropy_literal, io_refDataOriginal.bits_per_sample);
-    ssLaTeXSummary << L"\\subsection{Visual comparison of min-entropy estimates by interpreting each sample as bitstring}" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // prepend subsection 
+    // -------------------------------------------------------------------------- //
+    std::wstring	strSubsectionBitstring = std::wstring();
+    std::wstring	strSubsectionTitleBitstring = std::wstring(L"Visual comparison of min-entropy estimates by interpreting each sample as bitstring");
+    strLabel = std::wstring(L"sec:VisualComparison-bitstring");
+    ns_spt::getLaTeXSubsection(strSubsectionBitstring, strSubsectionTitleBitstring, strLabel);
+    ssLaTeXSummary << strSubsectionBitstring << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
     loadPGFPlotSummary(ssLaTeXSummary, true, min_entropy_bitstring, io_refDataBinary.bits_per_sample);
     // -------------------------------------------------------------------------- //
     // 
@@ -1882,16 +1982,16 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
 	// -------------------------------------------------------------------------- //
 	// 
 	// -------------------------------------------------------------------------- //
-	std::wstring	ssCommentDefault = std::wstring();
-	std::wstring	ssNull = std::wstring();
+	std::wstring	strCommentDefault = std::wstring();
+	std::wstring	strNull = std::wstring();
 
-	getLaTeXComment(ssCommentDefault, ssNull);
+	getLaTeXComment(strCommentDefault, strNull);
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeX << ssCommentDefault;
+    ssLaTeX << strCommentDefault;
     ssLaTeX << L"\\thispagestyle{mypagestylewithtotalpagenumbers}" << L"\n";
-    ssLaTeX << ssCommentDefault;
+    ssLaTeX << strCommentDefault;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1900,14 +2000,35 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     // 
     // -------------------------------------------------------------------------- //
     ssLaTeX << L"\\clearpage" << L"\n";
-    ssLaTeX << L"\\section{Executive summary}" << L"\n";
-    ssLaTeX << L"\\subsection{Numerical results of min-entropy estimates based on non-IID track}" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    std::wstring	strSectionExecutiveSummary = std::wstring();
+    std::wstring	strSectionExecutiveSummaryTitle = std::wstring(L"Executive summary");
+    strLabel = std::wstring(L"seq:ExecSummary");
+    ns_spt::getLaTeXSection(strSectionExecutiveSummary, strSectionExecutiveSummaryTitle, strLabel);
+    ssLaTeX << strSectionExecutiveSummary;
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    std::wstring	strSubsectionNumericalResutls = std::wstring();
+    std::wstring	strSubsectionTitleNumericalResutls = std::wstring(L"Numerical results of min-entropy estimates based on non-IID track");
+    strLabel = std::wstring(L"seq:ExecSummary-numericalresults");
+    ns_spt::getLaTeXSubsection(strSubsectionNumericalResutls, strSubsectionTitleNumericalResutls, strLabel);
+    ssLaTeX << strSubsectionNumericalResutls;
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
     ssLaTeX << ssLaTeXSummary.rdbuf();
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
     ssLaTeX << L"\\clearpage" << L"\n";
-    ssLaTeX << L"\\section{Detailed results of analysis from original samples}" << L"\n";
+    std::wstring	strSectionDetailedResultsOriginal = std::wstring();
+    std::wstring	strSectionTitleDetailedResultsOriginal = std::wstring(L"Detailed results of analysis from original samples");
+    strLabel = std::wstring(L"seq:DetailResultsOriginal");
+    ns_spt::getLaTeXSection(strSectionDetailedResultsOriginal, strSectionTitleDetailedResultsOriginal, strLabel);
+    ssLaTeX << strSectionDetailedResultsOriginal;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1916,7 +2037,11 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     // 
     // -------------------------------------------------------------------------- //
     ssLaTeX << L"\\clearpage" << L"\n";
-    ssLaTeX << L"\\section{Detailed results of analysis by interpreting each sample as bitstrings}" << L"\n";
+    std::wstring	strSectionDetailedResultsBitstring = std::wstring();
+    std::wstring	strSectionTitleDetailedResultsBitstring = std::wstring(L"Detailed results of analysis by interpreting each sample as bitstrings");
+    strLabel = std::wstring(L"seq:DetailResultsBitstring");
+    ns_spt::getLaTeXSection(strSectionDetailedResultsBitstring, strSectionTitleDetailedResultsBitstring, strLabel);
+    ssLaTeX << strSectionDetailedResultsBitstring;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -1944,32 +2069,7 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     // -------------------------------------------------------------------------- //
     // Output supplementary information to compile XeLateX source file
     // -------------------------------------------------------------------------- //
-    setlocale(LC_ALL, "");
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
-    std::wcout << L"\n";
-    std::wcout << L"# [INFO] In order to compile the generated XeLaTeX source file of entropy estimation report, " << L"\n";
-    std::wcout << L"# [INFO] you need to type the following command and press Enter key." << L"\n";
-    std::wcout << L"# [INFO] ";
-    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L" xelatex " << the_report_path_LaTeX.wstring() << L"\n";
-    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L"\n";
-    std::wcout << L"# [INFO] In a case when you get an error message like ";
-    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
-    std::wcout << L"\"TeX capacity exceeded, sorry [main memory size=...]\"," << L"\n";
-    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L"# [INFO] first you need to update the \"texmf.cnf\" file so as to modify the memory size like as follows:" << L"\n";
-    std::wcout << L"# [INFO] ";
-    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L" main_memory = 12400000" << L"\n";
-    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L"# [INFO] Next you need to run command prompt with Administrator privilege and type as follows:" << L"\n";
-    std::wcout << L"# [INFO] ";
-    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L" fmtutil-sys --all" << L"\n";
-    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L"# [INFO] and press \"Enter\" key.";
+    showLaTeXCompilationHint(the_report_path_LaTeX);
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -2171,9 +2271,16 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     ssLaTeXSummary << L"\\end{center}" << L"\n";
     ssLaTeXSummary << L"\\end{table}" << L"\n";
     // -------------------------------------------------------------------------- //
+    // prepend subsection 
+    // -------------------------------------------------------------------------- //
+    std::wstring	strSubsectionBinary = std::wstring();
+    std::wstring	strSubsectionTitleBinary = std::wstring(L"Visual comparison of min-entropy estimates from binary samples");
+    std::wstring	strLabel = std::wstring(L"sec:VisualComparison-binary");
+    ns_spt::getLaTeXSubsection(strSubsectionBinary, strSubsectionTitleBinary, strLabel);
+    ssLaTeXSummary << strSubsectionBinary << L"\n";
+    // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeXSummary << L"\\subsection{Visual comparison of min-entropy estimates from binary samples}" << L"\n";
     loadPGFPlotSummary(ssLaTeXSummary, true, min_entropy_bitstring, 1.0);
     // -------------------------------------------------------------------------- //
     // 
@@ -2191,16 +2298,16 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    std::wstring	ssCommentDefault = std::wstring();
-    std::wstring	ssNull = std::wstring();
+    std::wstring	strCommentDefault = std::wstring();
+    std::wstring	strNull = std::wstring();
 
-    getLaTeXComment(ssCommentDefault, ssNull);
+    getLaTeXComment(strCommentDefault, strNull);
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeX << ssCommentDefault;
+    ssLaTeX << strCommentDefault;
     ssLaTeX << L"\\thispagestyle{mypagestylewithtotalpagenumbers}" << L"\n";
-    ssLaTeX << ssCommentDefault;
+    ssLaTeX << strCommentDefault;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -2209,14 +2316,38 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     // 
     // -------------------------------------------------------------------------- //
     ssLaTeX << L"\\clearpage" << L"\n";
-    ssLaTeX << L"\\section{Executive summary}" << L"\n";
-    ssLaTeX << L"\\subsection{Numerical results of min-entropy estimates based on non-IID track}" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    std::wstring	strSectionExecutiveSummary = std::wstring();
+    std::wstring	strSectionExecutiveSummaryTitle = std::wstring(L"Executive summary");
+    strLabel = std::wstring(L"seq:ExecSummary");
+    ns_spt::getLaTeXSection(strSectionExecutiveSummary, strSectionExecutiveSummaryTitle, strLabel);
+    ssLaTeX << strSectionExecutiveSummary;
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    std::wstring	strSubsectionNumericalResutls = std::wstring();
+    std::wstring	strSubsectionTitle = std::wstring(L"Numerical results of min-entropy estimates based on non-IID track");
+    strLabel = std::wstring(L"seq:ExecSummary-numericalresults");
+    ns_spt::getLaTeXSubsection(strSubsectionNumericalResutls, strSubsectionTitle, strLabel);
+    ssLaTeX << strSubsectionNumericalResutls;
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
     ssLaTeX << ssLaTeXSummary.rdbuf();
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
     ssLaTeX << L"\\clearpage" << L"\n";
-    ssLaTeX << L"\\section{Detailed results of analysis from original samples}" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    std::wstring	strSectionDetailedResultsOriginal = std::wstring();
+    std::wstring	strSectionTitleDetailedResultsOriginal = std::wstring(L"Detailed results of analysis from original samples");
+    strLabel = std::wstring(L"seq:DetailResultsOriginal");
+    ns_spt::getLaTeXSection(strSectionDetailedResultsOriginal, strSectionTitleDetailedResultsOriginal, strLabel);
+    ssLaTeX << strSectionDetailedResultsOriginal;
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
@@ -2244,32 +2375,7 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
     // -------------------------------------------------------------------------- //
     // Output supplementary information to compile XeLateX source file
     // -------------------------------------------------------------------------- //
-    setlocale(LC_ALL, "");
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
-    std::wcout << L"\n";
-    std::wcout << L"# [INFO] In order to compile the generated XeLaTeX source file of entropy estimation report, " << L"\n";
-    std::wcout << L"# [INFO] you need to type the following command and press Enter key." << L"\n";
-    std::wcout << L"# [INFO] ";
-    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L" xelatex " << the_report_path_LaTeX.wstring() << L"\n";
-    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L"\n";
-    std::wcout << L"# [INFO] In a case when you get an error message like ";
-    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
-    std::wcout << L"\"TeX capacity exceeded, sorry [main memory size=...]\"," << L"\n";
-    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L"# [INFO] first you need to update the \"texmf.cnf\" file so as to modify the memory size like as follows:" << L"\n";
-    std::wcout << L"# [INFO] ";
-    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L" main_memory = 12400000" << L"\n";
-    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L"# [INFO] Next you need to run command prompt with Administrator privilege and type as follows:" << L"\n";
-    std::wcout << L"# [INFO] ";
-    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L" fmtutil-sys --all" << L"\n";
-    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    std::wcout << L"# [INFO] and press \"Enter\" key.";
+    showLaTeXCompilationHint(the_report_path_LaTeX);
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
