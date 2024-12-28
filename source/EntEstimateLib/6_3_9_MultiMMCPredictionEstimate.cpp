@@ -571,7 +571,7 @@ namespace entropy_estimator_lib
 			/// </remarks>
 			/// <param name="o_refC">
 			/// </param>
-			/// <param name="o_ref_bz_correct">
+			/// <param name="io_ref_bz_correct">
 			/// </param>
 			/// <returns>
 			/// </returns>

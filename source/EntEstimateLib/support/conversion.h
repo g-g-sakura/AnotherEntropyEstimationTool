@@ -2,7 +2,7 @@
 // conversion.h
 //
 //
-// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2024 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #if defined(_MSC_VER)
@@ -52,7 +52,7 @@ namespace entropy_estimator_lib
 		/// </remarks>
 		/// <param name="o_refBitSet">
 		/// </param>
-		/// <param name="i_refDTuple">
+		/// <param name="i_refSeqSamples">
 		/// </param>
 		/// <param name="i_bit_width">
 		/// </param>

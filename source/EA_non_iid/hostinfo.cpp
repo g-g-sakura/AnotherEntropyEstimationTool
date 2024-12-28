@@ -308,9 +308,9 @@ ns_consts::EnmReturnStatus invokeSystemInfo(THandleContainer& io_refContainer)
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <param name="o_refOSName">
+/// <param name="o_OS_name">
 /// </param>
-/// <param name="o_refOSVersion">
+/// <param name="o_OS_version">
 /// </param>
 /// <param name="io_container">
 /// </param>

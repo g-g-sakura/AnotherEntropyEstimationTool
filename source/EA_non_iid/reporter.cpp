@@ -211,7 +211,7 @@ std::wstring getEstimatorInfo(ns_consts::EnmNonIIDTrack i_est)
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <param name="i_refData">
+/// <param name="i_si">
 /// </param>
 /// <returns>
 /// </returns>
@@ -511,11 +511,6 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(const IDInfoForReport& i_refInfoRe
         switch (me_entry.estimator_info)
         {
         case ns_consts::EnmNonIIDTrack::EstimatorCollision:
-            if (false == me_entry.bIsSolutionFound)
-            {
-                child.put(L"<xmlattr>.remark", "a solution was not found in step 7.");
-            }
-            break;
         case ns_consts::EnmNonIIDTrack::EstimatorCompression:
             if (false == me_entry.bIsSolutionFound)
             {
@@ -753,11 +748,6 @@ ns_consts::EnmReturnStatus reportXMLBinary(const IDInfoForReport& i_refInfoRepor
         switch (me_entry.estimator_info)
         {
         case ns_consts::EnmNonIIDTrack::EstimatorCollision:
-            if (false == me_entry.bIsSolutionFound)
-            {
-                child.put(L"<xmlattr>.remark", "a solution was not found in step 7.");
-            }
-            break;
         case ns_consts::EnmNonIIDTrack::EstimatorCompression:
             if (false == me_entry.bIsSolutionFound)
             {
@@ -881,6 +871,8 @@ ns_consts::EnmReturnStatus synthesizeReportPathTex(bs_fs::path& o_report_complet
 /// </summary>
 /// <remarks>
 /// </remarks>
+/// <param name="o_refComment">
+/// </param>
 /// <param name="i_refCommentSummary">
 /// </param>
 /// <returns>

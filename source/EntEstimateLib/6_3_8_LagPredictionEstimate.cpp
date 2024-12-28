@@ -435,7 +435,7 @@ namespace entropy_estimator_lib
 			/// </remarks>
 			/// <param name="o_refC">
 			/// </param>
-			/// <param name="o_ref_bz_correct">
+			/// <param name="io_ref_bz_correct">
 			/// </param>
 			/// <returns>
 			/// </returns>
@@ -460,6 +460,8 @@ namespace entropy_estimator_lib
 			/// <remarks>
 			/// </remarks>
 			/// <param name="o_ref_p_prime_global">
+			/// </param>
+			/// <param name="o_ref_p_global">
 			/// </param>
 			/// <param name="i_refC">
 			/// </param>

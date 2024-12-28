@@ -2,7 +2,7 @@
 // reporter.h
 //
 //
-// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2024 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #if defined(_MSC_VER)
@@ -24,7 +24,7 @@ void showHeadSamples(const ns_dt::t_data_for_estimator& i_refData);
 void showTailSamples(const ns_dt::t_data_for_estimator& i_refData);
 
 ns_consts::EnmReturnStatus reportXMLNonBinary(const IDInfoForReport & i_refInfoReport,
-	const ns_dt::t_data_for_estimator& io_refDataOriginal, const ns_dt::t_data_for_estimator& io_refDataBinary);
+	const ns_dt::t_data_for_estimator& i_refDataOriginal, const ns_dt::t_data_for_estimator& i_refDataBinary);
 
 ns_consts::EnmReturnStatus reportXMLBinary(const IDInfoForReport& i_refInfoReport,
 	const ns_dt::t_data_for_estimator& i_refDataBinary);
