@@ -18,7 +18,7 @@ https://github.com/usnistgov/SP800-90B_EntropyAssessment/issues/170
 
 # Usage
 ```
-.\ea_non_iid.exe -f <file name> [-w] [-x] [--MSb|--LSb]
+.\ea_non_iid.exe -f <file name> [-w <number of bits per sample>] [-x] [--MSb|--LSb]
 ```
 
 - ```-f``` specifies the file name of the acquisition data from an entropy source.  The file path must be relative path to a binary file with at least 1 million samples as per [NIST SP 800-90B](https://doi.org/10.6028/NIST.SP.800-90B).
