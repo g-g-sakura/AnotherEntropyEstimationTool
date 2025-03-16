@@ -269,7 +269,7 @@ namespace entropy_estimator_lib
 		/// </summary>
 		/// <remarks>
 		/// </remarks>
-		/// <param name="o_refSubsection">
+		/// <param name="o_refSubsubsection">
 		/// </param>
 		/// <param name="i_refLabel">
 		/// </param>

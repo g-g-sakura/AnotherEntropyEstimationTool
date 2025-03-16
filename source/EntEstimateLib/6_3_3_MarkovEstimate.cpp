@@ -998,7 +998,7 @@ namespace entropy_estimator_lib
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <param name="o_refMinEntropyEstimate">
+			/// <param name="io_refData">
 			///   [Output] Resultant -log2(P) / L.
 			/// </param>
 			/// <param name="i_refPTransition">
@@ -1010,7 +1010,7 @@ namespace entropy_estimator_lib
 			///   [Input] initial probabilities for each output value.
 			///   See Step 1 of 6.3.3 of NIST SP 800-90B for more details.
 			/// </param>
-			/// <param name="i_lengthOfSeq">
+			/// <param name="i_lengthOfSequence">
 			///   [Input] Length of input S. See 6.3.3 of NIST SP 800-90B for more details.
 			/// </param>
 			/// <returns>

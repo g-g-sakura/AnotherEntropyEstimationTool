@@ -2,7 +2,7 @@
 // IHistogram.h
 //
 //
-// Copyright (c) 2021-2022 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2024 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #if defined(_MSC_VER)
@@ -27,10 +27,6 @@ namespace entropy_estimator_lib
 		/// </summary>
 		/// <remarks>
 		/// </remarks>
-		/// <param name="o_refInt">
-		/// </param>
-		/// <param name="i_refDTuple">
-		/// </param>
 		/// <returns>
 		/// </returns>
 		/// <precondition>

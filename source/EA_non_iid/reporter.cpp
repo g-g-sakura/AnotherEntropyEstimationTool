@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2024 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2025 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "reporter.h"
@@ -211,7 +211,7 @@ std::wstring getEstimatorInfo(ns_consts::EnmNonIIDTrack i_est)
 /// </summary>
 /// <remarks>
 /// </remarks>
-/// <param name="i_refData">
+/// <param name="i_si">
 /// </param>
 /// <returns>
 /// </returns>
@@ -511,11 +511,6 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(const IDInfoForReport& i_refInfoRe
         switch (me_entry.estimator_info)
         {
         case ns_consts::EnmNonIIDTrack::EstimatorCollision:
-            if (false == me_entry.bIsSolutionFound)
-            {
-                child.put(L"<xmlattr>.remark", "a solution was not found in step 7.");
-            }
-            break;
         case ns_consts::EnmNonIIDTrack::EstimatorCompression:
             if (false == me_entry.bIsSolutionFound)
             {
@@ -753,11 +748,6 @@ ns_consts::EnmReturnStatus reportXMLBinary(const IDInfoForReport& i_refInfoRepor
         switch (me_entry.estimator_info)
         {
         case ns_consts::EnmNonIIDTrack::EstimatorCollision:
-            if (false == me_entry.bIsSolutionFound)
-            {
-                child.put(L"<xmlattr>.remark", "a solution was not found in step 7.");
-            }
-            break;
         case ns_consts::EnmNonIIDTrack::EstimatorCompression:
             if (false == me_entry.bIsSolutionFound)
             {
@@ -881,6 +871,8 @@ ns_consts::EnmReturnStatus synthesizeReportPathTex(bs_fs::path& o_report_complet
 /// </summary>
 /// <remarks>
 /// </remarks>
+/// <param name="o_refComment">
+/// </param>
 /// <param name="i_refCommentSummary">
 /// </param>
 /// <returns>
@@ -1266,7 +1258,10 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingCompilerInfo(std::wstringstream&
     o_refLaTeXSupportingInfo << L"\\, & built by & ";
     {
 #if defined(_MSC_VER) && !defined(__INTEL_LLVM_COMPILER) && !defined(__INTEL_COMPILER)
-#if _MSC_VER >= 1942
+#if _MSC_VER >= 1943
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.13";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1942
         o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.12";
         o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
 #elif _MSC_VER >= 1941
