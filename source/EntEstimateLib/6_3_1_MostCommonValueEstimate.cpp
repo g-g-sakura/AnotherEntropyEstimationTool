@@ -3,10 +3,9 @@
 //
 //
 //
-// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2025 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
-#include "pch.h"
 #include "6_3_1_MostCommonValueEstimate.h"
 #include "./support/checkArgs.h"
 #include "./math/SpecialFunctions.h"
