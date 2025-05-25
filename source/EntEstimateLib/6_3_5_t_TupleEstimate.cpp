@@ -3,10 +3,9 @@
 //
 //
 //
-// Copyright (c) 2021-2023 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2025 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
-#include "pch.h"
 #include "6_3_5_t_TupleEstimate.h"
 #include "./support/checkArgs.h"
 #include "./support/conversion.h"

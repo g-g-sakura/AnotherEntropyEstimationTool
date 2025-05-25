@@ -27,12 +27,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="6_3_1_MostCommonValueEstimate.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -113,9 +107,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pch.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="math\SpecialFunctions.cpp">
       <Filter>ソース ファイル\math</Filter>
     </ClCompile>

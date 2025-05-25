@@ -3,10 +3,9 @@
 //
 //
 //
-// Copyright (c) 2021-2024 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2025 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
-#include "pch.h"
 #include "6_3_3_MarkovEstimate.h"
 #include "./support/checkArgs.h"
 #include <boost/math/special_functions.hpp>
