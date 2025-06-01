@@ -21,6 +21,7 @@
 \usepackage{setspace}
 
 \usepackage[many]{tcolorbox}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%
 %%%
@@ -247,6 +248,40 @@
 \renewcommand{\refname}{References}
 \renewcommand{\appendixname}{Appendix }
 
+\definecolor{myblue}{RGB}{0,163,243}
+
+\tcbset{mystyle/.style={
+  breakable,
+  enhanced,
+  outer arc=0pt,
+  arc=0pt,
+  colframe=myblue,
+  colback=myblue!20,
+  attach boxed title to top left,
+  boxed title style={
+    colback=myblue,
+    outer arc=0pt,
+    arc=0pt,
+    top=3pt,
+    bottom=3pt,
+    },
+  fonttitle=\sffamily
+  }
+}
+
+\newtcolorbox[auto counter,number within=section]{justification}[1][]{
+  mystyle,
+  title=Justification,
+  overlay unbroken and first={
+      \path
+        let
+        \p1=(title.north east),
+        \p2=(frame.north east)
+        in
+        node[anchor=west,font=\sffamily,color=myblue,text width=\x2-\x1] 
+        at (title.east) {#1};
+  }
+}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%
 %%%
@@ -337,7 +372,7 @@ G(z) = \tfrac{1}{\nu}
 \log_{2}(u) F(z, t, u)  \label{eq:rewGin634}
 \end{align}
 
-Note that the r.h.s. of Eq.(\ref{eq:rewGin634}) can be optimized further for algorithmic efficiency.
+Note that the r.h.s. of Eq.(\ref{eq:rewGin634}) can be optimized further for algorithmic efficiency (see \cite{SP80090BImpNotes}).
 \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%
@@ -399,9 +434,13 @@ should be replaced by the following:
 	\Else
 		\If {$dictionarySize < maxDictionarySize$}
 			\State Let $D[s_{i-j-1}, \ldots, s_{i-2}][s_{i-1}] = 0$
+{\color{blue}
 			\Statex \Comment {With this step, the issue can be resolved that the value of $D[s_{i-j-1}, \ldots, s_{i-2}][s_{i-1}]$ is undefined, when $(s_{i-j-1}, \ldots, s_{i-2})$ is in $D$ but $[(s_{i-j-1}, \ldots, s_{i-2}), s_{i-1}]$ is not in $D$.}
+}
 			\State $dictionarySize = dictionarySize + 1$
+{\color{blue}
 			\Statex \Comment {The value $dictionarySize$ is equal to the size of dictionary $D$, or the number of ($\mib{x}, y$) pairs in $D[\mib{x}][y]$.}
+}
 		\EndIf
 	\EndIf
 \EndIf
@@ -410,6 +449,36 @@ should be replaced by the following:
 %%%%%
 \end{algorithmic}
 \end{shadebox}
+
+
+\hspace*{5mm}{\begin{minipage}[t]{0.85\columnwidth}%
+
+\begin{justification}
+The above proposed corrections are based on the following analysis:
+\begin{enumerate}
+\item The variable $C$ is used in step 4 without its definition.
+\item $dictionarySize$ is counted on parent node level.
+
+From the current step 3-a-i, it can be read as if 
+$dictionarySize$ is counted on parent node level (i.e. $D[s_{i-j-1},\ldots,s_{i-2}]$).
+However, in the other prediction estimates, 
+$dictionarySize$ is counted not on parent node level but on leaf node level (i.e. $D[s_{i-j-1},\ldots,s_{i-2}][s_{i-1}]$).
+In addition, $maxDictionarySize = 65536$ is used in 6.3.7 through 6.3.10 of NIST SP 800-90B.
+It should also be noted that, counting $dictionarySize$ on parent node level can mean that larger $maxDictionarySize$ is used when we see overall dictionary size (i.e. dictionary size at leaf node level).
+So it is inconsistent to count $dictionarySize$ on parent node level only in 6.3.10 The LZ78Y Prediction Estimate.
+From the above, it should be reasonable to count $dictionarySize$ on the leaf node level.
+
+
+\item The behavior of step 3-a-ii-1 is undefined when $D[s_{i-j-1},\ldots,s_{i-2}][s_{i-1}]$ is not initialized.
+
+In step 3-a-i-2, only specific value of $D[s_{i-j-1},\ldots,s_{i-2}][s_{i-1}]$ is initialized to zero, based on the value of $s_{i-1}$.
+In step 3-a-ii-1, $D[s_{i-j-1},\ldots,s_{i-2}][s_{i-1}]$ is incremented.
+
+From the above, the behavior of step 3-a-ii-1 is undefined when $D[s_{i-j-1},\ldots,s_{i-2}][s_{i-1}]$ is not initialized.
+\end{enumerate}
+\end{justification}
+
+\end{minipage}}
 \vspace{5mm}
 
 
@@ -469,7 +538,12 @@ Ronald F. Boisvert,
 Charles W. Clark,
 \textit{NIST Handbook of Mathematical Functions},
 National Institute of Standards and Technology, 2010
-
+%3
+\bibitem{SP80090BImpNotes}
+Gen’ya SAKURAI,
+\textit{Implementation Notes for entropy estimation based on NIST SP 800-90B non-IID track},
+June 27, 2023
+\url{https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/SP800-90B_EntropyEstimate_ImplementationNotes.pdf}
 \end{thebibliography}
 
 \end{document}
