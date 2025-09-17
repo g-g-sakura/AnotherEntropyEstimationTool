@@ -105,6 +105,15 @@
     <ClInclude Include="support\LaTeX.h">
       <Filter>ヘッダー ファイル\support</Filter>
     </ClInclude>
+    <ClInclude Include="support\LongestCommonPrefix.h">
+      <Filter>ヘッダー ファイル\support</Filter>
+    </ClInclude>
+    <ClInclude Include="6_3_5_t_TupleEstimateAlternative.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="6_3_6_LRSEstimateAlternative.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="math\SpecialFunctions.cpp">
@@ -169,6 +178,15 @@
     </ClCompile>
     <ClCompile Include="support\LaTeX.cpp">
       <Filter>ソース ファイル\support</Filter>
+    </ClCompile>
+    <ClCompile Include="support\LongestCommonPrefix.cpp">
+      <Filter>ソース ファイル\support</Filter>
+    </ClCompile>
+    <ClCompile Include="6_3_5_t_TupleEstimateAlternative.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="6_3_6_LRSEstimateAlternative.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

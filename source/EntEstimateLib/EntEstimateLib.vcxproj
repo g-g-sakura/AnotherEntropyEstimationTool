@@ -100,7 +100,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_88_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_89_0;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -110,17 +110,17 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_88_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_89_0;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_88_0;$(ExternalIncludePath)</ExternalIncludePath>
-    <IncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_88_0;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_89_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <IncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_89_0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Intel|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_88_0;$(ExternalIncludePath)</ExternalIncludePath>
-    <IncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_88_0;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_89_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <IncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_89_0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -247,7 +247,9 @@
     <ClInclude Include="6_3_3_MarkovEstimate.h" />
     <ClInclude Include="6_3_4_CompressionEstimate.h" />
     <ClInclude Include="6_3_5_t_TupleEstimate.h" />
+    <ClInclude Include="6_3_5_t_TupleEstimateAlternative.h" />
     <ClInclude Include="6_3_6_LRSEstimate.h" />
+    <ClInclude Include="6_3_6_LRSEstimateAlternative.h" />
     <ClInclude Include="6_3_7_MMCWPredictionEstimate.h" />
     <ClInclude Include="6_3_8_LagPredictionEstimate.h" />
     <ClInclude Include="6_3_9_MultiMMCPredictionEstimate.h" />
@@ -260,6 +262,7 @@
     <ClInclude Include="support\enumerateAlphabet.h" />
     <ClInclude Include="support\IHistogram.h" />
     <ClInclude Include="support\LaTeX.h" />
+    <ClInclude Include="support\LongestCommonPrefix.h" />
     <ClInclude Include="support\MarkovModelHistogram.h" />
     <ClInclude Include="support\setUp.h" />
     <ClInclude Include="support\showTestSummary.h" />
@@ -275,7 +278,9 @@
     <ClCompile Include="6_3_3_MarkovEstimate.cpp" />
     <ClCompile Include="6_3_4_CompressionEstimate.cpp" />
     <ClCompile Include="6_3_5_t_TupleEstimate.cpp" />
+    <ClCompile Include="6_3_5_t_TupleEstimateAlternative.cpp" />
     <ClCompile Include="6_3_6_LRSEstimate.cpp" />
+    <ClCompile Include="6_3_6_LRSEstimateAlternative.cpp" />
     <ClCompile Include="6_3_7_MMCWPredictionEstimate.cpp" />
     <ClCompile Include="6_3_8_LagPredictionEstimate.cpp" />
     <ClCompile Include="6_3_9_MultiMMCPredictionEstimate.cpp" />
@@ -283,6 +288,7 @@
     <ClCompile Include="support\conversion.cpp" />
     <ClCompile Include="support\enumerateAlphabet.cpp" />
     <ClCompile Include="support\LaTeX.cpp" />
+    <ClCompile Include="support\LongestCommonPrefix.cpp" />
     <ClCompile Include="support\MarkovModelHistogram.cpp" />
     <ClCompile Include="support\setUp.cpp" />
     <ClCompile Include="support\showTestSummary.cpp" />

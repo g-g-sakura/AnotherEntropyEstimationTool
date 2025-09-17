@@ -19,6 +19,10 @@
 #include <EntEstimateLib/6_3_8_LagPredictionEstimate.h>
 #include <EntEstimateLib/6_3_9_MultiMMCPredictionEstimate.h>
 #include <EntEstimateLib/6_3_10_LZ78YPredictionEstimate.h>
+
+#include <EntEstimateLib/6_3_5_t_TupleEstimateAlternative.h>
+#include <EntEstimateLib/6_3_6_LRSEstimateAlternative.h>
+
 #include "boost/date_time/posix_time/posix_time.hpp"
 
 typedef ns_consts::EnmReturnStatus(*PF_EE)(ns_dt::t_data_for_estimator&);
@@ -52,6 +56,12 @@ ns_consts::EnmReturnStatus runEntropyEstimatesBinary(ns_dt::t_data_for_estimator
             ns_consts::EnmNonIIDTrack::EstimatorLZ78YPrediction
     };
 
+    PF_EE	funcs_binary_alt[3] = {
+                        entropy_estimator_lib::estimators::t_tuple_alternative::estimate,
+                        entropy_estimator_lib::estimators::lrs_alternative::estimate,
+                        nullptr
+    };
+
     ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
     // -------------------------------------------------------------------------- //
     // 
@@ -79,7 +89,16 @@ ns_consts::EnmReturnStatus runEntropyEstimatesBinary(ns_dt::t_data_for_estimator
         // -------------------------------------------------------------------------- //
         // run entropy estimate
         // -------------------------------------------------------------------------- //
-        sts = (*funcs_binary[j])(io_refData);
+        switch (j)
+        {
+		case 4:
+		case 5:
+            sts = (*funcs_binary_alt[j - 4])(io_refData);
+            break;
+		default:
+            sts = (*funcs_binary[j])(io_refData);
+            break;
+        }
         if (ns_consts::EnmReturnStatus::Success != sts)
         {
             std::cout << "The entropy estimate was terminated..." << "\n";
@@ -203,6 +222,12 @@ ns_consts::EnmReturnStatus runEntropyEstimatesNonBinary(ns_dt::t_data_for_estima
             ns_consts::EnmNonIIDTrack::EstimatorLZ78YPrediction
     };
 
+    PF_EE	funcs_non_binary_alt[3] = {
+                        entropy_estimator_lib::estimators::t_tuple_alternative::estimate,
+                        entropy_estimator_lib::estimators::lrs_alternative::estimate,
+                        nullptr
+    };
+
     ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
     // -------------------------------------------------------------------------- //
     // 
@@ -276,7 +301,17 @@ ns_consts::EnmReturnStatus runEntropyEstimatesNonBinary(ns_dt::t_data_for_estima
             // -------------------------------------------------------------------------- //
             // run entropy estimate
             // -------------------------------------------------------------------------- //
-            sts = (*funcs_non_binary[j])(*pData);
+            switch (j)
+            {
+            case 4:
+            case 5:
+                sts = (*funcs_non_binary_alt[j - 4])(*pData);
+                break;
+            default:
+                sts = (*funcs_non_binary[j])(*pData);
+                break;
+            }
+
             if (ns_consts::EnmReturnStatus::Success != sts)
             {
                 std::cout << "The entropy estimate was terminated..." << "\n";

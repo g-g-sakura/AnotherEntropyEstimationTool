@@ -1,24 +1,26 @@
 ////////////////////////////////////////////////////////////////////////////////
-// 6_3_6_LRSEstimate.cpp
+// 6_3_6_LRSEstimateAlternative.cpp
 //
 //
 //
-// Copyright (c) 2021-2025 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2025 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
-#include "6_3_6_LRSEstimate.h"
+#include "6_3_6_LRSEstimateAlternative.h"
 #include "./support/checkArgs.h"
 #include "./support/conversion.h"
 #include "./math/SpecialFunctions.h"
 #include <boost/math/special_functions.hpp>
 #include "./support/TupleHistogram.h"
+#include "./support/LongestCommonPrefix.h"
 #include "./support/LaTeX.h"
+#include <boost/range/iterator_range_core.hpp>
 
 namespace entropy_estimator_lib
 {
 	namespace estimators
 	{
-		namespace lrs
+		namespace lrs_alternative
 		{
 			namespace ns_consts = entropy_estimator_lib::constants;
 			namespace ns_dt = entropy_estimator_lib::data_types;
@@ -409,13 +411,587 @@ namespace entropy_estimator_lib
 
 			// -------------------------------------------------------------------------- //
 			/// <summary>
+			/// </summary>
+			/// <remarks>
+			/// </remarks>
+			/// <param name="io_refLRSdata">
+			/// </param>
+			/// <returns>
+			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::ErrorNullPointer</c>:  when the following condition is met:
+			///    <ul>
+			///     <li><c>io_refLRSdata.p_LCP</c> == nullptr</li>
+			///    </ul>
+			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::Success</c>:  otherwise.
+			/// </returns>
+			/// <precondition>
+			/// </precondition>
+			/// <postcondition>
+			/// </postcondition>
+			// -------------------------------------------------------------------------- //
+			ns_consts::EnmReturnStatus  SetUpArrayTheta(ns_es::t_data_for_LRS& io_refLRSdata)
+			{
+				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
+
+				if (nullptr == io_refLRSdata.p_LCP)
+				{
+					return sts;
+				}
+				// -------------------------------------------------------------------------- //
+				// Step 2
+				// 
+				// -------------------------------------------------------------------------- //
+				io_refLRSdata.eta_max = (io_refLRSdata.p_LCP->max());
+				// -------------------------------------------------------------------------- //
+				// Step 3
+				// -------------------------------------------------------------------------- //
+				if (io_refLRSdata.eta_max < 1)
+				{
+					return sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
+				}
+				io_refLRSdata.nu = io_refLRSdata.eta_max;
+				// -------------------------------------------------------------------------- //
+				// Steps 3-6
+				// 
+				// -------------------------------------------------------------------------- //
+				io_refLRSdata.p_theta_master = new std::valarray<uint32_t>((uint32_t)0, io_refLRSdata.nu);
+				io_refLRSdata.p_theta_work = new std::valarray<uint32_t>((uint32_t)0, io_refLRSdata.nu);
+				// -------------------------------------------------------------------------- //
+				// Steps 3-
+				// 
+				// -------------------------------------------------------------------------- //
+				io_refLRSdata.p_sigma_dbl = new std::valarray<double>((double)0, io_refLRSdata.nu);
+				// -------------------------------------------------------------------------- //
+				// set up histogram for LCP array
+				// -------------------------------------------------------------------------- //
+				io_refLRSdata.p_hg = new ns_es::LCPHistogram();
+
+				return sts = ns_consts::EnmReturnStatus::Success;
+			}
+
+			// -------------------------------------------------------------------------- //
+			/// <summary>
+			/// </summary>
+			/// <remarks>
+			/// </remarks>
+			/// <param name="io_refLRSdata">
+			/// </param>
+			/// <returns>
+			/// </returns>
+			/// <precondition>
+			/// </precondition>
+			/// <postcondition>
+			/// </postcondition>
+			// -------------------------------------------------------------------------- //
+			void TearDownArrayTheta(ns_es::t_data_for_LRS& io_refLRSdata)
+			{
+				// -------------------------------------------------------------------------- //
+				// dispose internally allocated array
+				// -------------------------------------------------------------------------- //
+				if (nullptr != io_refLRSdata.p_hg)
+				{
+					delete io_refLRSdata.p_hg;
+					io_refLRSdata.p_hg = nullptr;
+				}
+				// -------------------------------------------------------------------------- //
+				// dispose internally allocated array
+				// -------------------------------------------------------------------------- //
+				if (nullptr != io_refLRSdata.p_sigma_dbl)
+				{
+					delete io_refLRSdata.p_sigma_dbl;
+					io_refLRSdata.p_sigma_dbl = nullptr;
+				}
+				// -------------------------------------------------------------------------- //
+				// dispose internally allocated array
+				// -------------------------------------------------------------------------- //
+				delete io_refLRSdata.p_theta_work;
+				io_refLRSdata.p_theta_work = nullptr;
+				// -------------------------------------------------------------------------- //
+				// dispose internally allocated array
+				// -------------------------------------------------------------------------- //
+				delete io_refLRSdata.p_theta_master;
+				io_refLRSdata.p_theta_master = nullptr;
+			}
+
+			// -------------------------------------------------------------------------- //
+			/// <summary>
+			/// </summary>
+			/// <remarks>
+			/// </remarks>
+			/// <param name="io_refLRSdata">
+			/// </param>
+			/// <returns>
+			/// </returns>
+			/// <precondition>
+			/// </precondition>
+			/// <postcondition>
+			/// </postcondition>
+			// -------------------------------------------------------------------------- //
+			ns_consts::EnmReturnStatus   AccumulateLambda(ns_es::t_data_for_LRS& io_refLRSdata)
+			{
+				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
+
+				if (nullptr == io_refLRSdata.p_theta_work)
+				{
+					return sts;
+				}
+
+				int eta_prev_minus_one = 0;
+				if (0 < io_refLRSdata.eta_prev - 1)
+				{
+					eta_prev_minus_one = io_refLRSdata.eta_prev - 1;
+				}
+				(*io_refLRSdata.p_theta_work)[eta_prev_minus_one] = io_refLRSdata.lambda;
+
+				int lower_bound = io_refLRSdata.eta_current;
+				if (lower_bound < 1)
+				{
+					lower_bound = 1;
+				}
+
+				for (int eta = (io_refLRSdata.eta_prev - 1); eta >= lower_bound; eta--)
+				{
+					int eta_minus_one = eta - 1;
+					(*io_refLRSdata.p_theta_work)[eta_minus_one] += (*io_refLRSdata.p_theta_work)[eta_minus_one + 1];
+				}
+
+				return sts = ns_consts::EnmReturnStatus::Success;
+			}
+
+			// -------------------------------------------------------------------------- //
+			/// <summary>
+			/// </summary>
+			/// <remarks>
+			/// </remarks>
+			/// <param name="io_refLRSdata">
+			/// </param>
+			/// <returns>
+			/// </returns>
+			/// <precondition>
+			/// </precondition>
+			/// <postcondition>
+			/// </postcondition>
+			// -------------------------------------------------------------------------- //
+			ns_consts::EnmReturnStatus	UpdateLambda(ns_es::t_data_for_LRS& io_refLRSdata)
+			{
+				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
+
+				if (nullptr == io_refLRSdata.p_theta_work)
+				{
+					return sts;
+				}
+
+				if (io_refLRSdata.eta_current == 0)
+				{
+					io_refLRSdata.lambda = 1;
+				}
+				else
+				{
+					int eta_minus_one = io_refLRSdata.eta_current - 1;
+					io_refLRSdata.lambda = (*io_refLRSdata.p_theta_work)[eta_minus_one] + 1;
+				}
+
+				return sts = ns_consts::EnmReturnStatus::Success;
+			}
+
+			// -------------------------------------------------------------------------- //
+			/// <summary>
+			/// </summary>
+			/// <remarks>
+			/// </remarks>
+			/// <param name="io_refLRSdata">
+			/// </param>
+			/// <returns>
+			/// </returns>
+			/// <precondition>
+			/// </precondition>
+			/// <postcondition>
+			/// </postcondition>
+			// -------------------------------------------------------------------------- //
+			ns_consts::EnmReturnStatus	UpdateThetaMaster(ns_es::t_data_for_LRS& io_refLRSdata)
+			{
+				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
+
+				if (nullptr == io_refLRSdata.p_theta_master)
+				{
+					return sts;
+				}
+
+				if (nullptr == io_refLRSdata.p_theta_work)
+				{
+					return sts;
+				}
+
+				for (int eta = io_refLRSdata.eta_prev; eta >= (io_refLRSdata.eta_current + 1); eta--)
+				{
+					int eta_minus_one = eta - 1;
+					if ((*io_refLRSdata.p_theta_master)[eta_minus_one] < (*io_refLRSdata.p_theta_work)[eta_minus_one])
+					{
+						(*io_refLRSdata.p_theta_master)[eta_minus_one] = (*io_refLRSdata.p_theta_work)[eta_minus_one];
+					}
+				}
+
+				return sts = ns_consts::EnmReturnStatus::Success;
+			}
+
+			// -------------------------------------------------------------------------- //
+			/// <summary>
+			/// </summary>
+			/// <remarks>
+			/// </remarks>
+			/// <param name="io_refLRSdata">
+			/// </param>
+			/// <returns>
+			/// </returns>
+			/// <precondition>
+			/// </precondition>
+			/// <postcondition>
+			/// </postcondition>
+			// -------------------------------------------------------------------------- //
+			ns_consts::EnmReturnStatus	ResetThetaWork(ns_es::t_data_for_LRS& io_refLRSdata)
+			{
+				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
+
+				if (nullptr == io_refLRSdata.p_theta_work)
+				{
+					return sts;
+				}
+
+				int lower_bound = io_refLRSdata.eta_current;
+				if (lower_bound < 1)
+				{
+					lower_bound = 1;
+				}
+
+				for (int eta = io_refLRSdata.eta_prev; eta >= lower_bound; eta--)
+				{
+					int eta_minus_one = eta - 1;
+					(*io_refLRSdata.p_theta_work)[eta_minus_one] = 0;
+				}
+
+				return sts = ns_consts::EnmReturnStatus::Success;
+			}
+
+			// -------------------------------------------------------------------------- //
+			/// <summary>
+			/// </summary>
+			/// <remarks>
+			/// </remarks>
+			/// <param name="o_ref_bz_Q">
+			/// </param>
+			/// <param name="io_refLRSdata">
+			/// </param>
+			/// <returns>
+			/// </returns>
+			/// <precondition>
+			/// </precondition>
+			/// <postcondition>
+			/// </postcondition>
+			// -------------------------------------------------------------------------- //
+			ns_consts::EnmReturnStatus UpdateNumerator(ns_es::t_data_for_LRS& io_refLRSdata)
+			{
+				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
+
+				if (nullptr == io_refLRSdata.p_theta_work)
+				{
+					return sts;
+				}
+
+				if (nullptr == io_refLRSdata.p_sigma_dbl)
+				{
+					return sts;
+				}
+
+				if (nullptr == io_refLRSdata.p_hg)
+				{
+					return sts;
+				}
+
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
+				ns_es::lcp_idx_map& w_map_hg = io_refLRSdata.p_hg->get<ns_es::lcp_idx>();
+				// -------------------------------------------------------------------------- //
+				// Step 2
+				//   for $\eta \gets \eta_{\textrm{prev}} \Downto \textrm{\textbf{max}}(\eta_{\textrm{current}}, 1) $
+				// -------------------------------------------------------------------------- //
+				for (int eta = io_refLRSdata.eta_prev; eta >= (io_refLRSdata.eta_current + 1); eta--)
+				{
+					int eta_minus_one = eta - 1;
+					// -------------------------------------------------------------------------- //
+					// number of occurrences
+					// -------------------------------------------------------------------------- //
+					const int c_i = 1 + (*io_refLRSdata.p_theta_work)[eta_minus_one];
+					// -------------------------------------------------------------------------- //
+					// Step 3
+					//   if {$\theta_{\textrm{work}}[\eta] + 1 >= 2$}
+					// -------------------------------------------------------------------------- //
+					if (c_i < 2)
+					{
+						continue;
+					}
+					// -------------------------------------------------------------------------- //
+					// Step 4
+					// $\sigma[\eta] \gets \sigma[\eta] + \binom{\theta_{\textrm{work}}[\eta] + 1}{2}$
+					// -------------------------------------------------------------------------- //
+					(*io_refLRSdata.p_sigma_dbl)[eta_minus_one] += boost::math::binomial_coefficient<double>(c_i, 2);
+					// -------------------------------------------------------------------------- //
+					//
+					// -------------------------------------------------------------------------- //
+					bool	found = false;
+					// -------------------------------------------------------------------------- //
+					//
+					// -------------------------------------------------------------------------- //
+					const std::pair<ns_es::lcp_idx_map::iterator, ns_es::lcp_idx_map::iterator> rg_x = w_map_hg.equal_range(eta);
+					if (rg_x.first != rg_x.second)
+					{
+						for (ns_es::lcp_idx_map::iterator it = rg_x.first; it != rg_x.second; ++it)
+						{
+							// -------------------------------------------------------------------------- //
+							// Find a record where the number of occurrences is equal to
+							// $\theta_{\textrm{work}}[\eta] + 1$.
+							// Note here that c_i = $\theta_{\textrm{work}}[\eta] + 1$
+							// -------------------------------------------------------------------------- //
+							if (it->ex_num_occ == c_i)
+							{
+								const uint32_t new_multiplicity = 1 + (it->ex_multi);
+								// -------------------------------------------------------------------------- //
+								// eta corresponds to W
+								// c_i corresponds to number of occurrences
+								// -------------------------------------------------------------------------- //
+								w_map_hg.replace(it, ns_es::t_lcp_bin(eta, c_i, new_multiplicity));
+								sts = ns_consts::EnmReturnStatus::Success;
+
+								found = true;
+								break;
+							}
+						}
+					}
+					if (false == found)
+					{
+						// -------------------------------------------------------------------------- //
+						// eta corresponds to W
+						// c_i corresponds to number of occurrences
+						// -------------------------------------------------------------------------- //
+						w_map_hg.insert(ns_es::t_lcp_bin(eta, c_i, 1));
+					}
+				}
+
+				return sts = ns_consts::EnmReturnStatus::Success;
+			}
+
+			// -------------------------------------------------------------------------- //
+			/// <summary>
+			/// </summary>
+			/// <remarks>
+			/// </remarks>
+			/// <param name="io_refData">
+			/// </param>
+			/// <param name="io_refLRSdata">
+			/// </param>
+			/// <param name="io_refSSFragmentForLaTeXPmax">
+			/// </param>
+			/// <returns>
+			/// </returns>
+			/// <precondition>
+			/// </precondition>
+			/// <postcondition>
+			/// </postcondition>
+			// -------------------------------------------------------------------------- //
+			ns_consts::EnmReturnStatus CalcPHat(ns_dt::t_data_for_estimator& io_refData, ns_es::t_data_for_LRS& io_refLRSdata,
+				std::wstringstream& io_refSSFragmentForLaTeXPmax)
+			{
+				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
+
+				if (nullptr == io_refLRSdata.p_sigma_dbl)
+				{
+					return sts;
+				}
+
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
+				blitz::Array<double, 1>	bz_p(io_refData.t_6_3_6.nu - io_refData.t_6_3_6.u + 1);
+				bz_p = 0.0;
+
+				const int L = io_refData.p_bzInputS->length(blitz::firstDim);
+				for (int w = io_refData.t_6_3_6.u; w <= io_refData.t_6_3_6.nu; ++w)
+				{
+					int lhs_idx = w - io_refData.t_6_3_6.u;
+					int rhs_idx = w - 1;
+					int	LminusWplusOne = L + 1 - w;
+					bz_p(lhs_idx)= ((*io_refLRSdata.p_sigma_dbl)[rhs_idx]) / boost::math::binomial_coefficient<double>(LminusWplusOne, 2);
+				}
+
+				// -------------------------------------------------------------------------- //
+				// Compute the estimated average collision probability per string symbol as 
+				// $P_{max, W} = P_{W}^{1/W}$.
+				// Let $\hat{p} = \max(P_{max,u}, \ldots, P_{max,\nu})$
+				// -------------------------------------------------------------------------- //
+				blitz::Array<double, 1>	bz_P_max(bz_p.length(blitz::firstDim));
+				bz_P_max = 0.0;
+				for (int j = 0; j < bz_p.length(blitz::firstDim); ++j)
+				{
+					// -------------------------------------------------------------------------- //
+					// Here, W = u + j, because offset u must be taken into account.
+					// -------------------------------------------------------------------------- //
+					bz_P_max(j) = pow(bz_p(j), 1.0 / static_cast<double>(j + io_refData.t_6_3_6.u));
+				}
+				io_refData.t_6_3_6.p_hat = blitz::max(bz_P_max);
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
+				blitz::TinyVector<int, 1>	bzMaxIndex = blitz::maxIndex(bz_P_max);
+				io_refData.t_6_3_6.argmax_p_hat = bzMaxIndex(0) + io_refData.t_6_3_6.u;
+				// -------------------------------------------------------------------------- //
+				// LaTeX report generation steps
+				// -------------------------------------------------------------------------- //
+				if (true == io_refData.isGeneratingReportInLaTeXformatRequested)
+				{
+					// -------------------------------------------------------------------------- //
+					//
+					// -------------------------------------------------------------------------- //
+					for (int w = io_refData.t_6_3_6.u; w <= io_refData.t_6_3_6.nu; ++w)
+					{
+						// -------------------------------------------------------------------------- //
+						// LaTeX output for $P_{max}$
+						// -------------------------------------------------------------------------- //
+						double	P_max_W = bz_P_max(w - io_refData.t_6_3_6.u);
+						io_refSSFragmentForLaTeXPmax << L"(";
+						io_refSSFragmentForLaTeXPmax << std::setw(4) << w;
+						io_refSSFragmentForLaTeXPmax << L", " << std::setw(8) << P_max_W;
+						io_refSSFragmentForLaTeXPmax << L")" << L"\n";
+					}
+				}
+
+				return sts = ns_consts::EnmReturnStatus::Success;
+			}
+
+			// -------------------------------------------------------------------------- //
+			/// <summary>
+			/// </summary>
+			/// <remarks>
+			/// </remarks>
+			/// <param name="io_refData">
+			/// </param>
+			/// <param name="io_refLRSdata">
+			/// </param>
+			/// <param name="i_refSSFragmentForLaTeXPmax">
+			/// </param>
+			/// <returns>
+			/// </returns>
+			/// <precondition>
+			/// </precondition>
+			/// <postcondition>
+			/// </postcondition>
+			// -------------------------------------------------------------------------- //
+			ns_consts::EnmReturnStatus outputLaTeXDistribution(ns_dt::t_data_for_estimator& io_refData, ns_es::t_data_for_LRS& io_refLRSdata,
+				std::wstringstream& i_refSSFragmentForLaTeXPmax)
+			{
+				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
+
+				if (nullptr == io_refLRSdata.p_hg)
+				{
+					return sts;
+				}
+
+				if (false == io_refData.isGeneratingReportInLaTeXformatRequested)
+				{
+					// -------------------------------------------------------------------------- //
+					// if LaTeX report generation is not requested, skip the following steps.
+					// -------------------------------------------------------------------------- //
+					return sts = ns_consts::EnmReturnStatus::Success;
+				}
+				// -------------------------------------------------------------------------- //
+				// for LaTeX output
+				// -------------------------------------------------------------------------- //
+				std::wstringstream	ssFragmentForLaTeX;
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
+				ns_es::lcp_idx_map& w_map_hg = io_refLRSdata.p_hg->get<ns_es::lcp_idx>();
+				// -------------------------------------------------------------------------- //
+				// remove items from <c>io_refLRSdata.p_hg</c> irrelevant for distribution
+				// -------------------------------------------------------------------------- //
+				for (int w = 1; w < io_refData.t_6_3_6.u; ++w)
+				{
+					w_map_hg.erase(w);
+				}
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
+				ns_es::lcp_cnt_map& num_occ_map_hg = io_refLRSdata.p_hg->get<ns_es::lcp_cnt>();
+				ns_es::lcp_cnt_map::reverse_iterator	rit_ci_max = num_occ_map_hg.rbegin();
+				// -------------------------------------------------------------------------- //
+				// note here that preceding step of erase is important to calculate <c>global_Ci_max</c>
+				// -------------------------------------------------------------------------- //
+				const int	global_Ci_max = rit_ci_max->ex_num_occ;
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
+				blitz::Array<uint32_t, 1>		bz_dist(global_Ci_max);
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
+				for (int w = io_refData.t_6_3_6.u; w <= io_refData.t_6_3_6.nu; ++w)
+				{
+					bz_dist = 0;
+
+					const std::pair<ns_es::lcp_idx_map::iterator, ns_es::lcp_idx_map::iterator> rg_x = w_map_hg.equal_range(w);
+					if (rg_x.first != rg_x.second)
+					{
+						for (ns_es::lcp_idx_map::iterator it = rg_x.first; it != rg_x.second; ++it)
+						{
+							bz_dist(it->ex_num_occ - 1) = it->ex_multi;
+						}
+					}
+
+					for (int y = 1; y < global_Ci_max; ++y)
+					{
+						// -------------------------------------------------------------------------- //
+						//
+						// -------------------------------------------------------------------------- //
+						ssFragmentForLaTeX << L"(";
+						// -------------------------------------------------------------------------- //
+						// w
+						// -------------------------------------------------------------------------- //
+						ssFragmentForLaTeX << std::setw(4) << w;
+						// -------------------------------------------------------------------------- //
+						// number of occurrences
+						// -------------------------------------------------------------------------- //
+						ssFragmentForLaTeX << L"," << std::setw(4) << (y + 1);
+						// -------------------------------------------------------------------------- //
+						// multiplicity
+						// -------------------------------------------------------------------------- //
+						ssFragmentForLaTeX << L"," << std::setw(8) << bz_dist(y);
+						ssFragmentForLaTeX << L")  ";
+					}
+					ssFragmentForLaTeX << L"\n" << L"\n";
+				}
+				// -------------------------------------------------------------------------- //
+				// output LaTeX
+				// -------------------------------------------------------------------------- //
+				std::wstring	wstrCaptionTuple = L"Estimated $W$-tuple collision probability in Step 3 of $\\S6.3.6$ of NIST SP 800-90B";
+				outputLaTeXHeaderTuple(io_refData, global_Ci_max - 1);
+				if (nullptr != io_refData.p_ssLaTeXFragment)
+				{
+					(*io_refData.p_ssLaTeXFragment) << ssFragmentForLaTeX.rdbuf();
+				}
+				outputLaTeXFooter(io_refData, wstrCaptionTuple);
+				outputLaTeXHeaderPmax(io_refData);
+				if (nullptr != io_refData.p_ssLaTeXFragment)
+				{
+					(*io_refData.p_ssLaTeXFragment) << i_refSSFragmentForLaTeXPmax.rdbuf();
+				}
+
+				return sts = ns_consts::EnmReturnStatus::Success;
+			}
+
+			// -------------------------------------------------------------------------- //
+			/// <summary>
 			///  Implements steps 1 to 3 of 6.3.6 of NIST SP 800-90B.
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
-			/// <param name="o_ref_bz_P_W">
-			///  Specifies the reference to store $P_{W}$ in step 3.
-			/// </param>
 			/// <param name="io_refData">
 			/// </param>
 			/// <returns>
@@ -431,260 +1007,227 @@ namespace entropy_estimator_lib
 			/// <postcondition>
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
-			ns_consts::EnmReturnStatus steps123(blitz::Array<double, 1>& o_ref_bz_P_W,
-				ns_dt::t_data_for_estimator& io_refData)
+			ns_consts::EnmReturnStatus steps123(ns_dt::t_data_for_estimator& io_refData)
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorUnexpected;
 
-				int number_of_occurrences_for_most_common_t_tuple = 0;
-				int t = 0;
-				int u = 0;
-				bool	bIsUFound = false;
-				// -------------------------------------------------------------------------- //
-				// for LaTeX output
-				// -------------------------------------------------------------------------- //
-				std::wstringstream	ssFragmentForLaTeX;
-				std::wstringstream	ssFragmentForLaTeXPmax;
-				int		global_Ci_max = 0;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				if (1 < io_refData.t_6_3_6.initial_u)
+				std::valarray<ns_dt::octet>		valT(io_refData.L);
+				std::valarray<uint32_t>			vaSA((uint32_t)0, io_refData.L);
+				std::valarray<uint32_t>			vaLCP((uint32_t)0, io_refData.L);
+
+				for (int j = 0; j < io_refData.p_bzInputS->length(blitz::firstDim); ++j)
 				{
-					// -------------------------------------------------------------------------- //
-					// for optimization
-					// where pre-calculated u value is available through 6.3.5 of NIST SP 800-90B.
-					// -------------------------------------------------------------------------- //
-					t = (io_refData.t_6_3_6.initial_u - 1);
+					valT[j] = (*io_refData.p_bzInputS)(j);
 				}
-				do
+				// -------------------------------------------------------------------------- //
+				// Step 1
+				// 
+				// -------------------------------------------------------------------------- //
+				ns_consts::EnmReturnStatus	stsSA = ns_es::ComputeSuffixArray(vaSA, valT, io_refData.L);
+				if (ns_consts::EnmReturnStatus::Success != stsSA)
 				{
-					++t;
-					// -------------------------------------------------------------------------- //
-					//
-					// -------------------------------------------------------------------------- //
-					ns_es::BitSetHistogram		hg;
-					int		max_number_of_occurrences_for_current_t = 0;
-					// -------------------------------------------------------------------------- //
-					//
-					// -------------------------------------------------------------------------- //
-					for (int i = 0; i < io_refData.p_bzInputS->length(blitz::firstDim) - (t - 1); ++i)
-					{
-						blitz::Array<ns_dt::octet, 1> bz_tuple = (*io_refData.p_bzInputS)(blitz::Range(i, i + t - 1));
-						boost::dynamic_bitset<>		bitSetExp(t * io_refData.bits_per_sample, 0);
-						sts = ns_spt::convertSeqSamplesToBitSet(bitSetExp, bz_tuple, io_refData.bits_per_sample);
-						if (ns_consts::EnmReturnStatus::Success != sts)
-						{
-							return sts;
-						}
-						// -------------------------------------------------------------------------- //
-						//
-						// -------------------------------------------------------------------------- //
-						int	countForThisTupleExp = 1;
-						ns_consts::EnmReturnStatus	stsUpdate = ns_es::incrementCount(countForThisTupleExp, bitSetExp, hg);
-						if (ns_consts::EnmReturnStatus::ErrorNotFound == stsUpdate)
-						{
-							hg.insert(ns_es::t_bsx_bin(bitSetExp, 1));
-						}
-						else if (ns_consts::EnmReturnStatus::Success == stsUpdate)
-						{
-							bitSetExp.clear();
-						}
-						else if (ns_consts::EnmReturnStatus::Success != stsUpdate)
-						{
-							bitSetExp.clear();
-							return sts = stsUpdate;
-						}
-						// -------------------------------------------------------------------------- //
-						//
-						// -------------------------------------------------------------------------- //
-						if (max_number_of_occurrences_for_current_t < countForThisTupleExp)
-						{
-							max_number_of_occurrences_for_current_t = countForThisTupleExp;
-						}
-					}
-					// -------------------------------------------------------------------------- //
-					//
-					// -------------------------------------------------------------------------- //
-					number_of_occurrences_for_most_common_t_tuple = max_number_of_occurrences_for_current_t;
-					// -------------------------------------------------------------------------- //
-					//
-					// -------------------------------------------------------------------------- //
-					if (false == bIsUFound)
-					{
-						if (number_of_occurrences_for_most_common_t_tuple < io_refData.t_6_3_6.cutoff)
-						{
-							u = t;
-							bIsUFound = true;
-						}
-					}
-					// -------------------------------------------------------------------------- //
-					//
-					// -------------------------------------------------------------------------- //
-					if (true == bIsUFound)
-					{
-						if (2 <= number_of_occurrences_for_most_common_t_tuple)
-						{
-							// -------------------------------------------------------------------------- //
-							// For W = u to \nu, compute the estimated W-tuple collision probability
-							//   $P_{W} = \sum_{i} \binom_{C_{i}}{2} / \binom{L - W + 1}{2}$
-							// where C_{i} is the number of occurrences of the i-th unique W-tuple.
-							// -------------------------------------------------------------------------- //
-							ns_es::tpl_bscnt_map& cnt_map_hg = hg.get<ns_es::bsx_cnt>();
+					return sts = stsSA;
+				}
 
-							double	numerator = 0.0;
-							// -------------------------------------------------------------------------- //
-							//
-							// -------------------------------------------------------------------------- //
-							uint64_t	ui64_numerator = 0;
-							// -------------------------------------------------------------------------- //
-							//
-							// -------------------------------------------------------------------------- //
-							for (ns_es::tpl_bscnt_map::iterator it = cnt_map_hg.begin(); it != cnt_map_hg.end(); ++it)
-							{
-								if (2 <= it->ex_cnt)
-								{
-									numerator += boost::math::binomial_coefficient<double>(it->ex_cnt, 2);
-									// -------------------------------------------------------------------------- //
-									//
-									// -------------------------------------------------------------------------- //
-									ui64_numerator += ((static_cast<uint64_t>(it->ex_cnt)) * ((static_cast<uint64_t>(it->ex_cnt)) - 1)) >> 1;
-									// -------------------------------------------------------------------------- //
-									//
-									// -------------------------------------------------------------------------- //
-								}
-							}
-							// -------------------------------------------------------------------------- //
-							//
-							// -------------------------------------------------------------------------- //
-							if (true == io_refData.isGeneratingReportInLaTeXformatRequested)
-							{
-								ns_es::tpl_bscnt_map::reverse_iterator	rit_ci_max = cnt_map_hg.rbegin();
-								int	ci_max = rit_ci_max->ex_cnt;
+				ns_consts::EnmReturnStatus	stsLCP = ns_es::ComputeLCP(vaLCP, valT, vaSA, io_refData.L);
+				if (ns_consts::EnmReturnStatus::Success != stsLCP)
+				{
+					return sts = stsLCP;
+				}
 
-								for (int y = 2; y <= ci_max; ++y)
-								{
-									std::pair<ns_es::tpl_bscnt_map::iterator, ns_es::tpl_bscnt_map::iterator> rg_x = cnt_map_hg.equal_range(y);
-
-									int	multiplicity_for_ci = 0;
-									if (rg_x.first != rg_x.second)
-									{
-										// multiplicity != 0
-										for (ns_es::tpl_bscnt_map::iterator it = rg_x.first; it != rg_x.second; ++it)
-										{
-											++multiplicity_for_ci;
-										}
-									}
-									else
-									{
-										// multiplicity = 0;
-										//sts = ns_consts::EnmReturnStatus::ErrorNotFound;
-									}
-									// -------------------------------------------------------------------------- //
-									//
-									// -------------------------------------------------------------------------- //
-									ssFragmentForLaTeX << L"(";
-									ssFragmentForLaTeX << std::setw(4) << t;
-									ssFragmentForLaTeX << L"," << std::setw(4) << y;
-									ssFragmentForLaTeX << L"," << std::setw(8) << multiplicity_for_ci;
-									ssFragmentForLaTeX << L")  ";
-								}
-
-								for (int y = ci_max + 1; y <= global_Ci_max; ++y)
-								{
-									ssFragmentForLaTeX << L"(";
-									ssFragmentForLaTeX << std::setw(4) << t;
-									ssFragmentForLaTeX << L"," << std::setw(4) << y;
-									ssFragmentForLaTeX << L"," << std::setw(8) << 0;
-									ssFragmentForLaTeX << L")  ";
-								}
-								ssFragmentForLaTeX << L"\n" << L"\n";
-								// -------------------------------------------------------------------------- //
-								//
-								// -------------------------------------------------------------------------- //
-								if (global_Ci_max < ci_max)
-								{
-									global_Ci_max = ci_max;
-								}
-							}
-							// -------------------------------------------------------------------------- //
-							//
-							// -------------------------------------------------------------------------- //
-							if (1 < io_refData.verbose_level)
-							{
-								std::cout << "# \tNumerator of P_W ( W = " << std::setw(8) << t << " ) = " << std::setw(20) << std::dec << ui64_numerator << "\n";
-							}
-							// -------------------------------------------------------------------------- //
-							//
-							// -------------------------------------------------------------------------- //
-							if (io_refData.isGeneratingReportInLaTeXformatRequested)
-							{
-								int	LminusWplusOne = io_refData.p_bzInputS->length(blitz::firstDim) - t + 1;
-								double	P_W = (double)numerator / boost::math::binomial_coefficient<double>(LminusWplusOne, 2);
-								ssFragmentForLaTeXPmax << L"(";
-								ssFragmentForLaTeXPmax << std::setw(4) << t;
-								ssFragmentForLaTeXPmax << L", " << std::setw(8) << std::pow(P_W, 1.0 / (static_cast<double>(t)));
-								ssFragmentForLaTeXPmax << L")" << L"\n";
-							}
-							// -------------------------------------------------------------------------- //
-							//
-							// -------------------------------------------------------------------------- //
-							int	LminusWplusOne = io_refData.p_bzInputS->length(blitz::firstDim) - t + 1;
-							o_ref_bz_P_W.resizeAndPreserve(1 + t - u);
-							o_ref_bz_P_W(t - u) = numerator / boost::math::binomial_coefficient<double>(LminusWplusOne, 2);
-						}
-					}
-					// -------------------------------------------------------------------------- //
-					//
-					// -------------------------------------------------------------------------- //
-					hg.clear();
-					// -------------------------------------------------------------------------- //
-					//
-					// -------------------------------------------------------------------------- //
-				} while (2 <= number_of_occurrences_for_most_common_t_tuple);
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				io_refData.t_6_3_6.u = u;
-				io_refData.t_6_3_6.nu = (t - 1);
+				ns_es::t_data_for_LRS	lrs_data;
+				lrs_data.p_theta_master = nullptr;
+				lrs_data.p_theta_work = nullptr;
+				lrs_data.p_sigma_dbl = nullptr;
+				lrs_data.p_LCP = &vaLCP;
+
 				// -------------------------------------------------------------------------- //
-				// Compute the estimated average collision probability per string symbol as 
-				// $P_{max, W} = P_{W}^{1/W}$.
-				// Let $\hat{p} = \max(P_{max,u}, \ldots, P_{max,\nu})$
+				// Steps 2 - 12
 				// -------------------------------------------------------------------------- //
-				blitz::Array<double, 1>	bz_P_max(o_ref_bz_P_W.length(blitz::firstDim));
-				bz_P_max = 0.0;
-				for (int j = 0; j < o_ref_bz_P_W.length(blitz::firstDim); ++j)
+				ns_consts::EnmReturnStatus	stsSetUp = SetUpArrayTheta(lrs_data);
+				if (ns_consts::EnmReturnStatus::Success != stsSetUp)
+				{
+					return sts = stsSetUp;
+				}
+
+				// -------------------------------------------------------------------------- //
+				// Step 13  $\eta_{\textrm{prev}} \gets LCP[1]$
+				// -------------------------------------------------------------------------- //
+				lrs_data.eta_prev = (*lrs_data.p_LCP)[0];
+				// -------------------------------------------------------------------------- //
+				// Step 14  $\lambda \gets 1$
+				// -------------------------------------------------------------------------- //
+				lrs_data.lambda = 1;
+				// -------------------------------------------------------------------------- //
+				// Step 15
+				//    for $j \gets 2, n$ do
+				// -------------------------------------------------------------------------- //
+				for (unsigned int j = 1; j < lrs_data.p_LCP->size(); ++j)
 				{
 					// -------------------------------------------------------------------------- //
-					// Here, W = u + j, because offset u must be taken into account.
+					// Step 16
+					//    $\eta_{\textrm{current}} \gets LCP[j]$
 					// -------------------------------------------------------------------------- //
-					bz_P_max(j) = pow(o_ref_bz_P_W(j), 1.0 / static_cast<double>(j + u));
+					lrs_data.eta_current = (*lrs_data.p_LCP)[j];
+					// -------------------------------------------------------------------------- //
+					// Step 17
+					// -------------------------------------------------------------------------- //
+					if (lrs_data.eta_prev < lrs_data.eta_current)
+					{
+						// -------------------------------------------------------------------------- //
+						// Step 18
+						// -------------------------------------------------------------------------- //
+						if (0 < lrs_data.eta_prev)
+						{
+							// -------------------------------------------------------------------------- //
+							// Step 19
+							// -------------------------------------------------------------------------- //
+							(*lrs_data.p_theta_work)[lrs_data.eta_prev - 1] = lrs_data.lambda;
+						}
+						// -------------------------------------------------------------------------- //
+						// Step 21
+						// -------------------------------------------------------------------------- //
+						lrs_data.lambda = 1;
+					}
+					else if (lrs_data.eta_prev == lrs_data.eta_current)
+					{
+						// -------------------------------------------------------------------------- //
+						// Step 23
+						// -------------------------------------------------------------------------- //
+						if (lrs_data.eta_current == 0)
+						{
+							// -------------------------------------------------------------------------- //
+							// Step 24
+							// -------------------------------------------------------------------------- //
+							lrs_data.lambda = 1;
+						}
+						else
+						{
+							// -------------------------------------------------------------------------- //
+							// Step 26
+							// -------------------------------------------------------------------------- //
+							lrs_data.lambda += 1;
+						}
+					}
+					else
+					{
+						// -------------------------------------------------------------------------- //
+						// Step 29
+						// -------------------------------------------------------------------------- //
+						ns_consts::EnmReturnStatus	stsAccum = AccumulateLambda(lrs_data);
+						if (ns_consts::EnmReturnStatus::Success != stsAccum)
+						{
+							return sts = stsAccum;
+						}
+						// -------------------------------------------------------------------------- //
+						// Step 30
+						// -------------------------------------------------------------------------- //
+						ns_consts::EnmReturnStatus	stsUpdNumer = UpdateNumerator(lrs_data);
+						if (ns_consts::EnmReturnStatus::Success != stsUpdNumer)
+						{
+							return sts = stsUpdNumer;
+						}
+						// -------------------------------------------------------------------------- //
+						// Step 31
+						// -------------------------------------------------------------------------- //
+						ns_consts::EnmReturnStatus	stsUpdLambda = UpdateLambda(lrs_data);
+						if (ns_consts::EnmReturnStatus::Success != stsUpdLambda)
+						{
+							return sts = stsUpdLambda;
+						}
+						// -------------------------------------------------------------------------- //
+						// Step 32
+						// -------------------------------------------------------------------------- //
+						ns_consts::EnmReturnStatus	stsUpdTheta = UpdateThetaMaster(lrs_data);
+						if (ns_consts::EnmReturnStatus::Success != stsUpdTheta)
+						{
+							return sts = stsUpdTheta;
+						}
+						// -------------------------------------------------------------------------- //
+						// Step 33
+						// -------------------------------------------------------------------------- //
+						ResetThetaWork(lrs_data);
+					}
+					// -------------------------------------------------------------------------- //
+					// Step 35
+					// -------------------------------------------------------------------------- //
+					lrs_data.eta_prev = lrs_data.eta_current;
 				}
-				io_refData.t_6_3_6.p_hat = blitz::max(bz_P_max);
+				// -------------------------------------------------------------------------- //
+				// part of Step 37
+				// -------------------------------------------------------------------------- //
+				lrs_data.eta_current = 0;
+				// -------------------------------------------------------------------------- //
+				// part of Step 37
+				// -------------------------------------------------------------------------- //
+				ns_consts::EnmReturnStatus	stsAccum = AccumulateLambda(lrs_data);
+				if (ns_consts::EnmReturnStatus::Success != stsAccum)
+				{
+					return sts = stsAccum;
+				}
+				// -------------------------------------------------------------------------- //
+				// Step 38
+				// -------------------------------------------------------------------------- //
+				ns_consts::EnmReturnStatus	stsUpdNumer = UpdateNumerator(lrs_data);
+				if (ns_consts::EnmReturnStatus::Success != stsUpdNumer)
+				{
+					return sts = stsUpdNumer;
+				}
+				// -------------------------------------------------------------------------- //
+				// Step 39
+				// -------------------------------------------------------------------------- //
+				ns_consts::EnmReturnStatus	stsUpdTheta = UpdateThetaMaster(lrs_data);
+				if (ns_consts::EnmReturnStatus::Success != stsUpdTheta)
+				{
+					return sts = stsUpdTheta;
+				}
+				// -------------------------------------------------------------------------- //
+				// Step 40
+				// -------------------------------------------------------------------------- //
+				uint32_t prev_index = 0;
+				for (int eta = lrs_data.nu - 1; eta >= 0; --eta)
+				{
+					if ((*lrs_data.p_theta_master)[eta] < io_refData.t_6_3_6.cutoff - 1)
+					{
+						prev_index = eta;
+					}
+					else
+					{
+						break;
+					}
+				}
+				// -------------------------------------------------------------------------- //
+				// prev_index is 0-start index, so add 1 by definition of u
+				// -------------------------------------------------------------------------- //
+				io_refData.t_6_3_6.u = prev_index + 1;
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				blitz::TinyVector<int, 1>	bzMaxIndex = blitz::maxIndex(bz_P_max);
-				io_refData.t_6_3_6.argmax_p_hat = bzMaxIndex(0) + u;
+				io_refData.t_6_3_6.nu = lrs_data.nu;
 				// -------------------------------------------------------------------------- //
-				// output LaTeX
+				// Step 41
 				// -------------------------------------------------------------------------- //
-				if (io_refData.isGeneratingReportInLaTeXformatRequested)
+				std::wstringstream ssFragmentForLaTeXPmax = std::wstringstream();
+				ns_consts::EnmReturnStatus	stsCalcPHat = CalcPHat(io_refData, lrs_data, ssFragmentForLaTeXPmax);
+				if (ns_consts::EnmReturnStatus::Success != stsCalcPHat)
 				{
-					std::wstring	wstrCaptionTuple = L"Estimated $W$-tuple collision probability in Step 3 of $\\S6.3.6$ of NIST SP 800-90B";
-					outputLaTeXHeaderTuple(io_refData, global_Ci_max - 1);
-					if (nullptr != io_refData.p_ssLaTeXFragment)
-					{
-						(*io_refData.p_ssLaTeXFragment) << ssFragmentForLaTeX.rdbuf();
-					}
-					outputLaTeXFooter(io_refData, wstrCaptionTuple);
-					outputLaTeXHeaderPmax(io_refData);
-					if (nullptr != io_refData.p_ssLaTeXFragment)
-					{
-						(*io_refData.p_ssLaTeXFragment) << ssFragmentForLaTeXPmax.rdbuf();
-					}
+					TearDownArrayTheta(lrs_data);
+					return sts = stsCalcPHat;
 				}
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
+				ns_consts::EnmReturnStatus	stsOutputDist = outputLaTeXDistribution(io_refData, lrs_data, ssFragmentForLaTeXPmax);
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
+				TearDownArrayTheta(lrs_data);
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
@@ -852,8 +1395,6 @@ namespace entropy_estimator_lib
 					return sts;
 				}
 
-				blitz::Array<double, 1>	bz_P_W(128);
-				bz_P_W = 0.0;
 				// -------------------------------------------------------------------------- //
 				// Step 1.
 				//  Find the largest t such that the number of occurrences of the most common t-tuple in S is at least 35.
@@ -869,7 +1410,7 @@ namespace entropy_estimator_lib
 				//  For i = 1 to t, let P[i] = Q[i] / (L-i+1), and compute an estimate on the maximum individual sample value probability as P_{max}[i]=P[i]^{1/i}.
 				//  Let p_{max}= max (P_{max}[1], ... , P_{max}[t]).
 				// -------------------------------------------------------------------------- //
-				sts = steps123(bz_P_W, io_refData);
+				sts = steps123(io_refData);
 				if (ns_consts::EnmReturnStatus::Success != sts)
 				{
 					return sts;

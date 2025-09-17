@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2024 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2025 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include <string>
@@ -59,6 +59,7 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
                 "Samples are assumed to be packed into 8-bit values, where the least significant 'bits_per_symbol' bits constitute the symbol.")
             ("MSb", "    Byte to bitstring conversion is performed by assuming Most Significant bit (MSb) first (default).")
             ("LSb", "    Byte to bitstring conversion is performed by assuming Least Significant bit (LSb) first.")
+            ("useLCP", "    Using Longest Common Prefix (LCP) to calculate t-Tuple Estimate and LRS Estimate.")
             ("LaTeX,x", "    Generate a report in LaTeX format.")
             ("verbose_level,v", bs_po::value<int>(&vl)->default_value(1), "Must be between 0-3, inclusive.")
             ;
@@ -278,6 +279,18 @@ ns_consts::EnmReturnStatus parse(ns_dt::t_data_for_estimator& io_refData,
             return  sts = ns_consts::EnmReturnStatus::ErrorNoTask;
         }
 
+        // -------------------------------------------------------------------------- //
+        // 
+        // 
+        // -------------------------------------------------------------------------- //
+        if (po_vm.count("useLCP")) {
+            std::cout << "# [INFO]: Using Longest Common Prefix (LCP) is requested in calculating t-Tuple Estimate and in LRS Estimate." << "\n";
+            io_refData.isUsingLcpRequested = true;
+            if (1 < bits_per_sample)
+            {
+                io_refDataBitString.isUsingLcpRequested = true;
+            }
+        }
         // -------------------------------------------------------------------------- //
         // 
         // 

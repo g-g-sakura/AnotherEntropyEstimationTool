@@ -1,4 +1,4 @@
-﻿\documentclass[a4paper,xelatex,english]{bxjsarticle}
+﻿\documentclass[a3paper,xelatex,english]{bxjsarticle}
 \usepackage{tikz}%
 \usetikzlibrary{arrows.meta,bending,calc,shapes,positioning,shapes.callouts}
 \usepackage{ascmac}
@@ -6,6 +6,7 @@
 \usepackage{amsmath,amssymb}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{algorithmicx}
 \usepackage{paralist}
 \usepackage{cases}
 \usepackage{url}
@@ -18,6 +19,28 @@
 \usepackage{fancyhdr}
 \usepackage[explicit]{titlesec}
 \usepackage{xspace}
+\usepackage{setspace}
+
+\usetikzlibrary{fit,calc}
+%define a marking command
+\newcommand*{\tikzmk}[1]{\tikz[remember picture,overlay,] \node (#1) {};\ignorespaces}
+%define a boxing command, argument = colour of box
+\newcommand{\boxit}[1]{\tikz[remember picture,overlay]{\node[yshift=-10pt,fill=#1,opacity=.25,fit={(A)($(B)+(.90\linewidth,.8\baselineskip)$)}] {};}\ignorespaces}
+%define some colours according to algorithm parts (or any other method you like)
+\colorlet{hlpink}{red!40}
+\colorlet{hlblue}{cyan!60}
+
+% ノードマーク
+%%%%%\newcommand*{\tikzmk}[1]{\tikz[remember picture,overlay] \node (#1) {};\ignorespaces}
+%%%%%% ボックス描画
+%%%%%\newcommand{\boxit}[1]{%
+%%%%%  \tikz[remember picture,overlay]{
+%%%%%    \node[yshift=3pt,fill=#1,opacity=.25,fit={(A)($(B)+(0.95\linewidth,1.2\baselineskip)$)}] {};
+%%%%%  }%
+%%%%%  \ignorespaces
+%%%%%}
+%%%%%% 色定義
+%%%%%\colorlet{highlightcolor}{yellow!30}
 
 \usepackage[many]{tcolorbox}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -28,6 +51,17 @@
 \definecolor{mydarkblue}{RGB}{0,163,243}
 \definecolor{mylightblue}{RGB}{191,233,251}
 \definecolor{mediumtealblue}{rgb}{0.0, 0.33, 0.71}
+\definecolor{BleuDur}{RGB}{27,61,176}
+\definecolor{Nigelle}{RGB}{0,133,201}
+\definecolor{BleuFaience}{RGB}{105,171,219}
+\definecolor{Celeste}{RGB}{0,160,199}
+\definecolor{Orseille}{RGB}{243,167,172}
+\definecolor{CuisseDeNymph}{RGB}{245,201,193}
+\definecolor{Heliotrope}{RGB}{139,92,158}
+\definecolor{Pomme}{RGB}{106,186,80}
+\definecolor{VertPrintemps}{RGB}{0,152,132}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%
 %%%
@@ -160,6 +194,20 @@
 \algnewcommand{\algorithmicgoto}{\textbf{go to}}%
 \algnewcommand{\Goto}{\algorithmicgoto\xspace}%
 \algnewcommand{\Label}{\State\unskip}
+\algnewcommand{\Downto}{\textbf{ downto }}
+
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}  % Use Input in the format of Algorithm  
+\renewcommand{\algorithmicensure}{\textbf{Output:}} % Use Output in the format of Algorithm  
+
+\algdef{SE}[PROCEDURE]{Procedure}{EndProcedure}%
+   [2]{\algorithmicprocedure\ \textproc{#1}\ifthenelse{\equal{#2}{}}{}{(#2)}}%
+   {\algorithmicend\ \algorithmicprocedure}%
+\algdef{SE}[FUNCTION]{Function}{EndFunction}%
+   [2]{\algorithmicfunction\ \textproc{#1}\ifthenelse{\equal{#2}{}}{}{(#2)}}%
+   {\algorithmicend\ \algorithmicfunction}%
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%
 %%%
@@ -798,12 +846,525 @@ In step 3-a-i of 6.3.7 of NIST SP 800-90B, it is required to compute the mode in
 As the order of $w_{j}$ is 1000, the computational complexity is estimated to be about $\mathcal{O}(1000n)$, and expected to be time-consuming. 
 We attempt to reduce time-complexity by preparing histograms of certain lengths in advance, and in step 3-a-i, we use the histograms that fit within the target window, and compute the unavailable parts on-demand basis.
 
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%
+%%%%%
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Additional implementation notes for t-Tuple estimate, LRS estimate using Longest Common Prefix}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%
+%%%%%
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{An issue of naive implementation for t-Tuple estimate and LRS estimate, and its improvement measures}
+The naive implementation of t-Tuple estimate and LRS estimate consumes huge memory $\approx$ few giga-bytes, to store unique t-Tuple. 
+Here, it is stated that Longest Common Prefix can be used for t-Tuple and LRS estimates, and naive algorithm is provided\cite{Josh}.
+Note here that \cite{MIT} provides good introduction for Longest Common Prefix and its calculating algorithm.
+Next optimized algorithms are provided to perform t-Tuple and LRS estimates\cite{Kaufer}.
+However, it is unclear about how to derive the whole algorithms, except for ``Count Aggregation'' (hereafter denoted as ``cascading algorithm'').
+
+So let us consider a more intuitive algorithm to perform t-Tuple and LRS estimates.
+
+Provided that Longest Common Prefix array $(LCP[1], \ldots, LCP[L]) $has been calculated from input $\mib{S}$, 
+$LCP[j]$ changes with respect to index $j$, so let us consider the following three cases: 
+\begin{enumerate}[a)]
+	\item $LCP[j - 1] < LCP[j] \qquad (j \in [2, L])$,
+	\item $LCP[j - 1] = LCP[j] \qquad (j \in [2, L])$,
+	\item $LCP[j - 1] > LCP[j] \qquad (j \in [2, L])$.
+\end{enumerate}
+
+We may call case a) as ``climb up'' case, case b) as ``traverse'' case, and case c) as ``climb down'' case.
+For brevity, let us use $\eta_{j}$ or simply $\eta$ to denote $LCP[j]$.
+
+For case a), the run length of LCP value at index $j$ is 1. Let us use $\lambda_{\eta_{j}}$ (or simply $\lambda$) to denote the run length.
+Note that the part of algorithm is highlighted in light blue in \ref{alg:TupleCountMain}
+
+For case b), the run length of LCP value at index $j$ is incremented by 1.
+Note that the part of algorithm is highlighted in light green in \ref{alg:TupleCountMain}
+
+For case c), the run lengths of LCP values for $(LCP[j] + 1, \ldots, LCP[j - 1])$ can be determined, which is expressed by ``cascading algorithm''.
+Note that the part of algorithm is highlighted in pale purple in \ref{alg:TupleCountMain}
+
+Normally several minimam and maximam points can be found in LCP array, 
+so let us consider the range from one local minimum to the next as a single ``peak'', and introduce an array $\theta_{\textrm{work}}[\eta]$ representing the height $\eta$ (which is equal to a value of LCP array) and run length for each peak.
+Considering that there are multiple peaks in LCP array, let us introduce an array $\theta_{\textrm{master}}[\eta]$ storing the maximum run length for each $\eta$ appeared in the LCP array.
+
+For each case c) or ``climb down'' case, update $\theta_{\textrm{master}}$ to store longer run lengths, and also run lengths for higher $\eta$ values, by comparing $\theta_{\textrm{work}}$ and $\theta_{\textrm{master}}$.
+
+Finally the required array $Q[i]$ where $i \in (1, \ldots, t)$ can be calculated by the following relation:
+\begin{align}
+Q[i] = \theta_{\textrm{master}}[i] + 1.
+\end{align}
+
+\clearpage
+\subsection{Additional implementation notes for t-Tuple estimate using Longest Common Prefix}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%
+%%%%%
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%\begin{shadebox}
+\begin{algorithm}
+%%%\setstretch{1.35}
+\setstretch{1.2}
+%%%%%
+%%%%%
+%%%%%
+%\begin{minipage}{\hsize}
+%%%%%
+%%%%%
+%%%%%
+%\begin{algorithm}
+\caption{Rewritten steps 1 and 2 in $t$-Tuple Estimate}\label{alg:TupleCountMain}
+%\label{alg:myalgo}
+\begin{algorithmic}[1]
+%%%%%
+%%%%%
+%%%%%
+\Require input dataset $\mib{S} = (s_{1}, \ldots, S_{L})$ where $s_{i} \in A = \{ x_{1}, \ldots, x_{k}\}$
+%Graph $\mathcal{G}$ ($\mathcal{V}$, $\mathcal{E}$); input features $\{x_v, \forall{v} \in \mathcal{V}\}$; depth $K$; weight matrices $W^k, \forall{\mathcal{\textit{k}}} \in \{1, ...,K\}$; non-linearity $\sigma$; differentiable aggregator functions AGGREGATE$_k$, $x_v, \forall{k} \in \{1, ...,K\}$; neighborhood function $\mathcal{N}: v \leftarrow 2^\mathcal{V}$
+                \Ensure an integer array of $i$-tuple counts for $i \in \{ 1, 2, \ldots, t\}$
+%%%%%
+%%%%%
+%%%%%
+%\setcounter{ALG@line}{1}%
+\State Compute the Longest Common Prefix array $LCP[j] (j \in \{ 1, 2, \ldots, L \})$ from $\mib{S}$.
+\State $\displaystyle \eta_{\textrm{max}} \gets \textrm{\textbf{max}}_{j \in \{ 1, 2, \ldots, L \}} LCP[j]$
+\Statex \Comment {$\eta_{\textrm{max}}$ coincide with $\nu$ in Longest Repeated Substring (LRS) Estimate.}
+\For{$\eta \gets 1, \textrm{\textbf{max}}(\eta_{\textrm{max}}, 1)$}
+	\State $\theta_{\textrm{master}}[\eta] \gets 0$
+	\State $\theta_{\textrm{work}}[\eta] \gets 0$
+\EndFor
+
+%%%%%\State $\eta_{\textrm{prev}} \gets 0$
+%%%%%\State $\eta_{\textrm{current}} \gets 0$
+\State $\eta_{\textrm{prev}} \gets LCP[1]$
+\State $\lambda \gets 1$
+%%%%%
+%%%%%\State $\eta_{\textrm{max}} \gets LCP[1]$
+
+\For {$j \gets 2, L$}
+	\State $\eta_{\textrm{current}} \gets LCP[j]$
+%%%%%
+%%%%%\Statex \tikzmk{A}%
+%%%%%	\If {$\eta_{\textrm{max}} < LCP[j]$}
+%%%%%		\State $\eta_{\textrm{max}} \gets LCP[j]$
+%%%%%		\Statex \Comment {update $\eta_{\textrm{max}}$}
+%%%%%	\EndIf
+%%%%%\tikzmk{B}
+%%%%%\boxit{hlblue}
+%%%%%
+	\If {$\eta_{\textrm{prev}} < \eta_{\textrm{current}}$}
+\Statex \tikzmk{A}
+		\If {$0 < \eta_{\textrm{prev}}$}
+			\State $\theta_{\textrm{work}}[\eta_{\textrm{prev}}] \gets \lambda$
+		\EndIf
+		\State $\lambda \gets 1$
+\tikzmk{B}
+\boxit{hlblue}
+	\ElsIf {$\eta_{\textrm{prev}} = \eta_{\textrm{current}}$}
+\Statex \tikzmk{A}
+		\If {$\eta_{\textrm{current}} = 0$}
+			\Statex \Comment {This condition corresponds to consecutive 0-values in array LCP.}
+%%%%%			\If {$\theta_{\textrm{master}}[1] < \lambda$}
+%%%%%				\State $\theta_{\textrm{master}}[1] \gets \lambda$
+%%%%%				\Statex \Comment {update 1-tuple count}
+%%%%%			\EndIf
+
+			\State $\lambda \gets 1$
+			\Statex \Comment {consecutive 0-values in array LCP mean different 1-tuple. }
+
+		\Else
+			\State $\lambda \gets \lambda + 1$
+		\EndIf
+\tikzmk{B}
+\boxit{Pomme!40}
+	\Else
+\Statex \tikzmk{A}
+		\State \textbf{AccumulateLambda}($\mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}, \lambda$)
+%%%%%		\State $\theta_{\textrm{work}}[\eta_{\textrm{prev}}] \gets \lambda$
+%%%%%
+%%%%%		\For{$\eta \gets (\eta_{\textrm{prev}} - 1) \Downto \textrm{\textbf{max}}(\eta_{\textrm{current}}, 1) $}
+%%%%%			\State $\theta_{\textrm{work}}[\eta] \gets \theta_{\textrm{work}}[\eta] + \theta_{\textrm{work}}[\eta + 1] $
+%%%%%			\Statex \Comment {sum up $\lambda$ and update the array $\theta$}
+%%%%%		\EndFor
+		
+		\State \textbf{UpdateLambda}($\lambda, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{current}}$)
+%%%%%		\If {$\eta_{\textrm{current}} = 0$}
+%%%%%			\State $\lambda \gets 1$
+%%%%%		\Else
+%%%%%			\State $\lambda \gets (\theta_{\textrm{work}}[\eta_{\textrm{current}}] + 1)$
+%%%%%		\EndIf
+%%%%%		\If {$\eta_{\textrm{current}} = 0$}
+%%%%%		\Else
+%%%%%			\State $\theta_{\textrm{work}}[\eta_{\textrm{current}}] \gets \theta_{\textrm{work}}[\eta_{\textrm{current}}] + \theta_{\textrm{work}}[\eta_{\textrm{current}} + 1] $
+%%%%%		\EndIf
+
+		\State \textbf{UpdateThetaMaster}($\mib{\theta}_{\textrm{master}}, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$)
+%%%%%		\For{$\eta \gets \eta_{\textrm{prev}} \Downto (\eta_{\textrm{current}} + 1)$}
+%%%%%			\If {$\theta_{\textrm{master}}[\eta] < \theta_{\textrm{work}}[\eta]$}
+%%%%%				\State $\theta_{\textrm{master}}[\eta] \gets \theta_{\textrm{work}}[\eta]$
+%%%%%				\Statex \Comment {update $\eta$-tuple count}
+%%%%%			\EndIf
+%%%%%		\EndFor
+
+		\State \textbf{ResetThetaWork}($\mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$)
+%%%%%		\For{$\eta \gets \eta_{\textrm{prev}} \Downto \textrm{\textbf{max}}(\eta_{\textrm{current}}, 1)$}
+%%%%%			\State $\theta_{\textrm{work}}[\eta] \gets 0$
+%%%%%			\Statex \Comment {reset to zero for future computation}
+%%%%%		\EndFor
+\Statex \tikzmk{B}
+\boxit{Heliotrope!40}
+	\EndIf
+
+	\State $\eta_{\textrm{prev}} \gets \eta_{\textrm{current}}$
+\EndFor
+%%%%%
+%%%%%
+%%%%%
+\State \textbf{AccumulateLambda}($\mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, 0, \lambda$)
+%%%%%
+%%%%%
+%%%%%
+\State \textbf{UpdateThetaMaster}($\mib{\theta}_{\textrm{master}}, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, 0$)
+%%%%%
+%%%%%
+%%%%%
+\State $t \gets \textrm{\textbf{max}} \left( \left\{ \eta \in \{1, \dots, \eta_{\textrm{max}}\} \mid \theta_{\textrm{master}}[\eta] \geq 34 \right\} \right)$
+\Statex \Comment {Find the largest $t$ such that the number of occurrences of the most common $t$-tuple in $\mib{S}$ is at least 35. This can be rewritten as shown above using $\mib{\theta}_{\textrm{master}}$.}
+%%%%%
+%%%%%
+%%%%%
+\State return \textbf{CalcQ}($\mib{\theta}_{\textrm{master}}, t$)
+%%%%%
+%%%%%
+%%%%%
+%%%%%\State return Q
+\end{algorithmic}
+\end{algorithm}
+%%%%%
+%%%%%
+%%%%%
+%\end{minipage}
+%%%%%
+%%%%%
+%%%%%
+%%%%%\end{shadebox}
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%
+%%%%%
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Additional implementation notes for LRS estimate using Longest Common Prefix}
+\begin{algorithm}
+%%%\setstretch{1.35}
+\setstretch{1.2}
+%%%%%
+%%%%%
+%%%%%
+%\begin{minipage}{\hsize}
+%%%%%
+%%%%%
+%%%%%
+%\begin{algorithm}
+\caption{Rewritten steps 1, 2 and 3 in Longest Repeated Substring (LRS) Estimate}\label{alg:LRSMain}
+%\label{alg:myalgo}
+\begin{algorithmic}[1]
+%%%%%
+%%%%%
+%%%%%
+\Require input dataset $\mib{S} = (s_{1}, \ldots, S_{L})$ where $s_{i} \in A = \{ x_{1}, \ldots, x_{k}\}$
+%Graph $\mathcal{G}$ ($\mathcal{V}$, $\mathcal{E}$); input features $\{x_v, \forall{v} \in \mathcal{V}\}$; depth $K$; weight matrices $W^k, \forall{\mathcal{\textit{k}}} \in \{1, ...,K\}$; non-linearity $\sigma$; differentiable aggregator functions AGGREGATE$_k$, $x_v, \forall{k} \in \{1, ...,K\}$; neighborhood function $\mathcal{N}: v \leftarrow 2^\mathcal{V}$
+                \Ensure string $status$, a real value $\hat{p}$
+%%%%%
+%%%%%
+%%%%%
+%\setcounter{ALG@line}{1}%
+\State Compute the Longest Common Prefix array $LCP[j] (j \in \{ 1, 2, \ldots, L \})$ from $\mib{S}$.
+\State $\displaystyle \eta_{\textrm{max}} \gets \textrm{\textbf{max}}_{j \in \{ 1, 2, \ldots, L \}} LCP[j]$
+\If {$\eta_{\textrm{max}} < 1$}
+	\State return (``$\nu$ not found'', NaN)
+	\Statex \Comment {$\nu$ cannot be found, therefore estimate cannot be computed.}
+\EndIf
+\State $\nu \gets \eta_{\textrm{max}}$
+\Statex \Comment {It is ensured that $\nu \ge 1$.}
+%\Statex \Comment {$\eta_{\textrm{max}}$ coincide with $\nu$ in Longest Repeated Substring (LRS) Estimate.}
+\For{$\eta \gets 1, \nu$}
+	\State $\theta_{\textrm{master}}[\eta] \gets 0$
+	\State $\theta_{\textrm{work}}[\eta] \gets 0$
+	\State $\sigma[\eta] \gets 0$
+%%%%%	\State $P[\eta] \gets 0$
+\EndFor
+
+%%%%%\State $\eta_{\textrm{prev}} \gets 0$
+%%%%%\State $\eta_{\textrm{current}} \gets 0$
+\State $\eta_{\textrm{prev}} \gets LCP[1]$
+\State $\lambda \gets 1$
+%%%%%
+%%%%%\State $\eta_{\textrm{max}} \gets LCP[1]$
+
+\For {$j \gets 2, L$}
+	\State $\eta_{\textrm{current}} \gets LCP[j]$
+%%%%%
+%%%%%
+%%%%%
+	\If {$\eta_{\textrm{prev}} < \eta_{\textrm{current}}$}
+%%%%%
+%%%%%
+%%%%%
+	\Statex \tikzmk{A}
+		\If {$0 < \eta_{\textrm{prev}}$}
+			\State $\theta_{\textrm{work}}[\eta_{\textrm{prev}}] \gets \lambda$
+		\EndIf
+		\State $\lambda \gets 1$
+	\tikzmk{B}
+	\boxit{hlblue}
+%%%%%
+%%%%%
+%%%%%
+	\ElsIf {$\eta_{\textrm{prev}} = \eta_{\textrm{current}}$}
+%%%%%
+%%%%%
+%%%%%
+	\Statex \tikzmk{A}
+		\If {$\eta_{\textrm{current}} = 0$}
+			\Statex \Comment {This condition corresponds to consecutive 0-values in array LCP.}
+%%%%%			\If {$\theta_{\textrm{master}}[1] < \lambda$}
+%%%%%				\State $\theta_{\textrm{master}}[1] \gets \lambda$
+%%%%%				\Statex \Comment {update 1-tuple count}
+%%%%%			\EndIf
+
+			\State $\lambda \gets 1$
+			\Statex \Comment {consecutive 0-values in array LCP mean different 1-tuple. }
+%%%%%
+%%%%%
+%%%%%
+%%%%%				\State $\sigma[1] \gets \sigma[1] + 1$
+%%%%%				\Statex \Comment {$C_{i} = 2$, }
+%%%%%
+%%%%%
+%%%%%
+		\Else
+			\State $\lambda \gets \lambda + 1$
+		\EndIf
+	\tikzmk{B}
+	\boxit{Pomme!40}
+%%%%%
+%%%%%
+%%%%%
+	\Else
+%%%%%
+%%%%%
+%%%%%
+	\Statex \tikzmk{A}
+		\State \textbf{AccumulateLambda}($\mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}, \lambda$)
+%%%%%
+%%%%%
+%%%%%
+		\State \textbf{UpdateNumerator}($\mib{\sigma}, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$)
+%%%%%
+%%%%%
+%%%%%
+		\State \textbf{UpdateLambda}($\lambda, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{current}}$)
+%%%%%
+%%%%%
+%%%%%
+		\State \textbf{UpdateThetaMaster}($\mib{\theta}_{\textrm{master}}, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$)
+%%%%%
+%%%%%
+%%%%%
+		\State \textbf{ResetThetaWork}($\mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$)
+%%%%%
+%%%%%
+%%%%%
+	\Statex \tikzmk{B}
+	\boxit{Heliotrope!40}
+	\EndIf
+
+	\State $\eta_{\textrm{prev}} \gets \eta_{\textrm{current}}$
+\EndFor
+%%%%%
+%%%%%
+%%%%%
+\State \textbf{AccumulateLambda}($\mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, 0, \lambda$)
+%%%%%
+%%%%%
+%%%%%
+\State \textbf{UpdateNumerator}($\mib{\sigma}, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, 0$)
+%%%%%
+%%%%%
+%%%%%
+\State \textbf{UpdateThetaMaster}($\mib{\theta}_{\textrm{master}}, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, 0$)
+%%%%%
+%%%%%
+%%%%%
+\State $u \gets \textrm{\textbf{min}} \left( \left\{ \eta \in \{1, \dots, \nu\} \mid \theta_{\textrm{master}}[\eta] < 34 \right\} \right)$
+\Statex \Comment {Find the smallest $u$ such that the number of occurrences of the most common $u$-tuple in $\mib{S}$ is less than 35. This can be rewritten as shown above using $\mib{\theta}_{\textrm{master}}$.}
+%%%%%
+%%%%%
+%%%%%
+\State $\hat{p} \gets $ \textbf{CalcPHat}($\mib{\sigma}, u, \nu$)
+%%%%%\State $\displaystyle \hat{p} \gets \textrm{\textbf{max}} \left( \left( P[u] \right)^{\frac{1}{u}}, \ldots, \left( P[\nu] \right)^{\frac{1}{\nu}} \right) $
+\Statex \Comment {Compute the estimated average collision probability per string symbol as $P_{\textrm{max},W} = \left( P_{W}\right)^{\frac{1}{W}}$.  Let $\hat{p} = \textrm{max}\left( P_{\textrm{max},u}, \ldots, P_{\textrm{max},\nu}\right)$.}
+\State return (``Success'', $\hat{p}$)
+%%%%%
+%%%%%
+%%%%%
+%%%%%\State return Q
+\end{algorithmic}
+\end{algorithm}
+%%%%%
+%%%%%
+%%%%%
+%\end{minipage}
+%%%%%
+%%%%%
+%%%%%
+%%%%%\end{shadebox}
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%
+%%%%%
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Auxiliary routines}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%
+%%%%% algorithms applicable for t-tuple estimate and LRS estimate
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{algorithm}
+  \caption{AccumulateLambda}\label{alg:Accum}
+  \begin{algorithmic}[1]
+    \Function{AccumulateLambda}{$\mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}, \lambda$}
+		\State $\theta_{\textrm{work}}[\eta_{\textrm{prev}}] \gets \lambda$
+
+		\For{$\eta \gets (\eta_{\textrm{prev}} - 1) \Downto \textrm{\textbf{max}}(\eta_{\textrm{current}}, 1) $}
+			\State $\theta_{\textrm{work}}[\eta] \gets \theta_{\textrm{work}}[\eta] + \theta_{\textrm{work}}[\eta + 1] $
+			\Statex \Comment {sum up $\lambda$ and update the array $\theta$}
+		\EndFor
+
+
+    \EndFunction
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{UpdateLambda}\label{alg:UpdateLambda}
+  \begin{algorithmic}[1]
+    \Function{UpdateLambda}{$\lambda, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{current}}$}
+		\If {$\eta_{\textrm{current}} = 0$}
+			\State $\lambda \gets 1$
+		\Else
+			\State $\lambda \gets (\theta_{\textrm{work}}[\eta_{\textrm{current}}] + 1)$
+		\EndIf
+    \EndFunction
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{UpdateThetaMaster}\label{alg:UpdateThetaMaster}
+  \begin{algorithmic}[1]
+    \Function{UpdateThetaMaster}{$\mib{\theta}_{\textrm{master}}, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$}
+		\For{$\eta \gets \eta_{\textrm{prev}} \Downto (\eta_{\textrm{current}} + 1)$}
+			\If {$\theta_{\textrm{master}}[\eta] < \theta_{\textrm{work}}[\eta]$}
+				\State $\theta_{\textrm{master}}[\eta] \gets \theta_{\textrm{work}}[\eta]$
+				\Statex \Comment {update $\eta$-tuple count}
+			\EndIf
+		\EndFor
+    \EndFunction
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{ResetThetaWork}\label{alg:ResetTheta}
+  \begin{algorithmic}[1]
+    \Function{ResetThetaWork}{$\mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$}
+		\For{$\eta \gets \eta_{\textrm{prev}} \Downto \textrm{\textbf{max}}(\eta_{\textrm{current}}, 1)$}
+			\State $\theta_{\textrm{work}}[\eta] \gets 0$
+			\Statex \Comment {reset to zero for future computation}
+		\EndFor
+    \EndFunction
+  \end{algorithmic}
+\end{algorithm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%
+%%%%% algorithm applicable only for t-tuple estimate
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{algorithm}
+  \caption{CalcQ}\label{alg:CalcQ}
+  \begin{algorithmic}[1]
+    \Function{CalcQ}{$\mib{\theta}_{\textrm{master}}, t$}
+%%%%%		\For{$\eta \gets 1, (t + 1)$}
+%%%%%			\State $Q[\eta] \gets 0$
+%%%%%		\EndFor
+		\For{$\eta \gets 1, t$}
+			\State $Q[\eta] \gets \theta_{\textrm{master}}[\eta] + 1$
+		\EndFor
+
+		\State return $\mib{Q} = ( Q[1], \ldots, Q[t])$
+    \EndFunction
+  \end{algorithmic}
+\end{algorithm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%
+%%%%% algorithm applicable only for LRS estimate
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{algorithm}
+  \caption{UpdateNumerator}\label{alg:UpdateNumerator}
+  \begin{algorithmic}[1]
+    \Function{UpdateNumerator}{$\mib{\sigma}, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$}
+		\For{$\eta \gets \eta_{\textrm{prev}} \Downto (\eta_{\textrm{current}} + 1) $}
+			\Statex \Comment {Here, $\theta_{\textrm{work}}[\eta_{\textrm{current}}]$ is subject to change, therefore, updating $\sigma[\eta]$ where $\eta > \eta_{\textrm{current}}$ makes sense.}
+			\If {$\theta_{\textrm{work}}[\eta] + 1 \ge 2$}
+				\State $\displaystyle \sigma[\eta] \gets \sigma[\eta] + \binom{\theta_{\textrm{work}}[\eta] + 1}{2}$
+			\EndIf
+		\EndFor
+
+    \EndFunction
+  \end{algorithmic}
+\end{algorithm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%
+%%%%% algorithm applicable only for LRS estimate
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{algorithm}
+  \caption{CalcPHat}\label{alg:CalcPHat}
+  \begin{algorithmic}[1]
+    \Function{CalcPHat}{$\mib{\sigma}, u, \nu$}
+%%%%%		\For{$\eta \gets 1, (t + 1)$}
+%%%%%			\State $Q[\eta] \gets 0$
+%%%%%		\EndFor
+		\For{$W \gets u, \nu$}
+			\State $\displaystyle P[W] \gets \frac{ \sigma[W] }{ \binom{L - W + 1}{2} }$
+		\EndFor
+		\State $\displaystyle \hat{p} \gets \textrm{\textbf{max}} \left( \left( P[u] \right)^{\frac{1}{u}}, \ldots, \left( P[\nu] \right)^{\frac{1}{\nu}} \right) $
+		\State return $\hat{p}$
+%%%%%		\State return $\mib{P} = ( P[u], \ldots, P[\nu] ) $
+    \EndFunction
+  \end{algorithmic}
+\end{algorithm}
+
+
+\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%
 %%%%% Bibliography
 %%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\setcounter{section}{2}
+\setcounter{section}{3}
 \begin{thebibliography}{99}
 \addcontentsline{toc}{section}{References}
 % 1
@@ -835,6 +1396,15 @@ National Institute of Standards and Technology, 2010
 \bibitem{CorrectionsSP80090B}
 G. Sakurai, \textit{Proposed list of corrections for NIST SP 800-90B 6.3 Estimators}, Dec. 2022
 \url{https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ProposedListOfCorrections_SP800-90B.pdf}
+% 7
+\bibitem{MIT}
+\textit{INTRODUCTION TO ALGORITHMS (4th Edition)}, The MIT Press.
+% 8
+\bibitem{Josh}
+Joshua E. Hill, \textit{Algorithms for t-tuple and LRS Estimates}, June 11, 2018
+% 9
+\bibitem{Kaufer}
+Aaron Kaufer, \textit{Further Improvements for SP 800-90B Tuple Counts}, April 10, 2019
 \end{thebibliography}
 
 \end{document}

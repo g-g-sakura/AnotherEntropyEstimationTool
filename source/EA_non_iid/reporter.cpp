@@ -1592,6 +1592,9 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     o_refLaTeXSupportingInfo << L"\\hline" << L"\n";
     o_refLaTeXSupportingInfo << L"Bits per sample & " << io_refDataOriginal.bits_per_sample << L" \\\\" << L"\n";
     o_refLaTeXSupportingInfo << L"\\hline" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // MSb or LSb
+    // -------------------------------------------------------------------------- //
     if (1 < io_refDataOriginal.bits_per_sample)
     {
         o_refLaTeXSupportingInfo << L"Byte to bit conversion & " << L"\n";
@@ -1606,6 +1609,24 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
         o_refLaTeXSupportingInfo << L" \\\\" << L"\n";
         o_refLaTeXSupportingInfo << L"\\hline" << L"\n";
     }
+    // -------------------------------------------------------------------------- //
+    // using LCP applied or not
+    // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"Use Longest Common Prefix for 6.3.5 and 6.3.6 & ";
+    if (io_refDataOriginal.isUsingLcpRequested)
+    {
+        o_refLaTeXSupportingInfo << "True";
+    }
+    else
+    {
+        o_refLaTeXSupportingInfo << "False";
+    }
+    o_refLaTeXSupportingInfo << L" \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\hline" << L"\n";
+
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
     o_refLaTeXSupportingInfo << L"\\end{tabular}" << L"\n";
     o_refLaTeXSupportingInfo << L"\\end{center}" << L"\n";
     o_refLaTeXSupportingInfo << L"\\end{table}" << L"\n";
