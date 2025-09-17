@@ -100,7 +100,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_87_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_88_0;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -110,17 +110,17 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_87_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_88_0;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_87_0;$(ExternalIncludePath)</ExternalIncludePath>
-    <IncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_87_0;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_88_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <IncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_88_0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Intel|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_87_0;$(ExternalIncludePath)</ExternalIncludePath>
-    <IncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_87_0;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_88_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <IncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_88_0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -128,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -145,7 +145,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -164,7 +164,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -181,7 +181,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -203,7 +203,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -223,7 +223,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FloatingPointExpressionEvaluation>Extended</FloatingPointExpressionEvaluation>
@@ -254,7 +254,6 @@
     <ClInclude Include="constants.h" />
     <ClInclude Include="EntropyEstimateData.h" />
     <ClInclude Include="math\Equations.h" />
-    <ClInclude Include="framework.h" />
     <ClInclude Include="SupportingInfo.h" />
     <ClInclude Include="support\checkArgs.h" />
     <ClInclude Include="support\conversion.h" />
@@ -267,7 +266,6 @@
     <ClInclude Include="support\significantDigits.h" />
     <ClInclude Include="support\TupleHistogram.h" />
     <ClInclude Include="support\WindowedHistogram.h" />
-    <ClInclude Include="pch.h" />
     <ClInclude Include="math\SpecialFunctions.h" />
   </ItemGroup>
   <ItemGroup>
@@ -291,14 +289,6 @@
     <ClCompile Include="support\significantDigits.cpp" />
     <ClCompile Include="support\TupleHistogram.cpp" />
     <ClCompile Include="support\WindowedHistogram.cpp" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_Intel|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_Intel|x64'">Create</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="math\SpecialFunctions.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

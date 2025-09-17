@@ -1258,7 +1258,10 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingCompilerInfo(std::wstringstream&
     o_refLaTeXSupportingInfo << L"\\, & built by & ";
     {
 #if defined(_MSC_VER) && !defined(__INTEL_LLVM_COMPILER) && !defined(__INTEL_COMPILER)
-#if _MSC_VER >= 1943
+#if _MSC_VER >= 1944
+        o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.14";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1943
         o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.13";
         o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
 #elif _MSC_VER >= 1942

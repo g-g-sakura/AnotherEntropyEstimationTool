@@ -100,8 +100,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <ExternalIncludePath>D:\usr\boost_1_87_0;$(ExternalIncludePath)</ExternalIncludePath>
-    <LibraryPath>D:\usr\boost_1_87_0\stage\lib;$(LibraryPath)</LibraryPath>
+    <ExternalIncludePath>D:\usr\boost_1_88_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <LibraryPath>D:\usr\boost_1_88_0\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -111,20 +111,20 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_87_0;$(ExternalIncludePath)</ExternalIncludePath>
-    <LibraryPath>D:\usr\boost_1_87_0\stage\lib;$(LibraryPath)</LibraryPath>
+    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_88_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <LibraryPath>D:\usr\boost_1_88_0\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(IncludePath)</IncludePath>
-    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_87_0;$(ExternalIncludePath)</ExternalIncludePath>
-    <LibraryPath>D:\usr\boost_1_87_0\stage\lib;$(LibraryPath)</LibraryPath>
+    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_88_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <LibraryPath>D:\usr\boost_1_88_0\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Intel|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(IncludePath)</IncludePath>
-    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_87_0;$(ExternalIncludePath)</ExternalIncludePath>
-    <LibraryPath>D:\usr\boost_1_87_0\stage\lib;$(LibraryPath)</LibraryPath>
+    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_88_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <LibraryPath>D:\usr\boost_1_88_0\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -136,7 +136,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\usr\boost_1_87_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\usr\boost_1_88_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
