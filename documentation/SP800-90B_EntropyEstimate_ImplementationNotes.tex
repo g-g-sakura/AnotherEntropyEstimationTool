@@ -82,6 +82,8 @@
 
 \setcounter{tocdepth}{4}
 
+
+\setlength{\textheight}{39cm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%
 %%%%%%
@@ -858,16 +860,22 @@ We attempt to reduce time-complexity by preparing histograms of certain lengths 
 %%%%%
 %%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{An issue of naive implementation for t-Tuple estimate and LRS estimate, and its improvement measures}
+\subsection{An issue of naive implementation for t-Tuple estimate and LRS estimate}
 The naive implementation of t-Tuple estimate and LRS estimate consumes huge memory $\approx$ few giga-bytes, to store unique t-Tuple. 
-Here, it is stated that Longest Common Prefix can be used for t-Tuple and LRS estimates, and naive algorithm is provided\cite{Josh}.
+Here, it is stated that Longest Common Prefix can be used for t-Tuple and LRS estimates, and naive algorithm is provided\cite{JoshaHill}.
 Note here that \cite{MIT} provides good introduction for Longest Common Prefix and its calculating algorithm.
 Next optimized algorithms are provided to perform t-Tuple and LRS estimates\cite{Kaufer}.
 However, it is unclear about how to derive the whole algorithms, except for ``Count Aggregation'' (hereafter denoted as ``cascading algorithm'').
 
-So let us consider a more intuitive algorithm to perform t-Tuple and LRS estimates.
+So let us consider a more intuitive algorithm to perform t-Tuple and LRS estimates in the following subsection.
 
-Provided that Longest Common Prefix array $(LCP[1], \ldots, LCP[L]) $has been calculated from input $\mib{S}$, 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%
+%%%%%
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Derivation of more intuitive algorithms for t-Tuple estimate and LRS estimate}
+Provided that Longest Common Prefix array $(LCP[1], \ldots, LCP[L])$ has been calculated from input $\mib{S}$, 
 $LCP[j]$ changes with respect to index $j$, so let us consider the following three cases: 
 \begin{enumerate}[a)]
 	\item $LCP[j - 1] < LCP[j] \qquad (j \in [2, L])$,
@@ -876,26 +884,28 @@ $LCP[j]$ changes with respect to index $j$, so let us consider the following thr
 \end{enumerate}
 
 We may call case a) as ``climb up'' case, case b) as ``traverse'' case, and case c) as ``climb down'' case.
-For brevity, let us use $\eta_{j}$ or simply $\eta$ to denote $LCP[j]$.
 
-For case a), the run length of LCP value at index $j$ is 1. Let us use $\lambda_{\eta_{j}}$ (or simply $\lambda$) to denote the run length.
-Note that the part of algorithm is highlighted in light blue in \ref{alg:TupleCountMain}
+For brevity, let us use $\eta_{j}$ to denote $LCP[j]$,  or simply $\eta$ by omitting index $j$.
+Let us consider a run length of LCP array at index $j$, and denote $\lambda_{\eta_{j}}$ as the run length.
 
-For case b), the run length of LCP value at index $j$ is incremented by 1.
-Note that the part of algorithm is highlighted in light green in \ref{alg:TupleCountMain}
+Normally several minimum and maximum points can be found in LCP array, 
+so let us consider the range from one local minimum to the next as a single ``peak'', and introduce an array $\tilde{q}_{\textrm{work}}[\eta]$ representing run length value with respect to the ``height'' $\eta$ (which is equal to a value in LCP array) in currently climbing peak.
+Considering that normally there are multiple peaks in LCP array, let us introduce an array $\tilde{q}_{\textrm{master}}[\eta]$ storing the maximum run length for each $\eta$ appeared in the LCP array.
 
-For case c), the run lengths of LCP values for $(LCP[j] + 1, \ldots, LCP[j - 1])$ can be determined, which is expressed by ``cascading algorithm''.
-Note that the part of algorithm is highlighted in pale purple in \ref{alg:TupleCountMain}
+For case a), let us store the previous run length value $\lambda_{\eta_{j-1}}$ to $\tilde{q}_{\textrm{work}}[\eta_{j - 1}]$, and assign new run length value $\lambda_{\eta_{j}}$ as 1.
+Note that the part of algorithm is highlighted in \colorbox{hlblue!25}{light blue} in Algorithms \ref{alg:TupleCountMain} and \ref{alg:LRSMain}.
 
-Normally several minimam and maximam points can be found in LCP array, 
-so let us consider the range from one local minimum to the next as a single ``peak'', and introduce an array $\theta_{\textrm{work}}[\eta]$ representing the height $\eta$ (which is equal to a value of LCP array) and run length for each peak.
-Considering that there are multiple peaks in LCP array, let us introduce an array $\theta_{\textrm{master}}[\eta]$ storing the maximum run length for each $\eta$ appeared in the LCP array.
+For case b), let us increment $\lambda_{\eta_{j}}$ by 1.
+Note that the part of algorithm is highlighted in  \colorbox{Pomme!10}{light green} in Algorithms \ref{alg:TupleCountMain} and \ref{alg:LRSMain}.
 
-For each case c) or ``climb down'' case, update $\theta_{\textrm{master}}$ to store longer run lengths, and also run lengths for higher $\eta$ values, by comparing $\theta_{\textrm{work}}$ and $\theta_{\textrm{master}}$.
+For case c), the run lengths of LCP values for $(LCP[j] + 1, \ldots, LCP[j - 1])$ can be determined by Algorithm \ref{alg:Accum}, which is ``cascading algorithm''.
+Note that the part of algorithm is highlighted in  \colorbox{Heliotrope!10}{pale purple} in Algorithms \ref{alg:TupleCountMain} and \ref{alg:LRSMain}.
 
-Finally the required array $Q[i]$ where $i \in (1, \ldots, t)$ can be calculated by the following relation:
+For case c) or ``climb down'' case, update $\tilde{q}_{\textrm{master}}$ to store longer run lengths, and also run lengths for higher $\eta$ values, by comparing $\tilde{q}_{\textrm{work}}$ and $\tilde{q}_{\textrm{master}}$.
+
+Finally the required array $Q[i]$ where $i \in [1, t]$ can be calculated by the following relation:
 \begin{align}
-Q[i] = \theta_{\textrm{master}}[i] + 1.
+Q[i] = \tilde{q}_{\textrm{master}}[i] + 1.
 \end{align}
 
 \clearpage
@@ -935,8 +945,8 @@ Q[i] = \theta_{\textrm{master}}[i] + 1.
 \State $\displaystyle \eta_{\textrm{max}} \gets \textrm{\textbf{max}}_{j \in \{ 1, 2, \ldots, L \}} LCP[j]$
 \Statex \Comment {$\eta_{\textrm{max}}$ coincide with $\nu$ in Longest Repeated Substring (LRS) Estimate.}
 \For{$\eta \gets 1, \textrm{\textbf{max}}(\eta_{\textrm{max}}, 1)$}
-	\State $\theta_{\textrm{master}}[\eta] \gets 0$
-	\State $\theta_{\textrm{work}}[\eta] \gets 0$
+	\State $\tilde{q}_{\textrm{master}}[\eta] \gets 0$
+	\State $\tilde{q}_{\textrm{work}}[\eta] \gets 0$
 \EndFor
 
 %%%%%\State $\eta_{\textrm{prev}} \gets 0$
@@ -960,7 +970,7 @@ Q[i] = \theta_{\textrm{master}}[i] + 1.
 	\If {$\eta_{\textrm{prev}} < \eta_{\textrm{current}}$}
 \Statex \tikzmk{A}
 		\If {$0 < \eta_{\textrm{prev}}$}
-			\State $\theta_{\textrm{work}}[\eta_{\textrm{prev}}] \gets \lambda$
+			\State $\tilde{q}_{\textrm{work}}[\eta_{\textrm{prev}}] \gets \lambda$
 		\EndIf
 		\State $\lambda \gets 1$
 \tikzmk{B}
@@ -969,8 +979,8 @@ Q[i] = \theta_{\textrm{master}}[i] + 1.
 \Statex \tikzmk{A}
 		\If {$\eta_{\textrm{current}} = 0$}
 			\Statex \Comment {This condition corresponds to consecutive 0-values in array LCP.}
-%%%%%			\If {$\theta_{\textrm{master}}[1] < \lambda$}
-%%%%%				\State $\theta_{\textrm{master}}[1] \gets \lambda$
+%%%%%			\If {$\tilde{q}_{\textrm{master}}[1] < \lambda$}
+%%%%%				\State $\tilde{q}_{\textrm{master}}[1] \gets \lambda$
 %%%%%				\Statex \Comment {update 1-tuple count}
 %%%%%			\EndIf
 
@@ -984,36 +994,36 @@ Q[i] = \theta_{\textrm{master}}[i] + 1.
 \boxit{Pomme!40}
 	\Else
 \Statex \tikzmk{A}
-		\State \textbf{AccumulateLambda}($\mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}, \lambda$)
-%%%%%		\State $\theta_{\textrm{work}}[\eta_{\textrm{prev}}] \gets \lambda$
+		\State \textbf{AccumulateLambda}($\mib{\tilde{q}}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}, \lambda$)
+%%%%%		\State $\tilde{q}_{\textrm{work}}[\eta_{\textrm{prev}}] \gets \lambda$
 %%%%%
 %%%%%		\For{$\eta \gets (\eta_{\textrm{prev}} - 1) \Downto \textrm{\textbf{max}}(\eta_{\textrm{current}}, 1) $}
-%%%%%			\State $\theta_{\textrm{work}}[\eta] \gets \theta_{\textrm{work}}[\eta] + \theta_{\textrm{work}}[\eta + 1] $
-%%%%%			\Statex \Comment {sum up $\lambda$ and update the array $\theta$}
+%%%%%			\State $\tilde{q}_{\textrm{work}}[\eta] \gets \tilde{q}_{\textrm{work}}[\eta] + \tilde{q}_{\textrm{work}}[\eta + 1] $
+%%%%%			\Statex \Comment {sum up $\lambda$ and update the array $\tilde{q}$}
 %%%%%		\EndFor
 		
-		\State \textbf{UpdateLambda}($\lambda, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{current}}$)
+		\State \textbf{UpdateLambda}($\lambda, \mib{\tilde{q}}_{\textrm{work}}, \eta_{\textrm{current}}$)
 %%%%%		\If {$\eta_{\textrm{current}} = 0$}
 %%%%%			\State $\lambda \gets 1$
 %%%%%		\Else
-%%%%%			\State $\lambda \gets (\theta_{\textrm{work}}[\eta_{\textrm{current}}] + 1)$
+%%%%%			\State $\lambda \gets (\tilde{q}_{\textrm{work}}[\eta_{\textrm{current}}] + 1)$
 %%%%%		\EndIf
 %%%%%		\If {$\eta_{\textrm{current}} = 0$}
 %%%%%		\Else
-%%%%%			\State $\theta_{\textrm{work}}[\eta_{\textrm{current}}] \gets \theta_{\textrm{work}}[\eta_{\textrm{current}}] + \theta_{\textrm{work}}[\eta_{\textrm{current}} + 1] $
+%%%%%			\State $\tilde{q}_{\textrm{work}}[\eta_{\textrm{current}}] \gets \tilde{q}_{\textrm{work}}[\eta_{\textrm{current}}] + \tilde{q}_{\textrm{work}}[\eta_{\textrm{current}} + 1] $
 %%%%%		\EndIf
 
-		\State \textbf{UpdateThetaMaster}($\mib{\theta}_{\textrm{master}}, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$)
+		\State \textbf{UpdateQTildeMaster}($\mib{\tilde{q}}_{\textrm{master}}, \mib{\tilde{q}}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$)
 %%%%%		\For{$\eta \gets \eta_{\textrm{prev}} \Downto (\eta_{\textrm{current}} + 1)$}
-%%%%%			\If {$\theta_{\textrm{master}}[\eta] < \theta_{\textrm{work}}[\eta]$}
-%%%%%				\State $\theta_{\textrm{master}}[\eta] \gets \theta_{\textrm{work}}[\eta]$
+%%%%%			\If {$\tilde{q}_{\textrm{master}}[\eta] < \tilde{q}_{\textrm{work}}[\eta]$}
+%%%%%				\State $\tilde{q}_{\textrm{master}}[\eta] \gets \tilde{q}_{\textrm{work}}[\eta]$
 %%%%%				\Statex \Comment {update $\eta$-tuple count}
 %%%%%			\EndIf
 %%%%%		\EndFor
 
-		\State \textbf{ResetThetaWork}($\mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$)
+		\State \textbf{ResetQTildeWork}($\mib{\tilde{q}}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$)
 %%%%%		\For{$\eta \gets \eta_{\textrm{prev}} \Downto \textrm{\textbf{max}}(\eta_{\textrm{current}}, 1)$}
-%%%%%			\State $\theta_{\textrm{work}}[\eta] \gets 0$
+%%%%%			\State $\tilde{q}_{\textrm{work}}[\eta] \gets 0$
 %%%%%			\Statex \Comment {reset to zero for future computation}
 %%%%%		\EndFor
 \Statex \tikzmk{B}
@@ -1025,20 +1035,29 @@ Q[i] = \theta_{\textrm{master}}[i] + 1.
 %%%%%
 %%%%%
 %%%%%
-\State \textbf{AccumulateLambda}($\mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, 0, \lambda$)
+\Statex \tikzmk{A}
 %%%%%
 %%%%%
 %%%%%
-\State \textbf{UpdateThetaMaster}($\mib{\theta}_{\textrm{master}}, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, 0$)
+\State \textbf{AccumulateLambda}($\mib{\tilde{q}}_{\textrm{work}}, \eta_{\textrm{prev}}, 0, \lambda$)
 %%%%%
 %%%%%
 %%%%%
-\State $t \gets \textrm{\textbf{max}} \left( \left\{ \eta \in \{1, \dots, \eta_{\textrm{max}}\} \mid \theta_{\textrm{master}}[\eta] \geq 34 \right\} \right)$
-\Statex \Comment {Find the largest $t$ such that the number of occurrences of the most common $t$-tuple in $\mib{S}$ is at least 35. This can be rewritten as shown above using $\mib{\theta}_{\textrm{master}}$.}
+\State \textbf{UpdateQTildeMaster}($\mib{\tilde{q}}_{\textrm{master}}, \mib{\tilde{q}}_{\textrm{work}}, \eta_{\textrm{prev}}, 0$)
 %%%%%
 %%%%%
 %%%%%
-\State return \textbf{CalcQ}($\mib{\theta}_{\textrm{master}}, t$)
+\tikzmk{B}
+\boxit{Heliotrope!40}
+%%%%%
+%%%%%
+%%%%%
+\State $t \gets \textrm{\textbf{max}} \left( \left\{ \eta \in \{1, \dots, \eta_{\textrm{max}}\} \mid \tilde{q}_{\textrm{master}}[\eta] \geq 34 \right\} \right)$
+\Statex \Comment {Find the largest $t$ such that the number of occurrences of the most common $t$-tuple in $\mib{S}$ is at least 35. This can be rewritten as shown above using $\mib{\tilde{q}}_{\textrm{master}}$.}
+%%%%%
+%%%%%
+%%%%%
+\State return \textbf{CalcQ}($\mib{\tilde{q}}_{\textrm{master}}, t$)
 %%%%%
 %%%%%
 %%%%%
@@ -1095,8 +1114,8 @@ Q[i] = \theta_{\textrm{master}}[i] + 1.
 \Statex \Comment {It is ensured that $\nu \ge 1$.}
 %\Statex \Comment {$\eta_{\textrm{max}}$ coincide with $\nu$ in Longest Repeated Substring (LRS) Estimate.}
 \For{$\eta \gets 1, \nu$}
-	\State $\theta_{\textrm{master}}[\eta] \gets 0$
-	\State $\theta_{\textrm{work}}[\eta] \gets 0$
+	\State $\tilde{q}_{\textrm{master}}[\eta] \gets 0$
+	\State $\tilde{q}_{\textrm{work}}[\eta] \gets 0$
 	\State $\sigma[\eta] \gets 0$
 %%%%%	\State $P[\eta] \gets 0$
 \EndFor
@@ -1119,7 +1138,7 @@ Q[i] = \theta_{\textrm{master}}[i] + 1.
 %%%%%
 	\Statex \tikzmk{A}
 		\If {$0 < \eta_{\textrm{prev}}$}
-			\State $\theta_{\textrm{work}}[\eta_{\textrm{prev}}] \gets \lambda$
+			\State $\tilde{q}_{\textrm{work}}[\eta_{\textrm{prev}}] \gets \lambda$
 		\EndIf
 		\State $\lambda \gets 1$
 	\tikzmk{B}
@@ -1134,8 +1153,8 @@ Q[i] = \theta_{\textrm{master}}[i] + 1.
 	\Statex \tikzmk{A}
 		\If {$\eta_{\textrm{current}} = 0$}
 			\Statex \Comment {This condition corresponds to consecutive 0-values in array LCP.}
-%%%%%			\If {$\theta_{\textrm{master}}[1] < \lambda$}
-%%%%%				\State $\theta_{\textrm{master}}[1] \gets \lambda$
+%%%%%			\If {$\tilde{q}_{\textrm{master}}[1] < \lambda$}
+%%%%%				\State $\tilde{q}_{\textrm{master}}[1] \gets \lambda$
 %%%%%				\Statex \Comment {update 1-tuple count}
 %%%%%			\EndIf
 
@@ -1162,23 +1181,23 @@ Q[i] = \theta_{\textrm{master}}[i] + 1.
 %%%%%
 %%%%%
 	\Statex \tikzmk{A}
-		\State \textbf{AccumulateLambda}($\mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}, \lambda$)
+		\State \textbf{AccumulateLambda}($\mib{\tilde{q}}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}, \lambda$)
 %%%%%
 %%%%%
 %%%%%
-		\State \textbf{UpdateNumerator}($\mib{\sigma}, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$)
+		\State \textbf{UpdateNumerator}($\mib{\sigma}, \mib{\tilde{q}}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$)
 %%%%%
 %%%%%
 %%%%%
-		\State \textbf{UpdateLambda}($\lambda, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{current}}$)
+		\State \textbf{UpdateLambda}($\lambda, \mib{\tilde{q}}_{\textrm{work}}, \eta_{\textrm{current}}$)
 %%%%%
 %%%%%
 %%%%%
-		\State \textbf{UpdateThetaMaster}($\mib{\theta}_{\textrm{master}}, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$)
+		\State \textbf{UpdateQTildeMaster}($\mib{\tilde{q}}_{\textrm{master}}, \mib{\tilde{q}}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$)
 %%%%%
 %%%%%
 %%%%%
-		\State \textbf{ResetThetaWork}($\mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$)
+		\State \textbf{ResetQTildeWork}($\mib{\tilde{q}}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$)
 %%%%%
 %%%%%
 %%%%%
@@ -1191,20 +1210,29 @@ Q[i] = \theta_{\textrm{master}}[i] + 1.
 %%%%%
 %%%%%
 %%%%%
-\State \textbf{AccumulateLambda}($\mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, 0, \lambda$)
+\Statex \tikzmk{A}
 %%%%%
 %%%%%
 %%%%%
-\State \textbf{UpdateNumerator}($\mib{\sigma}, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, 0$)
+\State \textbf{AccumulateLambda}($\mib{\tilde{q}}_{\textrm{work}}, \eta_{\textrm{prev}}, 0, \lambda$)
 %%%%%
 %%%%%
 %%%%%
-\State \textbf{UpdateThetaMaster}($\mib{\theta}_{\textrm{master}}, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, 0$)
+\State \textbf{UpdateNumerator}($\mib{\sigma}, \mib{\tilde{q}}_{\textrm{work}}, \eta_{\textrm{prev}}, 0$)
 %%%%%
 %%%%%
 %%%%%
-\State $u \gets \textrm{\textbf{min}} \left( \left\{ \eta \in \{1, \dots, \nu\} \mid \theta_{\textrm{master}}[\eta] < 34 \right\} \right)$
-\Statex \Comment {Find the smallest $u$ such that the number of occurrences of the most common $u$-tuple in $\mib{S}$ is less than 35. This can be rewritten as shown above using $\mib{\theta}_{\textrm{master}}$.}
+\State \textbf{UpdateQTildeMaster}($\mib{\tilde{q}}_{\textrm{master}}, \mib{\tilde{q}}_{\textrm{work}}, \eta_{\textrm{prev}}, 0$)
+%%%%%
+%%%%%
+%%%%%
+\tikzmk{B}
+\boxit{Heliotrope!40}
+%%%%%
+%%%%%
+%%%%%
+\State $u \gets \textrm{\textbf{min}} \left( \left\{ \eta \in \{1, \dots, \nu\} \mid \tilde{q}_{\textrm{master}}[\eta] < 34 \right\} \right)$
+\Statex \Comment {Find the smallest $u$ such that the number of occurrences of the most common $u$-tuple in $\mib{S}$ is less than 35. This can be rewritten as shown above using $\mib{\tilde{q}}_{\textrm{master}}$.}
 %%%%%
 %%%%%
 %%%%%
@@ -1242,55 +1270,55 @@ Q[i] = \theta_{\textrm{master}}[i] + 1.
 \begin{algorithm}
   \caption{AccumulateLambda}\label{alg:Accum}
   \begin{algorithmic}[1]
-    \Function{AccumulateLambda}{$\mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}, \lambda$}
-		\State $\theta_{\textrm{work}}[\eta_{\textrm{prev}}] \gets \lambda$
+    \Procedure{AccumulateLambda}{$\mib{\tilde{q}}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}, \lambda$}
+		\State $\tilde{q}_{\textrm{work}}[\eta_{\textrm{prev}}] \gets \lambda$
 
 		\For{$\eta \gets (\eta_{\textrm{prev}} - 1) \Downto \textrm{\textbf{max}}(\eta_{\textrm{current}}, 1) $}
-			\State $\theta_{\textrm{work}}[\eta] \gets \theta_{\textrm{work}}[\eta] + \theta_{\textrm{work}}[\eta + 1] $
-			\Statex \Comment {sum up $\lambda$ and update the array $\theta$}
+			\State $\tilde{q}_{\textrm{work}}[\eta] \gets \tilde{q}_{\textrm{work}}[\eta] + \tilde{q}_{\textrm{work}}[\eta + 1] $
+			\Statex \Comment {sum up $\lambda$ and update the array $\tilde{q}$}
 		\EndFor
 
 
-    \EndFunction
+    \EndProcedure
   \end{algorithmic}
 \end{algorithm}
 
 \begin{algorithm}
   \caption{UpdateLambda}\label{alg:UpdateLambda}
   \begin{algorithmic}[1]
-    \Function{UpdateLambda}{$\lambda, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{current}}$}
+    \Procedure{UpdateLambda}{$\lambda, \mib{\tilde{q}}_{\textrm{work}}, \eta_{\textrm{current}}$}
 		\If {$\eta_{\textrm{current}} = 0$}
 			\State $\lambda \gets 1$
 		\Else
-			\State $\lambda \gets (\theta_{\textrm{work}}[\eta_{\textrm{current}}] + 1)$
+			\State $\lambda \gets (\tilde{q}_{\textrm{work}}[\eta_{\textrm{current}}] + 1)$
 		\EndIf
-    \EndFunction
+    \EndProcedure
   \end{algorithmic}
 \end{algorithm}
 
 \begin{algorithm}
-  \caption{UpdateThetaMaster}\label{alg:UpdateThetaMaster}
+  \caption{UpdateQTildeMaster}\label{alg:UpdateQTildeMaster}
   \begin{algorithmic}[1]
-    \Function{UpdateThetaMaster}{$\mib{\theta}_{\textrm{master}}, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$}
+    \Procedure{UpdateQTildeMaster}{$\mib{\tilde{q}}_{\textrm{master}}, \mib{\tilde{q}}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$}
 		\For{$\eta \gets \eta_{\textrm{prev}} \Downto (\eta_{\textrm{current}} + 1)$}
-			\If {$\theta_{\textrm{master}}[\eta] < \theta_{\textrm{work}}[\eta]$}
-				\State $\theta_{\textrm{master}}[\eta] \gets \theta_{\textrm{work}}[\eta]$
+			\If {$\tilde{q}_{\textrm{master}}[\eta] < \tilde{q}_{\textrm{work}}[\eta]$}
+				\State $\tilde{q}_{\textrm{master}}[\eta] \gets \tilde{q}_{\textrm{work}}[\eta]$
 				\Statex \Comment {update $\eta$-tuple count}
 			\EndIf
 		\EndFor
-    \EndFunction
+    \EndProcedure
   \end{algorithmic}
 \end{algorithm}
 
 \begin{algorithm}
-  \caption{ResetThetaWork}\label{alg:ResetTheta}
+  \caption{ResetQTildeWork}\label{alg:ResetTheta}
   \begin{algorithmic}[1]
-    \Function{ResetThetaWork}{$\mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$}
+    \Procedure{ResetQTildeWork}{$\mib{\tilde{q}}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$}
 		\For{$\eta \gets \eta_{\textrm{prev}} \Downto \textrm{\textbf{max}}(\eta_{\textrm{current}}, 1)$}
-			\State $\theta_{\textrm{work}}[\eta] \gets 0$
+			\State $\tilde{q}_{\textrm{work}}[\eta] \gets 0$
 			\Statex \Comment {reset to zero for future computation}
 		\EndFor
-    \EndFunction
+    \EndProcedure
   \end{algorithmic}
 \end{algorithm}
 
@@ -1302,12 +1330,12 @@ Q[i] = \theta_{\textrm{master}}[i] + 1.
 \begin{algorithm}
   \caption{CalcQ}\label{alg:CalcQ}
   \begin{algorithmic}[1]
-    \Function{CalcQ}{$\mib{\theta}_{\textrm{master}}, t$}
+    \Function{CalcQ}{$\mib{\tilde{q}}_{\textrm{master}}, t$}
 %%%%%		\For{$\eta \gets 1, (t + 1)$}
 %%%%%			\State $Q[\eta] \gets 0$
 %%%%%		\EndFor
 		\For{$\eta \gets 1, t$}
-			\State $Q[\eta] \gets \theta_{\textrm{master}}[\eta] + 1$
+			\State $Q[\eta] \gets \tilde{q}_{\textrm{master}}[\eta] + 1$
 		\EndFor
 
 		\State return $\mib{Q} = ( Q[1], \ldots, Q[t])$
@@ -1323,15 +1351,15 @@ Q[i] = \theta_{\textrm{master}}[i] + 1.
 \begin{algorithm}
   \caption{UpdateNumerator}\label{alg:UpdateNumerator}
   \begin{algorithmic}[1]
-    \Function{UpdateNumerator}{$\mib{\sigma}, \mib{\theta}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$}
+    \Procedure{UpdateNumerator}{$\mib{\sigma}, \mib{\tilde{q}}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$}
 		\For{$\eta \gets \eta_{\textrm{prev}} \Downto (\eta_{\textrm{current}} + 1) $}
-			\Statex \Comment {Here, $\theta_{\textrm{work}}[\eta_{\textrm{current}}]$ is subject to change, therefore, updating $\sigma[\eta]$ where $\eta > \eta_{\textrm{current}}$ makes sense.}
-			\If {$\theta_{\textrm{work}}[\eta] + 1 \ge 2$}
-				\State $\displaystyle \sigma[\eta] \gets \sigma[\eta] + \binom{\theta_{\textrm{work}}[\eta] + 1}{2}$
+			\Statex \Comment {Here, $\tilde{q}_{\textrm{work}}[\eta_{\textrm{current}}]$ is subject to change, therefore, updating $\sigma[\eta]$ where $\eta > \eta_{\textrm{current}}$ makes sense.}
+			\If {$\tilde{q}_{\textrm{work}}[\eta] + 1 \ge 2$}
+				\State $\displaystyle \sigma[\eta] \gets \sigma[\eta] + \binom{\tilde{q}_{\textrm{work}}[\eta] + 1}{2}$
 			\EndIf
 		\EndFor
 
-    \EndFunction
+    \EndProcedure
   \end{algorithmic}
 \end{algorithm}
 
@@ -1397,14 +1425,18 @@ National Institute of Standards and Technology, 2010
 G. Sakurai, \textit{Proposed list of corrections for NIST SP 800-90B 6.3 Estimators}, Dec. 2022
 \url{https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ProposedListOfCorrections_SP800-90B.pdf}
 % 7
-\bibitem{MIT}
-\textit{INTRODUCTION TO ALGORITHMS (4th Edition)}, The MIT Press.
-% 8
-\bibitem{Josh}
+\bibitem{JoshaHill}
 Joshua E. Hill, \textit{Algorithms for t-tuple and LRS Estimates}, June 11, 2018
+\url{https://www.untruth.org/~josh/sp80090b/NIST.SP.800-90B%20implementation%20comments%2020191219.pdf}
+% 8
+\bibitem{MIT}
+Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein, \textit{Introduction to Algorithms (fourth edition)}, The MIT Press.
+\url{https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/}
+
 % 9
 \bibitem{Kaufer}
 Aaron Kaufer, \textit{Further Improvements for SP 800-90B Tuple Counts}, April 10, 2019
+\url{https://www.untruth.org/~josh/sp80090b/Kaufer%20Further%20Improvements%20for%20SP%20800-90B%20Tuple%20Counts.pdf}
 \end{thebibliography}
 
 \end{document}
