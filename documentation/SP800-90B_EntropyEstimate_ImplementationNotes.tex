@@ -1353,7 +1353,7 @@ Q[i] = \tilde{q}_{\textrm{master}}[i] + 1.
   \begin{algorithmic}[1]
     \Procedure{UpdateNumerator}{$\mib{\sigma}, \mib{\tilde{q}}_{\textrm{work}}, \eta_{\textrm{prev}}, \eta_{\textrm{current}}$}
 		\For{$\eta \gets \eta_{\textrm{prev}} \Downto (\eta_{\textrm{current}} + 1) $}
-			\Statex \Comment {Here, $\tilde{q}_{\textrm{work}}[\eta_{\textrm{current}}]$ is subject to change, therefore, updating $\sigma[\eta]$ where $\eta > \eta_{\textrm{current}}$ makes sense.}
+			\Statex \Comment {Here, $\tilde{q}_{\textrm{work}}[\eta_{\textrm{current}}]$ is a snapshot at a given point in time, therefore, updating $\sigma[\eta]$ where $\eta > \eta_{\textrm{current}}$ makes sense.}
 			\If {$\tilde{q}_{\textrm{work}}[\eta] + 1 \ge 2$}
 				\State $\displaystyle \sigma[\eta] \gets \sigma[\eta] + \binom{\tilde{q}_{\textrm{work}}[\eta] + 1}{2}$
 			\EndIf
