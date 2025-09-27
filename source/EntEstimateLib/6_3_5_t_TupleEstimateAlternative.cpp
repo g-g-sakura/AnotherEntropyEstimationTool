@@ -278,7 +278,7 @@ namespace entropy_estimator_lib
 			/// <postcondition>
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
-			ns_consts::EnmReturnStatus  SetUpArrayTheta(ns_es::t_data_for_tuple_counting& io_data)
+			ns_consts::EnmReturnStatus  SetUpArrayQTilde(ns_es::t_data_for_tuple_counting& io_data)
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
 
@@ -299,8 +299,8 @@ namespace entropy_estimator_lib
 				// Steps 3-6
 				// 
 				// -------------------------------------------------------------------------- //
-				io_data.p_theta_master = new std::valarray<uint32_t>((uint32_t)0, io_data.eta_max);
-				io_data.p_theta_work = new std::valarray<uint32_t>((uint32_t)0, io_data.eta_max);
+				io_data.p_qtilde_master = new std::valarray<uint32_t>((uint32_t)0, io_data.eta_max);
+				io_data.p_qtilde_work = new std::valarray<uint32_t>((uint32_t)0, io_data.eta_max);
 
 				return sts = ns_consts::EnmReturnStatus::Success;
 			}
@@ -319,18 +319,18 @@ namespace entropy_estimator_lib
 			/// <postcondition>
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
-			void TearDownArrayTheta(ns_es::t_data_for_tuple_counting& io_data)
+			void TearDownArrayQTilde(ns_es::t_data_for_tuple_counting& io_data)
 			{
 				// -------------------------------------------------------------------------- //
 				// dispose internally allocated array
 				// -------------------------------------------------------------------------- //
-				delete io_data.p_theta_work;
-				io_data.p_theta_work = nullptr;
+				delete io_data.p_qtilde_work;
+				io_data.p_qtilde_work = nullptr;
 				// -------------------------------------------------------------------------- //
 				// dispose internally allocated array
 				// -------------------------------------------------------------------------- //
-				delete io_data.p_theta_master;
-				io_data.p_theta_master = nullptr;
+				delete io_data.p_qtilde_master;
+				io_data.p_qtilde_master = nullptr;
 			}
 
 			// -------------------------------------------------------------------------- //
@@ -351,7 +351,7 @@ namespace entropy_estimator_lib
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
 
-				if (nullptr == io_data.p_theta_work)
+				if (nullptr == io_data.p_qtilde_work)
 				{
 					return sts;
 				}
@@ -361,7 +361,7 @@ namespace entropy_estimator_lib
 				{
 					eta_prev_minus_one = io_data.eta_prev - 1;
 				}
-				(*io_data.p_theta_work)[eta_prev_minus_one] = io_data.lambda;
+				(*io_data.p_qtilde_work)[eta_prev_minus_one] = io_data.lambda;
 
 				int lower_bound = io_data.eta_current;
 				if (lower_bound < 1)
@@ -372,7 +372,7 @@ namespace entropy_estimator_lib
 				for (int eta = (io_data.eta_prev - 1); eta >= lower_bound; eta--)
 				{
 					int eta_minus_one = eta - 1;
-					(*io_data.p_theta_work)[eta_minus_one] += (*io_data.p_theta_work)[eta_minus_one + 1];
+					(*io_data.p_qtilde_work)[eta_minus_one] += (*io_data.p_qtilde_work)[eta_minus_one + 1];
 				}
 
 				return sts = ns_consts::EnmReturnStatus::Success;
@@ -396,7 +396,7 @@ namespace entropy_estimator_lib
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
 
-				if (nullptr == io_data.p_theta_work)
+				if (nullptr == io_data.p_qtilde_work)
 				{
 					return sts;
 				}
@@ -408,7 +408,7 @@ namespace entropy_estimator_lib
 				else
 				{
 					int eta_minus_one = io_data.eta_current - 1;
-					io_data.lambda = (*io_data.p_theta_work)[eta_minus_one] + 1;
+					io_data.lambda = (*io_data.p_qtilde_work)[eta_minus_one] + 1;
 				}
 
 				return sts = ns_consts::EnmReturnStatus::Success;
@@ -428,16 +428,16 @@ namespace entropy_estimator_lib
 			/// <postcondition>
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
-			ns_consts::EnmReturnStatus	UpdateThetaMaster(ns_es::t_data_for_tuple_counting& io_data)
+			ns_consts::EnmReturnStatus	UpdateQTildeMaster(ns_es::t_data_for_tuple_counting& io_data)
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
 
-				if (nullptr == io_data.p_theta_master)
+				if (nullptr == io_data.p_qtilde_master)
 				{
 					return sts;
 				}
 
-				if (nullptr == io_data.p_theta_work)
+				if (nullptr == io_data.p_qtilde_work)
 				{
 					return sts;
 				}
@@ -445,9 +445,9 @@ namespace entropy_estimator_lib
 				for (int eta = io_data.eta_prev; eta >= (io_data.eta_current + 1); eta--)
 				{
 					int eta_minus_one = eta - 1;
-					if ((*io_data.p_theta_master)[eta_minus_one] < (*io_data.p_theta_work)[eta_minus_one])
+					if ((*io_data.p_qtilde_master)[eta_minus_one] < (*io_data.p_qtilde_work)[eta_minus_one])
 					{
-						(*io_data.p_theta_master)[eta_minus_one] = (*io_data.p_theta_work)[eta_minus_one];
+						(*io_data.p_qtilde_master)[eta_minus_one] = (*io_data.p_qtilde_work)[eta_minus_one];
 					}
 				}
 
@@ -468,11 +468,11 @@ namespace entropy_estimator_lib
 			/// <postcondition>
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
-			ns_consts::EnmReturnStatus	ResetThetaWork(ns_es::t_data_for_tuple_counting& io_data)
+			ns_consts::EnmReturnStatus	ResetQTildeWork(ns_es::t_data_for_tuple_counting& io_data)
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
 
-				if (nullptr == io_data.p_theta_work)
+				if (nullptr == io_data.p_qtilde_work)
 				{
 					return sts;
 				}
@@ -486,7 +486,7 @@ namespace entropy_estimator_lib
 				for (int eta = io_data.eta_prev; eta >= lower_bound; eta--)
 				{
 					int eta_minus_one = eta - 1;
-					(*io_data.p_theta_work)[eta_minus_one] = 0;
+					(*io_data.p_qtilde_work)[eta_minus_one] = 0;
 				}
 
 				return sts = ns_consts::EnmReturnStatus::Success;
@@ -521,7 +521,7 @@ namespace entropy_estimator_lib
 				o_ref_bz_Q = 0;
 				for (uint32_t eta = 0; eta < i_data.t; ++eta)
 				{
-					o_ref_bz_Q(eta) = (*i_data.p_theta_master)[eta] + 1;
+					o_ref_bz_Q(eta) = (*i_data.p_qtilde_master)[eta] + 1;
 				}
 
 				return sts = ns_consts::EnmReturnStatus::Success;
@@ -581,22 +581,35 @@ namespace entropy_estimator_lib
 				{
 					return sts = stsLCP;
 				}
-
+				// -------------------------------------------------------------------------- //
+				// debug
+				// -------------------------------------------------------------------------- //
+				for (int j = 0; j < 15; ++j) {
+					std::cout << "(j, SA[j], LCP[j]) = (" << std::setw(8) << j + 1 << ", " << std::setw(8) << vaSA[j] << ", " << std::setw(8) << vaLCP[j] << ")\n";
+				}
+				if (6086953 < io_refData.L) {
+					for (int j = 5595958; j < 5595978; ++j) {
+						std::cout << "(j, SA[j], LCP[j]) = (" << std::setw(8) << j + 1 << ", " << std::setw(8) << vaSA[j] << ", " << std::setw(8) << vaLCP[j] << ")\n";
+					}
+					for (int j = 6086933; j < 6086953; ++j) {
+						std::cout << "(j, SA[j], LCP[j]) = (" << std::setw(8) << j + 1 << ", " << std::setw(8) << vaSA[j] << ", " << std::setw(8) << vaLCP[j] << ")\n";
+					}
+				}
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
 				ns_es::t_data_for_tuple_counting	tuple_count_data;
-				tuple_count_data.p_theta_master = nullptr;
-				tuple_count_data.p_theta_work = nullptr;
+				tuple_count_data.p_qtilde_master = nullptr;
+				tuple_count_data.p_qtilde_work = nullptr;
 				tuple_count_data.p_LCP = &vaLCP;
 
 				// -------------------------------------------------------------------------- //
 				// Steps 2 - 6
 				// -------------------------------------------------------------------------- //
-				ns_consts::EnmReturnStatus	stsInit = SetUpArrayTheta(tuple_count_data);
-				if (ns_consts::EnmReturnStatus::Success != stsInit)
+				ns_consts::EnmReturnStatus	stsSetUp = SetUpArrayQTilde(tuple_count_data);
+				if (ns_consts::EnmReturnStatus::Success != stsSetUp)
 				{
-					return sts = stsInit;
+					return sts = stsSetUp;
 				}
 
 				// -------------------------------------------------------------------------- //
@@ -604,12 +617,12 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				tuple_count_data.eta_prev = (*tuple_count_data.p_LCP)[0];
 				// -------------------------------------------------------------------------- //
-				// Step 8 $\lambda \gets 0$
+				// Step 8 $\lambda \gets 1$
 				// -------------------------------------------------------------------------- //
-				tuple_count_data.lambda = 0;
+				tuple_count_data.lambda = 1;
 				// -------------------------------------------------------------------------- //
 				// Step 9
-				//    for $j \gets 2, n$ do
+				//    for $j \gets 2, L$ do
 				// -------------------------------------------------------------------------- //
 				for (unsigned int j = 1; j < tuple_count_data.p_LCP->size(); ++j)
 				{
@@ -628,7 +641,7 @@ namespace entropy_estimator_lib
 							// -------------------------------------------------------------------------- //
 							// Step 13
 							// -------------------------------------------------------------------------- //
-							(*tuple_count_data.p_theta_work)[tuple_count_data.eta_prev - 1] = tuple_count_data.lambda;
+							(*tuple_count_data.p_qtilde_work)[tuple_count_data.eta_prev - 1] = tuple_count_data.lambda;
 						}
 						// -------------------------------------------------------------------------- //
 						// Step 15
@@ -645,22 +658,12 @@ namespace entropy_estimator_lib
 							// -------------------------------------------------------------------------- //
 							// Step 18
 							// -------------------------------------------------------------------------- //
-							if ((*tuple_count_data.p_theta_master)[0] < tuple_count_data.lambda)
-							{
-								// -------------------------------------------------------------------------- //
-								// Step 19
-								// -------------------------------------------------------------------------- //
-								(*tuple_count_data.p_theta_master)[0] = tuple_count_data.lambda;
-							}
-							// -------------------------------------------------------------------------- //
-							// Step 21
-							// -------------------------------------------------------------------------- //
 							tuple_count_data.lambda = 1;
 						}
 						else
 						{
 							// -------------------------------------------------------------------------- //
-							// Step 23
+							// Step 20
 							// -------------------------------------------------------------------------- //
 							tuple_count_data.lambda += 1;
 						}
@@ -668,36 +671,66 @@ namespace entropy_estimator_lib
 					else
 					{
 						// -------------------------------------------------------------------------- //
-						// Step 26
+						// Step 23
 						// -------------------------------------------------------------------------- //
 						ns_consts::EnmReturnStatus	stsAccum = AccumulateLambda(tuple_count_data);
 						if (ns_consts::EnmReturnStatus::Success != stsAccum)
 						{
+							// -------------------------------------------------------------------------- //
+							//
+							// -------------------------------------------------------------------------- //
+							TearDownArrayQTilde(tuple_count_data);
+							// -------------------------------------------------------------------------- //
+							//
+							// -------------------------------------------------------------------------- //
 							return sts = stsAccum;
 						}
 						// -------------------------------------------------------------------------- //
-						// Step 27
+						// debug
+						// -------------------------------------------------------------------------- //
+						if ((*tuple_count_data.p_qtilde_work)[4] == (6086939 - 1)) {
+							std::cout << "at " << j + 1 << " \\tilde{q}_{\\textrm{work}}[5] = 6086939 \n";
+						}
+						if ((*tuple_count_data.p_qtilde_work)[7] == (5595960 - 1)) {
+							std::cout << "at " << j + 1 << " \\tilde{q}_{\\textrm{work}}[8] = 5595960 \n";
+						}
+						// -------------------------------------------------------------------------- //
+						// Step 24
 						// -------------------------------------------------------------------------- //
 						ns_consts::EnmReturnStatus	stsUpdLambda = UpdateLambda(tuple_count_data);
 						if (ns_consts::EnmReturnStatus::Success != stsUpdLambda)
 						{
+							// -------------------------------------------------------------------------- //
+							//
+							// -------------------------------------------------------------------------- //
+							TearDownArrayQTilde(tuple_count_data);
+							// -------------------------------------------------------------------------- //
+							//
+							// -------------------------------------------------------------------------- //
 							return sts = stsUpdLambda;
 						}
 						// -------------------------------------------------------------------------- //
-						// Step 28
+						// Step 25
 						// -------------------------------------------------------------------------- //
-						ns_consts::EnmReturnStatus	stsUpdTheta = UpdateThetaMaster(tuple_count_data);
-						if (ns_consts::EnmReturnStatus::Success != stsUpdTheta)
+						ns_consts::EnmReturnStatus	stsUpdQTilde = UpdateQTildeMaster(tuple_count_data);
+						if (ns_consts::EnmReturnStatus::Success != stsUpdQTilde)
 						{
-							return sts = stsUpdTheta;
+							// -------------------------------------------------------------------------- //
+							//
+							// -------------------------------------------------------------------------- //
+							TearDownArrayQTilde(tuple_count_data);
+							// -------------------------------------------------------------------------- //
+							//
+							// -------------------------------------------------------------------------- //
+							return sts = stsUpdQTilde;
 						}
 						// -------------------------------------------------------------------------- //
-						// Step 29
+						// Step 26
 						// -------------------------------------------------------------------------- //
-						ResetThetaWork(tuple_count_data);
+						ResetQTildeWork(tuple_count_data);
 					}
 					// -------------------------------------------------------------------------- //
-					// Step 31
+					// Step 28
 					// -------------------------------------------------------------------------- //
 					tuple_count_data.eta_prev = tuple_count_data.eta_current;
 				}
@@ -711,23 +744,46 @@ namespace entropy_estimator_lib
 				ns_consts::EnmReturnStatus	stsAccum = AccumulateLambda(tuple_count_data);
 				if (ns_consts::EnmReturnStatus::Success != stsAccum)
 				{
+					// -------------------------------------------------------------------------- //
+					//
+					// -------------------------------------------------------------------------- //
+					TearDownArrayQTilde(tuple_count_data);
+					// -------------------------------------------------------------------------- //
+					//
+					// -------------------------------------------------------------------------- //
 					return sts = stsAccum;
 				}
 				// -------------------------------------------------------------------------- //
-				// Step 34
+				// debug
 				// -------------------------------------------------------------------------- //
-				ns_consts::EnmReturnStatus	stsUpdTheta = UpdateThetaMaster(tuple_count_data);
-				if (ns_consts::EnmReturnStatus::Success != stsUpdTheta)
-				{
-					return sts = stsUpdTheta;
+				if ((*tuple_count_data.p_qtilde_work)[4] == (6086939 - 1)) {
+					std::cout << "\\tilde{q}_{\\textrm{work}}[5] = 6086939 \n";
+				}
+				if ((*tuple_count_data.p_qtilde_work)[7] == (5595960 - 1)) {
+					std::cout << "\\tilde{q}_{\\textrm{work}}[8] = 5595960 \n";
 				}
 				// -------------------------------------------------------------------------- //
-				// Step 35
+				// Step 31
+				// -------------------------------------------------------------------------- //
+				ns_consts::EnmReturnStatus	stsUpdQTilde = UpdateQTildeMaster(tuple_count_data);
+				if (ns_consts::EnmReturnStatus::Success != stsUpdQTilde)
+				{
+					// -------------------------------------------------------------------------- //
+					//
+					// -------------------------------------------------------------------------- //
+					TearDownArrayQTilde(tuple_count_data);
+					// -------------------------------------------------------------------------- //
+					//
+					// -------------------------------------------------------------------------- //
+					return sts = stsUpdQTilde;
+				}
+				// -------------------------------------------------------------------------- //
+				// Step 32
 				// -------------------------------------------------------------------------- //
 				uint32_t prev_index = 0;
 				for (uint32_t eta = 0; eta < tuple_count_data.eta_max; ++eta)
 				{
-					if ((*tuple_count_data.p_theta_master)[eta] >= io_refData.t_6_3_5.cutoff - 1)
+					if ((*tuple_count_data.p_qtilde_master)[eta] >= io_refData.t_6_3_5.cutoff - 1)
 					{
 						prev_index = eta;
 					}
@@ -745,21 +801,28 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				io_refData.t_6_3_5.t = tuple_count_data.t;
 				// -------------------------------------------------------------------------- //
-				// Step 36
+				// Step 33
 				// -------------------------------------------------------------------------- //
 				ns_consts::EnmReturnStatus	stsCalcQ = CalcQ(o_ref_bz_Q, tuple_count_data);
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
+				TearDownArrayQTilde(tuple_count_data);
+				// -------------------------------------------------------------------------- //
+				//
+				// -------------------------------------------------------------------------- //
 				if (ns_consts::EnmReturnStatus::Success != stsCalcQ)
 				{
-					return sts = stsUpdTheta;
+					sts = stsCalcQ;
+				}
+				else
+				{
+					sts = ns_consts::EnmReturnStatus::Success;
 				}
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				TearDownArrayTheta(tuple_count_data);
-				// -------------------------------------------------------------------------- //
-				//
-				// -------------------------------------------------------------------------- //
-				return sts = ns_consts::EnmReturnStatus::Success;
+				return sts;
 			}
 
 			// -------------------------------------------------------------------------- //

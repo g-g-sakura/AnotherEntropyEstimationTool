@@ -30,7 +30,7 @@ namespace entropy_estimator_lib
 			{
 				int32_t	left_rank;
 				int32_t	right_rank;
-				uint32_t	index;
+				uint32_t	index; // $ index \in [1, n] $
 
 				bool operator <(_tsubstrrank const& i_refRight) const
 				{
@@ -66,8 +66,8 @@ namespace entropy_estimator_lib
 
 				intarray* p_LCP;
 
-				intarray* p_theta_master;
-				intarray* p_theta_work;
+				intarray* p_qtilde_master;
+				intarray* p_qtilde_work;
 
 			} t_data_for_tuple_counting;
 
@@ -131,18 +131,16 @@ namespace entropy_estimator_lib
 				int		eta_current;
 				uint32_t	eta_max;
 
-				//uint32_t	u;
 				uint32_t	nu;
 
 				uint32_t	lambda;
 
 				intarray* p_LCP;
 
-				intarray* p_theta_master;
-				intarray* p_theta_work;
+				intarray* p_qtilde_master;
+				intarray* p_qtilde_work;
 
 				dblarray* p_sigma_dbl;
-				//llarray* p_sigma_ll;
 
 				LCPHistogram* p_hg;
 

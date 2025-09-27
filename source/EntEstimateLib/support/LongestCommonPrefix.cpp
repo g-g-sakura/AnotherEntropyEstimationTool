@@ -37,9 +37,9 @@ namespace entropy_estimator_lib
 			/// <postcondition>
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
-			uint32_t		ord(ns_dt::octet i_t)
+			int32_t		ord(ns_dt::octet i_t)
 			{
-				return static_cast<uint32_t>(i_t);
+				return static_cast<int32_t>(i_t);
 			}
 
 			// -------------------------------------------------------------------------- //
@@ -57,8 +57,8 @@ namespace entropy_estimator_lib
 			/// <returns>
 			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::ErrorInsufficientData</c>:  when either of the following conditions is met:
 			///    <ul>
-			///     <li><c>io_rank.size()</c> &lt; (n + 1)</li>
-			///     <li><c>io_substr_rank.size()</c> &lt; (n + 1)</li>
+			///     <li><c>io_rank.size()</c> &lt; (n)</li>
+			///     <li><c>io_substr_rank.size()</c> &lt; (n)</li>
 			///    </ul>
 			///  <c>entropy_estimator_lib::constants::EnmReturnStatus::Success</c>:  otherwise.
 			/// </returns>
@@ -80,9 +80,20 @@ namespace entropy_estimator_lib
 				{
 					return	sts = ns_consts::EnmReturnStatus::ErrorInsufficientData;
 				}
-
-				int32_t		r = 1;
+				// -------------------------------------------------------------------------- //
+				// Step 1
+				//  r = 1
+				// -------------------------------------------------------------------------- //
+				int32_t		r = 0;
+				// -------------------------------------------------------------------------- //
+				// Step 2
+				//  rank[substr-rank[1].index] = r
+				// -------------------------------------------------------------------------- //
 				io_rank[io_substr_rank[0].index - 1] = r;
+				// -------------------------------------------------------------------------- //
+				// Step 3
+				//  for i = 2 to n
+				// -------------------------------------------------------------------------- //
 				for (uint32_t i = 1; i < n; i++)
 				{
 					if ((io_substr_rank[i].left_rank != io_substr_rank[i - 1].left_rank)
@@ -159,8 +170,11 @@ namespace entropy_estimator_lib
 					{
 						// -------------------------------------------------------------------------- //
 						// Step 6
+						//  else substr-rank[i].right-rank = 0
+						//   It is assumed that the 'smallest' right rank value is set by 0 in this step,
+						//   so the value is replaced by -1.
 						// -------------------------------------------------------------------------- //
-						the_substr_rank[i].right_rank = 0;
+						the_substr_rank[i].right_rank = -1;
 					}
 					// -------------------------------------------------------------------------- //
 					// Step 7
@@ -234,6 +248,9 @@ namespace entropy_estimator_lib
 						{
 							// -------------------------------------------------------------------------- //
 							// Step 16
+							//  else substr-rank[i].right-rank = 0
+							//   It is assumed that the 'smallest' right rank value is set by 0 in this step,
+							//   so the value is replaced by -1.
 							// -------------------------------------------------------------------------- //
 							the_substr_rank[i].right_rank = -1;
 						}

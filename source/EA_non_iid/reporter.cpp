@@ -1227,6 +1227,23 @@ ns_consts::EnmReturnStatus loadLaTeXBibliography(std::wstringstream& o_ssLaTeX)
     o_ssLaTeX << L"\\bibitem{CorrectionsSP80090B}" << L"\n";
     o_ssLaTeX << L"G. Sakurai, \\textit{Proposed list of corrections for NIST SP 800-90B 6.3 Estimators}, Dec. 2022 " << L"\n";
     o_ssLaTeX << L"\\url{https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ProposedListOfCorrections_SP800-90B.pdf}" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    o_ssLaTeX << L"% 3" << L"\n";
+    o_ssLaTeX << L"\\bibitem{MIT}" << L"\n";
+    o_ssLaTeX << L"Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein, \\textit{Introduction to Algorithms (fourth edition)}, The MIT Press." << L"\n";
+    o_ssLaTeX << L"\\url{https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/}" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    o_ssLaTeX << L"% 4" << L"\n";
+    o_ssLaTeX << L"\\bibitem{ImplementationNotes}" << L"\n";
+    o_ssLaTeX << L"G. Sakurai, \\textit{ ImplementationNotes for entropy estimation based on NIST SP800-90B non-IID track}, Sep. 2025 " << L"\n";
+    o_ssLaTeX << L"\\url{https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/SP800-90B_EntropyEstimate_ImplementationNotes.pdf}" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
     o_ssLaTeX << L"\\end{thebibliography}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
@@ -1612,7 +1629,7 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // -------------------------------------------------------------------------- //
     // using LCP applied or not
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"Use Longest Common Prefix for 6.3.5 and 6.3.6 & ";
+    o_refLaTeXSupportingInfo << L"Use Longest Common Prefix\\footnote{See \\ref{MIT} and \\ref{ImplementationNotes}} for 6.3.5 and 6.3.6 & ";
     if (io_refDataOriginal.isUsingLcpRequested)
     {
         o_refLaTeXSupportingInfo << "True";

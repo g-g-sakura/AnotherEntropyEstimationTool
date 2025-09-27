@@ -428,7 +428,7 @@ namespace entropy_estimator_lib
 			/// <postcondition>
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
-			ns_consts::EnmReturnStatus  SetUpArrayTheta(ns_es::t_data_for_LRS& io_refLRSdata)
+			ns_consts::EnmReturnStatus  SetUpArrayQTilde(ns_es::t_data_for_LRS& io_refLRSdata)
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
 
@@ -453,8 +453,8 @@ namespace entropy_estimator_lib
 				// Steps 3-6
 				// 
 				// -------------------------------------------------------------------------- //
-				io_refLRSdata.p_theta_master = new std::valarray<uint32_t>((uint32_t)0, io_refLRSdata.nu);
-				io_refLRSdata.p_theta_work = new std::valarray<uint32_t>((uint32_t)0, io_refLRSdata.nu);
+				io_refLRSdata.p_qtilde_master = new std::valarray<uint32_t>((uint32_t)0, io_refLRSdata.nu);
+				io_refLRSdata.p_qtilde_work = new std::valarray<uint32_t>((uint32_t)0, io_refLRSdata.nu);
 				// -------------------------------------------------------------------------- //
 				// Steps 3-
 				// 
@@ -482,7 +482,7 @@ namespace entropy_estimator_lib
 			/// <postcondition>
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
-			void TearDownArrayTheta(ns_es::t_data_for_LRS& io_refLRSdata)
+			void TearDownArrayQTilde(ns_es::t_data_for_LRS& io_refLRSdata)
 			{
 				// -------------------------------------------------------------------------- //
 				// dispose internally allocated array
@@ -503,13 +503,13 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				// dispose internally allocated array
 				// -------------------------------------------------------------------------- //
-				delete io_refLRSdata.p_theta_work;
-				io_refLRSdata.p_theta_work = nullptr;
+				delete io_refLRSdata.p_qtilde_work;
+				io_refLRSdata.p_qtilde_work = nullptr;
 				// -------------------------------------------------------------------------- //
 				// dispose internally allocated array
 				// -------------------------------------------------------------------------- //
-				delete io_refLRSdata.p_theta_master;
-				io_refLRSdata.p_theta_master = nullptr;
+				delete io_refLRSdata.p_qtilde_master;
+				io_refLRSdata.p_qtilde_master = nullptr;
 			}
 
 			// -------------------------------------------------------------------------- //
@@ -530,7 +530,7 @@ namespace entropy_estimator_lib
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
 
-				if (nullptr == io_refLRSdata.p_theta_work)
+				if (nullptr == io_refLRSdata.p_qtilde_work)
 				{
 					return sts;
 				}
@@ -540,7 +540,7 @@ namespace entropy_estimator_lib
 				{
 					eta_prev_minus_one = io_refLRSdata.eta_prev - 1;
 				}
-				(*io_refLRSdata.p_theta_work)[eta_prev_minus_one] = io_refLRSdata.lambda;
+				(*io_refLRSdata.p_qtilde_work)[eta_prev_minus_one] = io_refLRSdata.lambda;
 
 				int lower_bound = io_refLRSdata.eta_current;
 				if (lower_bound < 1)
@@ -551,7 +551,7 @@ namespace entropy_estimator_lib
 				for (int eta = (io_refLRSdata.eta_prev - 1); eta >= lower_bound; eta--)
 				{
 					int eta_minus_one = eta - 1;
-					(*io_refLRSdata.p_theta_work)[eta_minus_one] += (*io_refLRSdata.p_theta_work)[eta_minus_one + 1];
+					(*io_refLRSdata.p_qtilde_work)[eta_minus_one] += (*io_refLRSdata.p_qtilde_work)[eta_minus_one + 1];
 				}
 
 				return sts = ns_consts::EnmReturnStatus::Success;
@@ -575,7 +575,7 @@ namespace entropy_estimator_lib
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
 
-				if (nullptr == io_refLRSdata.p_theta_work)
+				if (nullptr == io_refLRSdata.p_qtilde_work)
 				{
 					return sts;
 				}
@@ -587,7 +587,7 @@ namespace entropy_estimator_lib
 				else
 				{
 					int eta_minus_one = io_refLRSdata.eta_current - 1;
-					io_refLRSdata.lambda = (*io_refLRSdata.p_theta_work)[eta_minus_one] + 1;
+					io_refLRSdata.lambda = (*io_refLRSdata.p_qtilde_work)[eta_minus_one] + 1;
 				}
 
 				return sts = ns_consts::EnmReturnStatus::Success;
@@ -607,16 +607,16 @@ namespace entropy_estimator_lib
 			/// <postcondition>
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
-			ns_consts::EnmReturnStatus	UpdateThetaMaster(ns_es::t_data_for_LRS& io_refLRSdata)
+			ns_consts::EnmReturnStatus	UpdateQTildeMaster(ns_es::t_data_for_LRS& io_refLRSdata)
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
 
-				if (nullptr == io_refLRSdata.p_theta_master)
+				if (nullptr == io_refLRSdata.p_qtilde_master)
 				{
 					return sts;
 				}
 
-				if (nullptr == io_refLRSdata.p_theta_work)
+				if (nullptr == io_refLRSdata.p_qtilde_work)
 				{
 					return sts;
 				}
@@ -624,9 +624,9 @@ namespace entropy_estimator_lib
 				for (int eta = io_refLRSdata.eta_prev; eta >= (io_refLRSdata.eta_current + 1); eta--)
 				{
 					int eta_minus_one = eta - 1;
-					if ((*io_refLRSdata.p_theta_master)[eta_minus_one] < (*io_refLRSdata.p_theta_work)[eta_minus_one])
+					if ((*io_refLRSdata.p_qtilde_master)[eta_minus_one] < (*io_refLRSdata.p_qtilde_work)[eta_minus_one])
 					{
-						(*io_refLRSdata.p_theta_master)[eta_minus_one] = (*io_refLRSdata.p_theta_work)[eta_minus_one];
+						(*io_refLRSdata.p_qtilde_master)[eta_minus_one] = (*io_refLRSdata.p_qtilde_work)[eta_minus_one];
 					}
 				}
 
@@ -647,11 +647,11 @@ namespace entropy_estimator_lib
 			/// <postcondition>
 			/// </postcondition>
 			// -------------------------------------------------------------------------- //
-			ns_consts::EnmReturnStatus	ResetThetaWork(ns_es::t_data_for_LRS& io_refLRSdata)
+			ns_consts::EnmReturnStatus	ResetQTildeWork(ns_es::t_data_for_LRS& io_refLRSdata)
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
 
-				if (nullptr == io_refLRSdata.p_theta_work)
+				if (nullptr == io_refLRSdata.p_qtilde_work)
 				{
 					return sts;
 				}
@@ -665,7 +665,7 @@ namespace entropy_estimator_lib
 				for (int eta = io_refLRSdata.eta_prev; eta >= lower_bound; eta--)
 				{
 					int eta_minus_one = eta - 1;
-					(*io_refLRSdata.p_theta_work)[eta_minus_one] = 0;
+					(*io_refLRSdata.p_qtilde_work)[eta_minus_one] = 0;
 				}
 
 				return sts = ns_consts::EnmReturnStatus::Success;
@@ -691,7 +691,7 @@ namespace entropy_estimator_lib
 			{
 				ns_consts::EnmReturnStatus	sts = ns_consts::EnmReturnStatus::ErrorNullPointer;
 
-				if (nullptr == io_refLRSdata.p_theta_work)
+				if (nullptr == io_refLRSdata.p_qtilde_work)
 				{
 					return sts;
 				}
@@ -720,7 +720,7 @@ namespace entropy_estimator_lib
 					// -------------------------------------------------------------------------- //
 					// number of occurrences
 					// -------------------------------------------------------------------------- //
-					const int c_i = 1 + (*io_refLRSdata.p_theta_work)[eta_minus_one];
+					const int c_i = 1 + (*io_refLRSdata.p_qtilde_work)[eta_minus_one];
 					// -------------------------------------------------------------------------- //
 					// Step 3
 					//   if {$\theta_{\textrm{work}}[\eta] + 1 >= 2$}
@@ -731,7 +731,7 @@ namespace entropy_estimator_lib
 					}
 					// -------------------------------------------------------------------------- //
 					// Step 4
-					// $\sigma[\eta] \gets \sigma[\eta] + \binom{\theta_{\textrm{work}}[\eta] + 1}{2}$
+					// $\sigma[\eta] \gets \sigma[\eta] + \binom{\tilde{q}_{\textrm{work}}[\eta] + 1}{2}$
 					// -------------------------------------------------------------------------- //
 					(*io_refLRSdata.p_sigma_dbl)[eta_minus_one] += boost::math::binomial_coefficient<double>(c_i, 2);
 					// -------------------------------------------------------------------------- //
@@ -748,7 +748,7 @@ namespace entropy_estimator_lib
 						{
 							// -------------------------------------------------------------------------- //
 							// Find a record where the number of occurrences is equal to
-							// $\theta_{\textrm{work}}[\eta] + 1$.
+							// $\tilde{q}_{\textrm{work}}[\eta] + 1$.
 							// Note here that c_i = $\theta_{\textrm{work}}[\eta] + 1$
 							// -------------------------------------------------------------------------- //
 							if (it->ex_num_occ == c_i)
@@ -1024,7 +1024,7 @@ namespace entropy_estimator_lib
 				}
 				// -------------------------------------------------------------------------- //
 				// Step 1
-				// 
+				//   Compute the Longest Common Prefix array LCP[j](j \in {1,2,...,L}) from S
 				// -------------------------------------------------------------------------- //
 				ns_consts::EnmReturnStatus	stsSA = ns_es::ComputeSuffixArray(vaSA, valT, io_refData.L);
 				if (ns_consts::EnmReturnStatus::Success != stsSA)
@@ -1042,75 +1042,75 @@ namespace entropy_estimator_lib
 				//
 				// -------------------------------------------------------------------------- //
 				ns_es::t_data_for_LRS	lrs_data;
-				lrs_data.p_theta_master = nullptr;
-				lrs_data.p_theta_work = nullptr;
+				lrs_data.p_qtilde_master = nullptr;
+				lrs_data.p_qtilde_work = nullptr;
 				lrs_data.p_sigma_dbl = nullptr;
 				lrs_data.p_LCP = &vaLCP;
 
 				// -------------------------------------------------------------------------- //
 				// Steps 2 - 12
 				// -------------------------------------------------------------------------- //
-				ns_consts::EnmReturnStatus	stsSetUp = SetUpArrayTheta(lrs_data);
+				ns_consts::EnmReturnStatus	stsSetUp = SetUpArrayQTilde(lrs_data);
 				if (ns_consts::EnmReturnStatus::Success != stsSetUp)
 				{
 					return sts = stsSetUp;
 				}
 
 				// -------------------------------------------------------------------------- //
-				// Step 13  $\eta_{\textrm{prev}} \gets LCP[1]$
+				// Step 12  $\eta_{\textrm{prev}} \gets LCP[1]$
 				// -------------------------------------------------------------------------- //
 				lrs_data.eta_prev = (*lrs_data.p_LCP)[0];
 				// -------------------------------------------------------------------------- //
-				// Step 14  $\lambda \gets 1$
+				// Step 13  $\lambda \gets 1$
 				// -------------------------------------------------------------------------- //
 				lrs_data.lambda = 1;
 				// -------------------------------------------------------------------------- //
-				// Step 15
-				//    for $j \gets 2, n$ do
+				// Step 14
+				//    for $j \gets 2, L$ do
 				// -------------------------------------------------------------------------- //
 				for (unsigned int j = 1; j < lrs_data.p_LCP->size(); ++j)
 				{
 					// -------------------------------------------------------------------------- //
-					// Step 16
+					// Step 15
 					//    $\eta_{\textrm{current}} \gets LCP[j]$
 					// -------------------------------------------------------------------------- //
 					lrs_data.eta_current = (*lrs_data.p_LCP)[j];
 					// -------------------------------------------------------------------------- //
-					// Step 17
+					// Step 16
 					// -------------------------------------------------------------------------- //
 					if (lrs_data.eta_prev < lrs_data.eta_current)
 					{
 						// -------------------------------------------------------------------------- //
-						// Step 18
+						// Step 17
 						// -------------------------------------------------------------------------- //
 						if (0 < lrs_data.eta_prev)
 						{
 							// -------------------------------------------------------------------------- //
-							// Step 19
+							// Step 18
 							// -------------------------------------------------------------------------- //
-							(*lrs_data.p_theta_work)[lrs_data.eta_prev - 1] = lrs_data.lambda;
+							(*lrs_data.p_qtilde_work)[lrs_data.eta_prev - 1] = lrs_data.lambda;
 						}
 						// -------------------------------------------------------------------------- //
-						// Step 21
+						// Step 20
 						// -------------------------------------------------------------------------- //
 						lrs_data.lambda = 1;
 					}
 					else if (lrs_data.eta_prev == lrs_data.eta_current)
 					{
 						// -------------------------------------------------------------------------- //
-						// Step 23
+						// Step 22
 						// -------------------------------------------------------------------------- //
 						if (lrs_data.eta_current == 0)
 						{
 							// -------------------------------------------------------------------------- //
-							// Step 24
+							// Step 23
 							// -------------------------------------------------------------------------- //
 							lrs_data.lambda = 1;
 						}
 						else
 						{
 							// -------------------------------------------------------------------------- //
-							// Step 26
+							// Step 25
 							// -------------------------------------------------------------------------- //
 							lrs_data.lambda += 1;
 						}
@@ -1118,82 +1118,131 @@ namespace entropy_estimator_lib
 					else
 					{
 						// -------------------------------------------------------------------------- //
-						// Step 29
+						// Step 28
 						// -------------------------------------------------------------------------- //
 						ns_consts::EnmReturnStatus	stsAccum = AccumulateLambda(lrs_data);
 						if (ns_consts::EnmReturnStatus::Success != stsAccum)
 						{
+							// -------------------------------------------------------------------------- //
+							//
+							// -------------------------------------------------------------------------- //
+							TearDownArrayQTilde(lrs_data);
+							// -------------------------------------------------------------------------- //
+							//
+							// -------------------------------------------------------------------------- //
 							return sts = stsAccum;
 						}
 						// -------------------------------------------------------------------------- //
-						// Step 30
+						// Step 29
 						// -------------------------------------------------------------------------- //
 						ns_consts::EnmReturnStatus	stsUpdNumer = UpdateNumerator(lrs_data);
 						if (ns_consts::EnmReturnStatus::Success != stsUpdNumer)
 						{
+							// -------------------------------------------------------------------------- //
+							//
+							// -------------------------------------------------------------------------- //
+							TearDownArrayQTilde(lrs_data);
+							// -------------------------------------------------------------------------- //
+							//
+							// -------------------------------------------------------------------------- //
 							return sts = stsUpdNumer;
 						}
 						// -------------------------------------------------------------------------- //
-						// Step 31
+						// Step 30
 						// -------------------------------------------------------------------------- //
 						ns_consts::EnmReturnStatus	stsUpdLambda = UpdateLambda(lrs_data);
 						if (ns_consts::EnmReturnStatus::Success != stsUpdLambda)
 						{
+							// -------------------------------------------------------------------------- //
+							//
+							// -------------------------------------------------------------------------- //
+							TearDownArrayQTilde(lrs_data);
+							// -------------------------------------------------------------------------- //
+							//
+							// -------------------------------------------------------------------------- //
 							return sts = stsUpdLambda;
+						}
+						// -------------------------------------------------------------------------- //
+						// Step 31
+						// -------------------------------------------------------------------------- //
+						ns_consts::EnmReturnStatus	stsUpdQTilde = UpdateQTildeMaster(lrs_data);
+						if (ns_consts::EnmReturnStatus::Success != stsUpdQTilde)
+						{
+							// -------------------------------------------------------------------------- //
+							//
+							// -------------------------------------------------------------------------- //
+							TearDownArrayQTilde(lrs_data);
+							// -------------------------------------------------------------------------- //
+							//
+							// -------------------------------------------------------------------------- //
+							return sts = stsUpdQTilde;
 						}
 						// -------------------------------------------------------------------------- //
 						// Step 32
 						// -------------------------------------------------------------------------- //
-						ns_consts::EnmReturnStatus	stsUpdTheta = UpdateThetaMaster(lrs_data);
-						if (ns_consts::EnmReturnStatus::Success != stsUpdTheta)
-						{
-							return sts = stsUpdTheta;
-						}
-						// -------------------------------------------------------------------------- //
-						// Step 33
-						// -------------------------------------------------------------------------- //
-						ResetThetaWork(lrs_data);
+						ResetQTildeWork(lrs_data);
 					}
 					// -------------------------------------------------------------------------- //
-					// Step 35
+					// Step 34
 					// -------------------------------------------------------------------------- //
 					lrs_data.eta_prev = lrs_data.eta_current;
 				}
 				// -------------------------------------------------------------------------- //
-				// part of Step 37
+				// part of Step 36
 				// -------------------------------------------------------------------------- //
 				lrs_data.eta_current = 0;
 				// -------------------------------------------------------------------------- //
-				// part of Step 37
+				// part of Step 36
 				// -------------------------------------------------------------------------- //
 				ns_consts::EnmReturnStatus	stsAccum = AccumulateLambda(lrs_data);
 				if (ns_consts::EnmReturnStatus::Success != stsAccum)
 				{
+					// -------------------------------------------------------------------------- //
+					//
+					// -------------------------------------------------------------------------- //
+					TearDownArrayQTilde(lrs_data);
+					// -------------------------------------------------------------------------- //
+					//
+					// -------------------------------------------------------------------------- //
 					return sts = stsAccum;
 				}
 				// -------------------------------------------------------------------------- //
-				// Step 38
+				// Step 37
 				// -------------------------------------------------------------------------- //
 				ns_consts::EnmReturnStatus	stsUpdNumer = UpdateNumerator(lrs_data);
 				if (ns_consts::EnmReturnStatus::Success != stsUpdNumer)
 				{
+					// -------------------------------------------------------------------------- //
+					//
+					// -------------------------------------------------------------------------- //
+					TearDownArrayQTilde(lrs_data);
+					// -------------------------------------------------------------------------- //
+					//
+					// -------------------------------------------------------------------------- //
 					return sts = stsUpdNumer;
+				}
+				// -------------------------------------------------------------------------- //
+				// Step 38
+				// -------------------------------------------------------------------------- //
+				ns_consts::EnmReturnStatus	stsUpdQTilde = UpdateQTildeMaster(lrs_data);
+				if (ns_consts::EnmReturnStatus::Success != stsUpdQTilde)
+				{
+					// -------------------------------------------------------------------------- //
+					//
+					// -------------------------------------------------------------------------- //
+					TearDownArrayQTilde(lrs_data);
+					// -------------------------------------------------------------------------- //
+					//
+					// -------------------------------------------------------------------------- //
+					return sts = stsUpdQTilde;
 				}
 				// -------------------------------------------------------------------------- //
 				// Step 39
 				// -------------------------------------------------------------------------- //
-				ns_consts::EnmReturnStatus	stsUpdTheta = UpdateThetaMaster(lrs_data);
-				if (ns_consts::EnmReturnStatus::Success != stsUpdTheta)
-				{
-					return sts = stsUpdTheta;
-				}
-				// -------------------------------------------------------------------------- //
-				// Step 40
-				// -------------------------------------------------------------------------- //
 				uint32_t prev_index = 0;
 				for (int eta = lrs_data.nu - 1; eta >= 0; --eta)
 				{
-					if ((*lrs_data.p_theta_master)[eta] < io_refData.t_6_3_6.cutoff - 1)
+					if ((*lrs_data.p_qtilde_master)[eta] < io_refData.t_6_3_6.cutoff - 1)
 					{
 						prev_index = eta;
 					}
@@ -1203,7 +1252,7 @@ namespace entropy_estimator_lib
 					}
 				}
 				// -------------------------------------------------------------------------- //
-				// prev_index is 0-start index, so add 1 by definition of u
+				// prev_index is 0-starting index, so add 1 by definition of u
 				// -------------------------------------------------------------------------- //
 				io_refData.t_6_3_6.u = prev_index + 1;
 				// -------------------------------------------------------------------------- //
@@ -1211,13 +1260,19 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				io_refData.t_6_3_6.nu = lrs_data.nu;
 				// -------------------------------------------------------------------------- //
-				// Step 41
+				// Step 40
 				// -------------------------------------------------------------------------- //
 				std::wstringstream ssFragmentForLaTeXPmax = std::wstringstream();
 				ns_consts::EnmReturnStatus	stsCalcPHat = CalcPHat(io_refData, lrs_data, ssFragmentForLaTeXPmax);
 				if (ns_consts::EnmReturnStatus::Success != stsCalcPHat)
 				{
-					TearDownArrayTheta(lrs_data);
+					// -------------------------------------------------------------------------- //
+					//
+					// -------------------------------------------------------------------------- //
+					TearDownArrayQTilde(lrs_data);
+					// -------------------------------------------------------------------------- //
+					//
+					// -------------------------------------------------------------------------- //
 					return sts = stsCalcPHat;
 				}
 				// -------------------------------------------------------------------------- //
@@ -1227,11 +1282,11 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				TearDownArrayTheta(lrs_data);
+				TearDownArrayQTilde(lrs_data);
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				return sts = ns_consts::EnmReturnStatus::Success;
+				return sts = stsOutputDist;
 			}
 
 			// -------------------------------------------------------------------------- //

@@ -100,7 +100,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_89_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_89_0;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -110,17 +110,17 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_89_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_89_0;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_89_0;$(ExternalIncludePath)</ExternalIncludePath>
-    <IncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_89_0;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_89_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <IncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_89_0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Intel|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <ExternalIncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_89_0;$(ExternalIncludePath)</ExternalIncludePath>
-    <IncludePath>C:\usr\blitz-0.10;C:\usr\boost_1_89_0;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_89_0;$(ExternalIncludePath)</ExternalIncludePath>
+    <IncludePath>D:\usr\blitz-0.10;D:\usr\boost_1_89_0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
