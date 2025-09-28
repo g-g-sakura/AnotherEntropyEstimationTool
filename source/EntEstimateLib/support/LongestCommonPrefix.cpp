@@ -145,8 +145,6 @@ namespace entropy_estimator_lib
 				std::vector<t_substr_rank>	the_substr_rank(n);
 				std::valarray<uint32_t>			the_rank((uint32_t)0, n);
 
-				//dbg_print_substr_rank_header(0);
-
 				// -------------------------------------------------------------------------- //
 				// Step 2
 				// -------------------------------------------------------------------------- //
@@ -180,22 +178,13 @@ namespace entropy_estimator_lib
 					// Step 7
 					// -------------------------------------------------------------------------- //
 					the_substr_rank[i].index = (i + 1);
-
-					//dbg_print_substr_rank(the_substr_rank[i], i, 0);
 				}
 
 				// -------------------------------------------------------------------------- //
 				// step 8 sort substr-rank ascending
 				// -------------------------------------------------------------------------- //
 				std::vector<t_substr_rank>::iterator it = the_substr_rank.begin();
-				//++it;
 				std::sort(it, the_substr_rank.end());
-
-				//dbg_print_substr_rank_header(42);
-				//for (uint32_t j = 0; j < n; ++j)
-				//{
-				//	dbg_print_substr_rank(the_substr_rank[j], j, 42);
-				//}
 
 				// -------------------------------------------------------------------------- //
 				// Step 9
@@ -215,15 +204,6 @@ namespace entropy_estimator_lib
 					{
 						return	sts = stsMakeRanks;
 					}
-
-					//if ((2 == l) || (4 == l))
-					//{
-					//	//dbg_print_rank_header(0);
-					//	for (uint32_t j = 0; j < n; ++j)
-					//	{
-					//		dbg_print_rank(j, the_rank[j], 0);
-					//	}
-					//}
 
 					// -------------------------------------------------------------------------- //
 					// Step 12
@@ -260,30 +240,11 @@ namespace entropy_estimator_lib
 						the_substr_rank[i].index = (i + 1);
 
 					}
-					//if ((2 == l) || (4 == l))
-					//{
-					//	dbg_print_substr_rank_header(8);
-					//	for (uint32_t j = 0; j < n; ++j)
-					//	{
-					//		dbg_print_substr_rank(the_substr_rank[j], j, 8);
-					//	}
-					//}
-
 					// -------------------------------------------------------------------------- //
 					// Step 18
 					// -------------------------------------------------------------------------- //
 					it = the_substr_rank.begin();
-					//++it;
 					std::sort(it, the_substr_rank.end());
-
-					//if ((2 == l) || (4 == l))
-					//{
-					//	dbg_print_substr_rank_header(50);
-					//	for (uint32_t j = 0; j < n; ++j)
-					//	{
-					//		dbg_print_substr_rank(the_substr_rank[j], j, 50);
-					//	}
-					//}
 
 					// -------------------------------------------------------------------------- //
 					// Step 19

@@ -28,7 +28,7 @@ namespace entropy_estimator_lib
 
 			// -------------------------------------------------------------------------- //
 			/// <summary>
-			///  Output LaTeX header for
+			///  Output LaTeX header for the t-tuple estimate
 			/// </summary>
 			/// <remarks>
 			/// </remarks>
@@ -582,20 +582,6 @@ namespace entropy_estimator_lib
 					return sts = stsLCP;
 				}
 				// -------------------------------------------------------------------------- //
-				// debug
-				// -------------------------------------------------------------------------- //
-				for (int j = 0; j < 15; ++j) {
-					std::cout << "(j, SA[j], LCP[j]) = (" << std::setw(8) << j + 1 << ", " << std::setw(8) << vaSA[j] << ", " << std::setw(8) << vaLCP[j] << ")\n";
-				}
-				if (6086953 < io_refData.L) {
-					for (int j = 5595958; j < 5595978; ++j) {
-						std::cout << "(j, SA[j], LCP[j]) = (" << std::setw(8) << j + 1 << ", " << std::setw(8) << vaSA[j] << ", " << std::setw(8) << vaLCP[j] << ")\n";
-					}
-					for (int j = 6086933; j < 6086953; ++j) {
-						std::cout << "(j, SA[j], LCP[j]) = (" << std::setw(8) << j + 1 << ", " << std::setw(8) << vaSA[j] << ", " << std::setw(8) << vaLCP[j] << ")\n";
-					}
-				}
-				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
 				ns_es::t_data_for_tuple_counting	tuple_count_data;
@@ -686,15 +672,6 @@ namespace entropy_estimator_lib
 							return sts = stsAccum;
 						}
 						// -------------------------------------------------------------------------- //
-						// debug
-						// -------------------------------------------------------------------------- //
-						if ((*tuple_count_data.p_qtilde_work)[4] == (6086939 - 1)) {
-							std::cout << "at " << j + 1 << " \\tilde{q}_{\\textrm{work}}[5] = 6086939 \n";
-						}
-						if ((*tuple_count_data.p_qtilde_work)[7] == (5595960 - 1)) {
-							std::cout << "at " << j + 1 << " \\tilde{q}_{\\textrm{work}}[8] = 5595960 \n";
-						}
-						// -------------------------------------------------------------------------- //
 						// Step 24
 						// -------------------------------------------------------------------------- //
 						ns_consts::EnmReturnStatus	stsUpdLambda = UpdateLambda(tuple_count_data);
@@ -752,15 +729,6 @@ namespace entropy_estimator_lib
 					//
 					// -------------------------------------------------------------------------- //
 					return sts = stsAccum;
-				}
-				// -------------------------------------------------------------------------- //
-				// debug
-				// -------------------------------------------------------------------------- //
-				if ((*tuple_count_data.p_qtilde_work)[4] == (6086939 - 1)) {
-					std::cout << "\\tilde{q}_{\\textrm{work}}[5] = 6086939 \n";
-				}
-				if ((*tuple_count_data.p_qtilde_work)[7] == (5595960 - 1)) {
-					std::cout << "\\tilde{q}_{\\textrm{work}}[8] = 5595960 \n";
 				}
 				// -------------------------------------------------------------------------- //
 				// Step 31

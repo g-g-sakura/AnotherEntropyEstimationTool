@@ -29,7 +29,7 @@ namespace entropy_estimator_lib
 
 			// -------------------------------------------------------------------------- //
 			/// <summary>
-			///  Output LaTeX header for
+			///  Output LaTeX header for the LRS estimate
 			/// </summary>
 			/// <remarks>
 			/// </remarks>

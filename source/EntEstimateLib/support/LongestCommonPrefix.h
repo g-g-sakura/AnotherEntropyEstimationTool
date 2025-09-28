@@ -53,7 +53,6 @@ namespace entropy_estimator_lib
 			typedef std::valarray<unsigned char>	octetarray;
 
 			typedef std::valarray<uint32_t>	intarray;
-			typedef std::valarray<uint64_t>	llarray;
 			typedef std::valarray<double>	dblarray;
 
 			typedef struct _tdata_for_tuple_counting

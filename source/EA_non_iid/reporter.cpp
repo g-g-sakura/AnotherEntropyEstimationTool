@@ -434,8 +434,10 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(const IDInfoForReport& i_refInfoRe
 
         struct tm newtime;
 
-        if (errno_t err = localtime_s(&newtime, &(i_refInfoReport.info_source.tm_last_write_time)))
+        errno_t err = localtime_s(&newtime, &(i_refInfoReport.info_source.tm_last_write_time));
+        if (0 != err)
         {
+            std::cerr << "localtime_s failed with code "<< err << std::endl;
             return  sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
         }
 
@@ -676,8 +678,10 @@ ns_consts::EnmReturnStatus reportXMLBinary(const IDInfoForReport& i_refInfoRepor
 
         struct tm newtime;
 
-        if (errno_t err = localtime_s(&newtime, &(i_refInfoReport.info_source.tm_last_write_time)))
+        errno_t err = localtime_s(&newtime, &(i_refInfoReport.info_source.tm_last_write_time));
+        if (0 != err)
         {
+            std::cerr << "localtime_s failed with code " << err << std::endl;
             return  sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
         }
 
@@ -1455,8 +1459,10 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
 
     struct tm newtime;
 
-    if (errno_t err = localtime_s(&newtime, &(i_refInfoReport.info_source.tm_last_write_time)))
+    errno_t err = localtime_s(&newtime, &(i_refInfoReport.info_source.tm_last_write_time));
+    if (0 != err)
     {
+        std::cerr << "localtime_s failed with code " << err << std::endl;
         return  sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
     }
 
@@ -1628,8 +1634,9 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     }
     // -------------------------------------------------------------------------- //
     // using LCP applied or not
+    //  add footnotemark instead of footnote, as this is inside tabular environment
     // -------------------------------------------------------------------------- //
-    o_refLaTeXSupportingInfo << L"Use Longest Common Prefix\\footnote{See \\ref{MIT} and \\ref{ImplementationNotes}} for 6.3.5 and 6.3.6 & ";
+    o_refLaTeXSupportingInfo << L"Use Longest Common Prefix\\footnotemark for 6.3.5 and 6.3.6 & ";
     if (io_refDataOriginal.isUsingLcpRequested)
     {
         o_refLaTeXSupportingInfo << "True";
@@ -1647,6 +1654,13 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     o_refLaTeXSupportingInfo << L"\\end{tabular}" << L"\n";
     o_refLaTeXSupportingInfo << L"\\end{center}" << L"\n";
     o_refLaTeXSupportingInfo << L"\\end{table}" << L"\n";
+    // -------------------------------------------------------------------------- //
+    //  add footnotetext related to footnotemark
+    // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"\\footnotetext[1]{See \\cite{MIT} and \\cite{ImplementationNotes}}" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
     o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.4}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
