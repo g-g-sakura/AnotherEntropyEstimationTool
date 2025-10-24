@@ -18,7 +18,7 @@ https://github.com/usnistgov/SP800-90B_EntropyAssessment/issues/170
 
 # Usage
 ```
-.\ea_non_iid.exe -f <file name> [-w <number of bits per sample>] [-x] [--MSb|--LSb]
+.\ea_non_iid.exe -f <file name> [-w <number of bits per sample>] [-x] [--MSb|--LSb] [--useLCP]
 ```
 
 - ```-f``` specifies the file name of the acquisition data from an entropy source.  The file path must be relative path to a binary file with at least 1 million samples as per [NIST SP 800-90B](https://doi.org/10.6028/NIST.SP.800-90B).
@@ -26,6 +26,7 @@ https://github.com/usnistgov/SP800-90B_EntropyAssessment/issues/170
 - ```-x``` requests to generate a XeLaTeX source file of entropy estimation report, in the same folder as the specified acquisition data (see ```-f```).
 - ```--MSb``` specifies the conversion from sample to bitstring in Most Significant bit first (**default**). 
 - ```--LSb``` specifies the conversion from sample to bitstring in Least Significant bit first.
+- ```--useLCP``` requests to use Longest Common Prefix (LCP) to calculate t-Tuple Estimate and LRS Estimate.
 
 # Examples of entropy estimation results
 

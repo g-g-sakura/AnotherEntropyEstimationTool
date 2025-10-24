@@ -434,8 +434,10 @@ ns_consts::EnmReturnStatus reportXMLNonBinary(const IDInfoForReport& i_refInfoRe
 
         struct tm newtime;
 
-        if (errno_t err = localtime_s(&newtime, &(i_refInfoReport.info_source.tm_last_write_time)))
+        errno_t err = localtime_s(&newtime, &(i_refInfoReport.info_source.tm_last_write_time));
+        if (0 != err)
         {
+            std::cerr << "localtime_s failed with code "<< err << std::endl;
             return  sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
         }
 
@@ -676,8 +678,10 @@ ns_consts::EnmReturnStatus reportXMLBinary(const IDInfoForReport& i_refInfoRepor
 
         struct tm newtime;
 
-        if (errno_t err = localtime_s(&newtime, &(i_refInfoReport.info_source.tm_last_write_time)))
+        errno_t err = localtime_s(&newtime, &(i_refInfoReport.info_source.tm_last_write_time));
+        if (0 != err)
         {
+            std::cerr << "localtime_s failed with code " << err << std::endl;
             return  sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
         }
 
@@ -1227,6 +1231,23 @@ ns_consts::EnmReturnStatus loadLaTeXBibliography(std::wstringstream& o_ssLaTeX)
     o_ssLaTeX << L"\\bibitem{CorrectionsSP80090B}" << L"\n";
     o_ssLaTeX << L"G. Sakurai, \\textit{Proposed list of corrections for NIST SP 800-90B 6.3 Estimators}, Dec. 2022 " << L"\n";
     o_ssLaTeX << L"\\url{https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ProposedListOfCorrections_SP800-90B.pdf}" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    o_ssLaTeX << L"% 3" << L"\n";
+    o_ssLaTeX << L"\\bibitem{MIT}" << L"\n";
+    o_ssLaTeX << L"Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein, \\textit{Introduction to Algorithms (fourth edition)}, The MIT Press." << L"\n";
+    o_ssLaTeX << L"\\url{https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/}" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
+    o_ssLaTeX << L"% 4" << L"\n";
+    o_ssLaTeX << L"\\bibitem{ImplementationNotes}" << L"\n";
+    o_ssLaTeX << L"G. Sakurai, \\textit{ ImplementationNotes for entropy estimation based on NIST SP800-90B non-IID track}, Sep. 2025 " << L"\n";
+    o_ssLaTeX << L"\\url{https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/SP800-90B_EntropyEstimate_ImplementationNotes.pdf}" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
     o_ssLaTeX << L"\\end{thebibliography}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
@@ -1438,8 +1459,10 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
 
     struct tm newtime;
 
-    if (errno_t err = localtime_s(&newtime, &(i_refInfoReport.info_source.tm_last_write_time)))
+    errno_t err = localtime_s(&newtime, &(i_refInfoReport.info_source.tm_last_write_time));
+    if (0 != err)
     {
+        std::cerr << "localtime_s failed with code " << err << std::endl;
         return  sts = ns_consts::EnmReturnStatus::ErrorInvalidData;
     }
 
@@ -1592,6 +1615,9 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     o_refLaTeXSupportingInfo << L"\\hline" << L"\n";
     o_refLaTeXSupportingInfo << L"Bits per sample & " << io_refDataOriginal.bits_per_sample << L" \\\\" << L"\n";
     o_refLaTeXSupportingInfo << L"\\hline" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // MSb or LSb
+    // -------------------------------------------------------------------------- //
     if (1 < io_refDataOriginal.bits_per_sample)
     {
         o_refLaTeXSupportingInfo << L"Byte to bit conversion & " << L"\n";
@@ -1606,9 +1632,35 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
         o_refLaTeXSupportingInfo << L" \\\\" << L"\n";
         o_refLaTeXSupportingInfo << L"\\hline" << L"\n";
     }
+    // -------------------------------------------------------------------------- //
+    // using LCP applied or not
+    //  add footnotemark instead of footnote, as this is inside tabular environment
+    // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"Use Longest Common Prefix\\footnotemark for 6.3.5 and 6.3.6 & ";
+    if (io_refDataOriginal.isUsingLcpRequested)
+    {
+        o_refLaTeXSupportingInfo << "True";
+    }
+    else
+    {
+        o_refLaTeXSupportingInfo << "False";
+    }
+    o_refLaTeXSupportingInfo << L" \\\\" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\hline" << L"\n";
+
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
     o_refLaTeXSupportingInfo << L"\\end{tabular}" << L"\n";
     o_refLaTeXSupportingInfo << L"\\end{center}" << L"\n";
     o_refLaTeXSupportingInfo << L"\\end{table}" << L"\n";
+    // -------------------------------------------------------------------------- //
+    //  add footnotetext related to footnotemark
+    // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"\\footnotetext[1]{See \\cite{MIT} and \\cite{ImplementationNotes}}" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
     o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.4}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
