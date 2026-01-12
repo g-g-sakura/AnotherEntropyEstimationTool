@@ -2,7 +2,7 @@
 // toolinfo.cpp
 //
 //
-// Copyright (c) 2021-2025 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2026 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "toolinfo.h"
@@ -28,7 +28,7 @@ ns_consts::EnmReturnStatus getToolInfo(const InfoAnalysisTool& i_refAnalysisTool
     // -------------------------------------------------------------------------- //
     //
     // -------------------------------------------------------------------------- //
-    *i_refAnalysisTool.p_analyzer_versioning = std::wstring(L"1.1.5");
+    *i_refAnalysisTool.p_analyzer_versioning = std::wstring(L"1.1.6");
     // -------------------------------------------------------------------------- //
     //
     // -------------------------------------------------------------------------- //
