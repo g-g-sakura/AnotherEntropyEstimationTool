@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2025 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2026 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "6_3_3_MarkovEstimate.h"
@@ -55,6 +55,7 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"\\begin{figure}[htbp]" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"\\begin{tikzpicture} " << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"\\begin{axis}[" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\tscale = 1.25," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"\txlabel=$i$," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"\tylabel=$P_{i,j}$," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	width=10cm," << L"\n";
@@ -63,12 +64,12 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"	legend style={at={(1,0.75)},anchor=north west}," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	/pgf/number format/.cd,fixed,precision=6," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	scatter/classes={%" << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		p00={mark=square*,NPGskyblue}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		p01={mark=square*,NPGnavyblue}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		p10={mark=square*,NPGsalmon}," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		p11={mark=square*,NPGred}}]" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		p00={mark=square,NPGskyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		p01={mark=square,NPGnavyblue}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		p10={mark=halfsquare right*,NPGsalmon}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		p11={mark=halfsquare left*,NPGred}}]" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	\\addplot[scatter,only marks,%" << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"		scatter src=explicit symbolic]%" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"		scatter src=explicit symbolic,mark size=4pt]%" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	table[meta=label] {" << L"\n";
 				// -------------------------------------------------------------------------- //
 				// 
@@ -204,7 +205,7 @@ namespace entropy_estimator_lib
 				for (int j = 0; j < 14; ++j)
 				{
 					(*io_refData.p_ssLaTeXFragment) << L"	\\addplot[scatter,only marks,%" << L"\n";
-					(*io_refData.p_ssLaTeXFragment) << L"		scatter src=explicit symbolic]%" << L"\n";
+					(*io_refData.p_ssLaTeXFragment) << L"		scatter src=explicit symbolic,mark size=4pt]%" << L"\n";
 					(*io_refData.p_ssLaTeXFragment) << L"	table[meta=label] {" << L"\n";
 					(*io_refData.p_ssLaTeXFragment) << L"x\ty\tlabel" << L"\n";
 					(*io_refData.p_ssLaTeXFragment) << std::setw(2) << j + 1 << L"\t" << std::setw(8) << io_refData.t_6_3_3.negativeLogPoverLength[j];

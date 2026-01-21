@@ -1139,7 +1139,7 @@ ns_consts::EnmReturnStatus loadPGFPlotSummary(std::wstringstream& o_ssLaTeX, boo
     o_ssLaTeX << L"	xlabel=Sub-sub-section of NIST SP 800-90B," << L"\n";
     o_ssLaTeX << L"	ylabel={Estimated min-entropy $[$bit / " << bits_per_sample << L"-bit$]$}," << L"\n";
     o_ssLaTeX << L"\txtick=data]" << L"\n";
-    o_ssLaTeX << L"\\addplot+[forget plot,only marks] " << L"\n";
+    o_ssLaTeX << L"\\addplot+[forget plot,only marks,mark=square, mark size=5pt, color=blue,] " << L"\n";
     o_ssLaTeX << L"  plot[error bars/.cd, y dir=both, y explicit]" << L"\n";
     o_ssLaTeX << L"  table[x=section,y=y,y error plus expr=\\thisrow{y-max},y error minus expr=\\thisrow{y-min}] {\\summarytable";
     if (false == isBinary)
@@ -1426,7 +1426,7 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // 
     // -------------------------------------------------------------------------- //
     o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.8}" << L"\n";
-    o_refLaTeXSupportingInfo << L"\\begin{table}[h]" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\begin{table}[htbp]" << L"\n";
     o_refLaTeXSupportingInfo << L"\\caption{Identification information of acquisition data from entropy source}" << L"\n";
     o_refLaTeXSupportingInfo << L"\\begin{center}" << L"\n";
     o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{anotherlightblue}}p{2cm}|p{20.5cm}|}" << L"\n";
@@ -1503,7 +1503,7 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // 
     // -------------------------------------------------------------------------- //
     o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.8}" << L"\n";
-    o_refLaTeXSupportingInfo << L"\\begin{table}[h]" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\begin{table}[htbp]" << L"\n";
     o_refLaTeXSupportingInfo << L"\\caption{Identification information of analysis environment}" << L"\n";
     o_refLaTeXSupportingInfo << L"\\begin{center}" << L"\n";
     o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{anotherlightblue}}l|>{\\columncolor{anotherlightblue}}l|p{12cm}|}" << L"\n";
@@ -1600,6 +1600,10 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"\\clearpage" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
     std::wstring	strSubsectionAnalysisCond = std::wstring();
     std::wstring	strSubsectionTitleAnalysisCond = std::wstring(L"Identification of analysis conditions");
     strLabel = std::wstring(L"sec:IdentificationInfo-analysisconditions");
@@ -1609,7 +1613,7 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // 
     // -------------------------------------------------------------------------- //
     o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.8}" << L"\n";
-    o_refLaTeXSupportingInfo << L"\\begin{table}[h]" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\begin{table}[htbp]" << L"\n";
     o_refLaTeXSupportingInfo << L"\\caption{Identification information of analysis conditions}" << L"\n";
     o_refLaTeXSupportingInfo << L"\\begin{center}" << L"\n";
     o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{anotherlightblue}}l|p{8cm}|}" << L"\n";
@@ -1944,7 +1948,7 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeXSummary << L"\\begin{table}[h]" << L"\n";
+    ssLaTeXSummary << L"\\begin{table}[htbp]" << L"\n";
     ssLaTeXSummary << L"\\caption{Numerical results}" << L"\n";
     ssLaTeXSummary << L"\\begin{center}" << L"\n";
     ssLaTeXSummary << L"\\begin{tabular}{|l|c|c|c|c|}" << L"\n";
@@ -2284,7 +2288,7 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
         }
     }
     ssLaTeXSummary << L"}{\\summarytableBinary}" << L"\n";
-    ssLaTeXSummary << L"\\begin{table}[h]" << L"\n";
+    ssLaTeXSummary << L"\\begin{table}[htbp]" << L"\n";
     ssLaTeXSummary << L"\\caption{Numerical results}" << L"\n";
     ssLaTeXSummary << L"\\begin{center}" << L"\n";
     ssLaTeXSummary << L"\\begin{tabular}{|l|c|c|}" << L"\n";

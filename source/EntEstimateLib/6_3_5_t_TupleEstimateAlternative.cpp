@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2025 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2025-2026 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "6_3_5_t_TupleEstimateAlternative.h"
@@ -96,7 +96,7 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"	xlabel=$i$," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	ylabel=$Q \\lbrack i \\rbrack $" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"]" << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"\\addplot coordinates {" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\addplot [ mark=square, mark size=4pt, color=blue] coordinates {" << L"\n";
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
@@ -129,7 +129,7 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"	ylabel=$\\left( P \\lbrack i \\rbrack \\right)^{1/i}$," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	/pgf/number format/.cd,fixed,precision=6" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"]" << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"\\addplot coordinates {" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\addplot [ mark=square, mark size=4pt, color=blue] coordinates {" << L"\n";
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
@@ -226,7 +226,7 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\begin{table}[h]" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\begin{table}[htbp]" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"\\caption{Supplemental information for traceability (NIST SP 800-90B Section 6.3.5)}" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"\\begin{center}" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"\\begin{tabular}{|l|c|}" << L"\n";

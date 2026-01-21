@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2025 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2026 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "6_3_6_LRSEstimate.h"
@@ -156,7 +156,7 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"    }," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	yticklabel style = { /pgf/number format/precision=6 }" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"]" << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"\\addplot  coordinates {" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\addplot [ mark=square, mark size=4pt, color=blue] coordinates {" << L"\n";
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
@@ -372,7 +372,7 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				//
 				// -------------------------------------------------------------------------- //
-				(*io_refData.p_ssLaTeXFragment) << L"\\begin{table}[h]" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"\\begin{table}[htbp]" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"\\caption{Supplemental information for traceability (NIST SP 800-90B Section 6.3.6)}" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"\\begin{center}" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"\\begin{tabular}{|l|c|}" << L"\n";

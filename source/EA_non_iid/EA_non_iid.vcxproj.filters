@@ -30,10 +30,10 @@
     <ClCompile Include="runEntropyEstimates.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="toolinfo.cpp">
+    <ClCompile Include="calcMessageDigest.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="calcMessageDigest.cpp">
+    <ClCompile Include="toolinfo.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
