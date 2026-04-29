@@ -964,6 +964,7 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
     o_ssLaTeX << L"\\usepackage{lastpage}" << L"\n";
     o_ssLaTeX << L"\\usepackage{verbatim}" << L"\n";
     o_ssLaTeX << L"\\usepackage{multirow}" << L"\n";
+    o_ssLaTeX << L"\\usepackage[1.7]{bxpdfver}" << L"\n";
     o_ssLaTeX << L"\\usepackage{censor}" << L"\n";
     o_ssLaTeX << L"\\usepackage{adjustbox}" << L"\n";
     o_ssLaTeX << L"\\usepackage[unicode,pdftitle={Report of Entropy estimates based on NIST SP 800-90B non-IID track},pdfkeywords={SP800-90B; entropy; random number generation;},setpagesize=false]{hyperref}" << L"\n";
@@ -1210,6 +1211,7 @@ ns_consts::EnmReturnStatus loadLaTeXBibliography(std::wstringstream& o_ssLaTeX)
     // 
     // -------------------------------------------------------------------------- //
     o_ssLaTeX << L"\\addtocounter{section}{1}" << L"\n";
+    o_ssLaTeX << L"\\addcontentsline{toc}{chapter}{\\refname}" << L"\n";
     o_ssLaTeX << L"\\begin{thebibliography}{99}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
@@ -1230,7 +1232,7 @@ ns_consts::EnmReturnStatus loadLaTeXBibliography(std::wstringstream& o_ssLaTeX)
     // -------------------------------------------------------------------------- //
     o_ssLaTeX << L"% 2" << L"\n";
     o_ssLaTeX << L"\\bibitem{CorrectionsSP80090B}" << L"\n";
-    o_ssLaTeX << L"G. Sakurai, \\textit{Proposed list of corrections for NIST SP 800-90B 6.3 Estimators}, Dec. 2022 " << L"\n";
+    o_ssLaTeX << L"G. Sakurai, \\textit{Proposed list of corrections for NIST SP 800-90B 6.3 Estimators}, June 2025 " << L"\n";
     o_ssLaTeX << L"\\url{https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ProposedListOfCorrections_SP800-90B.pdf}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
