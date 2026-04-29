@@ -87,7 +87,8 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"	width=20cm," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	xlabel=$D_{i}$," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	ylabel=number of $D_{i}$," << L"\n";
-				(*io_refData.p_ssLaTeXFragment) << L"	log basis x={2}" << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"	log basis x={2}," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"	xticklabel style={yshift=-5pt}" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"]" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"\\addplot [ mark=square, mark size=4pt, color=blue] coordinates {" << L"\n";
 				// -------------------------------------------------------------------------- //
