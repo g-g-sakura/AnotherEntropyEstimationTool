@@ -1246,7 +1246,7 @@ ns_consts::EnmReturnStatus loadLaTeXBibliography(std::wstringstream& o_ssLaTeX)
     // -------------------------------------------------------------------------- //
     o_ssLaTeX << L"% 4" << L"\n";
     o_ssLaTeX << L"\\bibitem{ImplementationNotes}" << L"\n";
-    o_ssLaTeX << L"G. Sakurai, \\textit{ ImplementationNotes for entropy estimation based on NIST SP800-90B non-IID track}, Sep. 2025 " << L"\n";
+    o_ssLaTeX << L"G. Sakurai, \\textit{Implementation Notes for entropy estimation based on NIST SP800-90B non-IID track}, Sep. 2025 " << L"\n";
     o_ssLaTeX << L"\\url{https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/SP800-90B_EntropyEstimate_ImplementationNotes.pdf}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 

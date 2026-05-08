@@ -85,6 +85,7 @@ namespace entropy_estimator_lib
 				(*io_refData.p_ssLaTeXFragment) << L"\\begin{tikzpicture}" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"\\begin{semilogxaxis}[" << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	width=20cm," << L"\n";
+				(*io_refData.p_ssLaTeXFragment) << L"	ymin = 0," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	xlabel=$D_{i}$," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	ylabel=number of $D_{i}$," << L"\n";
 				(*io_refData.p_ssLaTeXFragment) << L"	log basis x={2}," << L"\n";

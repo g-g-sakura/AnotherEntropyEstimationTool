@@ -970,7 +970,7 @@ namespace entropy_estimator_lib
 				// -------------------------------------------------------------------------- //
 				// output LaTeX
 				// -------------------------------------------------------------------------- //
-				std::wstring	wstrCaptionTuple = L"Estimated $W$-tuple collision probability in Step 3 of $\\S6.3.6$ of NIST SP 800-90B";
+				std::wstring	wstrCaptionTuple = L"Distribution of the multiplicity of $W$-tuple having the same $C_{i}$ value in Step 3 of $\\S6.3.6$ of NIST SP 800-90B";
 				outputLaTeXHeaderTuple(io_refData, global_Ci_max - 1);
 				if (nullptr != io_refData.p_ssLaTeXFragment)
 				{
