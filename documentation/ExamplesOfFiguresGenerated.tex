@@ -1,0 +1,1829 @@
+\documentclass[a3paper,xelatex,english]{bxjsarticle}
+\usepackage{pgfplots,pgfplotstable}
+\pgfplotsset{ compat = newest }
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,bending,calc,shapes,positioning,intersections}
+\usepgfplotslibrary{fillbetween}
+\usepackage{ascmac}
+\usepackage{fancybox}
+\usepackage{amsmath,amssymb}
+\usepackage{algorithm}
+\usepackage[edges]{forest}
+\usepackage{array}
+\usepackage{algpseudocode}
+\usepackage{paralist}
+\usepackage{cases}
+\usepackage{fvextra}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[explicit]{titlesec}
+\usepackage{xspace}
+\usepackage[many]{tcolorbox}
+\usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{multirow}
+\usepackage{ fontspec }
+\usepackage{censor}
+\usepackage{adjustbox}
+\usepackage[unicode,pdftitle={Examples of Figures for NIST SP 800-90B non-IID track},pdfkeywords={SP800-90B; entropy; random number generation;},setpagesize=false]{hyperref}
+\usepackage[open,openlevel=4]{bookmark}
+\newcommand\mib[1]{\boldsymbol{#1}}
+\usepgfplotslibrary{patchplots}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%
+%%%%%% customize page numbering
+%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\fancypagestyle{mypagestylewithtotalpagenumbers}{
+\lhead{}
+\rhead{}
+\cfoot{\thepage/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.0pt}
+}
+
+\setcounter{tocdepth}{4}
+\setlength{\topmargin}{-1cm}
+\setlength{\textheight}{37cm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%
+%%%%%%
+%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%\renewcommand{ \figurename }{Figure }
+%%%\renewcommand{ \tablename }{Table }
+%%%\renewcommand{ \refname }{References}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%
+%%%%%%
+%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{rowcolorlightblue}{RGB}{191,233,251}
+\definecolor{bordercolordarkblue}{RGB}{0,163,243}
+\definecolor{BleuDur}{RGB}{27,61,176}
+\definecolor{Nigelle}{RGB}{0,133,201}
+\definecolor{BleuFaience}{RGB}{105,171,219}
+\definecolor{anotherlightblue}{RGB}{61,143,244}
+\definecolor{NPGred}{RGB} {230, 75, 53}
+\definecolor{NPGskyblue}{RGB} {77, 187, 213}
+\definecolor{NPGgreen}{RGB} {0, 160, 135}
+\definecolor{NPGnavyblue}{RGB} {60, 84, 136}
+\definecolor{NPGsalmon}{RGB} {243, 155, 127}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%
+%%%%%%
+%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\chpcolor{BleuDur}
+\def\chpcolortxt{BleuDur}
+\def\sectionfont{\sffamily\LARGE}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%
+%%%%%%
+%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+%Section:
+\def\@sectionstrut{\vrule\@width\z@\@height12.5\p@}
+\def\@makesectionhead#1{%
+  {\par\vspace{20pt}%
+   \parindent 0pt\raggedleft\sectionfont
+   \colorbox{\chpcolor}{%
+     \parbox[t]{90pt}{\color{white}\@sectionstrut\@depth4.5\p@\hfill
+       \ifnum\c@secnumdepth>\z@\thesection\fi}%
+   }%
+   \begin{minipage}[t]{\dimexpr\textwidth-90pt-2\fboxsep\relax}
+   \color{\chpcolortxt}\@sectionstrut\hspace{5pt}#1
+   \end{minipage}\par
+   \vspace{10pt}%
+  }
+}
+\def\section{\@afterindentfalse\secdef\@section\@ssection}
+\def\@section[#1]#2{%
+  \ifnum\c@secnumdepth>\m@ne
+    \refstepcounter{section}%
+    \addcontentsline{toc}{section}{\protect\numberline{\thesection}#1}%
+  \else
+    \phantomsection
+    \addcontentsline{toc}{section}{#1}%
+  \fi
+  \sectionmark{#1}%
+  \if@twocolumn
+    \@topnewpage[\@makesectionhead{#2}]%
+  \else
+    \@makesectionhead{#2}\@afterheading
+  \fi
+}
+\def\@ssection#1{%
+  \if@twocolumn
+    \@topnewpage[\@makesectionhead{#1}]%
+  \else
+    \@makesectionhead{#1}\@afterheading
+  \fi
+}
+\makeatother
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%
+%%%%%%
+%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{ \topmargin }{-1.5cm}
+\setmainfont{Times New Roman}
+\newfontfamily\titlefont{Arial}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%
+%%%%%%
+%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{mypagestylewithtotalpagenumbers}
+%%%%%%
+%%%%%%
+%%%%%%
+\title{\Huge Examples of Figures for NIST SP 800-90B non-IID track}
+\begin{document}
+\StopCensoring
+\maketitle
+
+\renewcommand{\arraystretch}{1.4}
+
+
+\section{\Large Finding the minimum of estimators listed in $\S$6.3.x as per $\S$6.2 of NIST SP 800-90B}\label{sec:6.2}
+Figures \ref{fig:Overall1} and \ref{fig:Overall2} show the min-entropy estimates using $\S$6.3.x of NIST SP 800-90B for truerand\_1bit.bin \cite{truerand1} and for rand1\_short.bin \cite{shortrand1}, respectively. 
+
+\vspace*{8mm}
+
+\pgfplotstableread{
+section	y	y-min	y-max
+6.3.1	0.995043	-2.87549e-06	       0
+6.3.2	0.900935	0.000141985	0.901077
+6.3.3	0.998486	5.71474e-06	0.998486
+6.3.4	0.829677	       0	       0
+6.3.5	0.914226	       0	       0
+6.3.6	0.985818	       0	       0
+6.3.7	0.996972	2.87952e-06	0.996975
+6.3.8	0.998292	2.88199e-06	0.998295
+6.3.9	 0.99666	2.87872e-06	0.996663
+6.3.10	 0.99705	2.87955e-06	0.997053
+}{\summarytableBinaryTROne}
+
+\pgfplotstableread{
+section	y	y-min	y-max
+6.3.1	0.961059	-0.000280871	       0
+6.3.2	0.691464	0.00362392	0.695146
+6.3.3	0.987596	0.000567574	0.987596
+6.3.4	0.611716	       0	       0
+6.3.5	0.867624	       0	       0
+6.3.6	0.962626	       0	       0
+6.3.7	0.952618	0.000280904	0.952899
+6.3.8	0.943334	0.000277324	0.943611
+6.3.9	0.961617	0.000280983	0.961898
+6.3.10	0.961446	0.000281371	0.961728
+}{\summarytableBinarySROne}
+
+\begin{figure}[htbp]
+  \begin{minipage}[b]{0.48\columnwidth}
+    \centering
+\begin{tikzpicture} 
+\begin{axis}
+	[symbolic x coords={6.3.1,6.3.2,6.3.3,6.3.4,6.3.5,6.3.6,6.3.7,6.3.8,6.3.9,6.3.10},
+	width=12cm,
+	ymin=0,
+	ymax=1,
+	xlabel=Sub-sub-section of NIST SP 800-90B,
+	ylabel={Estimated min-entropy $[$bit / 1-bit$]$},
+	xtick=data]
+\addplot+[forget plot,only marks,mark=square, mark size=5pt, color=blue,] 
+  plot[error bars/.cd, y dir=both, y explicit]
+  table[x=section,y=y,y error plus expr=\thisrow{y-max},y error minus expr=\thisrow{y-min}] {\summarytableBinaryTROne};
+\addplot+[Nigelle,no marks,sharp plot,update limits=false] 
+coordinates {(6.3.1,0.829677) (6.3.10,0.829677)}
+node[below] at (axis cs:6.3.5,0.829677) {Estimated min-entropy = 
+0.829677};
+\end{axis} 
+\end{tikzpicture}
+
+	\caption{Estimated Min-Entropy using $\S$6.3 of NIST SP 800-90B for truerand\_1bit.bin \cite{truerand1}}\label{fig:Overall1}
+  \end{minipage}
+  \hspace{0.04\columnwidth} % ここで隙間作成
+  \begin{minipage}[b]{0.48\columnwidth}
+    \centering
+\begin{tikzpicture} 
+\begin{axis}
+	[symbolic x coords={6.3.1,6.3.2,6.3.3,6.3.4,6.3.5,6.3.6,6.3.7,6.3.8,6.3.9,6.3.10},
+	width=12cm,
+	ymin=0,
+	ymax=1,
+	xlabel=Sub-sub-section of NIST SP 800-90B,
+	ylabel={Estimated min-entropy $[$bit / 1-bit$]$},
+	xtick=data]
+\addplot+[forget plot,only marks,mark=square, mark size=5pt, color=blue,] 
+  plot[error bars/.cd, y dir=both, y explicit]
+  table[x=section,y=y,y error plus expr=\thisrow{y-max},y error minus expr=\thisrow{y-min}] {\summarytableBinarySROne};
+\addplot+[Nigelle,no marks,sharp plot,update limits=false] 
+coordinates {(6.3.1,0.611716) (6.3.10,0.611716)}
+node[below] at (axis cs:6.3.5,0.611716) {Estimated min-entropy = 
+0.611716};
+\end{axis} 
+\end{tikzpicture}
+
+\caption{Estimated Min-Entropy using $\S$6.3 of NIST SP 800-90B for rand1\_short.bin \cite{shortrand1}}\label{fig:Overall2}
+  \end{minipage}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%
+%%%%%% Most Common Value 
+%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\Large Examples of figures obtained by the Most Common Value Estimate}\label{sec:6.3.1}
+
+Figures \ref{fig:MCV1} and \ref{fig:MCV2} show the distribution of $x_{i}$ for truerand\_8bit.bin \cite{truerand8} and for normal.bin \cite{normal.bin}, respectively. 
+Nearly `white' distribution can be seen in Figure \ref{fig:MCV1}, while a distribution similar to normal distribution can be seen in Figure \ref{fig:MCV2}.
+
+\vspace*{8mm}
+
+\begin{figure}[tbp]
+  \begin{minipage}[b]{0.48\columnwidth}
+    \centering
+
+\begin{tikzpicture}
+\begin{axis}[
+	ybar,
+	bar width=1.25pt,
+	xmin=-0.125,
+xmax=255.125,
+	enlarge y limits={rel=0.2, upper}, % 上側だけ 20% 追加
+	ymin=0,
+	width=12cm,
+	xlabel=$x_i$,
+	ylabel=\#$\{x_i \,\textrm{in} \,S\} / L$
+]
+\addplot coordinates {
+(       0, 0.003962)
+(       1, 0.003866)
+(       2, 0.003875)
+(       3,  0.00393)
+(       4, 0.003894)
+(       5, 0.003934)
+(       6, 0.003874)
+(       7, 0.003914)
+(       8, 0.003871)
+(       9, 0.003881)
+(      10, 0.003928)
+(      11,  0.00382)
+(      12, 0.003809)
+(      13, 0.003992)
+(      14, 0.003955)
+(      15, 0.003933)
+(      16, 0.003895)
+(      17, 0.003934)
+(      18, 0.004055)
+(      19, 0.003892)
+(      20, 0.004019)
+(      21, 0.003897)
+(      22, 0.003817)
+(      23, 0.003905)
+(      24, 0.003853)
+(      25, 0.003843)
+(      26, 0.003907)
+(      27, 0.003841)
+(      28, 0.003841)
+(      29, 0.003938)
+(      30, 0.003859)
+(      31, 0.003928)
+(      32, 0.003858)
+(      33, 0.003987)
+(      34, 0.004021)
+(      35, 0.003823)
+(      36, 0.003795)
+(      37, 0.003948)
+(      38, 0.003952)
+(      39, 0.003931)
+(      40, 0.003822)
+(      41, 0.003947)
+(      42, 0.003932)
+(      43, 0.003882)
+(      44,  0.00389)
+(      45, 0.003929)
+(      46, 0.003982)
+(      47, 0.003808)
+(      48, 0.003861)
+(      49, 0.003833)
+(      50, 0.003805)
+(      51, 0.003889)
+(      52, 0.003995)
+(      53, 0.003843)
+(      54, 0.003978)
+(      55,  0.00388)
+(      56, 0.003898)
+(      57, 0.003946)
+(      58, 0.003846)
+(      59, 0.003935)
+(      60, 0.003809)
+(      61, 0.003904)
+(      62, 0.003894)
+(      63, 0.003921)
+(      64, 0.003848)
+(      65, 0.003901)
+(      66, 0.003896)
+(      67, 0.003995)
+(      68,  0.00396)
+(      69, 0.003767)
+(      70, 0.003874)
+(      71, 0.003902)
+(      72, 0.003958)
+(      73, 0.003896)
+(      74, 0.003891)
+(      75, 0.004031)
+(      76,  0.00392)
+(      77,  0.00387)
+(      78, 0.004001)
+(      79, 0.003874)
+(      80, 0.003882)
+(      81, 0.003972)
+(      82, 0.003878)
+(      83, 0.003964)
+(      84,  0.00383)
+(      85, 0.003822)
+(      86, 0.003985)
+(      87, 0.003889)
+(      88, 0.003871)
+(      89, 0.003932)
+(      90,  0.00381)
+(      91, 0.003944)
+(      92, 0.004046)
+(      93, 0.003859)
+(      94, 0.003874)
+(      95, 0.003855)
+(      96,  0.00389)
+(      97, 0.003796)
+(      98, 0.004004)
+(      99, 0.003797)
+(     100, 0.003906)
+(     101, 0.003783)
+(     102, 0.003934)
+(     103, 0.003875)
+(     104, 0.003939)
+(     105, 0.004012)
+(     106, 0.003944)
+(     107,  0.00391)
+(     108, 0.003928)
+(     109, 0.003882)
+(     110, 0.003887)
+(     111, 0.003971)
+(     112, 0.004046)
+(     113, 0.003931)
+(     114, 0.003778)
+(     115, 0.003956)
+(     116, 0.003909)
+(     117, 0.003862)
+(     118, 0.003803)
+(     119, 0.003992)
+(     120, 0.003928)
+(     121,  0.00394)
+(     122,  0.00382)
+(     123, 0.003948)
+(     124, 0.003881)
+(     125, 0.003949)
+(     126, 0.003896)
+(     127, 0.003915)
+(     128, 0.003974)
+(     129, 0.003853)
+(     130, 0.003968)
+(     131, 0.004005)
+(     132, 0.003816)
+(     133, 0.003819)
+(     134, 0.003888)
+(     135, 0.003881)
+(     136, 0.003836)
+(     137, 0.003849)
+(     138, 0.003949)
+(     139, 0.003913)
+(     140, 0.003843)
+(     141, 0.003908)
+(     142, 0.003937)
+(     143, 0.003903)
+(     144, 0.003831)
+(     145,  0.00387)
+(     146, 0.003871)
+(     147,  0.00395)
+(     148,   0.0038)
+(     149, 0.004002)
+(     150, 0.003922)
+(     151, 0.004012)
+(     152, 0.003906)
+(     153, 0.003889)
+(     154, 0.003932)
+(     155,  0.00386)
+(     156,  0.00389)
+(     157, 0.003913)
+(     158,  0.00387)
+(     159, 0.003945)
+(     160, 0.004053)
+(     161, 0.003887)
+(     162, 0.003883)
+(     163, 0.003896)
+(     164, 0.003948)
+(     165, 0.003927)
+(     166, 0.003877)
+(     167, 0.004021)
+(     168, 0.003859)
+(     169, 0.003778)
+(     170, 0.003891)
+(     171, 0.004124)
+(     172,  0.00389)
+(     173, 0.003762)
+(     174, 0.003855)
+(     175, 0.003928)
+(     176, 0.003929)
+(     177,  0.00383)
+(     178, 0.003868)
+(     179, 0.003888)
+(     180,  0.00388)
+(     181, 0.003981)
+(     182, 0.003888)
+(     183, 0.003963)
+(     184, 0.003993)
+(     185, 0.004017)
+(     186, 0.003904)
+(     187, 0.003785)
+(     188, 0.003889)
+(     189, 0.004043)
+(     190,  0.00389)
+(     191, 0.003916)
+(     192, 0.003902)
+(     193, 0.003801)
+(     194, 0.003972)
+(     195, 0.003984)
+(     196, 0.003932)
+(     197, 0.003987)
+(     198, 0.003909)
+(     199, 0.003908)
+(     200, 0.003867)
+(     201, 0.003907)
+(     202, 0.003977)
+(     203, 0.003897)
+(     204,  0.00382)
+(     205, 0.003981)
+(     206, 0.004011)
+(     207, 0.003751)
+(     208, 0.003957)
+(     209, 0.003916)
+(     210, 0.003844)
+(     211, 0.004063)
+(     212, 0.003913)
+(     213, 0.003898)
+(     214, 0.003943)
+(     215, 0.003948)
+(     216, 0.003794)
+(     217, 0.003924)
+(     218, 0.003799)
+(     219, 0.003905)
+(     220, 0.003933)
+(     221, 0.003902)
+(     222, 0.003913)
+(     223, 0.003787)
+(     224, 0.003995)
+(     225, 0.003799)
+(     226, 0.003921)
+(     227, 0.003952)
+(     228, 0.003885)
+(     229, 0.003996)
+(     230, 0.003841)
+(     231, 0.004013)
+(     232, 0.004034)
+(     233, 0.003936)
+(     234, 0.003944)
+(     235, 0.003877)
+(     236, 0.003909)
+(     237, 0.003829)
+(     238, 0.003887)
+(     239, 0.003952)
+(     240, 0.003932)
+(     241, 0.003884)
+(     242, 0.003955)
+(     243,  0.00383)
+(     244, 0.003828)
+(     245, 0.003893)
+(     246, 0.003946)
+(     247, 0.003907)
+(     248, 0.003831)
+(     249, 0.003932)
+(     250, 0.004018)
+(     251, 0.003833)
+(     252,  0.00383)
+(     253, 0.003924)
+(     254, 0.004005)
+(     255, 0.003974)
+};
+\addplot+[Nigelle,no marks,sharp plot,update limits=false] 
+coordinates {(0,0.004124) (255,0.004124)}
+node[above] at (axis cs:127.5,0.004124) {\shortstack{$\hat{p}$ = 
+0.004124\\($\rightarrow$ min-entropy = 7.86512 [bit / 8-bit])}};
+\end{axis}
+\end{tikzpicture}
+
+\caption{Distribution of $x_i$ for truerand\_8bit.bin \cite{truerand8}}\label{fig:MCV1}
+
+  \end{minipage}
+  \hspace{0.04\columnwidth} % ここで隙間作成
+  \begin{minipage}[b]{0.48\columnwidth}
+    \centering
+\begin{tikzpicture}
+\begin{axis}[
+	ybar,
+	bar width=1.25pt,
+	xmin=-0.125,
+xmax=217.125,
+	enlarge y limits={rel=0.2, upper}, % 上側だけ 20% 追加
+	ymin=0,
+	width=12cm,
+	xlabel=$x_i$,
+	ylabel=\#$\{x_i \,\textrm{in} \,S\} / L$
+]
+\addplot coordinates {
+(      29,    1e-06)
+(      30,    1e-06)
+(      32,    1e-06)
+(      37,    2e-06)
+(      38,    2e-06)
+(      41,    2e-06)
+(      42,    4e-06)
+(      43,    6e-06)
+(      44,    7e-06)
+(      45,    3e-06)
+(      46,    5e-06)
+(      47,    8e-06)
+(      48,    2e-06)
+(      49,  1.2e-05)
+(      50,  1.5e-05)
+(      51,  2.3e-05)
+(      52,  1.4e-05)
+(      53,  2.7e-05)
+(      54,  3.3e-05)
+(      55,  5.2e-05)
+(      56,  3.1e-05)
+(      57,  2.9e-05)
+(      58,  5.3e-05)
+(      59,  6.1e-05)
+(      60,  7.5e-05)
+(      61,  8.3e-05)
+(      62, 0.000106)
+(      63, 0.000128)
+(      64, 0.000175)
+(      65,  0.00018)
+(      66, 0.000207)
+(      67, 0.000235)
+(      68, 0.000227)
+(      69, 0.000309)
+(      70,  0.00038)
+(      71, 0.000418)
+(      72, 0.000446)
+(      73, 0.000548)
+(      74, 0.000651)
+(      75, 0.000691)
+(      76, 0.000791)
+(      77, 0.000944)
+(      78, 0.001054)
+(      79, 0.001179)
+(      80, 0.001314)
+(      81, 0.001499)
+(      82, 0.001643)
+(      83, 0.001908)
+(      84, 0.002053)
+(      85, 0.002389)
+(      86, 0.002646)
+(      87, 0.002757)
+(      88, 0.003114)
+(      89, 0.003462)
+(      90, 0.003718)
+(      91, 0.004172)
+(      92,  0.00459)
+(      93, 0.004868)
+(      94, 0.005392)
+(      95, 0.005689)
+(      96,  0.00631)
+(      97, 0.006779)
+(      98, 0.007313)
+(      99, 0.007761)
+(     100, 0.008384)
+(     101, 0.008861)
+(     102, 0.009465)
+(     103, 0.010174)
+(     104, 0.010665)
+(     105, 0.011401)
+(     106, 0.011859)
+(     107, 0.012565)
+(     108, 0.012963)
+(     109, 0.013391)
+(     110, 0.014033)
+(     111, 0.014806)
+(     112, 0.015477)
+(     113, 0.015758)
+(     114, 0.016385)
+(     115, 0.016946)
+(     116, 0.017297)
+(     117, 0.017801)
+(     118, 0.018289)
+(     119, 0.018601)
+(     120, 0.018767)
+(     121, 0.019236)
+(     122, 0.019483)
+(     123, 0.019434)
+(     124, 0.019853)
+(     125, 0.019737)
+(     126, 0.019943)
+(     127, 0.019729)
+(     128, 0.019591)
+(     129, 0.019883)
+(     130, 0.019718)
+(     131, 0.019467)
+(     132,   0.0195)
+(     133, 0.018777)
+(     134, 0.018471)
+(     135, 0.018142)
+(     136, 0.018009)
+(     137, 0.017581)
+(     138, 0.016844)
+(     139, 0.016341)
+(     140, 0.015776)
+(     141, 0.015072)
+(     142, 0.014646)
+(     143, 0.014108)
+(     144, 0.013774)
+(     145, 0.013111)
+(     146, 0.012191)
+(     147,  0.01182)
+(     148, 0.011427)
+(     149, 0.010696)
+(     150,  0.00991)
+(     151,   0.0095)
+(     152, 0.009021)
+(     153, 0.008098)
+(     154, 0.007796)
+(     155, 0.007217)
+(     156, 0.006743)
+(     157, 0.006313)
+(     158, 0.005727)
+(     159,  0.00538)
+(     160, 0.004928)
+(     161, 0.004537)
+(     162, 0.004117)
+(     163, 0.003748)
+(     164, 0.003409)
+(     165, 0.003105)
+(     166, 0.002916)
+(     167, 0.002546)
+(     168, 0.002329)
+(     169, 0.002098)
+(     170, 0.001834)
+(     171,  0.00171)
+(     172,  0.00156)
+(     173, 0.001314)
+(     174, 0.001186)
+(     175,  0.00107)
+(     176, 0.000895)
+(     177, 0.000803)
+(     178, 0.000695)
+(     179, 0.000636)
+(     180, 0.000631)
+(     181, 0.000467)
+(     182, 0.000441)
+(     183, 0.000365)
+(     184, 0.000296)
+(     185, 0.000266)
+(     186, 0.000215)
+(     187, 0.000208)
+(     188, 0.000175)
+(     189, 0.000138)
+(     190, 0.000134)
+(     191, 0.000117)
+(     192,  7.9e-05)
+(     193,  6.7e-05)
+(     194,  6.2e-05)
+(     195,  6.1e-05)
+(     196,  5.7e-05)
+(     197,  3.9e-05)
+(     198,  3.7e-05)
+(     199,  1.8e-05)
+(     200,  3.1e-05)
+(     201,  1.9e-05)
+(     202,  1.7e-05)
+(     203,    2e-05)
+(     204,  1.1e-05)
+(     205,    8e-06)
+(     206,    7e-06)
+(     207,    6e-06)
+(     208,    2e-06)
+(     209,    8e-06)
+(     210,    4e-06)
+(     212,    3e-06)
+(     213,    2e-06)
+(     214,    1e-06)
+(     217,    1e-06)
+};
+\addplot+[Nigelle,no marks,sharp plot,update limits=false] 
+coordinates {(0,0.019943) (217,0.019943)}
+node[above] at (axis cs:108.5,0.019943) {\shortstack{$\hat{p}$ = 
+0.019943\\($\rightarrow$ min-entropy = 5.62216 [bit / 8-bit])}};
+\end{axis}
+\end{tikzpicture}
+
+\caption{Distribution of $x_i$ for normal.bin \cite{normal.bin}}\label{fig:MCV2}
+  \end{minipage}
+\end{figure}
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%
+%%%%%% Collision Estimate
+%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\Large Example of figure obtained by the Collision Estimate}\label{sec:6.3.2}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% data.pi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Figure \ref{fig:Collision} shows visually how to solve the equation in step7 by using the following:
+\begin{enumerate}
+\item $\bar{X}'$ on the l.h.s. of equation in step 7 of the Collision Estimate,
+\item $g(p)$ as the r.h.s. of equation in step 7 of the Collision Estimate, and
+\item solution of $p$ with respect to given $X'$.
+\end{enumerate}
+As shown in ref.\cite{ImplementationNotes}, the r.h.s. of equation in step 7 of the Collision Estimate can be rewritten to as follows:
+\begin{align}
+g(p) & \equiv  p q^{-2} \left[ 1 + \frac{1}{2}(p^{-1} - q^{-1}) \right]F(q) - p q^{-1} \frac{1}{2}(p^{-1} - q^{-1}) \nonumber \\
+&= 2 \left[ p(1 - p) + 1 \right] \nonumber \\
+&= 2 \left[ -\left(p - \frac{1}{2}\right)^{2} + \frac{5}{4} \right] \label{eq:rhs632}
+\end{align}
+Here we used the following property:
+\begin{align}
+F(q) &= q \left( 2q^{2} + 2q + 1 \right) \label{eq:rewFin632final}
+\end{align}
+Now finding the solution of $p$ with respect to given $X'$, reduces to solving the following quadratic equation:
+\begin{align}
+\bar{X}' = 2 \left[ p(1 - p) + 1 \right].
+\end{align}
+
+If $\bar{X}'$ is in range $[2, \tfrac{5}{2}]$, the solution $p$ can be expressed by the following equation:
+\begin{align}
+p = \frac{1}{2} + \sqrt{\frac{5}{4} - \frac{\bar{X}'}{2}}.
+\end{align}
+
+In Figure \ref{fig:Collision}, we get the solution $p$ is 0.673833 for given $X' = 2.43956$.
+
+\vspace*{8mm}
+
+\begin{figure}[htbp]
+\centering
+
+\begin{tikzpicture}[scale=8]
+\draw[very thin,color=gray,dotted] (0,2) grid[step=0.25] (1,3);
+\draw[->] (0, 2) -- (1.1,2) node[right] {$p$};
+\draw[->] (0, 1.95) -- (0,3.05) node[above] {\shortstack{RHS of equation in step 7 \\$\equiv g(p)$}};
+\draw[domain=0.5:1, smooth, variable=\x, color=blue] plot (\x,{2*(\x*(1-\x)+1)}) node[above right, xshift = 2mm, yshift = 2mm] {$g(p) = 2 \left[ p (1 - p) + 1 \right] $};
+\draw[gray,loosely dotted] (  0.5,2.5) -- ( 0.0,2.5);
+\draw[gray,loosely dotted] (  0.5,2.5) -- ( 0.5,2);
+\draw (-0.1,  3) node {3} ;
+\draw (-0.1,  2) node {2} ;
+\draw (-0.1,  2.5) node {$\frac{5}{2}$} ;
+\draw ( 0  ,  1.9) node {0} ;
+\draw ( 0.5,  1.9) node {$\frac{1}{2}$} ;
+\draw ( 1.0,  1.9) node {1} ;
+%
+%
+\draw[Nigelle,dashed] ( 0, 2.43956) --(0.673833, 2.43956); 
+\draw[Nigelle,dashed] ( 0.673833, 2) --(0.673833, 2.43956); 
+\draw (0.673833, 2) node[below]{ \textcolor{Nigelle}{ \shortstack{ 0.673833 } } }; 
+\draw (0.125, 2.43956) node[below]{ \textcolor{Nigelle}{ $\bar{X}' = 2.43956$}  
+}; 
+%
+%
+\end{tikzpicture}
+\caption{Solution to the equation in step 7 in $\S$6.3.2 of NIST SP 800-90B for data.pi} \label{fig:Collision}
+\end{figure}
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%
+%%%%%% Markov Estimate
+%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\Large Examples of figures obtained by the Markov Estimate}\label{sec:6.3.3}
+
+Figures \ref{fig:Markov1} and \ref{fig:Markov2} show the estimated min-entropy for truerand\_1bit.bin \cite{truerand1} and for normal.bin \cite{shortrand4}, respectively. 
+In both figures, sequence indices 2, 3, 12, and 13 are added in addition to sequences identified in  NIST SP 800-90B\cite{SP80090B}.
+This addition is reasonable because min-entropy estimates based on these sequences are comparable to those of sequences identified in  NIST SP 800-90B, and sometimes very close to the minimum, therefore should not be neglected.
+
+\vspace*{8mm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% truerand1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[htbp]
+\begin{tikzpicture} 
+\begin{axis}[
+	xlabel=Sequence index,
+	ylabel=$-\log_{2}\left ( \textrm{Probability}\right ) / 128$,
+	width=14cm,
+	xmin=0.5,xmax=14.5,
+	legend style={at={(1,1)},anchor=north west},
+	/pgf/number format/.cd,fixed,precision=6,
+	scatter/classes={%
+		sq01={mark=triangle*,NPGskyblue},
+		sq02={mark=triangle*,NPGnavyblue},
+		sq03={mark=triangle,NPGnavyblue},
+		sq04={mark=triangle*,NPGred},
+		sq05={mark=triangle,NPGskyblue},
+		sq06={mark=square*,NPGnavyblue},
+		sq07={mark=triangle,NPGred},
+		sq08={mark=square*,NPGskyblue},
+		sq09={mark=square,NPGnavyblue},
+		sq10={mark=square*,NPGred},
+		sq11={mark=square,NPGskyblue},
+		sq12={mark=*,NPGnavyblue},
+		sq13={mark=o,NPGnavyblue},
+		sq14={mark=square,NPGred}}]
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+ 1	 1.00098	sq01
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+02	01.00028	sq02
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+03	01.00026	sq03
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+04	0.998534	sq04
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+05	01.00097	sq05
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+06	01.00027	sq06
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+07	00.99851	sq07
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+08	01.00097	sq08
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+09	01.00027	sq09
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+10	00.99851	sq10
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+11	01.00095	sq11
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+12	01.00026	sq12
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+13	01.00024	sq13
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+14	0.998486	sq14
+	};
+\addplot+[Nigelle,no marks,sharp plot,update limits=false] 
+coordinates {(1,0.998486) (14,0.998486)}
+node[below left] at (axis cs:14,0.998486) {min-entropy = 0.998486 [bit / 1-bit]};
+\legend{$[$sequence index 1$]$ $0000 \cdots 0000$, $[$sequence index 2$]$ $0101 \cdots 0101001010 \cdots 1010$, $[$sequence index 3$]$ $0101 \cdots 0101101010 \cdots 1010$, $[$sequence index 4$]$ $0111 \cdots 1110$, $[$sequence index 5$]$ $0000 \cdots 0001$, $[$sequence index 6$]$ $0101 \cdots 0101$, $[$sequence index 7$]$ $0111 \cdots 1111$, $[$sequence index 8$]$ $1000 \cdots 0000$, $[$sequence index 9$]$ $1010 \cdots 1010$, $[$sequence index 10$]$ $1111 \cdots 1110$, $[$sequence index 11$]$ $1000 \cdots 0001$, $[$sequence index 12$]$ $1010 \cdots 1010100101 \cdots 0101$, $[$sequence index 13$]$ $1010 \cdots 1010110101 \cdots 0101$, $[$sequence index 14$]$ $1111 \cdots 1111$}
+\end{axis} 
+\end{tikzpicture}
+\caption{Estimated Min-Entropy using $\S$6.3.3 of NIST SP 800-90B}\label{fig:Markov1}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% shortrand4
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[htbp]
+\begin{tikzpicture} 
+\begin{axis}[
+	xlabel=Sequence index,
+	ylabel=$-\log_{2}\left ( \textrm{Probability}\right ) / 128$,
+	width=14cm,
+	xmin=0.5,xmax=14.5,
+	legend style={at={(1,1)},anchor=north west},
+	/pgf/number format/.cd,fixed,precision=6,
+	scatter/classes={%
+		sq01={mark=triangle*,NPGskyblue},
+		sq02={mark=triangle*,NPGnavyblue},
+		sq03={mark=triangle,NPGnavyblue},
+		sq04={mark=triangle*,NPGred},
+		sq05={mark=triangle,NPGskyblue},
+		sq06={mark=square*,NPGnavyblue},
+		sq07={mark=triangle,NPGred},
+		sq08={mark=square*,NPGskyblue},
+		sq09={mark=square,NPGnavyblue},
+		sq10={mark=square*,NPGred},
+		sq11={mark=square,NPGskyblue},
+		sq12={mark=*,NPGnavyblue},
+		sq13={mark=o,NPGnavyblue},
+		sq14={mark=square,NPGred}}]
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+ 1	   1.007	sq01
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+02	0.990728	sq02
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+03	0.990766	sq03
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+04	01.01152	sq04
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+05	01.00689	sq05
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+06	0.990617	sq06
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+07	01.01171	sq07
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+08	01.00689	sq08
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+09	0.990617	sq09
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+10	01.01171	sq10
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+11	01.00678	sq11
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+12	0.990765	sq12
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+13	0.990803	sq13
+	};
+	\addplot[scatter,only marks,%
+		scatter src=explicit symbolic,mark size=4pt]%
+	table[meta=label] {
+x	y	label
+14	001.0119	sq14
+	};
+\addplot+[Nigelle,no marks,sharp plot,update limits=false] 
+coordinates {(1,0.990617) (14,0.990617)}
+node[below left] at (axis cs:9,0.990617) {min-entropy = 0.990617 [bit / 1-bit]};
+\legend{$[$sequence index 1$]$ $0000 \cdots 0000$, $[$sequence index 2$]$ $0101 \cdots 0101001010 \cdots 1010$, $[$sequence index 3$]$ $0101 \cdots 0101101010 \cdots 1010$, $[$sequence index 4$]$ $0111 \cdots 1110$, $[$sequence index 5$]$ $0000 \cdots 0001$, $[$sequence index 6$]$ $0101 \cdots 0101$, $[$sequence index 7$]$ $0111 \cdots 1111$, $[$sequence index 8$]$ $1000 \cdots 0000$, $[$sequence index 9$]$ $1010 \cdots 1010$, $[$sequence index 10$]$ $1111 \cdots 1110$, $[$sequence index 11$]$ $1000 \cdots 0001$, $[$sequence index 12$]$ $1010 \cdots 1010100101 \cdots 0101$, $[$sequence index 13$]$ $1010 \cdots 1010110101 \cdots 0101$, $[$sequence index 14$]$ $1111 \cdots 1111$}
+\end{axis} 
+\end{tikzpicture}
+\caption{Estimated Min-Entropy using $\S$6.3.3 of NIST SP 800-90B}\label{fig:Markov2}
+\end{figure}
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%
+%%%%%% Compression Estimate
+%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\Large Example of figures obtained by the Compression Estimate}\label{sec:6.3.4}
+
+Figure \ref{fig:Compression} shows the distribution of intermediate value $D_i$ in step 5 of the Compression Estimate for truerand\_1bit.bin \cite{truerand1}. 
+Here, a semi-logarithmic plot is used, and the vertical green bar shows the sample mean, $\bar{X}$. 
+
+\vspace*{8mm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% truerand1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[htbp]
+\centering
+
+\begin{tikzpicture}
+\begin{semilogxaxis}[
+	width=18cm,
+    ymin = 0,
+	xlabel=$D_{i}$,
+	ylabel=number of $D_{i}$,
+	log basis x={2},
+    xticklabel style={yshift=-5pt}  % 数値を下に 5pt ずらす
+]
+\addplot [ name path=curve, mark=square, mark size=4pt, color=blue] coordinates {
+(       1,     2602)
+(       2,     2627)
+(       3,     2567)
+(       4,     2510)
+(       5,     2371)
+(       6,     2387)
+(       7,     2400)
+(       8,     2310)
+(       9,     2372)
+(      10,     2215)
+(      11,     2161)
+(      12,     2183)
+(      13,     2112)
+(      14,     2110)
+(      15,     2023)
+(      16,     2040)
+(      17,     1968)
+(      18,     2005)
+(      19,     1943)
+(      20,     1887)
+(      21,     1808)
+(      22,     1843)
+(      23,     1796)
+(      24,     1796)
+(      25,     1876)
+(      26,     1692)
+(      27,     1743)
+(      28,     1677)
+(      29,     1662)
+(      30,     1618)
+(      31,     1586)
+(      32,     1585)
+(      33,     1580)
+(      34,     1590)
+(      35,     1558)
+(      36,     1505)
+(      37,     1489)
+(      38,     1433)
+(      39,     1456)
+(      40,     1412)
+(      41,     1298)
+(      42,     1302)
+(      43,     1323)
+(      44,     1282)
+(      45,     1315)
+(      46,     1319)
+(      47,     1327)
+(      48,     1195)
+(      49,     1236)
+(      50,     1222)
+(      51,     1189)
+(      52,     1163)
+(      53,     1120)
+(      54,     1175)
+(      55,     1081)
+(      56,     1092)
+(      57,     1049)
+(      58,     1035)
+(      59,      943)
+(      60,      975)
+(      61,     1033)
+(      62,     1013)
+(      63,      968)
+(      64,      960)
+(      65,      879)
+(      66,      885)
+(      67,      867)
+(      68,      912)
+(      69,      901)
+(      70,      891)
+(      71,      895)
+(      72,      870)
+(      73,      891)
+(      74,      831)
+(      75,      803)
+(      76,      835)
+(      77,      772)
+(      78,      766)
+(      79,      712)
+(      80,      756)
+(      81,      730)
+(      82,      728)
+(      83,      726)
+(      84,      716)
+(      85,      685)
+(      86,      651)
+(      87,      666)
+(      88,      693)
+(      89,      646)
+(      90,      623)
+(      91,      651)
+(      92,      575)
+(      93,      622)
+(      94,      613)
+(      95,      588)
+(      96,      575)
+(      97,      599)
+(      98,      597)
+(      99,      523)
+(     100,      535)
+(     101,      507)
+(     102,      558)
+(     103,      531)
+(     104,      497)
+(     105,      519)
+(     106,      508)
+(     107,      517)
+(     108,      499)
+(     109,      504)
+(     110,      440)
+(     111,      415)
+(     112,      448)
+(     113,      444)
+(     114,      425)
+(     115,      423)
+(     116,      399)
+(     117,      459)
+(     118,      425)
+(     119,      404)
+(     120,      398)
+(     121,      434)
+(     122,      371)
+(     123,      384)
+(     124,      380)
+(     125,      352)
+(     126,      343)
+(     127,      373)
+(     128,      362)
+(     129,      334)
+(     130,      331)
+(     131,      329)
+(     132,      306)
+(     133,      319)
+(     134,      310)
+(     135,      328)
+(     136,      315)
+(     137,      320)
+(     138,      296)
+(     139,      286)
+(     140,      297)
+(     141,      293)
+(     142,      256)
+(     143,      294)
+(     144,      290)
+(     145,      297)
+(     146,      233)
+(     147,      240)
+(     148,      253)
+(     149,      258)
+(     150,      227)
+(     151,      243)
+(     152,      245)
+(     153,      222)
+(     154,      245)
+(     155,      220)
+(     156,      218)
+(     157,      219)
+(     158,      209)
+(     159,      224)
+(     160,      197)
+(     161,      223)
+(     162,      216)
+(     163,      192)
+(     164,      208)
+(     165,      190)
+(     166,      175)
+(     167,      219)
+(     168,      205)
+(     169,      182)
+(     170,      189)
+(     171,      163)
+(     172,      155)
+(     173,      204)
+(     174,      159)
+(     175,      166)
+(     176,      164)
+(     177,      164)
+(     178,      166)
+(     179,      155)
+(     180,      158)
+(     181,      175)
+(     182,      134)
+(     183,      153)
+(     184,      157)
+(     185,      147)
+(     186,      160)
+(     187,      163)
+(     188,      141)
+(     189,      152)
+(     190,      114)
+(     191,      156)
+(     192,      127)
+(     193,      119)
+(     194,      121)
+(     195,      110)
+(     196,      127)
+(     197,      108)
+(     198,      121)
+(     199,       97)
+(     200,      108)
+(     201,      119)
+(     202,      111)
+(     203,      107)
+(     204,      113)
+(     205,      110)
+(     206,       89)
+(     207,      102)
+(     208,       89)
+(     209,      100)
+(     210,       94)
+(     211,       95)
+(     212,      111)
+(     213,      102)
+(     214,       89)
+(     215,       73)
+(     216,       80)
+(     217,      102)
+(     218,       84)
+(     219,       76)
+(     220,       75)
+(     221,       81)
+(     222,       79)
+(     223,       86)
+(     224,       74)
+(     225,       83)
+(     226,       82)
+(     227,       69)
+(     228,       78)
+(     229,       60)
+(     230,       63)
+(     231,       72)
+(     232,       74)
+(     233,       66)
+(     234,       55)
+(     235,       68)
+(     236,       69)
+(     237,       58)
+(     238,       47)
+(     239,       62)
+(     240,       52)
+(     241,       44)
+(     242,       60)
+(     243,       63)
+(     244,       57)
+(     245,       46)
+(     246,       68)
+(     247,       47)
+(     248,       48)
+(     249,       51)
+(     250,       46)
+(     251,       46)
+(     252,       55)
+(     253,       53)
+(     254,       47)
+(     255,       39)
+(     256,       38)
+(     257,       47)
+(     258,       46)
+(     259,       53)
+(     260,       43)
+(     261,       41)
+(     262,       43)
+(     263,       44)
+(     264,       42)
+(     265,       34)
+(     266,       32)
+(     267,       38)
+(     268,       45)
+(     269,       28)
+(     270,       33)
+(     271,       44)
+(     272,       24)
+(     273,       33)
+(     274,       38)
+(     275,       36)
+(     276,       19)
+(     277,       23)
+(     278,       39)
+(     279,       36)
+(     280,       33)
+(     281,       43)
+(     282,       30)
+(     283,       34)
+(     284,       28)
+(     285,       42)
+(     286,       29)
+(     287,       24)
+(     288,       29)
+(     289,       29)
+(     290,       39)
+(     291,       21)
+(     292,       29)
+(     293,       21)
+(     294,       26)
+(     295,       15)
+(     296,       30)
+(     297,       25)
+(     298,       21)
+(     299,       24)
+(     300,       22)
+(     301,       20)
+(     302,       17)
+(     303,       25)
+(     304,       21)
+(     305,       22)
+(     306,       25)
+(     307,       26)
+(     308,       18)
+(     309,       23)
+(     310,       19)
+(     311,       22)
+(     312,       21)
+(     313,       23)
+(     314,       12)
+(     315,       16)
+(     316,       21)
+(     317,       20)
+(     318,       21)
+(     319,       12)
+(     320,       17)
+(     321,       14)
+(     322,       19)
+(     323,       11)
+(     324,       11)
+(     325,       12)
+(     326,       13)
+(     327,       12)
+(     328,       16)
+(     329,       15)
+(     330,       10)
+(     331,       11)
+(     332,       16)
+(     333,       16)
+(     334,       13)
+(     335,       15)
+(     336,       13)
+(     337,       20)
+(     338,       21)
+(     339,       15)
+(     340,       13)
+(     341,        9)
+(     342,        5)
+(     343,       10)
+(     344,       13)
+(     345,       12)
+(     346,       15)
+(     347,        9)
+(     348,       13)
+(     349,       13)
+(     350,        9)
+(     351,        8)
+(     352,        9)
+(     353,        8)
+(     354,        7)
+(     355,        4)
+(     356,       17)
+(     357,        9)
+(     358,       10)
+(     359,        7)
+(     360,       11)
+(     361,        9)
+(     362,       12)
+(     363,       10)
+(     364,        6)
+(     365,        5)
+(     366,       10)
+(     367,        9)
+(     368,        7)
+(     369,        5)
+(     370,        5)
+(     371,        7)
+(     372,        9)
+(     373,        7)
+(     374,        9)
+(     375,        8)
+(     376,        5)
+(     377,        4)
+(     378,        6)
+(     379,        4)
+(     380,        7)
+(     381,        3)
+(     382,        6)
+(     383,       10)
+(     384,        4)
+(     385,        2)
+(     386,       12)
+(     387,        4)
+(     388,       12)
+(     389,        7)
+(     390,        3)
+(     391,        4)
+(     392,        4)
+(     393,        8)
+(     394,        3)
+(     395,        6)
+(     396,        7)
+(     397,        4)
+(     398,        6)
+(     399,        6)
+(     400,        2)
+(     401,        7)
+(     402,        6)
+(     403,        4)
+(     404,        9)
+(     405,        3)
+(     406,        2)
+(     407,        5)
+(     408,        8)
+(     409,        3)
+(     410,        4)
+(     411,        3)
+(     412,        3)
+(     413,        5)
+(     414,        5)
+(     415,        1)
+(     416,        5)
+(     417,        6)
+(     418,        2)
+(     419,        1)
+(     420,        4)
+(     421,        3)
+(     422,        3)
+(     423,        3)
+(     424,        2)
+(     425,        4)
+(     426,        2)
+(     427,        5)
+(     429,        4)
+(     430,        2)
+(     431,        3)
+(     432,        4)
+(     433,        4)
+(     434,        2)
+(     435,        3)
+(     436,        3)
+(     437,        2)
+(     438,        1)
+(     439,        2)
+(     440,        4)
+(     441,        3)
+(     442,        3)
+(     443,        2)
+(     444,        1)
+(     445,        3)
+(     446,        3)
+(     447,        2)
+(     448,        3)
+(     449,        4)
+(     451,        1)
+(     452,        3)
+(     453,        4)
+(     454,        2)
+(     455,        3)
+(     457,        1)
+(     458,        4)
+(     459,        4)
+(     460,        2)
+(     461,        3)
+(     462,        4)
+(     463,        2)
+(     464,        2)
+(     465,        2)
+(     466,        2)
+(     468,        3)
+(     470,        2)
+(     471,        4)
+(     472,        2)
+(     473,        1)
+(     474,        1)
+(     475,        2)
+(     477,        1)
+(     479,        3)
+(     480,        1)
+(     482,        1)
+(     483,        1)
+(     484,        1)
+(     485,        4)
+(     487,        1)
+(     490,        2)
+(     491,        1)
+(     492,        1)
+(     494,        2)
+(     495,        1)
+(     496,        2)
+(     497,        2)
+(     498,        2)
+(     499,        2)
+(     502,        3)
+(     504,        2)
+(     506,        1)
+(     507,        4)
+(     508,        1)
+(     509,        1)
+(     510,        1)
+(     511,        3)
+(     512,        4)
+(     513,        1)
+(     515,        2)
+(     517,        3)
+(     518,        1)
+(     522,        1)
+(     524,        1)
+(     525,        2)
+(     528,        2)
+(     529,        1)
+(     530,        1)
+(     531,        1)
+(     532,        1)
+(     533,        2)
+(     540,        1)
+(     544,        1)
+(     545,        3)
+(     549,        2)
+(     550,        1)
+(     551,        1)
+(     552,        1)
+(     558,        1)
+(     559,        1)
+(     564,        2)
+(     565,        1)
+(     566,        1)
+(     569,        1)
+(     571,        1)
+(     579,        1)
+(     580,        1)
+(     590,        1)
+(     592,        1)
+(     599,        2)
+(     600,        1)
+(     618,        1)
+(     625,        1)
+(     628,        1)
+(     638,        2)
+(     655,        1)
+(     673,        2)
+(     708,        1)
+(     714,        1)
+(     732,        1)
+(     737,        1)
+(     781,        1)
+};
+    % y=0 の線
+    \addplot[name path=zero, draw=none] coordinates {
+  (1, 0)
+  (1024, 0)
+};
+%%  \path[name path=xaxis] (axis cs:0,0)  -- (axis cs:1.6,0);
+
+    % 塗りつぶし
+%%%%%     \addplot[
+%%%%%       fill=blue!30
+%%%%%     ] fill between[
+%%%%%       of=curve and zero,
+%%%%% 	  soft clip={domain=1:781}
+%%%%%     ];
+\addplot+[Nigelle,no marks,sharp plot,update limits=false] 
+coordinates {(5.2153,2627) (5.2153,1)}
+node[above right] at (axis cs:5.2153,2627) {\shortstack{$\bar{X}$ = 5.2153, \,$\hat{\sigma}=$1.01788\\($\rightarrow$ min-entropy = 0.829677 [bit / 1-bit])}};
+\end{semilogxaxis}
+\end{tikzpicture}
+
+\caption{Distribution of intermediate value $D_{i}$}\label{fig:Compression}
+\end{figure}
+
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%
+%%%%%% t-tuple Estimate
+%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\Large Example of figure obtained by the {\textit t}-Tuple Estimate}\label{sec:6.3.5}
+
+Figure \ref{fig:tTuple} shows the distribution of intermediate value $Q[i]$ in step 2 of the $t$-tuple Estimate for truerand\_1bit.bin \cite{truerand1}. 
+This figure exhibits a monotonically decreasing behaviour, which would be expected intuitively.
+
+\vspace*{8mm}
+
+\begin{figure}[htbp]
+%%%%%  \begin{minipage}[b]{0.48\columnwidth}
+%%%%%    \centering
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% truerand1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tikzpicture}
+\begin{semilogyaxis}[
+	width=16cm,
+	xlabel=$i$,
+	ylabel=$Q \lbrack i \rbrack $
+]
+\addplot [ mark=square, mark size=4pt, color=blue] coordinates {
+(   1, 500433)
+(   2, 250479)
+(   3, 125309)
+(   4, 62806)
+(   5, 31617)
+(   6, 15913)
+(   7, 8019)
+(   8, 4038)
+(   9, 2079)
+(  10, 1091)
+(  11, 570)
+(  12, 305)
+(  13, 166)
+(  14, 100)
+(  15, 59)
+(  16, 38)
+};
+\end{semilogyaxis}
+\end{tikzpicture}
+
+	\caption{Intermediate value $Q[i]$ \, in $\S$6.3.5 of NIST SP 800-90B for truerand\_1bit.bin \cite{truerand1}}\label{fig:tTuple}
+%%%%%   \end{minipage}
+%%%%%   \hspace{0.04\columnwidth} % ここで隙間作成
+%%%%%   \begin{minipage}[b]{0.48\columnwidth}
+%%%%%     \centering
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%
+%%%%%% LRS Estimate
+%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\Large Example of figure obtained by the Longest Repeated Substring (LRS) Estimate}\label{sec:6.3.6}
+
+Figure \ref{fig:LRS} shows the multiplicity of $W$-tuple having the same $C_{i}$ value in step 3 of the Longest Repeated Substring (LRS) Estimate for truerand\_1bit.bin \cite{truerand1}. 
+\begin{figure}[htbp]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% truerand1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tikzpicture}
+\begin{axis}[
+	view/h=160,
+	colormap/bluered, colorbar horizontal,
+	width=16cm,
+	ymin=2,
+	xlabel=$W$,
+	ylabel=$C_i$,
+	zlabel=multiplicity,
+]
+\addplot3[surf, mesh/ordering=y varies, shader=faceted interp] coordinates {
+(  17,   2,    1875)  (  17,   3,    4872)  (  17,   4,    8950)  (  17,   5,   13624)  (  17,   6,   17478)  (  17,   7,   18901)  (  17,   8,   18249)  (  17,   9,   15372)  (  17,  10,   11711)  (  17,  11,    8044)  (  17,  12,    5145)  (  17,  13,    3079)  (  17,  14,    1618)  (  17,  15,     851)  (  17,  16,     459)  (  17,  17,     181)  (  17,  18,      81)  (  17,  19,      27)  (  17,  20,      17)  (  17,  21,       5)  (  17,  22,       3)  (  17,  23,       1)  
+
+(  18,   2,   42064)  (  18,   3,   53332)  (  18,   4,   51122)  (  18,   5,   38674)  (  18,   6,   24796)  (  18,   7,   13400)  (  18,   8,    6441)  (  18,   9,    2699)  (  18,  10,    1094)  (  18,  11,     406)  (  18,  12,     103)  (  18,  13,      40)  (  18,  14,      12)  (  18,  15,       0)  (  18,  16,       1)  (  18,  17,       0)  (  18,  18,       0)  (  18,  19,       0)  (  18,  20,       0)  (  18,  21,       0)  (  18,  22,       0)  (  18,  23,       0)  
+
+(  19,   2,  141507)  (  19,   3,   89871)  (  19,   4,   42987)  (  19,   5,   16217)  (  19,   6,    5255)  (  19,   7,    1490)  (  19,   8,     338)  (  19,   9,      86)  (  19,  10,      15)  (  19,  11,       2)  (  19,  12,       0)  (  19,  13,       0)  (  19,  14,       0)  (  19,  15,       0)  (  19,  16,       0)  (  19,  17,       0)  (  19,  18,       0)  (  19,  19,       0)  (  19,  20,       0)  (  19,  21,       0)  (  19,  22,       0)  (  19,  23,       0)  
+
+(  20,   2,  184247)  (  20,   3,   58148)  (  20,   4,   13878)  (  20,   5,    2678)  (  20,   6,     435)  (  20,   7,      66)  (  20,   8,       8)  (  20,   9,       1)  (  20,  10,       0)  (  20,  11,       0)  (  20,  12,       0)  (  20,  13,       0)  (  20,  14,       0)  (  20,  15,       0)  (  20,  16,       0)  (  20,  17,       0)  (  20,  18,       0)  (  20,  19,       0)  (  20,  20,       0)  (  20,  21,       0)  (  20,  22,       0)  (  20,  23,       0)  
+
+(  21,   2,  148331)  (  21,   3,   23351)  (  21,   4,    2800)  (  21,   5,     305)  (  21,   6,      16)  (  21,   7,       1)  (  21,   8,       1)  (  21,   9,       0)  (  21,  10,       0)  (  21,  11,       0)  (  21,  12,       0)  (  21,  13,       0)  (  21,  14,       0)  (  21,  15,       0)  (  21,  16,       0)  (  21,  17,       0)  (  21,  18,       0)  (  21,  19,       0)  (  21,  20,       0)  (  21,  21,       0)  (  21,  22,       0)  (  21,  23,       0)  
+
+(  22,   2,   93878)  (  22,   3,    7437)  (  22,   4,     462)  (  22,   5,      12)  (  22,   6,       2)  (  22,   7,       0)  (  22,   8,       0)  (  22,   9,       0)  (  22,  10,       0)  (  22,  11,       0)  (  22,  12,       0)  (  22,  13,       0)  (  22,  14,       0)  (  22,  15,       0)  (  22,  16,       0)  (  22,  17,       0)  (  22,  18,       0)  (  22,  19,       0)  (  22,  20,       0)  (  22,  21,       0)  (  22,  22,       0)  (  22,  23,       0)  
+
+(  23,   2,   52959)  (  23,   3,    2068)  (  23,   4,      64)  (  23,   5,       1)  (  23,   6,       1)  (  23,   7,       0)  (  23,   8,       0)  (  23,   9,       0)  (  23,  10,       0)  (  23,  11,       0)  (  23,  12,       0)  (  23,  13,       0)  (  23,  14,       0)  (  23,  15,       0)  (  23,  16,       0)  (  23,  17,       0)  (  23,  18,       0)  (  23,  19,       0)  (  23,  20,       0)  (  23,  21,       0)  (  23,  22,       0)  (  23,  23,       0)  
+
+(  24,   2,   28056)  (  24,   3,     557)  (  24,   4,       9)  (  24,   5,       1)  (  24,   6,       0)  (  24,   7,       0)  (  24,   8,       0)  (  24,   9,       0)  (  24,  10,       0)  (  24,  11,       0)  (  24,  12,       0)  (  24,  13,       0)  (  24,  14,       0)  (  24,  15,       0)  (  24,  16,       0)  (  24,  17,       0)  (  24,  18,       0)  (  24,  19,       0)  (  24,  20,       0)  (  24,  21,       0)  (  24,  22,       0)  (  24,  23,       0)  
+
+(  25,   2,   14414)  (  25,   3,     156)  (  25,   4,       1)  (  25,   5,       0)  (  25,   6,       0)  (  25,   7,       0)  (  25,   8,       0)  (  25,   9,       0)  (  25,  10,       0)  (  25,  11,       0)  (  25,  12,       0)  (  25,  13,       0)  (  25,  14,       0)  (  25,  15,       0)  (  25,  16,       0)  (  25,  17,       0)  (  25,  18,       0)  (  25,  19,       0)  (  25,  20,       0)  (  25,  21,       0)  (  25,  22,       0)  (  25,  23,       0)  
+
+(  26,   2,    7345)  (  26,   3,      45)  (  26,   4,       0)  (  26,   5,       0)  (  26,   6,       0)  (  26,   7,       0)  (  26,   8,       0)  (  26,   9,       0)  (  26,  10,       0)  (  26,  11,       0)  (  26,  12,       0)  (  26,  13,       0)  (  26,  14,       0)  (  26,  15,       0)  (  26,  16,       0)  (  26,  17,       0)  (  26,  18,       0)  (  26,  19,       0)  (  26,  20,       0)  (  26,  21,       0)  (  26,  22,       0)  (  26,  23,       0)  
+
+(  27,   2,    3659)  (  27,   3,      13)  (  27,   4,       0)  (  27,   5,       0)  (  27,   6,       0)  (  27,   7,       0)  (  27,   8,       0)  (  27,   9,       0)  (  27,  10,       0)  (  27,  11,       0)  (  27,  12,       0)  (  27,  13,       0)  (  27,  14,       0)  (  27,  15,       0)  (  27,  16,       0)  (  27,  17,       0)  (  27,  18,       0)  (  27,  19,       0)  (  27,  20,       0)  (  27,  21,       0)  (  27,  22,       0)  (  27,  23,       0)  
+
+(  28,   2,    1810)  (  28,   3,       5)  (  28,   4,       0)  (  28,   5,       0)  (  28,   6,       0)  (  28,   7,       0)  (  28,   8,       0)  (  28,   9,       0)  (  28,  10,       0)  (  28,  11,       0)  (  28,  12,       0)  (  28,  13,       0)  (  28,  14,       0)  (  28,  15,       0)  (  28,  16,       0)  (  28,  17,       0)  (  28,  18,       0)  (  28,  19,       0)  (  28,  20,       0)  (  28,  21,       0)  (  28,  22,       0)  (  28,  23,       0)  
+
+(  29,   2,     897)  (  29,   3,       2)  (  29,   4,       0)  (  29,   5,       0)  (  29,   6,       0)  (  29,   7,       0)  (  29,   8,       0)  (  29,   9,       0)  (  29,  10,       0)  (  29,  11,       0)  (  29,  12,       0)  (  29,  13,       0)  (  29,  14,       0)  (  29,  15,       0)  (  29,  16,       0)  (  29,  17,       0)  (  29,  18,       0)  (  29,  19,       0)  (  29,  20,       0)  (  29,  21,       0)  (  29,  22,       0)  (  29,  23,       0)  
+
+(  30,   2,     457)  (  30,   3,       0)  (  30,   4,       0)  (  30,   5,       0)  (  30,   6,       0)  (  30,   7,       0)  (  30,   8,       0)  (  30,   9,       0)  (  30,  10,       0)  (  30,  11,       0)  (  30,  12,       0)  (  30,  13,       0)  (  30,  14,       0)  (  30,  15,       0)  (  30,  16,       0)  (  30,  17,       0)  (  30,  18,       0)  (  30,  19,       0)  (  30,  20,       0)  (  30,  21,       0)  (  30,  22,       0)  (  30,  23,       0)  
+
+(  31,   2,     240)  (  31,   3,       0)  (  31,   4,       0)  (  31,   5,       0)  (  31,   6,       0)  (  31,   7,       0)  (  31,   8,       0)  (  31,   9,       0)  (  31,  10,       0)  (  31,  11,       0)  (  31,  12,       0)  (  31,  13,       0)  (  31,  14,       0)  (  31,  15,       0)  (  31,  16,       0)  (  31,  17,       0)  (  31,  18,       0)  (  31,  19,       0)  (  31,  20,       0)  (  31,  21,       0)  (  31,  22,       0)  (  31,  23,       0)  
+
+(  32,   2,     130)  (  32,   3,       0)  (  32,   4,       0)  (  32,   5,       0)  (  32,   6,       0)  (  32,   7,       0)  (  32,   8,       0)  (  32,   9,       0)  (  32,  10,       0)  (  32,  11,       0)  (  32,  12,       0)  (  32,  13,       0)  (  32,  14,       0)  (  32,  15,       0)  (  32,  16,       0)  (  32,  17,       0)  (  32,  18,       0)  (  32,  19,       0)  (  32,  20,       0)  (  32,  21,       0)  (  32,  22,       0)  (  32,  23,       0)  
+
+(  33,   2,      74)  (  33,   3,       0)  (  33,   4,       0)  (  33,   5,       0)  (  33,   6,       0)  (  33,   7,       0)  (  33,   8,       0)  (  33,   9,       0)  (  33,  10,       0)  (  33,  11,       0)  (  33,  12,       0)  (  33,  13,       0)  (  33,  14,       0)  (  33,  15,       0)  (  33,  16,       0)  (  33,  17,       0)  (  33,  18,       0)  (  33,  19,       0)  (  33,  20,       0)  (  33,  21,       0)  (  33,  22,       0)  (  33,  23,       0)  
+
+(  34,   2,      33)  (  34,   3,       0)  (  34,   4,       0)  (  34,   5,       0)  (  34,   6,       0)  (  34,   7,       0)  (  34,   8,       0)  (  34,   9,       0)  (  34,  10,       0)  (  34,  11,       0)  (  34,  12,       0)  (  34,  13,       0)  (  34,  14,       0)  (  34,  15,       0)  (  34,  16,       0)  (  34,  17,       0)  (  34,  18,       0)  (  34,  19,       0)  (  34,  20,       0)  (  34,  21,       0)  (  34,  22,       0)  (  34,  23,       0)  
+
+(  35,   2,      14)  (  35,   3,       0)  (  35,   4,       0)  (  35,   5,       0)  (  35,   6,       0)  (  35,   7,       0)  (  35,   8,       0)  (  35,   9,       0)  (  35,  10,       0)  (  35,  11,       0)  (  35,  12,       0)  (  35,  13,       0)  (  35,  14,       0)  (  35,  15,       0)  (  35,  16,       0)  (  35,  17,       0)  (  35,  18,       0)  (  35,  19,       0)  (  35,  20,       0)  (  35,  21,       0)  (  35,  22,       0)  (  35,  23,       0)  
+
+(  36,   2,       9)  (  36,   3,       0)  (  36,   4,       0)  (  36,   5,       0)  (  36,   6,       0)  (  36,   7,       0)  (  36,   8,       0)  (  36,   9,       0)  (  36,  10,       0)  (  36,  11,       0)  (  36,  12,       0)  (  36,  13,       0)  (  36,  14,       0)  (  36,  15,       0)  (  36,  16,       0)  (  36,  17,       0)  (  36,  18,       0)  (  36,  19,       0)  (  36,  20,       0)  (  36,  21,       0)  (  36,  22,       0)  (  36,  23,       0)  
+
+(  37,   2,       4)  (  37,   3,       0)  (  37,   4,       0)  (  37,   5,       0)  (  37,   6,       0)  (  37,   7,       0)  (  37,   8,       0)  (  37,   9,       0)  (  37,  10,       0)  (  37,  11,       0)  (  37,  12,       0)  (  37,  13,       0)  (  37,  14,       0)  (  37,  15,       0)  (  37,  16,       0)  (  37,  17,       0)  (  37,  18,       0)  (  37,  19,       0)  (  37,  20,       0)  (  37,  21,       0)  (  37,  22,       0)  (  37,  23,       0)  
+
+(  38,   2,       2)  (  38,   3,       0)  (  38,   4,       0)  (  38,   5,       0)  (  38,   6,       0)  (  38,   7,       0)  (  38,   8,       0)  (  38,   9,       0)  (  38,  10,       0)  (  38,  11,       0)  (  38,  12,       0)  (  38,  13,       0)  (  38,  14,       0)  (  38,  15,       0)  (  38,  16,       0)  (  38,  17,       0)  (  38,  18,       0)  (  38,  19,       0)  (  38,  20,       0)  (  38,  21,       0)  (  38,  22,       0)  (  38,  23,       0)  
+
+(  39,   2,       1)  (  39,   3,       0)  (  39,   4,       0)  (  39,   5,       0)  (  39,   6,       0)  (  39,   7,       0)  (  39,   8,       0)  (  39,   9,       0)  (  39,  10,       0)  (  39,  11,       0)  (  39,  12,       0)  (  39,  13,       0)  (  39,  14,       0)  (  39,  15,       0)  (  39,  16,       0)  (  39,  17,       0)  (  39,  18,       0)  (  39,  19,       0)  (  39,  20,       0)  (  39,  21,       0)  (  39,  22,       0)  (  39,  23,       0)  
+
+};
+\end{axis}
+\end{tikzpicture}
+
+
+	\caption{Distribution of the multiplicity of $W$-tuple having the same $C_{i}$ value in Step 3 of $\S6.3.6$ of NIST SP 800-90B for truerand\_1bit.bin \cite{truerand1}}\label{fig:LRS}
+%%%%%  \end{minipage}
+\end{figure}
+
+
+\clearpage
+
+\addtocounter{section}{1}
+\begin{thebibliography}{99}
+% 1
+% 1
+\bibitem{SP80090B}
+Meltem S\"{o}nmez Turan,
+Elaine Barker,
+John Kelsey,
+Kerry A. McKay,
+Mary L. Baish,
+Mike Boyle,
+\textit{Recommendation for the Entropy Sources Used for Random Bit Generation},
+NIST Special Publication 800-90B, Jan. 2018 
+\url{https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-90B.pdf}.
+
+\bibitem{ImplementationNotes}
+G. Sakurai, \textit{Implementation Notes for entropy estimation based on NIST SP800-90B non-IID track}, Sep. 2025 
+\url{https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/SP800-90B_EntropyEstimate_ImplementationNotes.pdf}.
+
+\bibitem{truerand1}
+Data file named \textit{truerand\_1bit.bin}, 
+\url{https://github.com/usnistgov/SP800-90B_EntropyAssessment/blob/master/bin/truerand_1bit.bin}.
+\bibitem{truerand8}
+Data file named \textit{truerand\_8bit.bin},
+\url{https://github.com/usnistgov/SP800-90B_EntropyAssessment/blob/master/bin/truerand_8bit.bin}.
+\bibitem{shortrand1}
+Data file named \textit{rand1\_short.bin},
+\url{https://github.com/usnistgov/SP800-90B_EntropyAssessment/blob/master/bin/rand1_short.bin}.
+\bibitem{shortrand4}
+Data file named \textit{rand4\_short.bin},
+\url{https://github.com/usnistgov/SP800-90B_EntropyAssessment/blob/master/bin/rand4_short.bin}.
+
+\bibitem{normal.bin}
+Data file named \textit{normal.bin},
+\url{https://github.com/usnistgov/SP800-90B_EntropyAssessment/blob/master/bin/normal.bin}.
+
+\bibitem{data.pi}
+Data file named \textit{data.pi.bin}, 
+\url{https://github.com/usnistgov/SP800-90B_EntropyAssessment/blob/master/bin/data.pi.bin}.
+\end{thebibliography}
+
+\end{document}

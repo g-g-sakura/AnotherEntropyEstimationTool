@@ -15,6 +15,7 @@ https://github.com/usnistgov/SP800-90B_EntropyAssessment/issues/170
   - Basically each function is commented in a traceable manner with [NIST SP 800-90B](https://doi.org/10.6028/NIST.SP.800-90B) or corrected [formulation](https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ProposedListOfCorrections_SP800-90B.pdf).
 - Automatic report generation with graphs
   - Supports report generation capability, in XeLaTeX source file (see ```-x``` option), where relevant intermediate results are also contained to gain confidence and support characterization of entropy sources.
+    - See [examples of figures generated](https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ExamplesOfFiguresGenerated.pdf) to understand what you will get by using this feature.
 
 # Usage
 ```

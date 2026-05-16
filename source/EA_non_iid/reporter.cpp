@@ -3,7 +3,7 @@
 //
 //
 //
-// Copyright (c) 2021-2025 G. G. SAKURAI <g.garland823@gmail.com>
+// Copyright (c) 2021-2026 G. G. SAKURAI <g.garland823@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "reporter.h"
@@ -964,6 +964,7 @@ ns_consts::EnmReturnStatus loadLaTeXPreamble(std::wstringstream& o_ssLaTeX)
     o_ssLaTeX << L"\\usepackage{lastpage}" << L"\n";
     o_ssLaTeX << L"\\usepackage{verbatim}" << L"\n";
     o_ssLaTeX << L"\\usepackage{multirow}" << L"\n";
+    o_ssLaTeX << L"\\usepackage[1.7]{bxpdfver}" << L"\n";
     o_ssLaTeX << L"\\usepackage{censor}" << L"\n";
     o_ssLaTeX << L"\\usepackage{adjustbox}" << L"\n";
     o_ssLaTeX << L"\\usepackage[unicode,pdftitle={Report of Entropy estimates based on NIST SP 800-90B non-IID track},pdfkeywords={SP800-90B; entropy; random number generation;},setpagesize=false]{hyperref}" << L"\n";
@@ -1139,7 +1140,7 @@ ns_consts::EnmReturnStatus loadPGFPlotSummary(std::wstringstream& o_ssLaTeX, boo
     o_ssLaTeX << L"	xlabel=Sub-sub-section of NIST SP 800-90B," << L"\n";
     o_ssLaTeX << L"	ylabel={Estimated min-entropy $[$bit / " << bits_per_sample << L"-bit$]$}," << L"\n";
     o_ssLaTeX << L"\txtick=data]" << L"\n";
-    o_ssLaTeX << L"\\addplot+[forget plot,only marks] " << L"\n";
+    o_ssLaTeX << L"\\addplot+[forget plot,only marks,mark=square, mark size=5pt, color=blue,] " << L"\n";
     o_ssLaTeX << L"  plot[error bars/.cd, y dir=both, y explicit]" << L"\n";
     o_ssLaTeX << L"  table[x=section,y=y,y error plus expr=\\thisrow{y-max},y error minus expr=\\thisrow{y-min}] {\\summarytable";
     if (false == isBinary)
@@ -1209,6 +1210,8 @@ ns_consts::EnmReturnStatus loadLaTeXBibliography(std::wstringstream& o_ssLaTeX)
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
+    o_ssLaTeX << L"\\addtocounter{section}{1}" << L"\n";
+    o_ssLaTeX << L"\\addcontentsline{toc}{chapter}{\\refname}" << L"\n";
     o_ssLaTeX << L"\\begin{thebibliography}{99}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
@@ -1229,7 +1232,7 @@ ns_consts::EnmReturnStatus loadLaTeXBibliography(std::wstringstream& o_ssLaTeX)
     // -------------------------------------------------------------------------- //
     o_ssLaTeX << L"% 2" << L"\n";
     o_ssLaTeX << L"\\bibitem{CorrectionsSP80090B}" << L"\n";
-    o_ssLaTeX << L"G. Sakurai, \\textit{Proposed list of corrections for NIST SP 800-90B 6.3 Estimators}, Dec. 2022 " << L"\n";
+    o_ssLaTeX << L"G. Sakurai, \\textit{Proposed list of corrections for NIST SP 800-90B 6.3 Estimators}, June 2025 " << L"\n";
     o_ssLaTeX << L"\\url{https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ProposedListOfCorrections_SP800-90B.pdf}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
@@ -1243,7 +1246,7 @@ ns_consts::EnmReturnStatus loadLaTeXBibliography(std::wstringstream& o_ssLaTeX)
     // -------------------------------------------------------------------------- //
     o_ssLaTeX << L"% 4" << L"\n";
     o_ssLaTeX << L"\\bibitem{ImplementationNotes}" << L"\n";
-    o_ssLaTeX << L"G. Sakurai, \\textit{ ImplementationNotes for entropy estimation based on NIST SP800-90B non-IID track}, Sep. 2025 " << L"\n";
+    o_ssLaTeX << L"G. Sakurai, \\textit{Implementation Notes for entropy estimation based on NIST SP800-90B non-IID track}, Sep. 2025 " << L"\n";
     o_ssLaTeX << L"\\url{https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/SP800-90B_EntropyEstimate_ImplementationNotes.pdf}" << L"\n";
     // -------------------------------------------------------------------------- //
     // 
@@ -1279,7 +1282,10 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingCompilerInfo(std::wstringstream&
     o_refLaTeXSupportingInfo << L"\\, & built by & ";
     {
 #if defined(_MSC_VER) && !defined(__INTEL_LLVM_COMPILER) && !defined(__INTEL_COMPILER)
-#if _MSC_VER >= 1944
+#if _MSC_VER >= 1950
+        o_refLaTeXSupportingInfo << L" Visual Studio 2026";
+        o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
+#elif _MSC_VER >= 1944
         o_refLaTeXSupportingInfo << L" Visual Studio 2022 version 17.14";
         o_refLaTeXSupportingInfo << L" (\\verb|_MSC_FULL_VER|: " << _MSC_FULL_VER << L" )";
 #elif _MSC_VER >= 1943
@@ -1423,7 +1429,7 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // 
     // -------------------------------------------------------------------------- //
     o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.8}" << L"\n";
-    o_refLaTeXSupportingInfo << L"\\begin{table}[h]" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\begin{table}[htbp]" << L"\n";
     o_refLaTeXSupportingInfo << L"\\caption{Identification information of acquisition data from entropy source}" << L"\n";
     o_refLaTeXSupportingInfo << L"\\begin{center}" << L"\n";
     o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{anotherlightblue}}p{2cm}|p{20.5cm}|}" << L"\n";
@@ -1500,7 +1506,7 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // 
     // -------------------------------------------------------------------------- //
     o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.8}" << L"\n";
-    o_refLaTeXSupportingInfo << L"\\begin{table}[h]" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\begin{table}[htbp]" << L"\n";
     o_refLaTeXSupportingInfo << L"\\caption{Identification information of analysis environment}" << L"\n";
     o_refLaTeXSupportingInfo << L"\\begin{center}" << L"\n";
     o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{anotherlightblue}}l|>{\\columncolor{anotherlightblue}}l|p{12cm}|}" << L"\n";
@@ -1597,6 +1603,10 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
+    o_refLaTeXSupportingInfo << L"\\clearpage" << L"\n";
+    // -------------------------------------------------------------------------- //
+    // 
+    // -------------------------------------------------------------------------- //
     std::wstring	strSubsectionAnalysisCond = std::wstring();
     std::wstring	strSubsectionTitleAnalysisCond = std::wstring(L"Identification of analysis conditions");
     strLabel = std::wstring(L"sec:IdentificationInfo-analysisconditions");
@@ -1606,7 +1616,7 @@ ns_consts::EnmReturnStatus reportLaTeXSupportingInfo(std::wstringstream &o_refLa
     // 
     // -------------------------------------------------------------------------- //
     o_refLaTeXSupportingInfo << L"\\renewcommand{\\arraystretch}{1.8}" << L"\n";
-    o_refLaTeXSupportingInfo << L"\\begin{table}[h]" << L"\n";
+    o_refLaTeXSupportingInfo << L"\\begin{table}[htbp]" << L"\n";
     o_refLaTeXSupportingInfo << L"\\caption{Identification information of analysis conditions}" << L"\n";
     o_refLaTeXSupportingInfo << L"\\begin{center}" << L"\n";
     o_refLaTeXSupportingInfo << L"\\begin{tabular}{|>{\\columncolor{anotherlightblue}}l|p{8cm}|}" << L"\n";
@@ -1941,7 +1951,7 @@ ns_consts::EnmReturnStatus reportLaTeXNonBinary(IDInfoForReport& i_refInfoReport
     // -------------------------------------------------------------------------- //
     // 
     // -------------------------------------------------------------------------- //
-    ssLaTeXSummary << L"\\begin{table}[h]" << L"\n";
+    ssLaTeXSummary << L"\\begin{table}[htbp]" << L"\n";
     ssLaTeXSummary << L"\\caption{Numerical results}" << L"\n";
     ssLaTeXSummary << L"\\begin{center}" << L"\n";
     ssLaTeXSummary << L"\\begin{tabular}{|l|c|c|c|c|}" << L"\n";
@@ -2281,7 +2291,7 @@ ns_consts::EnmReturnStatus reportLaTeXBinary(IDInfoForReport& i_refInfoReport,
         }
     }
     ssLaTeXSummary << L"}{\\summarytableBinary}" << L"\n";
-    ssLaTeXSummary << L"\\begin{table}[h]" << L"\n";
+    ssLaTeXSummary << L"\\begin{table}[htbp]" << L"\n";
     ssLaTeXSummary << L"\\caption{Numerical results}" << L"\n";
     ssLaTeXSummary << L"\\begin{center}" << L"\n";
     ssLaTeXSummary << L"\\begin{tabular}{|l|c|c|}" << L"\n";
