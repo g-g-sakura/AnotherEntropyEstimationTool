@@ -16,6 +16,8 @@ https://github.com/usnistgov/SP800-90B_EntropyAssessment/issues/170
 - Automatic report generation with graphs
   - Supports report generation capability, in XeLaTeX source file (see ```-x``` option), where relevant intermediate results are also contained to gain confidence and support characterization of entropy sources.
     - See [examples of figures generated](https://github.com/g-g-sakura/AnotherEntropyEstimationTool/blob/main/documentation/ExamplesOfFiguresGenerated.pdf) to understand what you will get by using this feature.
+  - Saves your time to draft reports based on NIST SP 800-90B.
+    - This will avoid fluctuations in quality of reports, which will caused by human factors.
 
 # Usage
 ```
